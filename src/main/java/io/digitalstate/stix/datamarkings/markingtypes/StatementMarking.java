@@ -2,7 +2,7 @@ package io.digitalstate.stix.datamarkings.markingtypes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class StatementMarking implements MarkingObjectType {
+public class StatementMarking extends MarkingObjectTypeCommonProperties implements MarkingObjectType {
 
     private static final String type = "statement";
 

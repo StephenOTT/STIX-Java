@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
+import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.datamarkings.markingtypes.MarkingObjectType;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -44,12 +46,13 @@ public class MarkingDefinitionProperties {
 
     @JsonProperty("granular_markings")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<MarkingDefinition> granularMarkings = null;
+    protected LinkedHashSet<GranularMarking> granularMarkings = null;
 
     @JsonProperty("definition_type")
     protected String definitionType;
 
     protected MarkingObjectType definition;
+
 
     //
     // Getters and Setters
@@ -113,6 +116,10 @@ public class MarkingDefinitionProperties {
         return objectMarkingRefs;
     }
 
+    public void setObjectMarkingRefs(LinkedHashSet<MarkingDefinition> objectMarkingRefs) {
+        this.objectMarkingRefs = objectMarkingRefs;
+    }
+
     @JsonProperty("object_marking_refs")
     @JsonInclude(NON_NULL)
     public LinkedHashSet<String> getObjectMarkingRefsAsStrings() {
@@ -123,10 +130,6 @@ public class MarkingDefinitionProperties {
         } else {
             return null;
         }
-    }
-
-    public void setObjectMarkingRefs(LinkedHashSet<MarkingDefinition> objectMarkingRefs) {
-        this.objectMarkingRefs = objectMarkingRefs;
     }
 
     public void setObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
@@ -141,12 +144,30 @@ public class MarkingDefinitionProperties {
         }
     }
 
-    public LinkedHashSet<MarkingDefinition> getGranularMarkings() {
+    public LinkedHashSet<GranularMarking> getGranularMarkings() {
         return granularMarkings;
     }
 
-    public void setGranularMarkings(LinkedHashSet<MarkingDefinition> granularMarkings) {
+    public void setGranularMarkings(LinkedHashSet<GranularMarking> granularMarkings) {
+        // Check for Circular References: Where a granul
+        granularMarkings.forEach(gm ->{
+            // @TODO rebuild new methods for .equals() to have a special equals method that compares the combined ID and Modified fields (as per STIX spec)
+            if (gm.getMarkingRef().equals(this)){
+                throw new IllegalArgumentException("Circular Reference detected in Granular Marking: " + this.toString());
+            }});
         this.granularMarkings = granularMarkings;
+    }
+
+    public void setGranularMarkings(GranularMarking... granularMarkings) {
+        this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(granularMarkings)));
+    }
+
+    public void addGranularMarkings(GranularMarking... granularMarkings) {
+        if (this.getGranularMarkings() == null){
+            this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(granularMarkings)));
+        } else {
+            this.getGranularMarkings().addAll(Arrays.asList(granularMarkings));
+        }
     }
 
     public String getDefinitionType() {
@@ -164,4 +185,10 @@ public class MarkingDefinitionProperties {
     public void setDefinition(MarkingObjectType definition) {
         this.definition = definition;
     }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+
 }

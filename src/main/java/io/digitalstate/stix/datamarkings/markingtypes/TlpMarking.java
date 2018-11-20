@@ -6,7 +6,7 @@ import io.digitalstate.stix.vocabularies.Vocabularies;
 import java.util.Objects;
 import java.util.Set;
 
-public class TlpMarking implements MarkingObjectType {
+public class TlpMarking extends MarkingObjectTypeCommonProperties implements MarkingObjectType {
 
     private static final String type = "tlp";
 

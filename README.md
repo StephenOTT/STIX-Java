@@ -25,13 +25,30 @@ attackPattern.setKillChainPhases(
 
 attackPattern.setModified(attackPattern.getCreated().plusDays(3));
 
+HashMap<String, Object> customProperties = new HashMap<>();
+customProperties.put("someCustomKey", "My custom value");
+customProperties.put("someOtherCustom_key", 3939);
+attackPattern.setCustomProperties(customProperties);
+
 MarkingDefinition markingDefinition = new MarkingDefinition(
         new TlpMarking("white"));
 
+MarkingDefinition refDef = new MarkingDefinition(
+        new TlpMarking("red"));
+
 attackPattern.addObjectMarkingRefs(markingDefinition);
+GranularMarking granularMarking =
+        new GranularMarking(refDef, "pattern1", "pattern2", "pattern3");
+
+attackPattern.addGranularMarkings(granularMarking);
 
 MarkingDefinition statement1 = new MarkingDefinition(
         new StatementMarking("Internal review of data allows for sharing as per ABC-009 Standard"));
+
+GranularMarking markingRestriction =
+        new GranularMarking(refDef, "marking-pattern1", "pattern2", "pattern3");
+
+statement1.addGranularMarkings(markingRestriction);
 
 markingDefinition.addObjectMarkingRefs(statement1);
 
@@ -54,6 +71,8 @@ bundle.autoAddDataMarkingsToBundle();
 bundle.toJsonString();
 ```
 
+All Objects have support for `.toJsonString()`; allowing any STIX related object to be individually exported into JSON.
+
 ## JSON
 
 The below is a the output from the java example above.
@@ -61,15 +80,25 @@ The below is a the output from the java example above.
 ```json
 {
   "type": "bundle",
-  "id": "bundle--0fcdfa2c-18e0-4f43-8083-b2c3db71ee1d",
+  "id": "bundle--27c73570-ab60-4c0c-97e4-03311cd5f026",
   "objects": [
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--3bd7d7a8-a8cf-43d2-b7d2-2c18143aa690",
-      "created": "2018-11-20T12:34:42.887-0500",
-      "modified": "2018-11-23T12:34:42.887-0500",
+      "id": "attack-pattern--9d3ad2e1-a746-4539-8124-05cd964390fe",
+      "created": "2018-11-20T17:05:57.950-0500",
+      "modified": "2018-11-23T17:05:57.950-0500",
       "revoked": false,
       "name": "some pattern",
+      "granular_markings": [
+        {
+          "selectors": [
+            "pattern1",
+            "pattern2",
+            "pattern3"
+          ],
+          "marking_ref": "marking-definition--f0c7f62f-83c7-4b1a-b04d-74633f74aefc"
+        }
+      ],
       "kill_chain_phases": [
         {
           "kill_chain_name": "Chain1",
@@ -81,14 +110,16 @@ The below is a the output from the java example above.
         }
       ],
       "object_marking_refs": [
-        "marking-definition--18dc13e0-a509-4766-a6b7-8f6422f410d7"
-      ]
+        "marking-definition--fb9365d9-34a8-408e-8d7e-dad974fc623b"
+      ],
+      "x_someCustomKey": "My custom value",
+      "x_someOtherCustom_key": 3939
     },
     {
       "type": "observed-data",
-      "id": "observed-data--811ef6c8-4c1d-4d1c-a0db-a6f5f0d5834d",
-      "created": "2018-11-20T12:34:42.929-0500",
-      "modified": "2018-11-20T12:34:42.929-0500",
+      "id": "observed-data--0a1254fd-d9fb-4b44-85f1-ba7255a09a49",
+      "created": "2018-11-20T17:05:57.989-0500",
+      "modified": "2018-11-20T17:05:57.989-0500",
       "revoked": false,
       "objects": [
         {
@@ -101,32 +132,51 @@ The below is a the output from the java example above.
           "rir": "someRIR"
         }
       ],
-      "first_observed": "2018-11-20T12:34:42.918-0500",
-      "last_observed": "2018-11-20T12:34:42.918-0500",
+      "first_observed": "2018-11-20T17:05:57.980-0500",
+      "last_observed": "2018-11-20T17:05:57.980-0500",
       "number_observed": 3,
       "object_marking_refs": [
-        "marking-definition--2f6f7e50-ec7c-41c6-82de-28dc87878938"
+        "marking-definition--357719ad-1942-4c21-8097-8779db73683f"
       ]
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--18dc13e0-a509-4766-a6b7-8f6422f410d7",
-      "created": "2018-11-20T12:34:42.916-0500",
+      "id": "marking-definition--fb9365d9-34a8-408e-8d7e-dad974fc623b",
+      "created": "2018-11-20T17:05:57.974-0500",
       "definition": {
         "tlp": "white"
       },
       "definition_type": "tlp",
       "object_marking_refs": [
-        "marking-definition--2f6f7e50-ec7c-41c6-82de-28dc87878938"
+        "marking-definition--357719ad-1942-4c21-8097-8779db73683f"
       ]
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--2f6f7e50-ec7c-41c6-82de-28dc87878938",
-      "created": "2018-11-20T12:34:42.918-0500",
+      "id": "marking-definition--f0c7f62f-83c7-4b1a-b04d-74633f74aefc",
+      "created": "2018-11-20T17:05:57.974-0500",
+      "definition": {
+        "tlp": "red"
+      },
+      "definition_type": "tlp"
+    },
+    {
+      "type": "marking-definition",
+      "id": "marking-definition--357719ad-1942-4c21-8097-8779db73683f",
+      "created": "2018-11-20T17:05:57.979-0500",
       "definition": {
         "statement": "Internal review of data allows for sharing as per ABC-009 Standard"
       },
+      "granular_markings": [
+        {
+          "selectors": [
+            "marking-pattern1",
+            "pattern2",
+            "pattern3"
+          ],
+          "marking_ref": "marking-definition--f0c7f62f-83c7-4b1a-b04d-74633f74aefc"
+        }
+      ],
       "definition_type": "statement"
     }
   ],

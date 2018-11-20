@@ -8,6 +8,7 @@ import io.digitalstate.stix.cyberobservableobjects.Artifact;
 import io.digitalstate.stix.cyberobservableobjects.AutonomousSystem;
 
 import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
+import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.StatementMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.TlpMarking;
 import io.digitalstate.stix.domainobjects.AttackPattern;
@@ -17,6 +18,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 
 @SpringBootApplication
 public class CharonApplication {
@@ -30,13 +32,30 @@ public class CharonApplication {
 
         attackPattern.setModified(attackPattern.getCreated().plusDays(3));
 
+        HashMap<String, Object> customProperties = new HashMap<>();
+        customProperties.put("someCustomKey", "My custom value");
+        customProperties.put("someOtherCustom_key", 3939);
+        attackPattern.setCustomProperties(customProperties);
+
         MarkingDefinition markingDefinition = new MarkingDefinition(
                 new TlpMarking("white"));
 
+        MarkingDefinition refDef = new MarkingDefinition(
+                new TlpMarking("red"));
+
         attackPattern.addObjectMarkingRefs(markingDefinition);
+        GranularMarking granularMarking =
+                new GranularMarking(refDef, "pattern1", "pattern2", "pattern3");
+
+        attackPattern.addGranularMarkings(granularMarking);
 
         MarkingDefinition statement1 = new MarkingDefinition(
                 new StatementMarking("Internal review of data allows for sharing as per ABC-009 Standard"));
+
+        GranularMarking markingRestriction =
+                new GranularMarking(refDef, "marking-pattern1", "pattern2", "pattern3");
+
+        statement1.addGranularMarkings(markingRestriction);
 
         markingDefinition.addObjectMarkingRefs(statement1);
 
