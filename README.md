@@ -4,7 +4,7 @@
 
 # STIX Java Library
 
-The libary aims to provide a flexible full implementation of STIX.  
+The libary aims to provide a flexible full implementation of [STIX](https://oasis-open.github.io/cti-documentation/resources#stix-20-specification).  
 This means that a default implementation is provided that meets the STIX JSON specification and the core objects 
 and properties are provided in such a way as you can easily override any implementation detail to meet your 
 variation of the specification.
@@ -133,6 +133,13 @@ The below is a the output from the java example above.
   "spec_version": "2.0"
 }
 ```
+
+# Workflow / BPM / BPMN
+
+## Example Process Usage
+
+![process example 1](./docs/BPMN/sample_processes_1.png)
+
 
 -----
 
