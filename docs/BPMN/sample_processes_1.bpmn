@@ -67,6 +67,11 @@
     <bpmn:serviceTask id="Task_0tybsht" name="Get Expired Content">
       <bpmn:incoming>SequenceFlow_0uuopg6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0n98l6r</bpmn:outgoing>
+      <bpmn:property id="Property_1sk77we" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_0o47aqh">
+        <bpmn:sourceRef>DataStoreReference_0g41h67</bpmn:sourceRef>
+        <bpmn:targetRef>Property_1sk77we</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
     <bpmn:startEvent id="StartEvent_0pheiv1" name="Every Week">
       <bpmn:outgoing>SequenceFlow_0uuopg6</bpmn:outgoing>
@@ -122,6 +127,7 @@
       <bpmn:incoming>SequenceFlow_0enf3pf</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0enf3pf" sourceRef="SubProcess_0isrp8b" targetRef="EndEvent_1rmi4qm" />
+    <bpmn:dataStoreReference id="DataStoreReference_0g41h67" name="CTI DB" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_08ti7u9">
@@ -380,6 +386,16 @@
         <di:waypoint x="1060" y="189" />
         <di:waypoint x="1060" y="129" />
         <di:waypoint x="1163" y="129" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="DataStoreReference_0g41h67_di" bpmnElement="DataStoreReference_0g41h67">
+        <dc:Bounds x="298" y="895" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="305" y="948" width="37" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataInputAssociation_0o47aqh_di" bpmnElement="DataInputAssociation_0o47aqh">
+        <di:waypoint x="323" y="895" />
+        <di:waypoint x="323" y="841" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
