@@ -1,11 +1,13 @@
 package io.digitalstate.stix.datamarkings.markingtypes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.digitalstate.stix.vocabularies.Vocabularies;
 
 import java.util.Objects;
 import java.util.Set;
 
+@JsonPropertyOrder({"tlp"})
 public class TlpMarking extends MarkingObjectTypeCommonProperties implements MarkingObjectType {
 
     private static final String type = "tlp";

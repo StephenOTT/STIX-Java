@@ -1,9 +1,11 @@
 package io.digitalstate.stix.cyberobservableobjects.properties;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+@JsonPropertyOrder({"type", "dictionary", "number", "name", "rir"})
 public class AutonomousSystemProperties extends CyberObservableObjectCommonProperties {
 
     protected int number;
@@ -14,6 +16,9 @@ public class AutonomousSystemProperties extends CyberObservableObjectCommonPrope
     @JsonInclude(NON_NULL)
     protected String rir = null;
 
+    //
+    // Getters and Setters
+    //
 
     public int getNumber() {
         return number;

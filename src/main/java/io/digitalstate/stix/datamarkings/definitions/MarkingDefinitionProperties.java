@@ -1,9 +1,6 @@
 package io.digitalstate.stix.datamarkings.definitions;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import io.digitalstate.stix.datamarkings.granular.GranularMarking;
@@ -22,6 +19,9 @@ import java.util.stream.Collectors;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+@JsonPropertyOrder({"type", "id", "created_by_ref", "created",
+        "external_references", "object_marking_refs", "granular_markings", "definition_type",
+        "definition"})
 public class MarkingDefinitionProperties {
 
     @JsonIgnore

@@ -15,7 +15,7 @@ import java.util.Objects;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-
+@JsonPropertyOrder({"type", "id", "spec_version", "objects"})
 public abstract class BundleProperties {
     protected String type;
     protected String id;

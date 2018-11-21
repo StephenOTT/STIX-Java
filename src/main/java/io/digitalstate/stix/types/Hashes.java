@@ -1,9 +1,11 @@
 package io.digitalstate.stix.types;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.util.Map;
 
+@JsonPropertyOrder({"hashes"})
 public class Hashes {
    private  Map<String,String> hashes;
 

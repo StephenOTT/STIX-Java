@@ -41,7 +41,7 @@ public class Tool extends ToolProperties implements StixDomainObject {
      */
     @Override
     public void setLabels(LinkedHashSet<String> labels) {
-        Set<String> toolLabels = Vocabularies.getToolLabel();
+        Set<String> toolLabels = Vocabularies.getToolLabels();
 
         if (!labels.isEmpty() && labels.containsAll(toolLabels)){
             this.labels = labels;

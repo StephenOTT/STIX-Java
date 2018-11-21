@@ -31,7 +31,7 @@ public class Identity extends IdentityProperties implements StixDomainObject {
 
     @Override
     public void setIdentityClass(String identityClass) {
-        Set<String> identityClassVocab = Vocabularies.getIdentityClass();
+        Set<String> identityClassVocab = Vocabularies.getIdentityClasses();
 
         if (StringUtils.isNotBlank(identityClass) && identityClassVocab.contains(identityClass)){
             this.identityClass = identityClass;

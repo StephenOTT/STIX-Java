@@ -2,6 +2,7 @@ package io.digitalstate.stix.domainobjects.types;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.digitalstate.stix.types.Hashes;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -9,6 +10,7 @@ import java.util.LinkedHashSet;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+@JsonPropertyOrder({"source_name", "description", "url", "hashes", "external_id"})
 public class ExternalReference {
 
     @JsonProperty("source_name")

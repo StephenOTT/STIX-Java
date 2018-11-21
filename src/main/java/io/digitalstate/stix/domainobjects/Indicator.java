@@ -63,7 +63,7 @@ public class Indicator extends IndicatorProperties implements StixDomainObject {
      */
     @Override
     public void setLabels(LinkedHashSet<String> labels) {
-        Set<String> indicatorLabels = Vocabularies.getIndicatorLabel();
+        Set<String> indicatorLabels = Vocabularies.getIndicatorLabels();
 
         if (!labels.isEmpty() && labels.containsAll(indicatorLabels)){
             this.labels = labels;

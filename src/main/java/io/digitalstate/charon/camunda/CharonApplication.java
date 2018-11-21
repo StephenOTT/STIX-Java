@@ -27,7 +27,6 @@ public class CharonApplication {
         SpringApplication.run(CharonApplication.class, args);
 
         // Generate Attack Pattern:
-
         AttackPattern attackPattern = new AttackPattern("some pattern");
         attackPattern.setKillChainPhases(
                 new KillChainPhase("Chain1", "phase1"),
@@ -35,21 +34,26 @@ public class CharonApplication {
 
         attackPattern.setModified(attackPattern.getCreated().plusDays(3));
 
+        // Setup Custom properties for Attack Pattern:
         HashMap<String, Object> customProperties = new HashMap<>();
         customProperties.put("someCustomKey", "My custom value");
         customProperties.put("someOtherCustom_key", 3939);
         attackPattern.setCustomProperties(customProperties);
 
+        // Setup Marking Definitions for Attach pattern
         MarkingDefinition markingDefinition = new MarkingDefinition(
                 new TlpMarking("white"));
 
         MarkingDefinition refDef = new MarkingDefinition(
                 new TlpMarking("red"));
 
+        // Apply a Object level Marking
         attackPattern.addObjectMarkingRefs(markingDefinition);
+        // Create a Granular Marking
         GranularMarking granularMarking =
                 new GranularMarking(refDef, "pattern1", "pattern2", "pattern3");
 
+        // Apply a Granular Marking to the attack pattern
         attackPattern.addGranularMarkings(granularMarking);
 
         MarkingDefinition statement1 = new MarkingDefinition(
@@ -62,9 +66,7 @@ public class CharonApplication {
 
         markingDefinition.addObjectMarkingRefs(statement1);
 
-
         // Generate Observed Data Object:
-
         ZonedDateTime observedTime = ZonedDateTime.now();
         HashMap<String, CyberObservableObject> cyberObservedObjects = new HashMap<>();
         cyberObservedObjects.put("some artifact",
@@ -80,14 +82,18 @@ public class CharonApplication {
         observedData.addObjectMarkingRefs(statement1);
 
 
-        // Generate Bundle:
-
+        // Generate Bundle.  You must add at least 1 item into the bundle.
         Bundle bundle = new Bundle(attackPattern);
 
+        // Add some additional items into the bundle:
         bundle.addObjects(observedData);
 
+        // Auto add Data Markings into the Bundle.  This is a helper method that will search all objects in
+        // the bundle that can contain Data Markings and add the Data Marking objects as top level items in the Bundle
+        // This saves you the effort of having to manually adding the Data markings into the bundle.
         bundle.autoAddDataMarkingsToBundle();
 
+        // All objects have had the toJsonString() method added allowing you to print out json string for any Stix related object
         System.out.println(attackPattern.toJsonString());
         System.out.println(bundle.toJsonString());
     }

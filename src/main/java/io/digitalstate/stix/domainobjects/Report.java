@@ -80,7 +80,7 @@ public class Report extends ReportProperties implements StixDomainObject {
      */
     @Override
     public void setLabels(LinkedHashSet<String> labels) {
-        Set<String> reportLabels = Vocabularies.getReportLabel();
+        Set<String> reportLabels = Vocabularies.getReportLabels();
 
         if (!labels.isEmpty() && labels.containsAll(reportLabels)){
             this.labels = labels;

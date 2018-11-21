@@ -42,7 +42,7 @@ public class ThreatActor extends ThreatActorProperties implements StixDomainObje
      */
     @Override
     public void setLabels(LinkedHashSet<String> labels) {
-        Set<String> threatActorLabels = Vocabularies.getThreatActorLabel();
+        Set<String> threatActorLabels = Vocabularies.getThreatActorLabels();
 
         if (!labels.isEmpty() && labels.containsAll(threatActorLabels)){
             this.labels = labels;

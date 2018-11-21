@@ -18,6 +18,7 @@ There are two primary purposes of usage:
 ## Java
 
 ```java
+// Generate Attack Pattern:
 AttackPattern attackPattern = new AttackPattern("some pattern");
 attackPattern.setKillChainPhases(
         new KillChainPhase("Chain1", "phase1"),
@@ -25,21 +26,26 @@ attackPattern.setKillChainPhases(
 
 attackPattern.setModified(attackPattern.getCreated().plusDays(3));
 
+// Setup Custom properties for Attack Pattern:
 HashMap<String, Object> customProperties = new HashMap<>();
 customProperties.put("someCustomKey", "My custom value");
 customProperties.put("someOtherCustom_key", 3939);
 attackPattern.setCustomProperties(customProperties);
 
+// Setup Marking Definitions for Attach pattern
 MarkingDefinition markingDefinition = new MarkingDefinition(
         new TlpMarking("white"));
 
 MarkingDefinition refDef = new MarkingDefinition(
         new TlpMarking("red"));
 
+// Apply a Object level Marking
 attackPattern.addObjectMarkingRefs(markingDefinition);
+// Create a Granular Marking
 GranularMarking granularMarking =
         new GranularMarking(refDef, "pattern1", "pattern2", "pattern3");
 
+// Apply a Granular Marking to the attack pattern
 attackPattern.addGranularMarkings(granularMarking);
 
 MarkingDefinition statement1 = new MarkingDefinition(
@@ -52,20 +58,31 @@ statement1.addGranularMarkings(markingRestriction);
 
 markingDefinition.addObjectMarkingRefs(statement1);
 
+// Generate Observed Data Object:
 ZonedDateTime observedTime = ZonedDateTime.now();
-ObservedData observedData = new ObservedData(observedTime, observedTime, 3,
-        new Artifact(){{
-            setUrl("someURL");
-        }},
-        new AutonomousSystem(3){{
-            setRir("someRIR");
-        }});
+HashMap<String, CyberObservableObject> cyberObservedObjects = new HashMap<>();
+cyberObservedObjects.put("some artifact",
+        new Artifact(){{setUrl("someURL");}}
+        );
+
+cyberObservedObjects.put("some AS",
+        new AutonomousSystem(5){{setRir("someRIR");}}
+);
+
+ObservedData observedData = new ObservedData(observedTime, observedTime, 3, cyberObservedObjects);
+
 observedData.addObjectMarkingRefs(statement1);
 
+
+// Generate Bundle.  You must add at least 1 item into the bundle.
 Bundle bundle = new Bundle(attackPattern);
 
+// Add some additional items into the bundle:
 bundle.addObjects(observedData);
 
+// Auto add Data Markings into the Bundle.  This is a helper method that will search all objects in
+// the bundle that can contain Data Markings and add the Data Marking objects as top level items in the Bundle
+// This saves you the effort of having to manually adding the Data markings into the bundle.
 bundle.autoAddDataMarkingsToBundle();
 
 bundle.toJsonString();
@@ -80,15 +97,18 @@ The below is a the output from the java example above.
 ```json
 {
   "type": "bundle",
-  "id": "bundle--e78467a2-11e4-441a-9737-872702829e56",
+  "id": "bundle--1b88b419-fd8a-4c19-b05f-f4fda1929477",
+  "spec_version": "2.0",
   "objects": [
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--71764705-99c2-4923-9070-2b2caca121f5",
-      "created": "2018-11-21T18:03:25.518Z",
-      "modified": "2018-11-24T18:03:25.518Z",
+      "id": "attack-pattern--53b23013-c2a5-4fd1-b751-9acb8fd4a1d9",
+      "created": "2018-11-21T19:42:48.630Z",
+      "modified": "2018-11-24T19:42:48.630Z",
       "revoked": false,
-      "name": "some pattern",
+      "object_marking_refs": [
+        "marking-definition--d109b188-400f-40fd-98d7-0b8c6e4990c9"
+      ],
       "granular_markings": [
         {
           "selectors": [
@@ -96,9 +116,10 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--68b78421-0ba6-48e0-8f6e-61f590f95a99"
+          "marking_ref": "marking-definition--6409c2ba-b745-4b25-878a-e1b89c1543fb"
         }
       ],
+      "name": "some pattern",
       "kill_chain_phases": [
         {
           "kill_chain_name": "Chain1",
@@ -109,18 +130,21 @@ The below is a the output from the java example above.
           "phase_name": "phase2"
         }
       ],
-      "object_marking_refs": [
-        "marking-definition--e2f32e8e-5b8d-474c-9476-56a9aca60165"
-      ],
       "x_someCustomKey": "My custom value",
       "x_someOtherCustom_key": 3939
     },
     {
       "type": "observed-data",
-      "id": "observed-data--40a4ce96-72bd-4d61-967f-d532ccfa8f47",
-      "created": "2018-11-21T18:03:25.779Z",
-      "modified": "2018-11-21T18:03:25.779Z",
+      "id": "observed-data--6c3fdb34-368a-4d95-b8f0-4b8e99b6e278",
+      "created": "2018-11-21T19:42:48.678Z",
+      "modified": "2018-11-21T19:42:48.678Z",
       "revoked": false,
+      "object_marking_refs": [
+        "marking-definition--d9d93469-c822-4e31-9827-e68b6b40dd74"
+      ],
+      "first_observed": "2018-11-21T19:42:48.667Z",
+      "last_observed": "2018-11-21T19:42:48.667Z",
+      "number_observed": 3,
       "objects": {
         "some artifact": {
           "type": "artifact",
@@ -131,42 +155,33 @@ The below is a the output from the java example above.
           "number": 5,
           "rir": "someRIR"
         }
-      },
-      "first_observed": "2018-11-21T18:03:25.763Z",
-      "last_observed": "2018-11-21T18:03:25.763Z",
-      "number_observed": 3,
-      "object_marking_refs": [
-        "marking-definition--ad2c4dff-14d7-4c08-88ba-6c5755f9b9a1"
-      ]
+      }
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--e2f32e8e-5b8d-474c-9476-56a9aca60165",
-      "created": "2018-11-21T18:03:25.757Z",
+      "id": "marking-definition--d109b188-400f-40fd-98d7-0b8c6e4990c9",
+      "created": "2018-11-21T19:42:48.662Z",
+      "object_marking_refs": [
+        "marking-definition--d9d93469-c822-4e31-9827-e68b6b40dd74"
+      ],
+      "definition_type": "tlp",
       "definition": {
         "tlp": "white"
-      },
-      "definition_type": "tlp",
-      "object_marking_refs": [
-        "marking-definition--ad2c4dff-14d7-4c08-88ba-6c5755f9b9a1"
-      ]
+      }
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--68b78421-0ba6-48e0-8f6e-61f590f95a99",
-      "created": "2018-11-21T18:03:25.757Z",
+      "id": "marking-definition--6409c2ba-b745-4b25-878a-e1b89c1543fb",
+      "created": "2018-11-21T19:42:48.663Z",
+      "definition_type": "tlp",
       "definition": {
         "tlp": "red"
-      },
-      "definition_type": "tlp"
+      }
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--ad2c4dff-14d7-4c08-88ba-6c5755f9b9a1",
-      "created": "2018-11-21T18:03:25.762Z",
-      "definition": {
-        "statement": "Internal review of data allows for sharing as per ABC-009 Standard"
-      },
+      "id": "marking-definition--d9d93469-c822-4e31-9827-e68b6b40dd74",
+      "created": "2018-11-21T19:42:48.665Z",
       "granular_markings": [
         {
           "selectors": [
@@ -174,13 +189,15 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--68b78421-0ba6-48e0-8f6e-61f590f95a99"
+          "marking_ref": "marking-definition--6409c2ba-b745-4b25-878a-e1b89c1543fb"
         }
       ],
-      "definition_type": "statement"
+      "definition_type": "statement",
+      "definition": {
+        "statement": "Internal review of data allows for sharing as per ABC-009 Standard"
+      }
     }
-  ],
-  "spec_version": "2.0"
+  ]
 }
 ```
 

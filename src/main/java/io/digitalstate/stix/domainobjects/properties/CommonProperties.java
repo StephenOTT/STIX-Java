@@ -24,6 +24,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
  */
 public abstract class CommonProperties implements DataMarkingsAppliable {
 
+    // Property Order is set at the super level of the individual STIX SDO classes.
+    // This was due to JsonPropertyOrder limitation of extended classes
+
     @JsonIgnore
     private final String specVersion = StixSpecVersion.SPECVERSION;
 

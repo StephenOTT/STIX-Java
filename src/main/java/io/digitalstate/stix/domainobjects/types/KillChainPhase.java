@@ -1,9 +1,11 @@
 package io.digitalstate.stix.domainobjects.types;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+@JsonPropertyOrder({"kill_chain_name", "phase_name"})
 public class KillChainPhase {
     //@TODO add logic for characters:
     // The name of the kill chain. The value of this property SHOULD be all lowercase (where lowercase is defined by the locality conventions) and SHOULD use hyphens instead of spaces or underscores as word separators.

@@ -3,6 +3,7 @@ package io.digitalstate.stix.domainobjects.properties;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
@@ -13,6 +14,11 @@ import java.util.LinkedHashSet;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+@JsonPropertyOrder({"type", "id", "created_by_ref", "created",
+        "modified", "revoked", "labels", "external_references",
+        "object_marking_refs", "granular_markings", "name", "description",
+        "aliases", "first_seen", "last_seen", "goals",
+        "resource_level", "primary_motivation", "secondary_motivation"})
 public abstract class IntrusionSetProperties extends CommonProperties{
 
     @JsonInclude(NON_NULL)

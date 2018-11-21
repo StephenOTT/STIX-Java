@@ -1,7 +1,9 @@
 package io.digitalstate.stix.datamarkings.markingtypes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({"statement"})
 public class StatementMarking extends MarkingObjectTypeCommonProperties implements MarkingObjectType {
 
     private static final String type = "statement";

@@ -2,11 +2,16 @@ package io.digitalstate.stix.domainobjects.properties;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.LinkedHashSet;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+@JsonPropertyOrder({"type", "id", "created_by_ref", "created",
+        "modified", "revoked", "labels", "external_references",
+        "object_marking_refs", "granular_markings", "name", "description",
+        "identity_class", "sectors", "contact_information"})
 public abstract class IdentityProperties extends CommonProperties{
     protected String name;
 
