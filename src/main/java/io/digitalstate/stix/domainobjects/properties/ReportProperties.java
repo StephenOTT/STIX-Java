@@ -19,7 +19,7 @@ public abstract class ReportProperties extends CommonProperties {
     @JsonInclude(NON_NULL)
     protected String description = null;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime published;
 

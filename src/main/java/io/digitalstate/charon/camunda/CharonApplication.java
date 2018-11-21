@@ -7,6 +7,7 @@ import io.digitalstate.stix.bundle.Bundle;
 import io.digitalstate.stix.cyberobservableobjects.Artifact;
 import io.digitalstate.stix.cyberobservableobjects.AutonomousSystem;
 
+import io.digitalstate.stix.cyberobservableobjects.CyberObservableObject;
 import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.StatementMarking;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 public class CharonApplication {
     public static void main(String... args) throws JsonProcessingException {
         SpringApplication.run(CharonApplication.class, args);
+
+        // Generate Attack Pattern:
 
         AttackPattern attackPattern = new AttackPattern("some pattern");
         attackPattern.setKillChainPhases(
@@ -59,15 +62,25 @@ public class CharonApplication {
 
         markingDefinition.addObjectMarkingRefs(statement1);
 
+
+        // Generate Observed Data Object:
+
         ZonedDateTime observedTime = ZonedDateTime.now();
-        ObservedData observedData = new ObservedData(observedTime, observedTime, 3,
-                new Artifact(){{
-                    setUrl("someURL");
-                }},
-                new AutonomousSystem(3){{
-                    setRir("someRIR");
-                }});
+        HashMap<String, CyberObservableObject> cyberObservedObjects = new HashMap<>();
+        cyberObservedObjects.put("some artifact",
+                new Artifact(){{setUrl("someURL");}}
+                );
+
+        cyberObservedObjects.put("some AS",
+                new AutonomousSystem(5){{setRir("someRIR");}}
+        );
+
+        ObservedData observedData = new ObservedData(observedTime, observedTime, 3, cyberObservedObjects);
+
         observedData.addObjectMarkingRefs(statement1);
+
+
+        // Generate Bundle:
 
         Bundle bundle = new Bundle(attackPattern);
 

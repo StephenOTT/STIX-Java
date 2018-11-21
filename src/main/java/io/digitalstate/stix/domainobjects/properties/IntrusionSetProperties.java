@@ -25,12 +25,12 @@ public abstract class IntrusionSetProperties extends CommonProperties{
     protected LinkedHashSet<String> aliases = null;
 
     @JsonProperty("first_seen")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime firstSeen;
 
     @JsonProperty("last_seen")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime lastSeen;
 

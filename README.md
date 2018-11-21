@@ -80,13 +80,13 @@ The below is a the output from the java example above.
 ```json
 {
   "type": "bundle",
-  "id": "bundle--27c73570-ab60-4c0c-97e4-03311cd5f026",
+  "id": "bundle--e78467a2-11e4-441a-9737-872702829e56",
   "objects": [
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--9d3ad2e1-a746-4539-8124-05cd964390fe",
-      "created": "2018-11-20T17:05:57.950-0500",
-      "modified": "2018-11-23T17:05:57.950-0500",
+      "id": "attack-pattern--71764705-99c2-4923-9070-2b2caca121f5",
+      "created": "2018-11-21T18:03:25.518Z",
+      "modified": "2018-11-24T18:03:25.518Z",
       "revoked": false,
       "name": "some pattern",
       "granular_markings": [
@@ -96,7 +96,7 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--f0c7f62f-83c7-4b1a-b04d-74633f74aefc"
+          "marking_ref": "marking-definition--68b78421-0ba6-48e0-8f6e-61f590f95a99"
         }
       ],
       "kill_chain_phases": [
@@ -110,51 +110,51 @@ The below is a the output from the java example above.
         }
       ],
       "object_marking_refs": [
-        "marking-definition--fb9365d9-34a8-408e-8d7e-dad974fc623b"
+        "marking-definition--e2f32e8e-5b8d-474c-9476-56a9aca60165"
       ],
       "x_someCustomKey": "My custom value",
       "x_someOtherCustom_key": 3939
     },
     {
       "type": "observed-data",
-      "id": "observed-data--0a1254fd-d9fb-4b44-85f1-ba7255a09a49",
-      "created": "2018-11-20T17:05:57.989-0500",
-      "modified": "2018-11-20T17:05:57.989-0500",
+      "id": "observed-data--40a4ce96-72bd-4d61-967f-d532ccfa8f47",
+      "created": "2018-11-21T18:03:25.779Z",
+      "modified": "2018-11-21T18:03:25.779Z",
       "revoked": false,
-      "objects": [
-        {
+      "objects": {
+        "some artifact": {
           "type": "artifact",
           "url": "someURL"
         },
-        {
+        "some AS": {
           "type": "autonomous-system",
-          "number": 3,
+          "number": 5,
           "rir": "someRIR"
         }
-      ],
-      "first_observed": "2018-11-20T17:05:57.980-0500",
-      "last_observed": "2018-11-20T17:05:57.980-0500",
+      },
+      "first_observed": "2018-11-21T18:03:25.763Z",
+      "last_observed": "2018-11-21T18:03:25.763Z",
       "number_observed": 3,
       "object_marking_refs": [
-        "marking-definition--357719ad-1942-4c21-8097-8779db73683f"
+        "marking-definition--ad2c4dff-14d7-4c08-88ba-6c5755f9b9a1"
       ]
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--fb9365d9-34a8-408e-8d7e-dad974fc623b",
-      "created": "2018-11-20T17:05:57.974-0500",
+      "id": "marking-definition--e2f32e8e-5b8d-474c-9476-56a9aca60165",
+      "created": "2018-11-21T18:03:25.757Z",
       "definition": {
         "tlp": "white"
       },
       "definition_type": "tlp",
       "object_marking_refs": [
-        "marking-definition--357719ad-1942-4c21-8097-8779db73683f"
+        "marking-definition--ad2c4dff-14d7-4c08-88ba-6c5755f9b9a1"
       ]
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--f0c7f62f-83c7-4b1a-b04d-74633f74aefc",
-      "created": "2018-11-20T17:05:57.974-0500",
+      "id": "marking-definition--68b78421-0ba6-48e0-8f6e-61f590f95a99",
+      "created": "2018-11-21T18:03:25.757Z",
       "definition": {
         "tlp": "red"
       },
@@ -162,8 +162,8 @@ The below is a the output from the java example above.
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--357719ad-1942-4c21-8097-8779db73683f",
-      "created": "2018-11-20T17:05:57.979-0500",
+      "id": "marking-definition--ad2c4dff-14d7-4c08-88ba-6c5755f9b9a1",
+      "created": "2018-11-21T18:03:25.762Z",
       "definition": {
         "statement": "Internal review of data allows for sharing as per ABC-009 Standard"
       },
@@ -174,7 +174,7 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--f0c7f62f-83c7-4b1a-b04d-74633f74aefc"
+          "marking_ref": "marking-definition--68b78421-0ba6-48e0-8f6e-61f590f95a99"
         }
       ],
       "definition_type": "statement"

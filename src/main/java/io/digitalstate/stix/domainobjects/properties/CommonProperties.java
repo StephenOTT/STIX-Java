@@ -3,7 +3,6 @@ package io.digitalstate.stix.domainobjects.properties;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.MapSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import io.digitalstate.stix.datamarkings.DataMarkingsAppliable;
 import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
@@ -35,11 +34,11 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     @JsonInclude(NON_NULL)
     protected String createdByRef = null;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime created = ZonedDateTime.now();
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime modified = this.created;
 

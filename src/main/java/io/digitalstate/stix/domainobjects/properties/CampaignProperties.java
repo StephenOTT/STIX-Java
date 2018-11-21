@@ -23,13 +23,13 @@ public abstract class CampaignProperties extends CommonProperties{
 
     @JsonProperty("first_seen")
     @JsonInclude(NON_NULL)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime firstSeen = null;
 
     @JsonProperty("last_seen")
     @JsonInclude(NON_NULL)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime lastSeen = null;
 

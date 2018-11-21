@@ -34,7 +34,7 @@ public class MarkingDefinitionProperties {
     @JsonInclude(NON_NULL)
     protected String createdByRef = null;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime created = ZonedDateTime.now();
 

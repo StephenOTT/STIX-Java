@@ -5,6 +5,7 @@ import io.digitalstate.stix.domainobjects.properties.ObservedDataProperties;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
@@ -16,7 +17,7 @@ public class ObservedData extends ObservedDataProperties implements StixDomainOb
     public ObservedData(ZonedDateTime firstObserved,
                         ZonedDateTime lastObserved,
                         Integer numberObserved,
-                        LinkedHashSet<CyberObservableObject> objects){
+                        HashMap<String, CyberObservableObject> objects){
 
         setType(TYPE);
         setId(generateUuidAsString());
@@ -24,13 +25,6 @@ public class ObservedData extends ObservedDataProperties implements StixDomainOb
         setLastObserved(lastObserved);
         setNumberObserved(numberObserved);
         setObjects(objects);
-    }
-    public ObservedData(ZonedDateTime firstObserved,
-                        ZonedDateTime lastObserved,
-                        Integer numberObserved,
-                        CyberObservableObject... objects){
-
-        this(firstObserved, lastObserved, numberObserved, new LinkedHashSet<>(Arrays.asList(objects)));
     }
 
     @Override
@@ -61,7 +55,7 @@ public class ObservedData extends ObservedDataProperties implements StixDomainOb
     }
 
     @Override
-    public void setObjects(LinkedHashSet<CyberObservableObject> objects) {
+    public void setObjects(HashMap<String, CyberObservableObject> objects) {
         if (!objects.isEmpty()){
             this.objects = objects;
         } else {

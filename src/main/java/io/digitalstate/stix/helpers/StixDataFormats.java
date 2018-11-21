@@ -6,7 +6,8 @@ public class StixDataFormats {
 
     private static ObjectMapper jsonMapper = new ObjectMapper();
 
-    public static final String DATEPATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    public static final String DATEPATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    public static final String DATETIMEZONE = "Etc/UTC";
 
     //
     // Getters and Setters
