@@ -1,7 +1,11 @@
 package io.digitalstate.stix.domainobjects;
 
-import io.digitalstate.stix.bundle.BundleObjects;
+import io.digitalstate.stix.bundle.BundleObject;
 
-public interface StixDomainObject extends CommonProperties, BundleObjects {
+import java.util.LinkedHashSet;
+
+public interface StixDomainObject extends CommonProperties, BundleObject {
+
+    LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects();
 
 }

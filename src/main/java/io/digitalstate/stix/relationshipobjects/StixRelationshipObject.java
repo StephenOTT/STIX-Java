@@ -1,14 +1,16 @@
-package io.digitalstate.stix.domainobjects;
+package io.digitalstate.stix.relationshipobjects;
 
 import io.digitalstate.stix.bundle.BundleObject;
-import io.digitalstate.stix.datamarkings.DataMarkingsAppliable;
+import io.digitalstate.stix.domainobjects.Identity;
+import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
 
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-interface CommonProperties extends DataMarkingsAppliable {
+public interface StixRelationshipObject extends BundleObject {
+
     String getType();
     void setType(String type);
 
@@ -36,5 +38,18 @@ interface CommonProperties extends DataMarkingsAppliable {
     HashMap<String,Object> getCustomProperties();
     void setCustomProperties(HashMap<String,Object> customProperties);
 
-    LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects();
+
+
+    String getRelationshipType();
+    void setRelationshipType(String relationshipType);
+
+    String getDescription();
+    void setDescription(String description);
+
+    StixDomainObject getSource();
+    void setSource(StixDomainObject source);
+
+    StixDomainObject getTarget();
+    void setTarget(StixDomainObject target);
+
 }

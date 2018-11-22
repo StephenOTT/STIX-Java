@@ -24,7 +24,7 @@ public abstract class BundleProperties {
     protected String specVersion;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<BundleObjects> objects = null;
+    protected LinkedHashSet<BundleObject> objects = null;
 
 
     //
@@ -62,17 +62,20 @@ public abstract class BundleProperties {
         this.specVersion = specVersion;
     }
 
-    public LinkedHashSet<BundleObjects> getObjects() {
+    public LinkedHashSet<BundleObject> getObjects() {
+        objects.removeIf(Objects::isNull);
         return objects;
     }
-    public void setObjects(LinkedHashSet<BundleObjects> objects) {
+
+    public void setObjects(LinkedHashSet<BundleObject> objects) {
         this.objects = objects;
     }
-    public void setObjects(BundleObjects... objects) {
+
+    public void setObjects(BundleObject... objects) {
         setObjects(new LinkedHashSet<>(Arrays.asList(objects)));
     }
 
-    public void addObjects(BundleObjects... bundleObjects) {
+    public void addObjects(BundleObject... bundleObjects) {
         if (this.getObjects() == null){
             this.setObjects(new LinkedHashSet<>(Arrays.asList(bundleObjects)));
         } else {

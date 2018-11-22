@@ -13,6 +13,7 @@ import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.StatementMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.TlpMarking;
 import io.digitalstate.stix.domainobjects.AttackPattern;
+import io.digitalstate.stix.domainobjects.Identity;
 import io.digitalstate.stix.domainobjects.ObservedData;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import org.springframework.boot.SpringApplication;
@@ -56,6 +57,7 @@ public class CharonApplication {
         // Apply a Granular Marking to the attack pattern
         attackPattern.addGranularMarkings(granularMarking);
 
+
         MarkingDefinition statement1 = new MarkingDefinition(
                 new StatementMarking("Internal review of data allows for sharing as per ABC-009 Standard"));
 
@@ -88,10 +90,17 @@ public class CharonApplication {
         // Add some additional items into the bundle:
         bundle.addObjects(observedData);
 
+
+        // Build Identity
+
+        Identity steve = new Identity("Stephen", "individual");
+        attackPattern.addTarget(steve);
+
+
         // Auto add Data Markings into the Bundle.  This is a helper method that will search all objects in
         // the bundle that can contain Data Markings and add the Data Marking objects as top level items in the Bundle
         // This saves you the effort of having to manually adding the Data markings into the bundle.
-        bundle.autoAddDataMarkingsToBundle();
+        bundle.autoDetectBundleObjects();
 
         // All objects have had the toJsonString() method added allowing you to print out json string for any Stix related object
         System.out.println(attackPattern.toJsonString());

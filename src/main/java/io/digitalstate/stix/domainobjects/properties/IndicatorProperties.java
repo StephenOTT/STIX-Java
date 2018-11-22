@@ -1,16 +1,20 @@
 package io.digitalstate.stix.domainobjects.properties;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
+import io.digitalstate.stix.bundle.BundleObject;
+import io.digitalstate.stix.domainobjects.*;
+import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
+import io.digitalstate.stix.relationshipobjects.Relationship;
+import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
@@ -41,6 +45,12 @@ public abstract class IndicatorProperties extends CommonProperties{
     @JsonProperty("kill_chain_phases")
     @JsonInclude(NON_NULL)
     protected LinkedHashSet<KillChainPhase> killChainPhases = null;
+
+    //
+    // Relationships
+    //
+
+    private LinkedHashSet<StixRelationshipObject> indicates = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -86,5 +96,73 @@ public abstract class IndicatorProperties extends CommonProperties{
     }
     public void setKillChainPhases(LinkedHashSet<KillChainPhase> killChainPhases) {
         this.killChainPhases = killChainPhases;
+    }
+
+
+    //
+    // Relationships
+    //
+
+    @JsonIgnore
+    public LinkedHashSet<StixRelationshipObject> getIndicates() {
+        return indicates;
+    }
+
+    public void setIndicates(LinkedHashSet<StixRelationshipObject> indicates) {
+        RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
+                indicates, AttackPattern.class, Campaign.class, IntrusionSet.class,
+                Malware.class, ThreatActor.class, Tool.class);
+
+        this.indicates = indicates;
+    }
+
+    public void addIndicates(StixRelationshipObject... relationships){
+        if (this.getIndicates() == null){
+            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+
+            RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
+                    relationshipObjects, AttackPattern.class, Campaign.class, IntrusionSet.class,
+                    Malware.class, ThreatActor.class, Tool.class);
+
+            this.setIndicates(new LinkedHashSet<>(Arrays.asList(relationships)));
+
+        } else {
+            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+
+            RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
+                    relationshipObjects, AttackPattern.class, Campaign.class, IntrusionSet.class,
+                    Malware.class, ThreatActor.class, Tool.class);
+
+            this.getIndicates().addAll(Arrays.asList(relationships));
+        }
+    }
+
+    public void addIndicates(StixDomainObject indicates, String description){
+        Objects.requireNonNull(indicates, "indicates cannot be null");
+
+        Relationship relationship = new Relationship(
+                "indicates",
+                (StixDomainObject)this,
+                indicates);
+        addIndicates(relationship);
+    }
+
+    public void addIndicates(StixDomainObject indicates){
+        addIndicates(indicates, null);
+    }
+
+
+    //
+    // Helpers
+    //
+
+    @JsonIgnore
+    public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
+        LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
+
+//        bundleObjects.addAll(getTargets());
+//        bundleObjects.addAll(getUses());
+
+        return bundleObjects;
     }
 }

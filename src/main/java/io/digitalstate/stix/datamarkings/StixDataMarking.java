@@ -1,13 +1,14 @@
 package io.digitalstate.stix.datamarkings;
 
-import io.digitalstate.stix.bundle.BundleObjects;
+import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.datamarkings.markingtypes.MarkingObjectType;
+import io.digitalstate.stix.domainobjects.Identity;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
 
 import java.time.ZonedDateTime;
 import java.util.LinkedHashSet;
 
-public interface StixDataMarking extends DataMarkingsAppliable, BundleObjects {
+public interface StixDataMarking extends DataMarkingsAppliable, BundleObject {
 
     String getType();
     void setType(String type);
@@ -15,8 +16,8 @@ public interface StixDataMarking extends DataMarkingsAppliable, BundleObjects {
     String getId();
     void setId(String id);
 
-    String getCreatedByRef();
-    void setCreatedByRef(String createdByRef);
+    Identity getCreatedByRef();
+    void setCreatedByRef(Identity createdByRef);
 
     ZonedDateTime getCreated();
     void setCreated(ZonedDateTime created);
@@ -29,4 +30,8 @@ public interface StixDataMarking extends DataMarkingsAppliable, BundleObjects {
 
     MarkingObjectType getDefinition();
     void setDefinition(MarkingObjectType definition);
+
+    LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects();
+
+
 }

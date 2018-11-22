@@ -1,11 +1,9 @@
 package io.digitalstate.stix.domainobjects.properties;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
+import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
 
 import java.time.LocalDateTime;
@@ -62,4 +60,15 @@ public abstract class ReportProperties extends CommonProperties {
     public void setObjectRefs(LinkedHashSet<String> objectRefs) {
         this.objectRefs = objectRefs;
     }
+
+    @JsonIgnore
+    public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
+        LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
+
+//        bundleObjects.addAll(getTargets());
+//        bundleObjects.addAll(getUses());
+
+        return bundleObjects;
+    }
+
 }

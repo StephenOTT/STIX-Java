@@ -1,8 +1,10 @@
 package io.digitalstate.stix.domainobjects.properties;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.digitalstate.stix.bundle.BundleObject;
 
 import java.util.LinkedHashSet;
 
@@ -66,5 +68,16 @@ public abstract class IdentityProperties extends CommonProperties{
     }
     public void setContactInformation(String contactInformation) {
         this.contactInformation = contactInformation;
+    }
+
+
+    @JsonIgnore
+    public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
+        LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
+
+//        bundleObjects.addAll(getTargets());
+//        bundleObjects.addAll(getUses());
+
+        return bundleObjects;
     }
 }

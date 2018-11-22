@@ -13,10 +13,10 @@ public class StixDataFormats {
     // Getters and Setters
     //
 
-
     public static ObjectMapper getJsonMapper() {
         return jsonMapper;
     }
+
     public static void setJsonMapper(ObjectMapper objectMapper) {
         StixDataFormats.jsonMapper = objectMapper;
     }

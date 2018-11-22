@@ -1,16 +1,21 @@
 package io.digitalstate.stix.domainobjects.properties;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
+import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.cyberobservableobjects.CyberObservableObject;
+import io.digitalstate.stix.domainobjects.*;
+import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.relationshipobjects.Relationship;
+import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Objects;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
@@ -83,5 +88,19 @@ public abstract class ObservedDataProperties extends CommonProperties{
 
     public void setObjective(String objective) {
         this.objective = objective;
+    }
+
+    //
+    // Helpers
+    //
+
+    @JsonIgnore
+    public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
+        LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
+
+//        bundleObjects.addAll(getTargets());
+//        bundleObjects.addAll(getUses());
+
+        return bundleObjects;
     }
 }

@@ -1,30 +1,30 @@
-package io.digitalstate.stix.datamarkings.definitions;
+package io.digitalstate.stix.relationshipobjects.properties;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
-import io.digitalstate.stix.bundle.BundleObject;
+import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.domainobjects.Identity;
+import io.digitalstate.stix.domainobjects.StixDomainObject;
+import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
-import io.digitalstate.stix.datamarkings.markingtypes.MarkingObjectType;
-import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-@JsonPropertyOrder({"type", "id", "created_by_ref", "created",
-        "external_references", "object_marking_refs", "granular_markings", "definition_type",
-        "definition"})
-public abstract class MarkingDefinitionProperties {
+/**
+ * Defines the common properties for a Stix Relationship Object (SRO)
+ */
+public abstract class RelationshipObjectCommonProperties {
 
     @JsonIgnore
     private final String specVersion = StixSpecVersion.SPECVERSION;
@@ -38,6 +38,15 @@ public abstract class MarkingDefinitionProperties {
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     protected ZonedDateTime created = ZonedDateTime.now();
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
+    @JsonSerialize(using = ZonedDateTimeSerializer.class)
+    protected ZonedDateTime modified = this.created;
+
+    protected boolean revoked = false;
+
+    @JsonInclude(NON_NULL)
+    protected LinkedHashSet<String> labels = null;
+
     @JsonProperty("external_references")
     @JsonInclude(NON_NULL)
     protected LinkedHashSet<ExternalReference> externalReferences = null;
@@ -48,32 +57,37 @@ public abstract class MarkingDefinitionProperties {
     @JsonInclude(NON_NULL)
     protected LinkedHashSet<GranularMarking> granularMarkings = null;
 
-    @JsonProperty("definition_type")
-    protected String definitionType;
+    protected HashMap<String, Object> customProperties = null;
 
-    protected MarkingObjectType definition;
+    @JsonProperty("relationship_type")
+    private String relationshipType;
 
+    @JsonInclude(NON_NULL)
+    private String description = null;
+
+    private StixDomainObject source;
+
+    private StixDomainObject target;
 
     //
     // Getters and Setters
     //
 
-    public String getSpecVersion() {
-        return specVersion;
-    }
-
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
-        this.type = type;
+        Objects.requireNonNull(type, "Type cannot be null");
+        if (StringUtils.isNotBlank(type)){
+            this.type = type;
+        } else {
+            throw new IllegalArgumentException("type cannot be null or blank");
+        }
     }
 
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         Objects.requireNonNull(id, "Id cannot be null");
         if (StringUtils.isBlank(getType())){
@@ -111,12 +125,39 @@ public abstract class MarkingDefinitionProperties {
         }
     }
 
+
     public ZonedDateTime getCreated() {
         return created;
     }
 
     public void setCreated(ZonedDateTime created) {
+        Objects.requireNonNull(type, "created date cannot be null");
         this.created = created;
+    }
+
+    public ZonedDateTime getModified() {
+        return modified;
+    }
+
+    public void setModified(ZonedDateTime modified) {
+        Objects.requireNonNull(type, "modified date cannot be null");
+        this.modified = modified;
+    }
+
+    public boolean getRevoked() {
+        return revoked;
+    }
+
+    public void setRevoked(boolean revoked) {
+        this.revoked = revoked;
+    }
+
+    public LinkedHashSet<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(LinkedHashSet<String> labels) {
+        this.labels = labels;
     }
 
     public LinkedHashSet<ExternalReference> getExternalReferences() {
@@ -129,23 +170,23 @@ public abstract class MarkingDefinitionProperties {
 
     @JsonIgnore
     public LinkedHashSet<MarkingDefinition> getObjectMarkingRefs() {
-        return objectMarkingRefs;
-    }
-
-    public void setObjectMarkingRefs(LinkedHashSet<MarkingDefinition> objectMarkingRefs) {
-        this.objectMarkingRefs = objectMarkingRefs;
+        return this.objectMarkingRefs;
     }
 
     @JsonProperty("object_marking_refs")
     @JsonInclude(NON_NULL)
     public LinkedHashSet<String> getObjectMarkingRefsAsStrings() {
-        if (this.getObjectMarkingRefs() != null) {
+        if (getObjectMarkingRefs() != null) {
             return this.getObjectMarkingRefs().stream()
                     .map(MarkingDefinition::getId)
                     .collect(Collectors.toCollection(LinkedHashSet::new));
         } else {
             return null;
         }
+    }
+
+    public void setObjectMarkingRefs(LinkedHashSet<MarkingDefinition> markingDefinitions) {
+        this.objectMarkingRefs = markingDefinitions;
     }
 
     public void setObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
@@ -161,21 +202,15 @@ public abstract class MarkingDefinitionProperties {
     }
 
     public LinkedHashSet<GranularMarking> getGranularMarkings() {
-        return granularMarkings;
+        return this.granularMarkings;
     }
 
     public void setGranularMarkings(LinkedHashSet<GranularMarking> granularMarkings) {
-        // Check for Circular References: Where a granul
-        granularMarkings.forEach(gm ->{
-            // @TODO rebuild new methods for .equals() to have a special equals method that compares the combined ID and Modified fields (as per STIX spec)
-            if (gm.getMarkingRef().equals(this)){
-                throw new IllegalArgumentException("Circular Reference detected in Granular Marking: " + this.toString());
-            }});
         this.granularMarkings = granularMarkings;
     }
 
-    public void setGranularMarkings(GranularMarking... granularMarkings) {
-        this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(granularMarkings)));
+    public void setGranularMarkings(GranularMarking... objectMarkingRefs) {
+        this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
     }
 
     public void addGranularMarkings(GranularMarking... granularMarkings) {
@@ -186,51 +221,98 @@ public abstract class MarkingDefinitionProperties {
         }
     }
 
-    public String getDefinitionType() {
-        return definitionType;
+
+    @JsonIgnore
+    public HashMap<String, Object> getCustomProperties() {
+        return this.customProperties;
     }
 
-    public void setDefinitionType(String definitionType) {
-        this.definitionType = definitionType;
+    public void setCustomProperties(HashMap<String, Object> customProperties) {
+        this.customProperties = customProperties;
     }
 
-    public MarkingObjectType getDefinition() {
-        return definition;
+    /**
+     * Returns a Map with keys that start with "x_".
+     * @return
+     */
+    @JsonAnyGetter
+    @JsonInclude(NON_NULL)
+    public HashMap<String, Object> getCustomPropertiesForJson() {
+        String prefix = "x_";
+
+        HashMap<String, Object> customProperties = this.getCustomProperties();
+
+        // @TODO Add support for proper casing of Keys
+
+        if (customProperties == null){
+            return null;
+        } else {
+            HashMap<String, Object> customPropertiesWithPrefixUpdate = new HashMap<>();
+            this.getCustomProperties().forEach((k,v)->{
+                if (!k.startsWith(prefix)){
+                    customPropertiesWithPrefixUpdate.put(String.join("", prefix, k), v);
+                } else {
+                    customPropertiesWithPrefixUpdate.put(k, v);
+                }
+            });
+            return customPropertiesWithPrefixUpdate;
+        }
     }
 
-    public void setDefinition(MarkingObjectType definition) {
-        this.definition = definition;
+
+
+
+    public String getRelationshipType() {
+        return relationshipType;
     }
 
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
+    public void setRelationshipType(String relationshipType) {
+        this.relationshipType = relationshipType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @JsonIgnore
-    public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects(){
-        LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
+    public StixDomainObject getSource() {
+        return source;
+    }
 
-        bundleObjects.add(getCreatedByRef());
+    public void setSource(StixDomainObject source) {
+        this.source = source;
+    }
 
-        if (getObjectMarkingRefs() != null) {
-            getObjectMarkingRefs().forEach(om -> {
-                bundleObjects.add(om.getCreatedByRef());
-                bundleObjects.addAll(om.getObjectMarkingRefs());
-                if (om.getGranularMarkings() != null) {
-                    om.getGranularMarkings().forEach(gm -> {
-                        bundleObjects.add(gm.getMarkingRef());
-                    });
-                }
-            });
+    @JsonProperty("source")
+    @JsonInclude(NON_NULL)
+    public String getSourceRefsAsString() {
+        if (getSource() != null){
+            return getSource().getId();
+        } else {
+            return null;
         }
+    }
 
-        if (getGranularMarkings() != null) {
-            getGranularMarkings().forEach(gm -> {
-                bundleObjects.add(gm.getMarkingRef());
-            });
+    @JsonIgnore
+    public StixDomainObject getTarget() {
+        return target;
+    }
+
+    public void setTarget(StixDomainObject target) {
+        this.target = target;
+    }
+
+    @JsonProperty("target")
+    @JsonInclude(NON_NULL)
+    public String getTargetRefsAsString() {
+        if (getTarget() != null){
+            return getTarget().getId();
+        } else {
+            return null;
         }
-
-        return bundleObjects;
     }
 }
