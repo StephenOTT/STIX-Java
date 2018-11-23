@@ -14,6 +14,7 @@ import io.digitalstate.stix.datamarkings.markingtypes.StatementMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.TlpMarking;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
+import io.digitalstate.stix.helpers.ObjectSigning;
 import io.digitalstate.stix.relationshipobjects.Sighting;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -83,6 +84,10 @@ public class CharonApplication {
         ObservedData observedData = new ObservedData(observedTime, observedTime, 3, cyberObservedObjects);
 
         observedData.addObjectMarkingRefs(statement1);
+
+        // Sign Object
+        String signedObject = ObjectSigning.signObject(attackPattern);
+        customProperties.put("signed_object", signedObject);
 
 
         // Generate Bundle.  You must add at least 1 item into the bundle.
