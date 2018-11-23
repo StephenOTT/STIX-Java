@@ -48,6 +48,7 @@ GranularMarking granularMarking =
 // Apply a Granular Marking to the attack pattern
 attackPattern.addGranularMarkings(granularMarking);
 
+
 MarkingDefinition statement1 = new MarkingDefinition(
         new StatementMarking("Internal review of data allows for sharing as per ABC-009 Standard"));
 
@@ -80,10 +81,27 @@ Bundle bundle = new Bundle(attackPattern);
 // Add some additional items into the bundle:
 bundle.addObjects(observedData);
 
+
+// Build Identity
+
+Identity steve = new Identity("Stephen", "individual");
+attackPattern.addTarget(steve);
+
+
+// Add a Sighting that is related to attackPattern
+// and has a Object Marking of redDef
+Sighting someSighting = new Sighting(attackPattern);
+
+AttackPattern ap2 = new AttackPattern("someOtherATTK2");
+someSighting.setWhereSightedRefs(new LinkedHashSet<>(Arrays.asList(steve)));
+bundle.addObjects(someSighting);
+someSighting.setSightingOfRef(ap2);
+
+
 // Auto add Data Markings into the Bundle.  This is a helper method that will search all objects in
 // the bundle that can contain Data Markings and add the Data Marking objects as top level items in the Bundle
 // This saves you the effort of having to manually adding the Data markings into the bundle.
-bundle.autoAddDataMarkingsToBundle();
+bundle.autoDetectBundleObjects();
 
 bundle.toJsonString();
 ```
@@ -97,17 +115,17 @@ The below is a the output from the java example above.
 ```json
 {
   "type": "bundle",
-  "id": "bundle--1b88b419-fd8a-4c19-b05f-f4fda1929477",
+  "id": "bundle--852bd871-7c99-4530-8cd8-f54d3cf18c2b",
   "spec_version": "2.0",
   "objects": [
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--53b23013-c2a5-4fd1-b751-9acb8fd4a1d9",
-      "created": "2018-11-21T19:42:48.630Z",
-      "modified": "2018-11-24T19:42:48.630Z",
+      "id": "attack-pattern--3358b19e-96cf-4bb9-a3bb-f1383b017b45",
+      "created": "2018-11-23T02:02:20.212Z",
+      "modified": "2018-11-26T02:02:20.212Z",
       "revoked": false,
       "object_marking_refs": [
-        "marking-definition--d109b188-400f-40fd-98d7-0b8c6e4990c9"
+        "marking-definition--e46391b2-5434-41f7-b2d1-624732628a2c"
       ],
       "granular_markings": [
         {
@@ -116,7 +134,7 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--6409c2ba-b745-4b25-878a-e1b89c1543fb"
+          "marking_ref": "marking-definition--9da1888e-8741-4b06-ab65-210ac011aa3c"
         }
       ],
       "name": "some pattern",
@@ -135,15 +153,15 @@ The below is a the output from the java example above.
     },
     {
       "type": "observed-data",
-      "id": "observed-data--6c3fdb34-368a-4d95-b8f0-4b8e99b6e278",
-      "created": "2018-11-21T19:42:48.678Z",
-      "modified": "2018-11-21T19:42:48.678Z",
+      "id": "observed-data--f0a0a899-ba46-4863-86e2-39a4e1ac5f6e",
+      "created": "2018-11-23T02:02:20.253Z",
+      "modified": "2018-11-23T02:02:20.253Z",
       "revoked": false,
       "object_marking_refs": [
-        "marking-definition--d9d93469-c822-4e31-9827-e68b6b40dd74"
+        "marking-definition--d8c6e880-36a9-4ea7-9090-77a16b2c429c"
       ],
-      "first_observed": "2018-11-21T19:42:48.667Z",
-      "last_observed": "2018-11-21T19:42:48.667Z",
+      "first_observed": "2018-11-23T02:02:20.243Z",
+      "last_observed": "2018-11-23T02:02:20.243Z",
       "number_observed": 3,
       "objects": {
         "some artifact": {
@@ -158,30 +176,21 @@ The below is a the output from the java example above.
       }
     },
     {
-      "type": "marking-definition",
-      "id": "marking-definition--d109b188-400f-40fd-98d7-0b8c6e4990c9",
-      "created": "2018-11-21T19:42:48.662Z",
-      "object_marking_refs": [
-        "marking-definition--d9d93469-c822-4e31-9827-e68b6b40dd74"
+      "type": "sighting",
+      "id": "sighting--e76f0991-fc32-4480-bc9b-5d28a5f1f94f",
+      "created": "2018-11-23T02:02:20.275Z",
+      "modified": "2018-11-23T02:02:20.275Z",
+      "revoked": false,
+      "sighting_of_ref": "attack-pattern--73eca26f-d659-4e75-9c6b-a7f03ba7b383",
+      "where_sighted_refs": [
+        "identity--bfcb09bf-50e9-447f-a7cb-1c86192271f0"
       ],
-      "definition_type": "tlp",
-      "definition": {
-        "tlp": "white"
-      }
+      "summary": false
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--6409c2ba-b745-4b25-878a-e1b89c1543fb",
-      "created": "2018-11-21T19:42:48.663Z",
-      "definition_type": "tlp",
-      "definition": {
-        "tlp": "red"
-      }
-    },
-    {
-      "type": "marking-definition",
-      "id": "marking-definition--d9d93469-c822-4e31-9827-e68b6b40dd74",
-      "created": "2018-11-21T19:42:48.665Z",
+      "id": "marking-definition--d8c6e880-36a9-4ea7-9090-77a16b2c429c",
+      "created": "2018-11-23T02:02:20.242Z",
       "granular_markings": [
         {
           "selectors": [
@@ -189,13 +198,49 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--6409c2ba-b745-4b25-878a-e1b89c1543fb"
+          "marking_ref": "marking-definition--9da1888e-8741-4b06-ab65-210ac011aa3c"
         }
       ],
       "definition_type": "statement",
       "definition": {
         "statement": "Internal review of data allows for sharing as per ABC-009 Standard"
       }
+    },
+    {
+      "type": "marking-definition",
+      "id": "marking-definition--9da1888e-8741-4b06-ab65-210ac011aa3c",
+      "created": "2018-11-23T02:02:20.239Z",
+      "definition_type": "tlp",
+      "definition": {
+        "tlp": "red"
+      }
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--dc2fab02-c6bb-4669-86f9-265d529275d4",
+      "created": "2018-11-23T02:02:20.267Z",
+      "modified": "2018-11-23T02:02:20.267Z",
+      "revoked": false,
+      "relationship_type": "targets",
+      "source": "attack-pattern--3358b19e-96cf-4bb9-a3bb-f1383b017b45",
+      "target": "identity--bfcb09bf-50e9-447f-a7cb-1c86192271f0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--73eca26f-d659-4e75-9c6b-a7f03ba7b383",
+      "created": "2018-11-23T02:02:20.275Z",
+      "modified": "2018-11-23T02:02:20.275Z",
+      "revoked": false,
+      "name": "someOtherATTK2"
+    },
+    {
+      "type": "identity",
+      "id": "identity--bfcb09bf-50e9-447f-a7cb-1c86192271f0",
+      "created": "2018-11-23T02:02:20.262Z",
+      "modified": "2018-11-23T02:02:20.262Z",
+      "revoked": false,
+      "name": "Stephen",
+      "identity_class": "individual"
     }
   ]
 }

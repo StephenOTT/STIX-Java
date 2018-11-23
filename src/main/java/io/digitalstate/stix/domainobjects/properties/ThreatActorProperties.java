@@ -339,8 +339,10 @@ public abstract class ThreatActorProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-//        bundleObjects.addAll(getTargets());
-//        bundleObjects.addAll(getUses());
+        bundleObjects.addAll(getAttributedTo());
+        bundleObjects.addAll(getImpersonates());
+        bundleObjects.addAll(getTargets());
+        bundleObjects.addAll(getUses());
 
         return bundleObjects;
     }

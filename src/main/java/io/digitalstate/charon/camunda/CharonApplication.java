@@ -12,15 +12,15 @@ import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.StatementMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.TlpMarking;
-import io.digitalstate.stix.domainobjects.AttackPattern;
-import io.digitalstate.stix.domainobjects.Identity;
-import io.digitalstate.stix.domainobjects.ObservedData;
+import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 @SpringBootApplication
 public class CharonApplication {
@@ -95,6 +95,16 @@ public class CharonApplication {
 
         Identity steve = new Identity("Stephen", "individual");
         attackPattern.addTarget(steve);
+
+
+        // Add a Sighting that is related to attackPattern
+        // and has a Object Marking of redDef
+        Sighting someSighting = new Sighting(attackPattern);
+
+        AttackPattern ap2 = new AttackPattern("someOtherATTK2");
+        someSighting.setWhereSightedRefs(new LinkedHashSet<>(Arrays.asList(steve)));
+        bundle.addObjects(someSighting);
+        someSighting.setSightingOfRef(ap2);
 
 
         // Auto add Data Markings into the Bundle.  This is a helper method that will search all objects in

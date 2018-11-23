@@ -118,8 +118,7 @@ public abstract class CourseOfActionProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-//        bundleObjects.addAll(getTargets());
-//        bundleObjects.addAll(getUses());
+        bundleObjects.addAll(getMitigates());
 
         return bundleObjects;
     }

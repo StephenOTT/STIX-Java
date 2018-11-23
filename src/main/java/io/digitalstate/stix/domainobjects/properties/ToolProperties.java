@@ -137,8 +137,7 @@ public abstract class ToolProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-//        bundleObjects.addAll(getTargets());
-//        bundleObjects.addAll(getUses());
+        bundleObjects.addAll(getTargets());
 
         return bundleObjects;
     }

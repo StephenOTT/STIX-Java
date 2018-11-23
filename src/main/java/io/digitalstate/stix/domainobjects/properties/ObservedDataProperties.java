@@ -97,10 +97,6 @@ public abstract class ObservedDataProperties extends CommonProperties{
     @JsonIgnore
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
-
-//        bundleObjects.addAll(getTargets());
-//        bundleObjects.addAll(getUses());
-
         return bundleObjects;
     }
 }

@@ -160,8 +160,7 @@ public abstract class IndicatorProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-//        bundleObjects.addAll(getTargets());
-//        bundleObjects.addAll(getUses());
+        bundleObjects.addAll(getIndicates());
 
         return bundleObjects;
     }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.digitalstate.stix.bundle.BundleObject;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashSet;
 
@@ -38,13 +39,19 @@ public abstract class IdentityProperties extends CommonProperties{
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
-        this.name = name;
+        if (StringUtils.isNotBlank(name)){
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name can't be null or blank");
+        }
     }
 
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -52,6 +59,7 @@ public abstract class IdentityProperties extends CommonProperties{
     public String getIdentityClass() {
         return identityClass;
     }
+
     public void setIdentityClass(String identityClass) {
         this.identityClass = identityClass;
     }
@@ -59,6 +67,7 @@ public abstract class IdentityProperties extends CommonProperties{
     public LinkedHashSet<String> getSectors() {
         return sectors;
     }
+
     public void setSectors(LinkedHashSet<String> sectors) {
         this.sectors = sectors;
     }
@@ -66,18 +75,19 @@ public abstract class IdentityProperties extends CommonProperties{
     public String getContactInformation() {
         return contactInformation;
     }
+
     public void setContactInformation(String contactInformation) {
         this.contactInformation = contactInformation;
     }
 
 
+    //
+    // Helpers
+    //
+
     @JsonIgnore
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
-
-//        bundleObjects.addAll(getTargets());
-//        bundleObjects.addAll(getUses());
-
         return bundleObjects;
     }
 }

@@ -11,7 +11,6 @@ import io.digitalstate.stix.relationshipobjects.Relationship;
 import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 import org.apache.commons.lang3.StringUtils;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -292,8 +291,9 @@ public abstract class IntrusionSetProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-//        bundleObjects.addAll(getTargets());
-//        bundleObjects.addAll(getUses());
+        bundleObjects.addAll(getAttributedTo());
+        bundleObjects.addAll(getTargets());
+        bundleObjects.addAll(getUses());
 
         return bundleObjects;
     }

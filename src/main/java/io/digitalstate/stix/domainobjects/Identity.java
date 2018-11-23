@@ -20,14 +20,6 @@ public class Identity extends IdentityProperties implements StixDomainObject {
         setIdentityClass(identityClass);
     }
 
-    @Override
-    public void setName(String name) {
-        if (StringUtils.isNotBlank(name)){
-            this.name = name;
-        } else {
-            throw new IllegalArgumentException("Name can't be null or blank");
-        }
-    }
 
     @Override
     public void setIdentityClass(String identityClass) {

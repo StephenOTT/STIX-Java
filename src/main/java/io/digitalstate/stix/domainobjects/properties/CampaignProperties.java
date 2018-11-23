@@ -247,8 +247,9 @@ public abstract class CampaignProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-//        bundleObjects.addAll(getTargets());
-//        bundleObjects.addAll(getUses());
+        bundleObjects.addAll(getAttributedTo());
+        bundleObjects.addAll(getTargets());
+        bundleObjects.addAll(getUses());
 
         return bundleObjects;
     }
