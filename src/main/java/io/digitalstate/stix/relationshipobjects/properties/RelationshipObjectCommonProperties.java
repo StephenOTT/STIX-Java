@@ -10,8 +10,10 @@ import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
+import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -315,4 +317,31 @@ public abstract class RelationshipObjectCommonProperties {
             return null;
         }
     }
+
+
+    //
+    // Overrides for hashcode and equals to support comparison of objects as per the STIX Spec
+    //
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getModified());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // Ensure the obj is a instance of StixRelationshipObject
+        // We can assume this because anything using CommonProperties should be implementing
+        // StixRelationshipObject (or the CustomStixRelationshipObject) interface.
+        if (!(obj instanceof StixRelationshipObject)) {
+            return false;
+        }
+
+        StixRelationshipObject object = (StixRelationshipObject) obj;
+        // Compare the ID and Modified Date fields to be equal.
+        // Modified Date field is converted into UTC time for brevity
+        return object.getId().equals(this.getId()) &&
+                object.getModified().equals(this.getModified().withZoneSameInstant(ZoneId.of(StixDataFormats.DATETIMEZONE)));
+    }
+
 }
