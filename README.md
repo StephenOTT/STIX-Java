@@ -273,6 +273,71 @@ This project is a packaging of multiple components that will be split into indiv
 (Charon) easily adapt to the organizations internal or standardized security processes.  
 An organization should not have to change their security models for a "vendor".
 
+Further Notes:
+
+By Using STIX as a common language for CTI, automated and manual workflows can be created for multi-system use:
+Where each CTI system can generate STIX data and the downstream workflows can process the CTI for whatever purpose 
+without the need to understand the upstream CTI system (whether it be new and shinny, old and legacy, or 
+some customized CTI DB that has little understanding outside of the specific domain-usage).
+
+Leverage CTI's Who, Why, Where, How, What data to process data into meaningful automation and iterate as needed with the Charon engine.
+When you need manual intervention, with human eyes and hands, you can continue to leverage Charon to process those human tasks.
+
+ - Process Information
+ - Detection
+ - Artifact storage and processing
+ - Analyze
+ - Respond
+ 
+ 
+ Share CTI across the CTI network with the common exchange format, and enrich the data with STIX Data Enrichment from downstream enrichment processes.
+ 
+ "Automation Engine" with OSS.
+ 
+ Initiate Translation Services through the automation: When translation of CTI is required, it can be packaged as a 
+ STIX bundle and processed into a workflow for processing: automatically or with human intervention.
+
+
+Share Workflows (Shareable Workflows) across organizations and within the organization.  Allowing standardization regardless of the specific engine being used.
+
+Monitor and Track real-time events from your upstream incident response system, and process those events in STIX for 
+downstream CTI event processing by actors that may not have access or want access to the upstream incident response system.
+
+Integration ML and AI at any point within the automation.  Do not tightly couple the ML and AI into the workflows: 
+This allows easy swapping of ML and AI technologies, products, and innovations as a underlying capability / 
+force multiplier without having to integration "a whole other system".
+
+Enable third-party organizations to deploy the same engine within your network, collect data, 
+and stream it upstream to central CTI processors.  Enable the third-parties to implement their specific CTI processing 
+processes directly in the engine without the need to "conform to how the upstream system wants to do things".
+Then when the upstream system receives the STIX CTI, it can be processed based on your knowledge of that third-party 
+systems processes: to which you can have transparency into with reviewing their "processes" defined in the engine.
+
+Implement organization HR conditions into the workflows: If someone does not response or review in X time, if someone is on holidays, etc
+
+Push out IOCs and Attack patterns to downstream consumers: Consumers can establish business rules that outline their 
+systems and networks, and as IOCs and APs are pushed, they can be evaluated automatically (and/or manually) 
+by the downstream consumer system.
+Same can be applied to Abnormal Behaviour reporting or Pattern awareness.
+
+Data Interruption reporting: Reporting in standard formats for org, and having to consume into STIX.
+
+Use the same engine to automate CTI testing and python scripts.  Engine can be wrapped up into a single JAR, including DB.
+Can be used as a CLI tool as well.
+
+Measure the impacts of CTI and the various STIX data being received.
+
+Use the STIX stream as auditing trail capability: being able to collect STIX events and cross those 
+events based on aggregation, counts over period of time, etc. Then generate a Request for review based on the conditions.
+
+Very easy to tie in ML for Event data: Such as Kibana xPack reviewing the various types of 
+data and detecting new patterns such as counts and increases in periods or locations.
+
+Remove the problem of "Lack of Time to implement processes" (reported as 43% of the time).  
+Champions can create common processes to be easily and quickly adopted by downstream groups.
+
+
+
 Example Use Cases:
 1. STIX Bureaucracy Management using Charon.
 1. Security Approvals and Revocations for STIX data exposed through TAXII.
