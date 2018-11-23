@@ -14,6 +14,7 @@ import io.digitalstate.stix.datamarkings.markingtypes.StatementMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.TlpMarking;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
+import io.digitalstate.stix.relationshipobjects.Sighting;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

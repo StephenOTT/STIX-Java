@@ -115,17 +115,17 @@ The below is a the output from the java example above.
 ```json
 {
   "type": "bundle",
-  "id": "bundle--852bd871-7c99-4530-8cd8-f54d3cf18c2b",
+  "id": "bundle--b6dcebea-5767-4cc1-af08-43800bde5632",
   "spec_version": "2.0",
   "objects": [
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--3358b19e-96cf-4bb9-a3bb-f1383b017b45",
-      "created": "2018-11-23T02:02:20.212Z",
-      "modified": "2018-11-26T02:02:20.212Z",
+      "id": "attack-pattern--45e4a7eb-98b7-4f1c-a99d-a73ae851ec1b",
+      "created": "2018-11-23T15:12:30.538Z",
+      "modified": "2018-11-26T15:12:30.538Z",
       "revoked": false,
       "object_marking_refs": [
-        "marking-definition--e46391b2-5434-41f7-b2d1-624732628a2c"
+        "marking-definition--cb53b557-033f-4cc8-8918-248983765143"
       ],
       "granular_markings": [
         {
@@ -134,7 +134,7 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--9da1888e-8741-4b06-ab65-210ac011aa3c"
+          "marking_ref": "marking-definition--52224a2a-4c41-4196-9fac-cc2cc2cf0051"
         }
       ],
       "name": "some pattern",
@@ -153,15 +153,15 @@ The below is a the output from the java example above.
     },
     {
       "type": "observed-data",
-      "id": "observed-data--f0a0a899-ba46-4863-86e2-39a4e1ac5f6e",
-      "created": "2018-11-23T02:02:20.253Z",
-      "modified": "2018-11-23T02:02:20.253Z",
+      "id": "observed-data--d04fb531-3375-40d8-8156-c4ab4f3ee5e2",
+      "created": "2018-11-23T15:12:30.585Z",
+      "modified": "2018-11-23T15:12:30.585Z",
       "revoked": false,
       "object_marking_refs": [
-        "marking-definition--d8c6e880-36a9-4ea7-9090-77a16b2c429c"
+        "marking-definition--1e96c2bf-0a5b-46aa-9460-70c20a75c6c7"
       ],
-      "first_observed": "2018-11-23T02:02:20.243Z",
-      "last_observed": "2018-11-23T02:02:20.243Z",
+      "first_observed": "2018-11-23T15:12:30.568Z",
+      "last_observed": "2018-11-23T15:12:30.568Z",
       "number_observed": 3,
       "objects": {
         "some artifact": {
@@ -177,20 +177,20 @@ The below is a the output from the java example above.
     },
     {
       "type": "sighting",
-      "id": "sighting--e76f0991-fc32-4480-bc9b-5d28a5f1f94f",
-      "created": "2018-11-23T02:02:20.275Z",
-      "modified": "2018-11-23T02:02:20.275Z",
+      "id": "sighting--d2fd059a-18fb-4b8c-8fcb-6c6d2c19196f",
+      "created": "2018-11-23T15:12:30.611Z",
+      "modified": "2018-11-23T15:12:30.611Z",
       "revoked": false,
-      "sighting_of_ref": "attack-pattern--73eca26f-d659-4e75-9c6b-a7f03ba7b383",
+      "sighting_of_ref": "attack-pattern--80dacbfd-4138-4e4d-98be-0e3968eb9f27",
       "where_sighted_refs": [
-        "identity--bfcb09bf-50e9-447f-a7cb-1c86192271f0"
+        "identity--0c338b5a-7d13-42af-8f3f-5f980eaa4f65"
       ],
       "summary": false
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--d8c6e880-36a9-4ea7-9090-77a16b2c429c",
-      "created": "2018-11-23T02:02:20.242Z",
+      "id": "marking-definition--1e96c2bf-0a5b-46aa-9460-70c20a75c6c7",
+      "created": "2018-11-23T15:12:30.566Z",
       "granular_markings": [
         {
           "selectors": [
@@ -198,7 +198,7 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--9da1888e-8741-4b06-ab65-210ac011aa3c"
+          "marking_ref": "marking-definition--52224a2a-4c41-4196-9fac-cc2cc2cf0051"
         }
       ],
       "definition_type": "statement",
@@ -208,8 +208,8 @@ The below is a the output from the java example above.
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--9da1888e-8741-4b06-ab65-210ac011aa3c",
-      "created": "2018-11-23T02:02:20.239Z",
+      "id": "marking-definition--52224a2a-4c41-4196-9fac-cc2cc2cf0051",
+      "created": "2018-11-23T15:12:30.563Z",
       "definition_type": "tlp",
       "definition": {
         "tlp": "red"
@@ -217,30 +217,13 @@ The below is a the output from the java example above.
     },
     {
       "type": "relationship",
-      "id": "relationship--dc2fab02-c6bb-4669-86f9-265d529275d4",
-      "created": "2018-11-23T02:02:20.267Z",
-      "modified": "2018-11-23T02:02:20.267Z",
+      "id": "relationship--477c71d8-bdca-409e-b192-ec9b6b840ed5",
+      "created": "2018-11-23T15:12:30.601Z",
+      "modified": "2018-11-23T15:12:30.601Z",
       "revoked": false,
       "relationship_type": "targets",
-      "source": "attack-pattern--3358b19e-96cf-4bb9-a3bb-f1383b017b45",
-      "target": "identity--bfcb09bf-50e9-447f-a7cb-1c86192271f0"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--73eca26f-d659-4e75-9c6b-a7f03ba7b383",
-      "created": "2018-11-23T02:02:20.275Z",
-      "modified": "2018-11-23T02:02:20.275Z",
-      "revoked": false,
-      "name": "someOtherATTK2"
-    },
-    {
-      "type": "identity",
-      "id": "identity--bfcb09bf-50e9-447f-a7cb-1c86192271f0",
-      "created": "2018-11-23T02:02:20.262Z",
-      "modified": "2018-11-23T02:02:20.262Z",
-      "revoked": false,
-      "name": "Stephen",
-      "identity_class": "individual"
+      "source": "attack-pattern--45e4a7eb-98b7-4f1c-a99d-a73ae851ec1b",
+      "target": "identity--0c338b5a-7d13-42af-8f3f-5f980eaa4f65"
     }
   ]
 }

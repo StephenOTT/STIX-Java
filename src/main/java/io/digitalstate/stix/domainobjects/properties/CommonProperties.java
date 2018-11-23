@@ -19,6 +19,7 @@ import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -498,5 +499,30 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
         }
 
         return bundleObjects;
+    }
+
+    //
+    // Overrides for hashcode and equals to support comparison of objects as per the STIX Spec
+    //
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getModified());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // Ensure the obj is a instance of StixDomainObject
+        // We can assume this because anything using CommonProperties should be implementing
+        // StixDomainObject (or the CustomStixDomainObject) interface.
+        if (!(obj instanceof StixDomainObject)) {
+            return false;
+        }
+
+        StixDomainObject object = (StixDomainObject)obj;
+        // Compare the ID and Modified Date fields to be equal.
+        // Modified Date field is converted into UTC time for brevity
+        return object.getId().equals(this.getId()) &&
+                object.getModified().equals(this.getModified().withZoneSameInstant(ZoneId.of("Etc/UTC")));
     }
 }
