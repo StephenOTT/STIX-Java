@@ -3,6 +3,7 @@ package io.digitalstate.stix.relationshipobjects.properties;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
+import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.domainobjects.Identity;
@@ -316,6 +317,45 @@ public abstract class RelationshipObjectCommonProperties {
         } else {
             return null;
         }
+    }
+
+    @JsonIgnore
+    public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects(){
+        LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
+
+        bundleObjects.add(getCreatedByRef());
+        if (getObjectMarkingRefs() != null) {
+            getObjectMarkingRefs().forEach(om -> {
+                bundleObjects.add(om.getCreatedByRef());
+                if (om.getObjectMarkingRefs() != null) {
+                    bundleObjects.addAll(om.getObjectMarkingRefs());
+                }
+
+                if (om.getGranularMarkings() != null) {
+                    if (om.getGranularMarkings() != null) {
+                        om.getGranularMarkings().forEach(gm -> {
+                            bundleObjects.add(gm.getMarkingRef());
+                        });
+                    }
+                }
+            });
+        }
+
+        if (getGranularMarkings() != null) {
+            getGranularMarkings().forEach(gm -> {
+                bundleObjects.add(gm.getMarkingRef());
+            });
+        }
+
+        if (getSource() != null) {
+            bundleObjects.add(getSource());
+        }
+
+        if (getTarget() != null) {
+            bundleObjects.add(getTarget());
+        }
+
+        return bundleObjects;
     }
 
 

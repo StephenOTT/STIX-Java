@@ -39,7 +39,6 @@ public interface StixRelationshipObject extends BundleObject {
     void setCustomProperties(HashMap<String,Object> customProperties);
 
 
-
     String getRelationshipType();
     void setRelationshipType(String relationshipType);
 
@@ -51,5 +50,8 @@ public interface StixRelationshipObject extends BundleObject {
 
     StixDomainObject getTarget();
     void setTarget(StixDomainObject target);
+
+    LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects();
+    LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects();
 
 }

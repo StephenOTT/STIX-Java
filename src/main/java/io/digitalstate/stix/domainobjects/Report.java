@@ -83,7 +83,7 @@ public class Report extends ReportProperties implements StixDomainObject {
         Set<String> reportLabels = Vocabularies.getReportLabels();
 
         if (!labels.isEmpty() && labels.containsAll(reportLabels)){
-            this.labels = labels;
+            super.setLabels(labels);
         } else {
             throw new IllegalArgumentException("At least one label must be provided");
         }

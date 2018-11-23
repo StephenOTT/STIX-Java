@@ -1,8 +1,12 @@
 package io.digitalstate.stix.relationshipobjects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.relationshipobjects.properties.RelationshipObjectCommonProperties;
+
+import java.util.LinkedHashSet;
 
 import static io.digitalstate.stix.helpers.IdGeneration.*;
 
@@ -36,5 +40,12 @@ public class Relationship extends RelationshipObjectCommonProperties implements 
                  StixDomainObject target){
 
         this(relationshipType, source, target, null);
+    }
+
+    @JsonIgnore
+    public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
+        LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
+        // No specific properties for a generic Relationship.
+        return bundleObjects;
     }
  }

@@ -44,7 +44,7 @@ public class Tool extends ToolProperties implements StixDomainObject {
         Set<String> toolLabels = Vocabularies.getToolLabels();
 
         if (!labels.isEmpty() && labels.containsAll(toolLabels)){
-            this.labels = labels;
+            super.setLabels(labels);
         } else {
             throw new IllegalArgumentException("At least one label must be provided");
         }

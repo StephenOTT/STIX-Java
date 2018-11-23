@@ -66,7 +66,7 @@ public class Indicator extends IndicatorProperties implements StixDomainObject {
         Set<String> indicatorLabels = Vocabularies.getIndicatorLabels();
 
         if (!labels.isEmpty() && labels.containsAll(indicatorLabels)){
-            this.labels = labels;
+            super.setLabels(labels);
         } else {
             throw new IllegalArgumentException("At least one label must be provided");
         }

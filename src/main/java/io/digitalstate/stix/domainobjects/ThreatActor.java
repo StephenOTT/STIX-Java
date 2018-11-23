@@ -45,7 +45,7 @@ public class ThreatActor extends ThreatActorProperties implements StixDomainObje
         Set<String> threatActorLabels = Vocabularies.getThreatActorLabels();
 
         if (!labels.isEmpty() && labels.containsAll(threatActorLabels)){
-            this.labels = labels;
+            super.setLabels(labels);
         } else {
             throw new IllegalArgumentException("At least one label must be provided");
         }

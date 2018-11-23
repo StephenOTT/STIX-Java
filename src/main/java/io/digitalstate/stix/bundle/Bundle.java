@@ -3,6 +3,7 @@ package io.digitalstate.stix.bundle;
 import io.digitalstate.stix.datamarkings.StixDataMarking;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.helpers.StixSpecVersion;
+import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 
 import java.util.*;
 
@@ -101,11 +102,17 @@ public class Bundle extends BundleProperties {
         Iterator<BundleObject> iter = getObjects().iterator();
         while (iter.hasNext()){
             BundleObject object = iter.next();
+
             if (object instanceof StixDomainObject){
                 temp.addAll(((StixDomainObject) object).getAllCommonPropertiesBundleObjects());
                 temp.addAll(((StixDomainObject) object).getAllObjectSpecificBundleObjects());
+
             } else if (object instanceof StixDataMarking){
                 temp.addAll(((StixDataMarking) object).getAllCommonPropertiesBundleObjects());
+
+            } else if (object instanceof StixRelationshipObject){
+                temp.addAll(((StixRelationshipObject) object).getAllCommonPropertiesBundleObjects());
+                temp.addAll(((StixRelationshipObject) object).getAllObjectSpecificBundleObjects());
             }
         }
 
