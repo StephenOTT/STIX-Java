@@ -1,6 +1,6 @@
 package io.digitalstate.stix.relationshipobjects;
 
-public enum CommonRelationshipTypes {
+public enum RelationshipTypes {
     DUPLICATE_OF{
         @Override
         public String toString() {

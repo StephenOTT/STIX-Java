@@ -22,7 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "count", "sighting_of_ref", "observed_data_refs", "where_sighted_refs",
         "summary"})
 @JsonIgnoreProperties("relationship_type")
-public abstract class SightingProperties extends RelationshipObjectCommonProperties {
+public abstract class SightingProperties extends CommonProperties {
 
     @JsonProperty("first_seen")
     @JsonInclude(NON_NULL)
@@ -173,26 +173,5 @@ public abstract class SightingProperties extends RelationshipObjectCommonPropert
         }
 
         return bundleObjects;
-    }
-
-
-    /**
-     * RelationshipType is unused within the STIX Spec, and is thus Ignored for JSON output
-     * @return
-     */
-    @Override
-    @JsonProperty("relationship_type")
-    public String getRelationshipType() {
-        return super.getRelationshipType();
-    }
-
-    /**
-     * RelationshipType is unused within the STIX Spec, and is thus Ignored for JSON output
-     * @param relationshipType
-     */
-    @Override
-    @JsonIgnore
-    public void setRelationshipType(String relationshipType) {
-        super.setRelationshipType(relationshipType);
     }
 }

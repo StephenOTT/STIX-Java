@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
 import static io.digitalstate.stix.helpers.RelationshipValidators.validateRelationshipClassEquality;
 import static io.digitalstate.stix.helpers.RelationshipValidators.validateRelationshipType;
-import static io.digitalstate.stix.relationshipobjects.CommonRelationshipTypes.*;
+import static io.digitalstate.stix.relationshipobjects.RelationshipTypes.*;
 
 /**
  * Abstract class to define base common properties found in Stix Objects

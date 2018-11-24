@@ -7,14 +7,11 @@ import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.domainobjects.Identity;
-import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 import org.apache.commons.lang3.StringUtils;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,53 +21,41 @@ import java.util.stream.Collectors;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-/**
- * Defines the common properties for a Stix Relationship Object (SRO)
- */
-public abstract class RelationshipObjectCommonProperties {
+public abstract class CommonProperties {
 
     @JsonIgnore
     private final String specVersion = StixSpecVersion.SPECVERSION;
 
-    protected String type;
-    protected String id;
+    private String type;
+    private String id;
 
-    protected Identity createdByRef = null;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
-    @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime created = ZonedDateTime.now();
+    private Identity createdByRef = null;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime modified = this.created;
+    private ZonedDateTime created = ZonedDateTime.now();
 
-    protected boolean revoked = false;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
+    @JsonSerialize(using = ZonedDateTimeSerializer.class)
+    private ZonedDateTime modified = this.created;
+
+    private boolean revoked = false;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> labels = null;
+    private LinkedHashSet<String> labels = null;
 
     @JsonProperty("external_references")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<ExternalReference> externalReferences = null;
+    private LinkedHashSet<ExternalReference> externalReferences = null;
 
-    protected LinkedHashSet<MarkingDefinition> objectMarkingRefs = null;
+    private LinkedHashSet<MarkingDefinition> objectMarkingRefs = null;
 
     @JsonProperty("granular_markings")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<GranularMarking> granularMarkings = null;
+    private LinkedHashSet<GranularMarking> granularMarkings = null;
 
-    protected HashMap<String, Object> customProperties = null;
+    private HashMap<String, Object> customProperties = null;
 
-    @JsonProperty("relationship_type")
-    private String relationshipType;
-
-    @JsonInclude(NON_NULL)
-    private String description = null;
-
-    private StixDomainObject source;
-
-    private StixDomainObject target;
 
     //
     // Getters and Setters
@@ -79,6 +64,7 @@ public abstract class RelationshipObjectCommonProperties {
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         Objects.requireNonNull(type, "Type cannot be null");
         if (StringUtils.isNotBlank(type)){
@@ -91,6 +77,7 @@ public abstract class RelationshipObjectCommonProperties {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         Objects.requireNonNull(id, "Id cannot be null");
         if (StringUtils.isBlank(getType())){
@@ -224,7 +211,6 @@ public abstract class RelationshipObjectCommonProperties {
         }
     }
 
-
     @JsonIgnore
     public HashMap<String, Object> getCustomProperties() {
         return this.customProperties;
@@ -263,62 +249,6 @@ public abstract class RelationshipObjectCommonProperties {
     }
 
 
-
-
-    public String getRelationshipType() {
-        return relationshipType;
-    }
-
-    public void setRelationshipType(String relationshipType) {
-        this.relationshipType = relationshipType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @JsonIgnore
-    public StixDomainObject getSource() {
-        return source;
-    }
-
-    public void setSource(StixDomainObject source) {
-        this.source = source;
-    }
-
-    @JsonProperty("source")
-    @JsonInclude(NON_NULL)
-    public String getSourceRefsAsString() {
-        if (getSource() != null){
-            return getSource().getId();
-        } else {
-            return null;
-        }
-    }
-
-    @JsonIgnore
-    public StixDomainObject getTarget() {
-        return target;
-    }
-
-    public void setTarget(StixDomainObject target) {
-        this.target = target;
-    }
-
-    @JsonProperty("target")
-    @JsonInclude(NON_NULL)
-    public String getTargetRefsAsString() {
-        if (getTarget() != null){
-            return getTarget().getId();
-        } else {
-            return null;
-        }
-    }
-
     @JsonIgnore
     public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
@@ -347,41 +277,7 @@ public abstract class RelationshipObjectCommonProperties {
             });
         }
 
-        if (getSource() != null) {
-            bundleObjects.add(getSource());
-        }
-
-        if (getTarget() != null) {
-            bundleObjects.add(getTarget());
-        }
-
         return bundleObjects;
-    }
-
-
-    //
-    // Overrides for hashcode and equals to support comparison of objects as per the STIX Spec
-    //
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getModified());
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        // Ensure the obj is a instance of StixRelationshipObject
-        // We can assume this because anything using CommonProperties should be implementing
-        // StixRelationshipObject (or the CustomStixRelationshipObject) interface.
-        if (!(obj instanceof StixRelationshipObject)) {
-            return false;
-        }
-
-        StixRelationshipObject object = (StixRelationshipObject) obj;
-        // Compare the ID and Modified Date fields to be equal.
-        // Modified Date field is converted into UTC time for brevity
-        return object.getId().equals(this.getId()) &&
-                object.getModified().equals(this.getModified().withZoneSameInstant(ZoneId.of(StixDataFormats.DATETIMEZONE)));
     }
 
 }
