@@ -51,24 +51,13 @@ public class AttackPattern extends AttackPatternProperties implements StixDomain
 
             AttackPattern object = new AttackPattern();
 
-            validateAllCommonProperties(node, object, TYPE);
-
-            Optional<JsonNode> targets = Optional.ofNullable(node.get("targets"));
-            targets.ifPresent(o -> {
-
-            });
-
-            Optional<JsonNode> uses = Optional.ofNullable(node.get("uses"));
-            uses.ifPresent(o -> {
-
-            });
+            validateAllCommonProperties(node, object, TYPE, false);
 
             Optional<JsonNode> name = Optional.ofNullable(node.get("name"));
             name.ifPresent(o -> {
                 object.setName(o.textValue());
             });
             name.orElseThrow(()-> new IllegalArgumentException("Name is required"));
-
 
             Optional<JsonNode> description = Optional.ofNullable(node.get("description"));
             description.ifPresent(o -> {

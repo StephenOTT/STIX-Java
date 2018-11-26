@@ -17,14 +17,14 @@ public class CommonPropertiesDeserializationValidators {
      * @param object the object to update with parsed objects
      * @param requiredType the string value of the Type field requirement.
      */
-    public static void validateAllCommonProperties(JsonNode node, StixDomainObject object, String requiredType) throws IllegalArgumentException{
+    public static void validateAllCommonProperties(JsonNode node, StixDomainObject object, String requiredType, boolean isLabelsRequired) throws IllegalArgumentException{
         validateType(node, requiredType, object);
         validateId(node,object);
         validateCreatedByRef(node,object);
         validateCreated(node,object);
         validateModified(node,object);
         validateRevoked(node,object);
-        validateLabels(node,object);
+        validateLabels(node,object, isLabelsRequired);
         validateExternalRefs(node,object);
         validateObjectMarkingRefs(node,object);
         validateGranularMarkings(node,object);
@@ -146,7 +146,7 @@ public class CommonPropertiesDeserializationValidators {
      * @return
      * @throws IllegalArgumentException
      */
-    public static Optional<JsonNode> validateLabels(JsonNode node, StixDomainObject object) throws IllegalArgumentException{
+    public static Optional<JsonNode> validateLabels(JsonNode node, StixDomainObject object, boolean isRequired) throws IllegalArgumentException{
         Optional<JsonNode> labels = Optional.ofNullable(node.get("labels"));
         labels.ifPresent(o -> {
             if (o.isArray()) {
@@ -157,6 +157,10 @@ public class CommonPropertiesDeserializationValidators {
                 object.setLabels(list);
             }
         });
+        if (isRequired){
+            labels.orElseThrow(() -> new IllegalArgumentException("Labels are required"));
+        }
+
         return labels;
     }
 
