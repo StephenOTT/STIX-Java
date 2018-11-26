@@ -2,6 +2,7 @@ package io.digitalstate.charon.camunda;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.digitalstate.stix.bundle.Bundle;
 
 import io.digitalstate.stix.cyberobservableobjects.Artifact;
@@ -15,10 +16,12 @@ import io.digitalstate.stix.datamarkings.markingtypes.TlpMarking;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import io.digitalstate.stix.helpers.ObjectSigning;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.relationshipobjects.Sighting;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -26,6 +29,39 @@ import java.util.*;
 public class CharonApplication {
     public static void main(String... args) throws JsonProcessingException {
         SpringApplication.run(CharonApplication.class, args);
+
+
+        // Covert from String into a Object:
+
+        String attackPatternString1 = "{\n" +
+                "  \"type\": \"attack-pattern\",\n" +
+                "  \"id\": \"attack-pattern--083048b9-444b-4653-ba26-b9c3d99fccf6\",\n" +
+                "  \"created\": \"2018-11-01T01:00:00.000Z\",\n" +
+                "  \"modified\": \"2018-11-22T01:00:00.000Z\",\n" +
+                "  \"revoked\": false,\n" +
+                "  \"name\": \"some pattern\",\n" +
+                "  \"kill_chain_phases\": [\n" +
+                "    {\n" +
+                "      \"kill_chain_name\": \"Chain1\",\n" +
+                "      \"phase_name\": \"phase1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"kill_chain_name\": \"Chain1\",\n" +
+                "      \"phase_name\": \"phase2\"\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+
+        ObjectMapper om = StixDataFormats.getJsonMapper();
+        AttackPattern atkPostString = null;
+        try {
+            atkPostString = om.readValue(attackPatternString1, AttackPattern.class );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("JSON->Object->JSON:");
+        System.out.println(atkPostString.toJsonString());
+
 
         // Generate Attack Pattern:
         AttackPattern attackPattern = new AttackPattern("some pattern");

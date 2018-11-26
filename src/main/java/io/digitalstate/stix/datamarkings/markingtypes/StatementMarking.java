@@ -10,7 +10,8 @@ public class StatementMarking extends MarkingObjectTypeCommonProperties implemen
 
     private static final String type = "statement";
 
-    String statement;
+    private String statement;
+
 
     public StatementMarking(String statementValue){
         setStatement(statementValue);

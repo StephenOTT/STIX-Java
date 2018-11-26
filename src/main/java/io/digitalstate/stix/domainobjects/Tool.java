@@ -15,7 +15,7 @@ public class Tool extends ToolProperties implements StixDomainObject {
                 LinkedHashSet<String> toolLabels){
 
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setName(name);
         setLabels(toolLabels);
     }

@@ -8,6 +8,7 @@ import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.datamarkings.DataMarkingsAppliable;
 import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.granular.GranularMarking;
+import io.digitalstate.stix.domainobjects.AttackPattern;
 import io.digitalstate.stix.domainobjects.Identity;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
@@ -245,18 +246,29 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         Objects.requireNonNull(id, "Id cannot be null");
+
         if (StringUtils.isBlank(getType())){
             throw new IllegalArgumentException("Cannot set id without Type property being defined");
 
         }else if (StringUtils.isNotBlank(id)){
-            this.id = String.join("--", getType(), id);
+            this.id = id;
 
         } else {
             throw new IllegalArgumentException("Id can't be null or blank");
         }
     }
+
+    public void setId(String prefix, String uuid) {
+        Objects.requireNonNull(prefix, "prefix cannot be null");
+        Objects.requireNonNull(uuid, "Id cannot be null");
+
+        this.setId(String.join("--", getType(), id));
+    }
+
+
 
     @JsonIgnore
     public Identity getCreatedByRef() {
@@ -346,6 +358,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
         this.objectMarkingRefs = markingDefinitions;
     }
 
+    @JsonIgnore
     public void setObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
         this.setObjectMarkingRefs(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
     }
@@ -366,6 +379,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
         this.granularMarkings = granularMarkings;
     }
 
+    @JsonIgnore
     public void setGranularMarkings(GranularMarking... objectMarkingRefs) {
         this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
     }

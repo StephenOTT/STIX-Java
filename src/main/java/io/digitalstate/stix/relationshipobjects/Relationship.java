@@ -19,7 +19,7 @@ public class Relationship extends RelationshipProperties implements StixRelation
                  String description){
 
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setRelationshipType(relationshipType);
         setSource(source);
         setTarget(target);

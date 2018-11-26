@@ -22,8 +22,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
-        "object_marking_refs", "granular_markings", "name", "description",
-        "pattern", "valid_from", "valid_until", "kill_chain_phases"})
+        "object_marking_refs", "granular_markings", "indicates", "name",
+        "description", "pattern", "valid_from", "valid_until",
+        "kill_chain_phases"})
 public abstract class IndicatorProperties extends CommonProperties{
 
     @JsonInclude(NON_NULL)

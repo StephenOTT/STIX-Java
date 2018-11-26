@@ -10,7 +10,7 @@ public class CourseOfAction extends CourseOfActionProperties implements StixDoma
 
     public CourseOfAction(String name){
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setName(name);
     }
 }

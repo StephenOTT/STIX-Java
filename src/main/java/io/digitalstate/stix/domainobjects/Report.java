@@ -18,7 +18,7 @@ public class Report extends ReportProperties implements StixDomainObject {
                   LinkedHashSet<String> objects){
 
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setName(name);
         setLabels(reportLabels);
         setPublished(publishedDateTime);

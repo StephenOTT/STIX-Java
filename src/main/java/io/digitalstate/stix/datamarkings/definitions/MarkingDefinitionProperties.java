@@ -32,29 +32,29 @@ public abstract class MarkingDefinitionProperties {
     @JsonIgnore
     private final String specVersion = StixSpecVersion.SPECVERSION;
 
-    protected String type;
-    protected String id;
+    private String type;
+    private String id;
 
-    protected Identity createdByRef = null;
+    private Identity createdByRef = null;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime created = ZonedDateTime.now();
+    private ZonedDateTime created = ZonedDateTime.now();
 
     @JsonProperty("external_references")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<ExternalReference> externalReferences = null;
+    private LinkedHashSet<ExternalReference> externalReferences = null;
 
-    protected LinkedHashSet<MarkingDefinition> objectMarkingRefs = null;
+    private LinkedHashSet<MarkingDefinition> objectMarkingRefs = null;
 
     @JsonProperty("granular_markings")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<GranularMarking> granularMarkings = null;
+    private LinkedHashSet<GranularMarking> granularMarkings = null;
 
     @JsonProperty("definition_type")
-    protected String definitionType;
+    private String definitionType;
 
-    protected MarkingObjectType definition;
+    private MarkingObjectType definition;
 
 
     //
@@ -79,15 +79,23 @@ public abstract class MarkingDefinitionProperties {
 
     public void setId(String id) {
         Objects.requireNonNull(id, "Id cannot be null");
+
         if (StringUtils.isBlank(getType())){
             throw new IllegalArgumentException("Cannot set id without Type property being defined");
 
         }else if (StringUtils.isNotBlank(id)){
-            this.id = String.join("--", getType(), id);
+            this.id = id;
 
         } else {
             throw new IllegalArgumentException("Id can't be null or blank");
         }
+    }
+
+    public void setId(String prefix, String uuid) {
+        Objects.requireNonNull(prefix, "prefix cannot be null");
+        Objects.requireNonNull(uuid, "Id cannot be null");
+
+        this.setId(String.join("--", getType(), id));
     }
 
     @JsonIgnore

@@ -1,9 +1,6 @@
 package io.digitalstate.stix.domainobjects.properties;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
@@ -32,7 +29,6 @@ public abstract class AttackPatternProperties extends CommonProperties {
 
     //
     // Relationships
-    //
     private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
     private LinkedHashSet<Relationship> uses = new LinkedHashSet<>();
 
@@ -64,6 +60,7 @@ public abstract class AttackPatternProperties extends CommonProperties {
         this.killChainPhases = killChainPhases;
     }
 
+    @JsonIgnore
     public void setKillChainPhases(KillChainPhase... killChainPhases) {
         setKillChainPhases(new LinkedHashSet<>(Arrays.asList(killChainPhases)));
     }
@@ -84,6 +81,7 @@ public abstract class AttackPatternProperties extends CommonProperties {
         this.targets = targets;
     }
 
+    @JsonIgnore
     public void addTargets(Relationship... relationships){
         if (this.getTargets() == null){
             LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
@@ -103,6 +101,7 @@ public abstract class AttackPatternProperties extends CommonProperties {
         }
     }
 
+    @JsonIgnore
     public void addTarget(StixDomainObject target, String description){
         Objects.requireNonNull(target, "target cannot be null");
         Relationship relationship = new Relationship(
@@ -112,6 +111,7 @@ public abstract class AttackPatternProperties extends CommonProperties {
         addTargets(relationship);
     }
 
+    @JsonIgnore
     public void addTarget(StixDomainObject target){
         addTarget(target, null);
     }
@@ -128,6 +128,7 @@ public abstract class AttackPatternProperties extends CommonProperties {
         this.uses = uses;
     }
 
+    @JsonIgnore
     public void addUses(Relationship... relationships){
         if (this.getUses() == null){
             LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
@@ -147,6 +148,7 @@ public abstract class AttackPatternProperties extends CommonProperties {
         }
     }
 
+    @JsonIgnore
     public void addUse(StixDomainObject use, String description){
         Objects.requireNonNull(use, "use cannot be null");
         Relationship relationship = new Relationship(
@@ -156,6 +158,7 @@ public abstract class AttackPatternProperties extends CommonProperties {
         addUses(relationship);
     }
 
+    @JsonIgnore
     public void addUse(StixDomainObject use){
         addUse(use, null);
     }

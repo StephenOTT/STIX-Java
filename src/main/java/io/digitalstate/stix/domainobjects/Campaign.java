@@ -10,7 +10,7 @@ public class Campaign extends CampaignProperties implements StixDomainObject {
 
     public Campaign(String name){
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setName(name);
     }
 }

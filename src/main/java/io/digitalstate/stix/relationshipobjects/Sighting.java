@@ -20,7 +20,7 @@ public class Sighting extends SightingProperties implements StixRelationshipObje
 
     public Sighting(StixDomainObject sightingOfRef){
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setSightingOfRef(sightingOfRef);
     }
 }

@@ -15,7 +15,7 @@ public class ThreatActor extends ThreatActorProperties implements StixDomainObje
                        LinkedHashSet<String> threatActorLabels){
 
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setName(name);
         setLabels(threatActorLabels);
     }

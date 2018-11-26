@@ -17,7 +17,7 @@ public class Indicator extends IndicatorProperties implements StixDomainObject {
                      LinkedHashSet<String> indicatorLabels){
 
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setPattern(pattern);
         setValidFrom(validFrom);
         setLabels(indicatorLabels);

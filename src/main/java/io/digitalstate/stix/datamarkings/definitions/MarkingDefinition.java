@@ -11,7 +11,7 @@ public class MarkingDefinition extends MarkingDefinitionProperties implements St
 
     public MarkingDefinition(MarkingObjectType markingObjectType){
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setDefinition(markingObjectType);
         setDefinitionType(markingObjectType.getType());
     }

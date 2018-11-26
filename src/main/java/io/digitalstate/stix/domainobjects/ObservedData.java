@@ -18,7 +18,7 @@ public class ObservedData extends ObservedDataProperties implements StixDomainOb
                         HashMap<String, CyberObservableObject> objects){
 
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setFirstObserved(firstObserved);
         setLastObserved(lastObserved);
         setNumberObserved(numberObserved);

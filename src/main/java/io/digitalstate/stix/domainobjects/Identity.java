@@ -10,7 +10,7 @@ public class Identity extends IdentityProperties implements StixDomainObject {
 
     public Identity(String name, String identityClass){
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setName(name);
         setIdentityClass(identityClass);
     }

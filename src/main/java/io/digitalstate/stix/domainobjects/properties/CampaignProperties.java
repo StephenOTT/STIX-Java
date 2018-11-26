@@ -19,7 +19,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
-        "object_marking_refs", "granular_markings", "name", "decscription",
+        "object_marking_refs", "granular_markings", "attributed_to",
+        "targets", "uses", "name", "description",
         "aliases", "first_seen", "last_seen", "objective"})
 public abstract class CampaignProperties extends CommonProperties{
     private String name;
@@ -46,7 +47,6 @@ public abstract class CampaignProperties extends CommonProperties{
     private String objective = null;
 
     // Relationships
-
     private LinkedHashSet<Relationship> attributedTo = new LinkedHashSet<>();
     private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
     private LinkedHashSet<Relationship> uses = new LinkedHashSet<>();

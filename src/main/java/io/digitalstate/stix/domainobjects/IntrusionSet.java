@@ -10,7 +10,7 @@ public class IntrusionSet extends IntrusionSetProperties implements StixDomainOb
 
     public IntrusionSet(String name){
         setType(TYPE);
-        setId(generateUuidAsString());
+        setId(TYPE, generateUuidAsString());
         setName(name);
     }
 }

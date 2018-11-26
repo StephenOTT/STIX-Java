@@ -17,8 +17,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
-        "object_marking_refs", "granular_markings","name", "description",
-        "action"})
+        "object_marking_refs", "granular_markings", "mitigates", "name",
+        "description", "action"})
 public abstract class CourseOfActionProperties extends CommonProperties{
     private String name;
 

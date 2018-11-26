@@ -9,10 +9,11 @@ import java.util.LinkedHashSet;
 
 public class GranularMarking {
 
-    protected MarkingDefinition markingRef;
+    private MarkingDefinition markingRef;
 
     //@TODO Convert selectors from String into its own object that validates proper Selector formats
-    protected LinkedHashSet<String> selectors;
+    private LinkedHashSet<String> selectors;
+
 
     public GranularMarking(MarkingDefinition markingDefinition, LinkedHashSet<String> selectors){
         setMarkingRef(markingDefinition);

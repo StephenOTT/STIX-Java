@@ -19,7 +19,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
-        "object_marking_refs", "granular_markings", "name", "description",
+        "object_marking_refs", "granular_markings", "attributed_to", "impersonates",
+        "targets", "uses", "name", "description",
         "aliases", "roles", "goals", "sophistication",
         "resource_level", "primary_motivation", "secondary_motivation", "personal_motivations"})
 public abstract class ThreatActorProperties extends CommonProperties{
@@ -66,7 +67,6 @@ public abstract class ThreatActorProperties extends CommonProperties{
     //
     // Relationships
     //
-
     private LinkedHashSet<Relationship> attributedTo = new LinkedHashSet<>();
     private LinkedHashSet<Relationship> impersonates = new LinkedHashSet<>();
     private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();

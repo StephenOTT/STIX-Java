@@ -85,11 +85,18 @@ public abstract class CommonProperties {
             throw new IllegalArgumentException("Cannot set id without Type property being defined");
 
         }else if (StringUtils.isNotBlank(id)){
-            this.id = String.join("--", getType(), id);
+            this.id = id;
 
         } else {
             throw new IllegalArgumentException("Id can't be null or blank");
         }
+    }
+
+    public void setId(String prefix, String uuid) {
+        Objects.requireNonNull(prefix, "prefix cannot be null");
+        Objects.requireNonNull(uuid, "Id cannot be null");
+
+        this.setId(String.join("--", getType(), id));
     }
 
     @JsonIgnore
