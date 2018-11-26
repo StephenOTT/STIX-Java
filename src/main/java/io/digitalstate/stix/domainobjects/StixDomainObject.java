@@ -1,14 +1,12 @@
 package io.digitalstate.stix.domainobjects;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.digitalstate.stix.bundle.BundleObject;
+import io.digitalstate.stix.helpers.JsonConvertable;
 
 import java.util.LinkedHashSet;
 
-public interface StixDomainObject extends CommonProperties, BundleObject {
+public interface StixDomainObject extends CommonProperties, BundleObject, JsonConvertable {
 
     LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects();
-
-    public String toJsonString() throws JsonProcessingException;
 
 }

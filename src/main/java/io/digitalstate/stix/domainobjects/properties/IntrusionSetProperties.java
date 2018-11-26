@@ -8,7 +8,9 @@ import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.relationshipobjects.Relationship;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
+import io.digitalstate.stix.vocabularies.AttackMotivations;
+import io.digitalstate.stix.vocabularies.AttackResourceLevels;
+import io.digitalstate.stix.vocabularies.StixVocabulary;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
@@ -26,46 +28,51 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public abstract class IntrusionSetProperties extends CommonProperties{
 
     @JsonInclude(NON_NULL)
-    protected String name = null;
+    private String name = null;
 
     @JsonInclude(NON_NULL)
-    protected String description = null;
+    private String description = null;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> aliases = null;
+    private LinkedHashSet<String> aliases = null;
 
     @JsonProperty("first_seen")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime firstSeen;
+    private ZonedDateTime firstSeen;
 
     @JsonProperty("last_seen")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime lastSeen;
+    private ZonedDateTime lastSeen;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> goals = null;
+    private LinkedHashSet<String> goals = null;
 
     @JsonProperty("resource_level")
     @JsonInclude(NON_NULL)
-    protected String resourceLevel = null;
+    private String resourceLevel = null;
 
     @JsonProperty("primary_motivation")
     @JsonInclude(NON_NULL)
-    protected String primaryMotivation = null;
+    private String primaryMotivation = null;
 
     @JsonProperty("secondary_motivation")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> secondaryMotivations = null;
+    private LinkedHashSet<String> secondaryMotivations = null;
+
+    // Vocabulary Instances
+    private StixVocabulary attackResourceLevelsVocab = new AttackResourceLevels();
+    private StixVocabulary attackMotivationVocabulary = new AttackMotivations();
+
 
     //
     // Relationships
     //
 
-    private LinkedHashSet<StixRelationshipObject> attributedTo = new LinkedHashSet<>();
-    private LinkedHashSet<StixRelationshipObject> targets = new LinkedHashSet<>();
-    private LinkedHashSet<StixRelationshipObject> uses = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> attributedTo = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> uses = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -128,7 +135,11 @@ public abstract class IntrusionSetProperties extends CommonProperties{
     }
 
     public void setResourceLevel(String resourceLevel) {
-        this.resourceLevel = resourceLevel;
+        if (!resourceLevel.isEmpty() && getAttackResourceLevelsVocab().vocabularyContains(resourceLevel)){
+            this.resourceLevel = resourceLevel;
+        } else {
+            throw new IllegalArgumentException("resourceLevel is not a valid Attack Resource Level");
+        }
     }
 
     public String getPrimaryMotivation() {
@@ -136,7 +147,11 @@ public abstract class IntrusionSetProperties extends CommonProperties{
     }
 
     public void setPrimaryMotivation(String primaryMotivation) {
-        this.primaryMotivation = primaryMotivation;
+        if (!primaryMotivation.isEmpty() && getAttackMotivationVocabulary().vocabularyContains(primaryMotivation)){
+            this.primaryMotivation = primaryMotivation;
+        } else {
+            throw new IllegalArgumentException("primaryMotivation is not a valid Attack Motivation");
+        }
     }
 
     public LinkedHashSet<String> getSecondaryMotivations() {
@@ -144,28 +159,53 @@ public abstract class IntrusionSetProperties extends CommonProperties{
     }
 
     public void setSecondaryMotivations(LinkedHashSet<String> secondaryMotivations) {
-        this.secondaryMotivations = secondaryMotivations;
+        if (!secondaryMotivations.isEmpty() && getAttackMotivationVocabulary().vocabularyContains(primaryMotivation)){
+            this.secondaryMotivations = secondaryMotivations;
+        } else {
+            throw new IllegalArgumentException("one or more values in secondaryMotivations is not a valid Attack Motivation");
+        }
     }
+
+    // Vocabularies
+
+    public StixVocabulary getAttackResourceLevelsVocab() {
+        return attackResourceLevelsVocab;
+    }
+
+    public void setAttackResourceLevelsVocab(StixVocabulary attackResourceLevelsVocab) {
+        Objects.requireNonNull(attackResourceLevelsVocab, "attackResourceLevelsVocab cannot be null");
+        this.attackResourceLevelsVocab = attackResourceLevelsVocab;
+    }
+
+    public StixVocabulary getAttackMotivationVocabulary() {
+        return attackMotivationVocabulary;
+    }
+
+    public void setAttackMotivationVocabulary(StixVocabulary attackMotivationVocabulary) {
+        Objects.requireNonNull(attackMotivationVocabulary, "attackMotivationVocabulary cannot be null");
+        this.attackMotivationVocabulary = attackMotivationVocabulary;
+    }
+
 
     //
     // Relationships
     //
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getAttributedTo() {
+    public LinkedHashSet<Relationship> getAttributedTo() {
         return attributedTo;
     }
 
-    public void setAttributedTo(LinkedHashSet<StixRelationshipObject> attributedTo) {
+    public void setAttributedTo(LinkedHashSet<Relationship> attributedTo) {
         RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
                 attributedTo, ThreatActor.class);
 
         this.attributedTo = attributedTo;
     }
 
-    public void addAttributedTo(StixRelationshipObject... relationships){
+    public void addAttributedTo(Relationship... relationships){
         if (this.getAttributedTo() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
                     relationshipObjects, ThreatActor.class);
@@ -173,7 +213,7 @@ public abstract class IntrusionSetProperties extends CommonProperties{
             this.setAttributedTo(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
                     relationshipObjects, ThreatActor.class);
@@ -196,20 +236,20 @@ public abstract class IntrusionSetProperties extends CommonProperties{
     }
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getTargets() {
+    public LinkedHashSet<Relationship> getTargets() {
         return targets;
     }
 
-    public void setTargets(LinkedHashSet<StixRelationshipObject> targets) {
+    public void setTargets(LinkedHashSet<Relationship> targets) {
         RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                 targets, Identity.class, Vulnerability.class);
 
         this.targets = targets;
     }
 
-    public void addTargets(StixRelationshipObject... relationships){
+    public void addTargets(Relationship... relationships){
         if (this.getTargets() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                     relationshipObjects, Identity.class, Vulnerability.class);
@@ -217,7 +257,7 @@ public abstract class IntrusionSetProperties extends CommonProperties{
             this.setTargets(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                     relationshipObjects, Identity.class, Vulnerability.class);
@@ -240,20 +280,20 @@ public abstract class IntrusionSetProperties extends CommonProperties{
     }
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getUses() {
+    public LinkedHashSet<Relationship> getUses() {
         return uses;
     }
 
-    public void setUses(LinkedHashSet<StixRelationshipObject> uses) {
+    public void setUses(LinkedHashSet<Relationship> uses) {
         RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                 uses, AttackPattern.class, Malware.class, Tool.class);
 
         this.uses = uses;
     }
 
-    public void addUses(StixRelationshipObject... relationships){
+    public void addUses(Relationship... relationships){
         if (this.getUses() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, AttackPattern.class, Malware.class, Tool.class);
@@ -261,7 +301,7 @@ public abstract class IntrusionSetProperties extends CommonProperties{
             this.setUses(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, AttackPattern.class, Malware.class, Tool.class);

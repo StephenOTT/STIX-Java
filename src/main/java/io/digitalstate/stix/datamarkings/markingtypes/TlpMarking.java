@@ -2,17 +2,18 @@ package io.digitalstate.stix.datamarkings.markingtypes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.digitalstate.stix.vocabularies.Vocabularies;
+import io.digitalstate.stix.vocabularies.TlpLevels;
 
 import java.util.Objects;
-import java.util.Set;
 
 @JsonPropertyOrder({"tlp"})
 public class TlpMarking extends MarkingObjectTypeCommonProperties implements MarkingObjectType {
 
     private static final String type = "tlp";
 
-    String tlp;
+    private String tlp;
+
+    private TlpLevels tlpLevelsVocab = new TlpLevels();
 
     public TlpMarking(String tlpValue){
         setTlp(tlpValue);
@@ -32,15 +33,22 @@ public class TlpMarking extends MarkingObjectTypeCommonProperties implements Mar
         return tlp;
     }
 
+    @JsonIgnore
+    public TlpLevels getTlpLevelsVocab() {
+        return tlpLevelsVocab;
+    }
+
+    @JsonIgnore
+    public void setTlpLevelsVocab(TlpLevels tlpLevelsVocab) {
+        Objects.requireNonNull(tlpLevelsVocab, "tlpLevelsVocab cannot be null");
+        this.tlpLevelsVocab = tlpLevelsVocab;
+    }
+
     public void setTlp(String tlp) {
-        Objects.requireNonNull(tlp, "tlp cannot be null");
-
-        Set<String> tlpLevels = Vocabularies.getTlpLevels();
-
-        if (tlpLevels.contains(tlp)) {
+        if (tlpLevelsVocab.vocabularyContains(tlp)) {
             this.tlp = tlp;
         } else {
-            throw new IllegalArgumentException("TLP value provided: ["+ tlp +"] is not a valid TLP.  Valid TLP values: " + tlpLevels.toString());
+            throw new IllegalArgumentException("TLP value (" + tlp + ")" + " is not a valid TLP level");
         }
     }
 }

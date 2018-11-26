@@ -11,7 +11,9 @@ import io.digitalstate.stix.domainobjects.Vulnerability;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.relationshipobjects.Relationship;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
+import io.digitalstate.stix.vocabularies.StixVocabulary;
+import io.digitalstate.stix.vocabularies.ToolLabels;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -24,24 +26,26 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "object_marking_refs", "granular_markings", "name", "description",
         "kill_chain_phases", "tool_version"})
 public abstract class ToolProperties extends CommonProperties{
-    protected String name;
+    private String name;
 
     @JsonInclude(NON_NULL)
-    protected String description = null;
+    private String description = null;
 
     @JsonProperty("kill_chain_phases")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<KillChainPhase> killChainPhases = null;
+    private LinkedHashSet<KillChainPhase> killChainPhases = null;
 
     @JsonProperty("tool_version")
     @JsonInclude(NON_NULL)
-    protected String toolVersion = null;
+    private String toolVersion = null;
+
+    // Vocabulary Instances
+    private StixVocabulary toolLabelsVocab = new ToolLabels();
 
     //
     // Relationships
     //
-
-    private LinkedHashSet<StixRelationshipObject> targets = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -52,7 +56,11 @@ public abstract class ToolProperties extends CommonProperties{
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (StringUtils.isNotBlank(name)){
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name cannot be null or blank");
+        }
     }
 
     public String getDescription() {
@@ -79,26 +87,47 @@ public abstract class ToolProperties extends CommonProperties{
         this.toolVersion = toolVersion;
     }
 
+    @JsonIgnore
+    public StixVocabulary getToolLabelsVocab() {
+        return toolLabelsVocab;
+    }
+
+    @JsonIgnore
+    public void setToolLabelsVocab(StixVocabulary toolLabelsVocab) {
+        Objects.requireNonNull(toolLabelsVocab, "toolLabelsVocab cannot be null");
+        this.toolLabelsVocab = toolLabelsVocab;
+    }
+
+    @Override
+    public void setLabels(LinkedHashSet<String> labels) {
+        Objects.requireNonNull(labels, "labels cannot be null");
+
+        if (!labels.isEmpty() && getToolLabelsVocab().vocabularyContains(labels)){
+            super.setLabels(labels);
+        } else {
+            throw new IllegalArgumentException("One or more labels are not valid Tool labels");
+        }
+    }
 
     //
     // Relationships
     //
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getTargets() {
+    public LinkedHashSet<Relationship> getTargets() {
         return targets;
     }
 
-    public void setTargets(LinkedHashSet<StixRelationshipObject> targets) {
+    public void setTargets(LinkedHashSet<Relationship> targets) {
         RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                 targets, Identity.class, Vulnerability.class);
 
         this.targets = targets;
     }
 
-    public void addTargets(StixRelationshipObject... relationships){
+    public void addTargets(Relationship... relationships){
         if (this.getTargets() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                     relationshipObjects, Identity.class, Vulnerability.class);
@@ -106,7 +135,7 @@ public abstract class ToolProperties extends CommonProperties{
             this.setTargets(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                     relationshipObjects, Identity.class, Vulnerability.class);

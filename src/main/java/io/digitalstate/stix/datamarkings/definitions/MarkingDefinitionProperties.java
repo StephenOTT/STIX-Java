@@ -1,6 +1,7 @@
 package io.digitalstate.stix.datamarkings.definitions;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import io.digitalstate.stix.bundle.BundleObject;
@@ -217,12 +218,22 @@ public abstract class MarkingDefinitionProperties {
 
         if (getObjectMarkingRefs() != null) {
             getObjectMarkingRefs().forEach(om -> {
-                bundleObjects.add(om.getCreatedByRef());
-                bundleObjects.addAll(om.getObjectMarkingRefs());
+                bundleObjects.add(om);
+
+                if (om.getCreatedByRef() != null){
+                    bundleObjects.add(om.getCreatedByRef());
+                }
+
+                if (om.getObjectMarkingRefs() != null) {
+                    bundleObjects.addAll(om.getObjectMarkingRefs());
+                }
+
                 if (om.getGranularMarkings() != null) {
-                    om.getGranularMarkings().forEach(gm -> {
-                        bundleObjects.add(gm.getMarkingRef());
-                    });
+                    if (om.getGranularMarkings() != null) {
+                        om.getGranularMarkings().forEach(gm -> {
+                            bundleObjects.add(gm.getMarkingRef());
+                        });
+                    }
                 }
             });
         }
@@ -259,6 +270,10 @@ public abstract class MarkingDefinitionProperties {
         // Modified Date field is converted into UTC time for brevity
         return object.getId().equals(this.getId()) &&
                 object.getModified().equals(this.getCreated().withZoneSameInstant(ZoneId.of(StixDataFormats.DATETIMEZONE)));
+    }
+
+    public String toJsonString() throws JsonProcessingException {
+        return StixDataFormats.getJsonMapper().writeValueAsString(this);
     }
 
 }

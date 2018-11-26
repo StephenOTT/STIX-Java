@@ -9,7 +9,9 @@ import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import io.digitalstate.stix.relationshipobjects.Relationship;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
+import io.digitalstate.stix.vocabularies.IndicatorLabels;
+import io.digitalstate.stix.vocabularies.StixVocabulary;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -25,32 +27,35 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public abstract class IndicatorProperties extends CommonProperties{
 
     @JsonInclude(NON_NULL)
-    protected String name = null;
+    private String name = null;
 
     @JsonInclude(NON_NULL)
-    protected String description = null;
+    private String description = null;
 
-    protected String pattern;
+    private String pattern;
 
     @JsonProperty("valid_from")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime validFrom;
+    private ZonedDateTime validFrom;
 
     @JsonProperty("valid_until")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime validUntil;
+    private ZonedDateTime validUntil;
 
     @JsonProperty("kill_chain_phases")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<KillChainPhase> killChainPhases = null;
+    private LinkedHashSet<KillChainPhase> killChainPhases = null;
+
+
+    @JsonIgnore
+    private StixVocabulary indicatorLabelsVocab = new IndicatorLabels();
 
     //
     // Relationships
     //
-
-    private LinkedHashSet<StixRelationshipObject> indicates = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> indicates = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -59,13 +64,19 @@ public abstract class IndicatorProperties extends CommonProperties{
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
-        this.name = name;
+        if (StringUtils.isNotEmpty(name)){
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name cannot be blank (but it can be null)");
+        }
     }
 
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -73,20 +84,31 @@ public abstract class IndicatorProperties extends CommonProperties{
     public String getPattern() {
         return pattern;
     }
+
     public void setPattern(String pattern) {
-        this.pattern = pattern;
+        if (StringUtils.isNotBlank(pattern)){
+            this.pattern = pattern;
+        } else {
+            throw new IllegalArgumentException("Pattern cannot be null or blank");
+        }
     }
 
     public ZonedDateTime getValidFrom() {
         return validFrom;
     }
+
     public void setValidFrom(ZonedDateTime validFrom) {
-        this.validFrom = validFrom;
+        if (validFrom != null){
+            this.validFrom = validFrom;
+        } else {
+            throw new IllegalArgumentException("ValidFrom cannot be null");
+        }
     }
 
     public ZonedDateTime getValidUntil() {
         return validUntil;
     }
+
     public void setValidUntil(ZonedDateTime validUntil) {
         this.validUntil = validUntil;
     }
@@ -94,21 +116,49 @@ public abstract class IndicatorProperties extends CommonProperties{
     public LinkedHashSet<KillChainPhase> getKillChainPhases() {
         return killChainPhases;
     }
+
     public void setKillChainPhases(LinkedHashSet<KillChainPhase> killChainPhases) {
         this.killChainPhases = killChainPhases;
     }
 
+
+    @JsonIgnore
+    public StixVocabulary getIndicatorLabelsVocab() {
+        return indicatorLabelsVocab;
+    }
+
+    @JsonIgnore
+    public void setIndicatorLabelsVocab(StixVocabulary indicatorLabelsVocab) {
+        Objects.requireNonNull(indicatorLabelsVocab, "indicatorLabelsVocab cannot be null");
+        this.indicatorLabelsVocab = indicatorLabelsVocab;
+    }
+
+    /**
+     * Labels for Indicator are specific to Indicator Labels (indicator-label-ov)
+     * It specifies the Type of Indicator.
+     * @param labels
+     */
+    @Override
+    public void setLabels(LinkedHashSet<String> labels) {
+        Objects.requireNonNull(labels, "labels cannot be null");
+
+        if (!labels.isEmpty() && getIndicatorLabelsVocab().vocabularyContains(labels)){
+            super.setLabels(labels);
+        } else {
+            throw new IllegalArgumentException("One or more labels are not valid Indicator labels");
+        }
+    }
 
     //
     // Relationships
     //
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getIndicates() {
+    public LinkedHashSet<Relationship> getIndicates() {
         return indicates;
     }
 
-    public void setIndicates(LinkedHashSet<StixRelationshipObject> indicates) {
+    public void setIndicates(LinkedHashSet<Relationship> indicates) {
         RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
                 indicates, AttackPattern.class, Campaign.class, IntrusionSet.class,
                 Malware.class, ThreatActor.class, Tool.class);
@@ -116,9 +166,9 @@ public abstract class IndicatorProperties extends CommonProperties{
         this.indicates = indicates;
     }
 
-    public void addIndicates(StixRelationshipObject... relationships){
+    public void addIndicates(Relationship... relationships){
         if (this.getIndicates() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
                     relationshipObjects, AttackPattern.class, Campaign.class, IntrusionSet.class,
@@ -127,7 +177,7 @@ public abstract class IndicatorProperties extends CommonProperties{
             this.setIndicates(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
                     relationshipObjects, AttackPattern.class, Campaign.class, IntrusionSet.class,

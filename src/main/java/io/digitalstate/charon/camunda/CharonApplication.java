@@ -16,13 +16,13 @@ import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import io.digitalstate.stix.helpers.ObjectSigning;
 import io.digitalstate.stix.relationshipobjects.Sighting;
+import io.digitalstate.stix.vocabularies.AttackMotivations;
+import io.digitalstate.stix.vocabularies.StixVocabulary;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 @SpringBootApplication
 public class CharonApplication {
@@ -112,6 +112,7 @@ public class CharonApplication {
         bundle.addObjects(someSighting);
         someSighting.setSightingOfRef(ap2);
 
+        IntrusionSet intrusionSet = new IntrusionSet("Some Intrusion");
 
         // Auto add Data Markings into the Bundle.  This is a helper method that will search all objects in
         // the bundle that can contain Data Markings and add the Data Marking objects as top level items in the Bundle

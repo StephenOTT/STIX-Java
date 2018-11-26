@@ -8,7 +8,8 @@ import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.relationshipobjects.Relationship;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
+import io.digitalstate.stix.vocabularies.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -22,47 +23,54 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "aliases", "roles", "goals", "sophistication",
         "resource_level", "primary_motivation", "secondary_motivation", "personal_motivations"})
 public abstract class ThreatActorProperties extends CommonProperties{
-    protected String name;
+    private String name;
 
     @JsonInclude(NON_NULL)
-    protected String description = null;
+    private String description = null;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> aliases = null;
+    private LinkedHashSet<String> aliases = null;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> roles = null;
+    private LinkedHashSet<String> roles = null;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> goals = null;
+    private LinkedHashSet<String> goals = null;
 
     @JsonInclude(NON_NULL)
-    protected String sophistication = null;
+    private String sophistication = null;
 
     @JsonProperty("resource_level")
     @JsonInclude(NON_NULL)
-    protected String resourceLevel = null;
+    private String resourceLevel = null;
 
     @JsonProperty("primary_motivation")
     @JsonInclude(NON_NULL)
-    protected String primaryMotivation = null;
+    private String primaryMotivation = null;
 
     @JsonProperty("secondary_motivation")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> secondaryMotivations = null;
+    private LinkedHashSet<String> secondaryMotivations = null;
 
     @JsonProperty("personal_motivations")
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> personalMotivations = null;
+    private LinkedHashSet<String> personalMotivations = null;
+
+    // Vocabulary Instances
+    private StixVocabulary threatActorLabelsVocab = new ThreatActorLabels();
+    private StixVocabulary threatActorRolesVocab = new ThreatActorRoles();
+    private StixVocabulary threatActorSophisticationVocab = new ThreatActorSophistication();
+    private StixVocabulary attackResourceLevelsVocab = new AttackResourceLevels();
+    private StixVocabulary attackMotivationVocab = new AttackMotivations();
 
     //
     // Relationships
     //
 
-    private LinkedHashSet<StixRelationshipObject> attributedTo = new LinkedHashSet<>();
-    private LinkedHashSet<StixRelationshipObject> impersonates = new LinkedHashSet<>();
-    private LinkedHashSet<StixRelationshipObject> targets = new LinkedHashSet<>();
-    private LinkedHashSet<StixRelationshipObject> uses = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> attributedTo = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> impersonates = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> uses = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -73,7 +81,11 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (StringUtils.isNotBlank(name)){
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name cannot be null or blank");
+        }
     }
 
     public String getDescription() {
@@ -97,7 +109,12 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     public void setRoles(LinkedHashSet<String> roles) {
-        this.roles = roles;
+        if (getThreatActorRolesVocab().vocabularyContains(roles)){
+            this.roles = roles;
+
+        } else {
+            throw new IllegalArgumentException("One or more roles are not valid Threat Actor Roles");
+        }
     }
 
     public LinkedHashSet<String> getGoals() {
@@ -113,7 +130,11 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     public void setSophistication(String sophistication) {
-        this.sophistication = sophistication;
+        if (!sophistication.isEmpty() && getThreatActorSophisticationVocab().vocabularyContains(sophistication)){
+            this.sophistication = sophistication;
+        } else {
+            throw new IllegalArgumentException("sophistication is not a valid Threat Actor Sophistication");
+        }
     }
 
     public String getResourceLevel() {
@@ -121,7 +142,11 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     public void setResourceLevel(String resourceLevel) {
-        this.resourceLevel = resourceLevel;
+        if (!resourceLevel.isEmpty() && getAttackResourceLevelsVocab().vocabularyContains(resourceLevel)){
+            this.resourceLevel = resourceLevel;
+        } else {
+            throw new IllegalArgumentException("resourceLevel is not a valid Attack Resource Level");
+        }
     }
 
     public String getPrimaryMotivation() {
@@ -129,7 +154,11 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     public void setPrimaryMotivation(String primaryMotivation) {
-        this.primaryMotivation = primaryMotivation;
+        if (!primaryMotivation.isEmpty() && getAttackMotivationVocab().vocabularyContains(primaryMotivation)){
+            this.primaryMotivation = primaryMotivation;
+        } else {
+            throw new IllegalArgumentException("primaryMotivation is not a valid Attack Motivation");
+        }
     }
 
     public LinkedHashSet<String> getSecondaryMotivations() {
@@ -137,7 +166,11 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     public void setSecondaryMotivations(LinkedHashSet<String> secondaryMotivations) {
-        this.secondaryMotivations = secondaryMotivations;
+        if (!secondaryMotivations.isEmpty() && getAttackMotivationVocab().vocabularyContains(secondaryMotivations)){
+            this.secondaryMotivations = secondaryMotivations;
+        } else {
+            throw new IllegalArgumentException("One or more values of secondaryMotivations is not a valid Attack Motivation");
+        }
     }
 
     public LinkedHashSet<String> getPersonalMotivations() {
@@ -145,28 +178,108 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     public void setPersonalMotivations(LinkedHashSet<String> personalMotivations) {
-        this.personalMotivations = personalMotivations;
+        if (!personalMotivations.isEmpty() && getAttackMotivationVocab().vocabularyContains(personalMotivations)){
+            this.personalMotivations = personalMotivations;
+        } else {
+            throw new IllegalArgumentException("One or more values of personalMotivations is not a valid Attack Motivation");
+        }
     }
+
+
+    @JsonIgnore
+    public StixVocabulary getThreatActorLabelsVocab() {
+        return threatActorLabelsVocab;
+    }
+
+    @JsonIgnore
+    public void setThreatActorLabelsVocab(StixVocabulary threatActorLabelsVocab) {
+        Objects.requireNonNull(threatActorLabelsVocab, "threatActorLabelsVocab cannot be null");
+        this.threatActorLabelsVocab = threatActorLabelsVocab;
+    }
+
+    @JsonIgnore
+    public StixVocabulary getThreatActorRolesVocab() {
+        return threatActorRolesVocab;
+    }
+
+    @JsonIgnore
+    public void setThreatActorRolesVocab(StixVocabulary threatActorRolesVocab) {
+        Objects.requireNonNull(threatActorRolesVocab, "threatActorRolesVocab cannot be null");
+        this.threatActorRolesVocab = threatActorRolesVocab;
+    }
+
+    @JsonIgnore
+    public StixVocabulary getThreatActorSophisticationVocab() {
+        return threatActorSophisticationVocab;
+    }
+
+    @JsonIgnore
+    public void setThreatActorSophisticationVocab(StixVocabulary threatActorSophisticationVocab) {
+        Objects.requireNonNull(threatActorSophisticationVocab, "threatActorSophisticationVocab cannot be null");
+        this.threatActorSophisticationVocab = threatActorSophisticationVocab;
+    }
+
+    @JsonIgnore
+    public StixVocabulary getAttackResourceLevelsVocab() {
+        return attackResourceLevelsVocab;
+    }
+
+    @JsonIgnore
+    public void setAttackResourceLevelsVocab(StixVocabulary attackResourceLevelsVocab) {
+        Objects.requireNonNull(attackResourceLevelsVocab, "attackResourceLevelsVocab cannot be null");
+        this.attackResourceLevelsVocab = attackResourceLevelsVocab;
+    }
+
+    @JsonIgnore
+    public StixVocabulary getAttackMotivationVocab() {
+        return attackMotivationVocab;
+    }
+
+    @JsonIgnore
+    public void setAttackMotivationVocab(StixVocabulary attackMotivationVocab) {
+        Objects.requireNonNull(attackMotivationVocab, "attackMotivationVocab cannot be null");
+        this.attackMotivationVocab = attackMotivationVocab;
+    }
+
+    /**
+     * Labels for the type of Threat Actor (threat-actor-label-ov).
+     * @param labels
+     */
+    @Override
+    public void setLabels(LinkedHashSet<String> labels) {
+        Objects.requireNonNull(labels, "labels cannot be null");
+
+        if (!labels.isEmpty()) {
+            throw new NullPointerException("At least one label must be provided");
+
+        } else if (getThreatActorLabelsVocab().vocabularyContains(labels)){
+            super.setLabels(labels);
+
+        } else {
+            throw new IllegalArgumentException("One or more labels are not valid Malware labels");
+        }
+    }
+
 
     //
     // Relationships
     //
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getAttributedTo() {
+    public LinkedHashSet<Relationship> getAttributedTo() {
         return attributedTo;
     }
 
-    public void setAttributedTo(LinkedHashSet<StixRelationshipObject> attributedTo) {
+    public void setAttributedTo(LinkedHashSet<Relationship> attributedTo) {
         RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
                 attributedTo, Identity.class);
 
         this.attributedTo = attributedTo;
     }
 
-    public void addAttributedTo(StixRelationshipObject... relationships){
+    public void addAttributedTo(Relationship... relationships){
         if (this.getAttributedTo() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
                     relationshipObjects, Identity.class);
@@ -174,7 +287,7 @@ public abstract class ThreatActorProperties extends CommonProperties{
             this.setAttributedTo(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
                     relationshipObjects, Identity.class);
@@ -197,20 +310,20 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getImpersonates() {
+    public LinkedHashSet<Relationship> getImpersonates() {
         return impersonates;
     }
 
-    public void setImpersonates(LinkedHashSet<StixRelationshipObject> impersonates) {
+    public void setImpersonates(LinkedHashSet<Relationship> impersonates) {
         RelationshipValidators.validateRelationshipAcceptableClasses("impersonates",
                 impersonates, Identity.class);
 
         this.impersonates = impersonates;
     }
 
-    public void addImpersonates(StixRelationshipObject... relationships){
+    public void addImpersonates(Relationship... relationships){
         if (this.getImpersonates() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("impersonates",
                     relationshipObjects, Identity.class);
@@ -218,7 +331,7 @@ public abstract class ThreatActorProperties extends CommonProperties{
             this.setImpersonates(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("impersonates",
                     relationshipObjects, Identity.class);
@@ -241,20 +354,20 @@ public abstract class ThreatActorProperties extends CommonProperties{
     }
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getTargets() {
+    public LinkedHashSet<Relationship> getTargets() {
         return targets;
     }
 
-    public void setTargets(LinkedHashSet<StixRelationshipObject> targets) {
+    public void setTargets(LinkedHashSet<Relationship> targets) {
         RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                 targets, Identity.class, Vulnerability.class);
 
         this.targets = targets;
     }
 
-    public void addTargets(StixRelationshipObject... relationships){
+    public void addTargets(Relationship... relationships){
         if (this.getTargets() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                     relationshipObjects, Identity.class, Vulnerability.class);
@@ -262,7 +375,7 @@ public abstract class ThreatActorProperties extends CommonProperties{
             this.setTargets(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                     relationshipObjects, Identity.class, Vulnerability.class);
@@ -286,20 +399,20 @@ public abstract class ThreatActorProperties extends CommonProperties{
 
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getUses() {
+    public LinkedHashSet<Relationship> getUses() {
         return uses;
     }
 
-    public void setUses(LinkedHashSet<StixRelationshipObject> uses) {
+    public void setUses(LinkedHashSet<Relationship> uses) {
         RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                 uses, AttackPattern.class, Malware.class, Tool.class);
 
         this.uses = uses;
     }
 
-    public void addUses(StixRelationshipObject... relationships){
+    public void addUses(Relationship... relationships){
         if (this.getUses() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, AttackPattern.class, Malware.class, Tool.class);
@@ -307,7 +420,7 @@ public abstract class ThreatActorProperties extends CommonProperties{
             this.setUses(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, AttackPattern.class, Malware.class, Tool.class);

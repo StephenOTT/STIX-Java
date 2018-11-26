@@ -1,6 +1,7 @@
 package io.digitalstate.stix.relationshipobjects.properties;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import io.digitalstate.stix.bundle.BundleObject;
@@ -254,9 +255,15 @@ public abstract class CommonProperties {
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
         bundleObjects.add(getCreatedByRef());
+
         if (getObjectMarkingRefs() != null) {
             getObjectMarkingRefs().forEach(om -> {
-                bundleObjects.add(om.getCreatedByRef());
+                bundleObjects.add(om);
+
+                if (om.getCreatedByRef() != null){
+                    bundleObjects.add(om.getCreatedByRef());
+                }
+
                 if (om.getObjectMarkingRefs() != null) {
                     bundleObjects.addAll(om.getObjectMarkingRefs());
                 }
@@ -278,6 +285,10 @@ public abstract class CommonProperties {
         }
 
         return bundleObjects;
+    }
+
+    public String toJsonString() throws JsonProcessingException {
+        return StixDataFormats.getJsonMapper().writeValueAsString(this);
     }
 
 }

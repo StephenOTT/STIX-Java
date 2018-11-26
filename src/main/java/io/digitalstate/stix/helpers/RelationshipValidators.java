@@ -1,6 +1,7 @@
 package io.digitalstate.stix.helpers;
 
 import io.digitalstate.stix.domainobjects.StixDomainObject;
+import io.digitalstate.stix.relationshipobjects.Relationship;
 import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 
 import java.util.Arrays;
@@ -15,7 +16,7 @@ public class RelationshipValidators {
      * @param relationships
      * @return
      */
-    public static void validateRelationshipClassEquality(String relationshipType, LinkedHashSet<StixRelationshipObject> relationships){
+    public static void validateRelationshipClassEquality(String relationshipType, LinkedHashSet<Relationship> relationships){
         Objects.requireNonNull(relationshipType, "relationshipType cannot be null");
         Objects.requireNonNull(relationships, "relationship cannot be null");
 
@@ -28,7 +29,7 @@ public class RelationshipValidators {
         });
     }
 
-    public static void validateRelationshipType(String relationshipType, LinkedHashSet<StixRelationshipObject> relationships){
+    public static void validateRelationshipType(String relationshipType, LinkedHashSet<Relationship> relationships){
         Objects.requireNonNull(relationshipType, "relationshipType cannot be null");
         Objects.requireNonNull(relationships, "relationship cannot be null");
 
@@ -40,7 +41,7 @@ public class RelationshipValidators {
     }
 
     @SafeVarargs
-    public static void validateRelationshipAcceptableClasses(String relationshipType, LinkedHashSet<StixRelationshipObject> relationships, Class<? extends StixDomainObject>... acceptableClasses){
+    public static void validateRelationshipAcceptableClasses(String relationshipType, LinkedHashSet<Relationship> relationships, Class<? extends StixDomainObject>... acceptableClasses){
         //@TODO Review varargs usage and the workaround for the SafeVarargs Annotation.  It feels hacky atm.
 
         Objects.requireNonNull(relationships, "relationship cannot be null");

@@ -1,13 +1,10 @@
 package io.digitalstate.stix.domainobjects;
 
 import io.digitalstate.stix.domainobjects.properties.ReportProperties;
-import io.digitalstate.stix.vocabularies.Vocabularies;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 
@@ -41,51 +38,5 @@ public class Report extends ReportProperties implements StixDomainObject {
                   String... objects){
 
         this(name, new LinkedHashSet<>(Arrays.asList(reportLabels)), publishedDateTime, new LinkedHashSet<>(Arrays.asList(objects)));
-    }
-
-    //
-    // Getters and Setters
-    //
-
-    @Override
-    public void setName(String name) {
-        if (StringUtils.isNotBlank(name)){
-            this.name = name;
-        } else {
-            throw new IllegalArgumentException("Name can't be null or blank");
-        }
-    }
-
-    @Override
-    public void setPublished(ZonedDateTime publishedDateTime) {
-        if (publishedDateTime != null){
-            this.published = publishedDateTime;
-        } else {
-            throw new IllegalArgumentException("publishedDateTime cannot be null");
-        }
-    }
-
-    @Override
-    public void setObjectRefs(LinkedHashSet<String> objectRefs) {
-        if (!objectRefs.isEmpty()){
-            this.objectRefs = objectRefs;
-        } else {
-            throw new IllegalArgumentException("At least one StixDomainObject object ref is required");
-        }
-    }
-
-    /**
-     *
-     * @param labels labels are enforced with reportLabel vocabulary
-     */
-    @Override
-    public void setLabels(LinkedHashSet<String> labels) {
-        Set<String> reportLabels = Vocabularies.getReportLabels();
-
-        if (!labels.isEmpty() && labels.containsAll(reportLabels)){
-            super.setLabels(labels);
-        } else {
-            throw new IllegalArgumentException("At least one label must be provided");
-        }
     }
 }

@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.digitalstate.stix.bundle.BundleObject;
+import io.digitalstate.stix.vocabularies.IdentityClasses;
+import io.digitalstate.stix.vocabularies.IndustrySectors;
+import io.digitalstate.stix.vocabularies.StixVocabulary;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
@@ -16,20 +20,26 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "object_marking_refs", "granular_markings", "name", "description",
         "identity_class", "sectors", "contact_information"})
 public abstract class IdentityProperties extends CommonProperties{
-    protected String name;
+    private String name;
 
     @JsonInclude(NON_NULL)
-    protected String description = null;
+    private String description = null;
 
     @JsonProperty("identity_class")
-    protected String identityClass;
+    private String identityClass;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> sectors = null;
+    private LinkedHashSet<String> sectors = null;
 
     @JsonInclude(NON_NULL)
     @JsonProperty("contact_information")
-    protected String contactInformation = null;
+    private String contactInformation = null;
+
+    @JsonIgnore
+    private StixVocabulary identityClassesVocab = new IdentityClasses();
+
+    @JsonIgnore
+    private StixVocabulary industrySectorsVocab = new IndustrySectors();
 
 
     //
@@ -61,7 +71,13 @@ public abstract class IdentityProperties extends CommonProperties{
     }
 
     public void setIdentityClass(String identityClass) {
-        this.identityClass = identityClass;
+        Objects.requireNonNull(identityClass, "identityClass cannot be null");
+
+        if (getIdentityClassesVocab().vocabularyContains(identityClass)){
+            this.identityClass = identityClass;
+        } else {
+            throw new IllegalArgumentException(identityClass + " is not a valid identity class");
+        }
     }
 
     public LinkedHashSet<String> getSectors() {
@@ -69,7 +85,11 @@ public abstract class IdentityProperties extends CommonProperties{
     }
 
     public void setSectors(LinkedHashSet<String> sectors) {
-        this.sectors = sectors;
+        if (getIndustrySectorsVocab().vocabularyContains(sectors)){
+            this.sectors = sectors;
+        } else {
+            throw new IllegalArgumentException("One or more sectors are not valid industry sectors");
+        }
     }
 
     public String getContactInformation() {
@@ -80,6 +100,43 @@ public abstract class IdentityProperties extends CommonProperties{
         this.contactInformation = contactInformation;
     }
 
+    /**
+     * Get the Identity Classes Vocabulary
+     * @return
+     */
+    @JsonIgnore
+    public StixVocabulary getIdentityClassesVocab() {
+        return identityClassesVocab;
+    }
+
+    /**
+     * Used to override the identity classes vocabulary.  Typically used for customizations of STIX.
+     * @param identityClassesVocab
+     */
+    @JsonIgnore
+    public void setIdentityClassesVocab(StixVocabulary identityClassesVocab) {
+        Objects.requireNonNull(identityClassesVocab, "identityClassesVocab required" );
+        this.identityClassesVocab = identityClassesVocab;
+    }
+
+    /**
+     * Get Industry Sectors Vocabulary
+     * @return
+     */
+    @JsonIgnore
+    public StixVocabulary getIndustrySectorsVocab() {
+        return industrySectorsVocab;
+    }
+
+    /**
+     * Used to override the industry sectors vocabulary.  Typically used for customizations of STIX.
+     * @param industrySectorsVocab
+     */
+    @JsonIgnore
+    public void setIndustrySectorsVocab(StixVocabulary industrySectorsVocab) {
+        Objects.requireNonNull(industrySectorsVocab, "industrySectorsVocab required" );
+        this.industrySectorsVocab = industrySectorsVocab;
+    }
 
     //
     // Helpers

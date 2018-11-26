@@ -15,16 +15,22 @@ import java.util.Objects;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+/**
+ * Properties mappings for a {@link StixBundle}.  This abstract class can be reused by implementations of a {@link StixBundle}.
+ * If you are building a new implementation, see the {@link Bundle} class for a implementation to pattern from.
+ */
 @JsonPropertyOrder({"type", "id", "spec_version", "objects"})
 public abstract class BundleProperties {
-    protected String type;
-    protected String id;
+
+    private String type;
+
+    private String id;
 
     @JsonProperty("spec_version")
-    protected String specVersion;
+    private String specVersion;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<BundleObject> objects = null;
+    private LinkedHashSet<BundleObject> objects = null;
 
 
     //
@@ -34,6 +40,7 @@ public abstract class BundleProperties {
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -58,6 +65,7 @@ public abstract class BundleProperties {
     public String getSpecVersion() {
         return specVersion;
     }
+
     public void setSpecVersion(String specVersion) {
         this.specVersion = specVersion;
     }

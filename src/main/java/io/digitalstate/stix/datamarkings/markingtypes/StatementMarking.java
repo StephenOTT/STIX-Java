@@ -3,6 +3,8 @@ package io.digitalstate.stix.datamarkings.markingtypes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Objects;
+
 @JsonPropertyOrder({"statement"})
 public class StatementMarking extends MarkingObjectTypeCommonProperties implements MarkingObjectType {
 
@@ -29,6 +31,7 @@ public class StatementMarking extends MarkingObjectTypeCommonProperties implemen
     }
 
     public void setStatement(String statement) {
+        Objects.requireNonNull(statement, "statement cannot be null");
         this.statement = statement;
     }
 }

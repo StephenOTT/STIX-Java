@@ -3,12 +3,13 @@ package io.digitalstate.stix.relationshipobjects;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.Identity;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
+import io.digitalstate.stix.helpers.JsonConvertable;
 
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-public interface StixRelationshipObject extends BundleObject {
+public interface StixRelationshipObject extends BundleObject, JsonConvertable {
 
     String getType();
     void setType(String type);

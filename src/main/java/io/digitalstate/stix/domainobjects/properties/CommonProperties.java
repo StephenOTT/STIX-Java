@@ -15,7 +15,6 @@ import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import io.digitalstate.stix.relationshipobjects.CustomStixRelationshipObject;
 import io.digitalstate.stix.relationshipobjects.Relationship;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -190,7 +189,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * <p>As an example, a Campaign object from one organization could be marked as a duplicate-of a Campaign object
      * from another organization if they both described the same campaign.</p>
      */
-    private LinkedHashSet<StixRelationshipObject> duplicateOf = null;
+    private LinkedHashSet<Relationship> duplicateOf = null;
 
     /**
      * <p>The information in the target object is based on information from the source object.</p>
@@ -198,17 +197,17 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * <p>derived-from is an explicit relationship between two separate objects and MUST NOT be used as a substitute
      * for the versioning process defined in section 3.4.</p>
      */
-    private LinkedHashSet<StixRelationshipObject> derivedFrom = null;
+    private LinkedHashSet<Relationship> derivedFrom = null;
 
     /**
-     * <p>Asserts a non-specific relationship between two SDOs. This relationship can be used when none of the other
+     * <p>The Relationship of Related-To asserts a non-specific relationship between two SDOs. This relationship can be used when none of the other
      * predefined relationships are appropriate.</p>
      *
      * <p>As an example, a Malware object describing a piece of malware could be marked as a related-to a Tool
      * if they are commonly used together. That relationship is not common enough to standardize
      * on, but may be useful to some analysts.</p>
      */
-    private LinkedHashSet<StixRelationshipObject> relatedTo = null;
+    private LinkedHashSet<Relationship> relatedTo = null;
 
     /**
      * <p>Custom Relationships: Relationships that are defined using the CustomStixRelationshipObject interface.</p>
@@ -419,27 +418,29 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
 
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getDuplicateOf() {
+    public LinkedHashSet<Relationship> getDuplicateOf() {
         return duplicateOf;
     }
 
-    public void setDuplicateOf(LinkedHashSet<StixRelationshipObject> duplicateOf) {
+    public void setDuplicateOf(LinkedHashSet<Relationship> duplicateOf) {
         validateRelationshipClassEquality(
                 DUPLICATE_OF.toString(), duplicateOf);
 
         this.duplicateOf = duplicateOf;
     }
 
-    public void addDuplicateOf(StixRelationshipObject... relationships){
+    public void addDuplicateOf(Relationship... relationships){
+        Objects.requireNonNull(relationships, "relationships cannot be null");
+
         if (this.getDuplicateOf() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             validateRelationshipClassEquality(DUPLICATE_OF.toString(), relationshipObjects);
 
             this.setDuplicateOf(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             validateRelationshipClassEquality(DUPLICATE_OF.toString(), relationshipObjects);
 
@@ -457,32 +458,35 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     }
 
     public void addDuplicateOf(StixDomainObject target){
+        Objects.requireNonNull(target, "target cannot be null");
         addDuplicateOf(target, null);
     }
 
 
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getDerivedFrom() {
+    public LinkedHashSet<Relationship> getDerivedFrom() {
         return derivedFrom;
     }
 
-    public void setDerivedFrom(LinkedHashSet<StixRelationshipObject> derivedFrom) {
+    public void setDerivedFrom(LinkedHashSet<Relationship> derivedFrom) {
         validateRelationshipClassEquality(DERIVED_FROM.toString(), derivedFrom);
 
         this.derivedFrom = derivedFrom;
     }
 
-    public void addDerivedFrom(StixRelationshipObject... relationships){
+    public void addDerivedFrom(Relationship... relationships){
+        Objects.requireNonNull(relationships, "relationships cannot be null");
+
         if (this.getDerivedFrom() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             validateRelationshipClassEquality(DERIVED_FROM.toString(), relationshipObjects);
 
             this.setDerivedFrom(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             validateRelationshipClassEquality(DERIVED_FROM.toString(), relationshipObjects);
 
@@ -500,31 +504,34 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     }
 
     public void addDerivedFrom(StixDomainObject target){
+        Objects.requireNonNull(target, "target cannot be null");
         addDerivedFrom(target, null);
     }
 
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getRelatedTo() {
+    public LinkedHashSet<Relationship> getRelatedTo() {
         return relatedTo;
     }
 
-    public void setRelatedTo(LinkedHashSet<StixRelationshipObject> relatedTo) {
+    public void setRelatedTo(LinkedHashSet<Relationship> relatedTo) {
         validateRelationshipType(RELATED_TO.toString(), relatedTo);
 
         this.relatedTo = relatedTo;
     }
 
-    public void addRelatedTo(StixRelationshipObject... relationships){
+    public void addRelatedTo(Relationship... relationships){
+        Objects.requireNonNull(relationships, "relationships cannot be null");
+
         if (this.getRelatedTo() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             validateRelationshipType(RELATED_TO.toString(), relationshipObjects);
 
             this.setRelatedTo(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             validateRelationshipType(RELATED_TO.toString(), relationshipObjects);
 
@@ -542,6 +549,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     }
 
     public void addRelatedTo(StixDomainObject target){
+        Objects.requireNonNull(target, "target cannot be null");
         addRelatedTo(target, null);
     }
 
@@ -591,6 +599,12 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
         return StixDataFormats.getJsonMapper().writeValueAsString(this);
     }
 
+    /**
+     * Returns all common properties' bundle objects.
+     * This method is typically used when creating a STIX bundle and you want to detect nested objects
+     * that should be added into the Bundle as first class objects (non-nested)
+     * @return
+     */
     @JsonIgnore
     public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
@@ -598,8 +612,8 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
         bundleObjects.add(getCreatedByRef());
         if (getCustomRelationships() != null) {
             getCustomRelationships().forEach(cr -> {
-                bundleObjects.add(cr.getSource());
-                bundleObjects.add(cr.getTarget());
+                Objects.requireNonNull(cr.getBundleObjects(), "Bundle Objects cannot be null");
+                bundleObjects.addAll(cr.getBundleObjects());
             });
         }
 
@@ -626,7 +640,12 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
 
         if (getObjectMarkingRefs() != null) {
             getObjectMarkingRefs().forEach(om -> {
-                bundleObjects.add(om.getCreatedByRef());
+                bundleObjects.add(om);
+
+                if (om.getCreatedByRef() != null){
+                    bundleObjects.add(om.getCreatedByRef());
+                }
+
                 if (om.getObjectMarkingRefs() != null) {
                     bundleObjects.addAll(om.getObjectMarkingRefs());
                 }

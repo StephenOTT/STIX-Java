@@ -1,5 +1,6 @@
 package io.digitalstate.stix.domainobjects;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.datamarkings.DataMarkingsAppliable;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
@@ -35,6 +36,8 @@ interface CommonProperties extends DataMarkingsAppliable {
 
     HashMap<String,Object> getCustomProperties();
     void setCustomProperties(HashMap<String,Object> customProperties);
+
+    String toJsonString() throws JsonProcessingException;
 
     LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects();
 }

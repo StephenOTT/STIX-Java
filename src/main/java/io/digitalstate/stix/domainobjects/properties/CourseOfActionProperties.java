@@ -7,7 +7,7 @@ import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.relationshipobjects.Relationship;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -20,19 +20,19 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "object_marking_refs", "granular_markings","name", "description",
         "action"})
 public abstract class CourseOfActionProperties extends CommonProperties{
-    protected String name;
+    private String name;
 
     @JsonInclude(NON_NULL)
-    protected String description = null;
+    private String description = null;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> action = null;
+    private LinkedHashSet<String> action = null;
 
     //
     // Relationships
     //
 
-    private LinkedHashSet<StixRelationshipObject> mitigates = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> mitigates = new LinkedHashSet<>();
 
 
     //
@@ -43,7 +43,11 @@ public abstract class CourseOfActionProperties extends CommonProperties{
         return name;
     }
     public void setName(String name) {
-        this.name = name;
+        if (StringUtils.isNotBlank(name)){
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name can't be null or blank");
+        }
     }
 
     public String getDescription() {
@@ -65,20 +69,20 @@ public abstract class CourseOfActionProperties extends CommonProperties{
     //
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getMitigates() {
+    public LinkedHashSet<Relationship> getMitigates() {
         return mitigates;
     }
 
-    public void setMitigates(LinkedHashSet<StixRelationshipObject> mitigates) {
+    public void setMitigates(LinkedHashSet<Relationship> mitigates) {
         RelationshipValidators.validateRelationshipAcceptableClasses("mitigates",
                 mitigates, AttackPattern.class, Malware.class, Tool.class, Vulnerability.class);
 
         this.mitigates = mitigates;
     }
 
-    public void addMitigates(StixRelationshipObject... relationships){
+    public void addMitigates(Relationship... relationships){
         if (this.getMitigates() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("mitigates",
                     relationshipObjects, AttackPattern.class, Malware.class, Tool.class, Vulnerability.class);
@@ -86,7 +90,7 @@ public abstract class CourseOfActionProperties extends CommonProperties{
             this.setMitigates(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, AttackPattern.class, Malware.class, Tool.class, Vulnerability.class);

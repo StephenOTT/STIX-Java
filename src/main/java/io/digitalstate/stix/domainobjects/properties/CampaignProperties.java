@@ -8,7 +8,7 @@ import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.relationshipobjects.Relationship;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -22,34 +22,34 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "object_marking_refs", "granular_markings", "name", "decscription",
         "aliases", "first_seen", "last_seen", "objective"})
 public abstract class CampaignProperties extends CommonProperties{
-    protected String name;
+    private String name;
 
     @JsonInclude(NON_NULL)
-    protected String description = null;
+    private String description = null;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<String> aliases = null;
+    private LinkedHashSet<String> aliases = null;
 
     @JsonProperty("first_seen")
     @JsonInclude(NON_NULL)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime firstSeen = null;
+    private ZonedDateTime firstSeen = null;
 
     @JsonProperty("last_seen")
     @JsonInclude(NON_NULL)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
-    protected ZonedDateTime lastSeen = null;
+    private ZonedDateTime lastSeen = null;
 
     @JsonInclude(NON_NULL)
-    protected String objective = null;
+    private String objective = null;
 
     // Relationships
 
-    private LinkedHashSet<StixRelationshipObject> attributedTo = new LinkedHashSet<>();
-    private LinkedHashSet<StixRelationshipObject> targets = new LinkedHashSet<>();
-    private LinkedHashSet<StixRelationshipObject> uses = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> attributedTo = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
+    private LinkedHashSet<Relationship> uses = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -60,7 +60,11 @@ public abstract class CampaignProperties extends CommonProperties{
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (StringUtils.isNotBlank(name)){
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name can't be null or blank");
+        }
     }
 
     public String getDescription() {
@@ -108,20 +112,20 @@ public abstract class CampaignProperties extends CommonProperties{
     //
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getAttributedTo() {
+    public LinkedHashSet<Relationship> getAttributedTo() {
         return attributedTo;
     }
 
-    public void setAttributedTo(LinkedHashSet<StixRelationshipObject> attributedTo) {
+    public void setAttributedTo(LinkedHashSet<Relationship> attributedTo) {
         RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                 attributedTo, IntrusionSet.class, ThreatActor.class);
 
         this.attributedTo = attributedTo;
     }
 
-    public void addAttributedTo(StixRelationshipObject... relationships){
+    public void addAttributedTo(Relationship... relationships){
         if (this.getAttributedTo() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, IntrusionSet.class, ThreatActor.class);
@@ -129,7 +133,7 @@ public abstract class CampaignProperties extends CommonProperties{
             this.setAttributedTo(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, IntrusionSet.class, ThreatActor.class);
@@ -152,20 +156,20 @@ public abstract class CampaignProperties extends CommonProperties{
     }
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getTargets() {
+    public LinkedHashSet<Relationship> getTargets() {
         return targets;
     }
 
-    public void setTargets(LinkedHashSet<StixRelationshipObject> targets) {
+    public void setTargets(LinkedHashSet<Relationship> targets) {
         RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                 targets, Identity.class, Vulnerability.class);
 
         this.targets = targets;
     }
 
-    public void addTargets(StixRelationshipObject... relationships){
+    public void addTargets(Relationship... relationships){
         if (this.getTargets() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                     relationshipObjects, Identity.class, Vulnerability.class);
@@ -173,7 +177,7 @@ public abstract class CampaignProperties extends CommonProperties{
             this.setTargets(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                     relationshipObjects, Identity.class, Vulnerability.class);
@@ -196,20 +200,20 @@ public abstract class CampaignProperties extends CommonProperties{
     }
 
     @JsonIgnore
-    public LinkedHashSet<StixRelationshipObject> getUses() {
+    public LinkedHashSet<Relationship> getUses() {
         return uses;
     }
 
-    public void setUses(LinkedHashSet<StixRelationshipObject> uses) {
+    public void setUses(LinkedHashSet<Relationship> uses) {
         RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                 uses, AttackPattern.class, Malware.class, Tool.class);
 
         this.uses = uses;
     }
 
-    public void addUses(StixRelationshipObject... relationships){
+    public void addUses(Relationship... relationships){
         if (this.getUses() == null){
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, AttackPattern.class, Malware.class, Tool.class);
@@ -217,7 +221,7 @@ public abstract class CampaignProperties extends CommonProperties{
             this.setUses(new LinkedHashSet<>(Arrays.asList(relationships)));
 
         } else {
-            LinkedHashSet<StixRelationshipObject> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
+            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
 
             RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                     relationshipObjects, AttackPattern.class, Malware.class, Tool.class);
