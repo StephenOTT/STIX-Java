@@ -74,16 +74,13 @@ ObservedData observedData = new ObservedData(observedTime, observedTime, 3, cybe
 
 observedData.addObjectMarkingRefs(statement1);
 
-
 // Generate Bundle.  You must add at least 1 item into the bundle.
 Bundle bundle = new Bundle(attackPattern);
 
 // Add some additional items into the bundle:
 bundle.addObjects(observedData);
 
-
 // Build Identity
-
 Identity steve = new Identity("Stephen", "individual");
 attackPattern.addTarget(steve);
 
@@ -97,6 +94,7 @@ someSighting.setWhereSightedRefs(new LinkedHashSet<>(Arrays.asList(steve)));
 bundle.addObjects(someSighting);
 someSighting.setSightingOfRef(ap2);
 
+IntrusionSet intrusionSet = new IntrusionSet("Some Intrusion");
 
 // Auto add Data Markings into the Bundle.  This is a helper method that will search all objects in
 // the bundle that can contain Data Markings and add the Data Marking objects as top level items in the Bundle
@@ -115,17 +113,17 @@ The below is a the output from the java example above.
 ```json
 {
   "type": "bundle",
-  "id": "bundle--42e53388-901f-4946-987f-03120f1e3afe",
+  "id": "bundle--7a0fe49d-4569-4e9e-87e1-a81231fd72fb",
   "spec_version": "2.0",
   "objects": [
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--848bb766-1bda-4260-9641-5258149f4e32",
-      "created": "2018-11-23T17:32:17.569Z",
-      "modified": "2018-11-26T17:32:17.569Z",
+      "id": "attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6",
+      "created": "2018-11-26T01:17:26.416Z",
+      "modified": "2018-11-29T01:17:26.416Z",
       "revoked": false,
       "object_marking_refs": [
-        "marking-definition--e8bd2c7c-6a37-4740-972e-5ab3d70e6025"
+        "marking-definition--b17db0c7-1c2e-4c6a-9cab-34d0cacfbf50"
       ],
       "granular_markings": [
         {
@@ -134,7 +132,7 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--f0f7dbea-4327-42a5-8264-65417876b0e1"
+          "marking_ref": "marking-definition--0f1a0afd-ba25-47a2-b7e1-4d0ab65b1689"
         }
       ],
       "name": "some pattern",
@@ -153,15 +151,15 @@ The below is a the output from the java example above.
     },
     {
       "type": "observed-data",
-      "id": "observed-data--3c82215c-5f4f-40a1-8052-cc8d9cbd3fbd",
-      "created": "2018-11-23T17:32:17.635Z",
-      "modified": "2018-11-23T17:32:17.635Z",
+      "id": "observed-data--79ec3f75-6fbf-4fe7-b7d0-c540fcf65753",
+      "created": "2018-11-26T01:17:26.461Z",
+      "modified": "2018-11-26T01:17:26.461Z",
       "revoked": false,
       "object_marking_refs": [
-        "marking-definition--df989440-58ff-4c9f-9bdb-6b68a7b959f5"
+        "marking-definition--a2eb976a-aa5c-4999-8c34-0b74a0d46bef"
       ],
-      "first_observed": "2018-11-23T17:32:17.621Z",
-      "last_observed": "2018-11-23T17:32:17.621Z",
+      "first_observed": "2018-11-26T01:17:26.448Z",
+      "last_observed": "2018-11-26T01:17:26.448Z",
       "number_observed": 3,
       "objects": {
         "some artifact": {
@@ -177,20 +175,32 @@ The below is a the output from the java example above.
     },
     {
       "type": "sighting",
-      "id": "sighting--5251b370-c71c-449e-b6a6-9f87a5efba94",
-      "created": "2018-11-23T17:32:17.660Z",
-      "modified": "2018-11-23T17:32:17.660Z",
+      "id": "sighting--cbae7c1e-57ef-47b4-9e50-22d9169c246d",
+      "created": "2018-11-26T01:17:26.941Z",
+      "modified": "2018-11-26T01:17:26.941Z",
       "revoked": false,
-      "sighting_of_ref": "attack-pattern--635c486f-f1b3-4975-8264-434b5fc17cb8",
+      "sighting_of_ref": "attack-pattern--4c465e41-3c02-4667-8887-c4608e6d3ae9",
       "where_sighted_refs": [
-        "identity--c1268e7b-9d40-4386-b6c0-f258d9ea7bdc"
+        "identity--d442813b-7e72-49a6-937a-3e351e219a18"
       ],
       "summary": false
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--df989440-58ff-4c9f-9bdb-6b68a7b959f5",
-      "created": "2018-11-23T17:32:17.618Z",
+      "id": "marking-definition--b17db0c7-1c2e-4c6a-9cab-34d0cacfbf50",
+      "created": "2018-11-26T01:17:26.435Z",
+      "object_marking_refs": [
+        "marking-definition--a2eb976a-aa5c-4999-8c34-0b74a0d46bef"
+      ],
+      "definition_type": "tlp",
+      "definition": {
+        "tlp": "white"
+      }
+    },
+    {
+      "type": "marking-definition",
+      "id": "marking-definition--a2eb976a-aa5c-4999-8c34-0b74a0d46bef",
+      "created": "2018-11-26T01:17:26.444Z",
       "granular_markings": [
         {
           "selectors": [
@@ -198,7 +208,7 @@ The below is a the output from the java example above.
             "pattern2",
             "pattern3"
           ],
-          "marking_ref": "marking-definition--f0f7dbea-4327-42a5-8264-65417876b0e1"
+          "marking_ref": "marking-definition--0f1a0afd-ba25-47a2-b7e1-4d0ab65b1689"
         }
       ],
       "definition_type": "statement",
@@ -208,8 +218,8 @@ The below is a the output from the java example above.
     },
     {
       "type": "marking-definition",
-      "id": "marking-definition--f0f7dbea-4327-42a5-8264-65417876b0e1",
-      "created": "2018-11-23T17:32:17.612Z",
+      "id": "marking-definition--0f1a0afd-ba25-47a2-b7e1-4d0ab65b1689",
+      "created": "2018-11-26T01:17:26.436Z",
       "definition_type": "tlp",
       "definition": {
         "tlp": "red"
@@ -217,27 +227,27 @@ The below is a the output from the java example above.
     },
     {
       "type": "relationship",
-      "id": "relationship--d9ef44c0-a665-4c41-b378-3f3f98bf4992",
-      "created": "2018-11-23T17:32:17.651Z",
-      "modified": "2018-11-23T17:32:17.651Z",
+      "id": "relationship--40c2a4e3-e5cc-4c8a-98fa-9c411a749beb",
+      "created": "2018-11-26T01:17:26.933Z",
+      "modified": "2018-11-26T01:17:26.933Z",
       "revoked": false,
       "relationship_type": "targets",
-      "source": "attack-pattern--848bb766-1bda-4260-9641-5258149f4e32",
-      "target": "identity--c1268e7b-9d40-4386-b6c0-f258d9ea7bdc"
+      "source": "attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6",
+      "target": "identity--d442813b-7e72-49a6-937a-3e351e219a18"
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--635c486f-f1b3-4975-8264-434b5fc17cb8",
-      "created": "2018-11-23T17:32:17.660Z",
-      "modified": "2018-11-23T17:32:17.660Z",
+      "id": "attack-pattern--4c465e41-3c02-4667-8887-c4608e6d3ae9",
+      "created": "2018-11-26T01:17:26.941Z",
+      "modified": "2018-11-26T01:17:26.941Z",
       "revoked": false,
       "name": "someOtherATTK2"
     },
     {
       "type": "identity",
-      "id": "identity--c1268e7b-9d40-4386-b6c0-f258d9ea7bdc",
-      "created": "2018-11-23T17:32:17.646Z",
-      "modified": "2018-11-23T17:32:17.646Z",
+      "id": "identity--d442813b-7e72-49a6-937a-3e351e219a18",
+      "created": "2018-11-26T01:17:26.929Z",
+      "modified": "2018-11-26T01:17:26.929Z",
       "revoked": false,
       "name": "Stephen",
       "identity_class": "individual"

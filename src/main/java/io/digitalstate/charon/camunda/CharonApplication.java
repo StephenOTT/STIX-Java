@@ -16,8 +16,6 @@ import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import io.digitalstate.stix.helpers.ObjectSigning;
 import io.digitalstate.stix.relationshipobjects.Sighting;
-import io.digitalstate.stix.vocabularies.AttackMotivations;
-import io.digitalstate.stix.vocabularies.StixVocabulary;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

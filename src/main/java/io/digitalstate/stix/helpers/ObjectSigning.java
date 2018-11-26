@@ -2,9 +2,7 @@ package io.digitalstate.stix.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
@@ -18,9 +16,10 @@ public class ObjectSigning {
     public static String signObject(StixDomainObject object) throws JsonProcessingException {
 
         String jws = Jwts.builder()
-                .setHeaderParam("signed_by", "www.someCTIorg.cti" )
+                .setHeaderParam("signed_by", "identity--d442813b-7e72-49a6-937a-3e351e219a18" )
                 .setPayload(object.toJsonString())
                 .signWith(KEY)
+                .compressWith(CompressionCodecs.GZIP)
                 .compact();
         System.out.println(Base64.getEncoder().encodeToString(KEY.getEncoded()));
         return jws;
