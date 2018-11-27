@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
@@ -26,6 +27,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
  * I saw these 10 at these 50 different locations.
  * With the Sighting relationship object, you can transmit all of that information in a single JSON blob.
  */
+@JsonDeserialize(using = Sighting.Deserializer.class)
 public class Sighting extends SightingProperties implements StixRelationshipObject {
 
     private static final String TYPE = "sighting";

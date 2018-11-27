@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.relationshipobjects.properties.RelationshipProperties;
@@ -18,6 +19,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
  * Defines a Stix Relationship Object (SRO)
  * Has minimal or no business logic.  All logic is handled within the specific SDOs
  */
+@JsonDeserialize(using = Relationship.Deserializer.class)
 public class Relationship extends RelationshipProperties implements StixRelationshipObject{
 
     private static final String TYPE = "relationship";
