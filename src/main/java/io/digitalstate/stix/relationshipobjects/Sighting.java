@@ -1,8 +1,20 @@
 package io.digitalstate.stix.relationshipobjects;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.relationshipobjects.properties.SightingProperties;
 
+import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Optional;
+
+import static io.digitalstate.stix.relationshipobjects.json.CommonPropertiesDeserializationValidators.validateAllCommonProperties;
 import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 
 /**
@@ -18,9 +30,77 @@ public class Sighting extends SightingProperties implements StixRelationshipObje
 
     private static final String TYPE = "sighting";
 
-    public Sighting(StixDomainObject sightingOfRef){
+    public Sighting(StixDomainObject sightingOfRef) {
         setType(TYPE);
         setId(TYPE, generateUuidAsString());
         setSightingOfRef(sightingOfRef);
+    }
+
+    /**
+     * Used for JSON Deserialization
+     */
+    private Sighting() {
+    }
+
+    public static class Deserializer extends StdDeserializer<Sighting> {
+
+        public Deserializer() {
+            this(null);
+        }
+
+        public Deserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public Sighting deserialize(JsonParser jp, DeserializationContext ctxt)
+                throws IOException, JsonProcessingException {
+
+            JsonNode node = jp.getCodec().readTree(jp);
+
+            Sighting object = new Sighting();
+
+            validateAllCommonProperties(node, object, TYPE, false);
+
+            Optional<JsonNode> first_seen = Optional.ofNullable(node.get("first_seen"));
+            first_seen.ifPresent(o -> {
+                Instant instant = Instant.parse(o.asText());
+                object.setFirstSeen(instant.atZone(ZoneId.of(StixDataFormats.DATETIMEZONE)));
+            });
+
+            Optional<JsonNode> last_seen = Optional.ofNullable(node.get("last_seen"));
+            last_seen.ifPresent(o -> {
+                Instant instant = Instant.parse(o.asText());
+                object.setLastSeen(instant.atZone(ZoneId.of(StixDataFormats.DATETIMEZONE)));
+            });
+
+            Optional<JsonNode> count = Optional.ofNullable(node.get("count"));
+            count.ifPresent(o -> {
+                if (o.isInt()) {
+                    object.setCount(o.intValue());
+                } else {
+                    throw new IllegalArgumentException("count must be a integer between 1 and 999,999,999 inclusive");
+                }
+            });
+
+            Optional<JsonNode> sighting_of_ref = Optional.ofNullable(node.get("sighting_of_ref"));
+            sighting_of_ref.ifPresent(o -> {
+                //@TODO
+            });
+            sighting_of_ref.orElseThrow(()-> new IllegalArgumentException("sighting_of_ref is required"));
+
+
+            Optional<JsonNode> where_sighted_refs = Optional.ofNullable(node.get("where_sighted_refs"));
+            where_sighted_refs.ifPresent(o -> {
+                //@TODO
+            });
+
+            Optional<JsonNode> observed_data_refs = Optional.ofNullable(node.get("observed_data_refs"));
+            observed_data_refs.ifPresent(o -> {
+                //@TODO
+            });
+
+            return object;
+        }
     }
 }
