@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.digitalstate.stix.domainobjects.properties.IdentityProperties;
-import io.digitalstate.stix.domainobjects.types.KillChainPhase;
-import io.jsonwebtoken.lang.Collections;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;

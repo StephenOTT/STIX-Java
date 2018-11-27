@@ -52,15 +52,30 @@ public class CharonApplication {
                 "  ]\n" +
                 "}";
 
+        String dataMarkingTlp1 = "{\n" +
+                "    \"type\": \"marking-definition\",\n" +
+                "    \"id\": \"marking-definition--0f1a0afd-ba25-47a2-b7e1-4d0ab65b1689\",\n" +
+                "    \"created\": \"2018-11-26T01:17:26.436Z\",\n" +
+                "    \"definition_type\": \"tlp\",\n" +
+                "    \"definition\": {\n" +
+                "      \"tlp\": \"red\"\n" +
+                "    }\n" +
+                "  }";
+
         ObjectMapper om = StixDataFormats.getJsonMapper();
-        AttackPattern atkPostString = null;
         try {
-            atkPostString = om.readValue(attackPatternString1, AttackPattern.class );
+            AttackPattern atkPostString = om.readValue(attackPatternString1, AttackPattern.class);
+            System.out.println("AttackPattern::JSON->Object->JSON:");
+            System.out.println(atkPostString.toJsonString());
+
+            MarkingDefinition markingDefinitionString = om.readValue(dataMarkingTlp1, MarkingDefinition.class);
+            System.out.println("MarkingDefinition::JSON->Object->JSON:");
+            System.out.println(markingDefinitionString.toJsonString());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("JSON->Object->JSON:");
-        System.out.println(atkPostString.toJsonString());
+
 
 
         // Generate Attack Pattern:

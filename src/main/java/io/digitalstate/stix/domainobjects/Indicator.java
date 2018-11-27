@@ -123,7 +123,7 @@ public class Indicator extends IndicatorProperties implements StixDomainObject {
                     throw new IllegalArgumentException("kill_chain_phases must be array");
                 }
             });
-            
+
             return object;
         }
     }
