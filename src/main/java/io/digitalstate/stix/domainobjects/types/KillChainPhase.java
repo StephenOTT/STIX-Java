@@ -96,7 +96,6 @@ public class KillChainPhase {
             JsonNode node = jp.getCodec().readTree(jp);
 
             KillChainPhase object = new KillChainPhase();
-            System.out.println("DOG-> " + node.toString());
 
             Optional<JsonNode> kill_chain_name = Optional.ofNullable(node.get("kill_chain_name"));
             kill_chain_name.ifPresent(o->{

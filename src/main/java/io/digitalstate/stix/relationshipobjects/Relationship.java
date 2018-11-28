@@ -69,7 +69,7 @@ public class Relationship extends RelationshipProperties implements StixRelation
 
             Relationship object = new Relationship();
 
-            validateAllCommonProperties(node, object, TYPE, false);
+            validateAllCommonProperties(node, jp, object, TYPE, false);
 
 
             Optional<JsonNode> relationship_type = Optional.ofNullable(node.get("relationship_type"));

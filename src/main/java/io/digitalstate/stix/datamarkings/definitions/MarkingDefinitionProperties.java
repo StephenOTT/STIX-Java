@@ -11,6 +11,7 @@ import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.datamarkings.markingtypes.MarkingObjectType;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -22,6 +23,7 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
@@ -35,21 +37,21 @@ public abstract class MarkingDefinitionProperties {
     private String type;
     private String id;
 
-    private Identity createdByRef = null;
+    private Relation<Identity> createdByRef = null;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     private ZonedDateTime created = ZonedDateTime.now();
 
     @JsonProperty("external_references")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<ExternalReference> externalReferences = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<ExternalReference> externalReferences = new LinkedHashSet<>();
 
-    private LinkedHashSet<MarkingDefinition> objectMarkingRefs = null;
+    private LinkedHashSet<Relation<MarkingDefinition>> objectMarkingRefs = new LinkedHashSet<>();
 
     @JsonProperty("granular_markings")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<GranularMarking> granularMarkings = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<GranularMarking> granularMarkings = new LinkedHashSet<>();
 
     @JsonProperty("definition_type")
     private String definitionType;
@@ -80,10 +82,10 @@ public abstract class MarkingDefinitionProperties {
     public void setId(String id) {
         Objects.requireNonNull(id, "Id cannot be null");
 
-        if (StringUtils.isBlank(getType())){
+        if (StringUtils.isBlank(getType())) {
             throw new IllegalArgumentException("Cannot set id without Type property being defined");
 
-        }else if (StringUtils.isNotBlank(id)){
+        } else if (StringUtils.isNotBlank(id)) {
             this.id = id;
 
         } else {
@@ -99,24 +101,29 @@ public abstract class MarkingDefinitionProperties {
     }
 
     @JsonIgnore
-    public Identity getCreatedByRef() {
+    public Relation<Identity> getCreatedByRef() {
         return createdByRef;
     }
 
-    public void setCreatedByRef(Identity createdByRef) {
+    public void setCreatedByRef(Relation<Identity> createdByRef) {
         this.createdByRef = createdByRef;
     }
 
     /**
      * Used by JSON serlizer to return proper spec value for created_by_ref property
+     *
      * @return
      */
     @JsonProperty("created_by_ref")
     @JsonInclude(NON_NULL)
     public String getCreatedByRefId() {
-        Identity identity = this.getCreatedByRef();
-        if (identity != null){
-            return this.getCreatedByRef().getId();
+        Relation<Identity> identity = this.getCreatedByRef();
+        if (identity != null) {
+            if (identity.hasObject()) {
+                return identity.getObject().getId();
+            } else {
+                return identity.getId();
+            }
         } else {
             return null;
         }
@@ -139,35 +146,32 @@ public abstract class MarkingDefinitionProperties {
     }
 
     @JsonIgnore
-    public LinkedHashSet<MarkingDefinition> getObjectMarkingRefs() {
+    public LinkedHashSet<Relation<MarkingDefinition>> getObjectMarkingRefs() {
         return objectMarkingRefs;
     }
 
-    public void setObjectMarkingRefs(LinkedHashSet<MarkingDefinition> objectMarkingRefs) {
+    public void setObjectMarkingRefs(LinkedHashSet<Relation<MarkingDefinition>> objectMarkingRefs) {
         this.objectMarkingRefs = objectMarkingRefs;
     }
 
     @JsonProperty("object_marking_refs")
-    @JsonInclude(NON_NULL)
-    public LinkedHashSet<String> getObjectMarkingRefsAsStrings() {
-        if (this.getObjectMarkingRefs() != null) {
-            return this.getObjectMarkingRefs().stream()
-                    .map(MarkingDefinition::getId)
-                    .collect(Collectors.toCollection(LinkedHashSet::new));
+    @JsonInclude(NON_EMPTY)
+    public LinkedHashSet<String> getObjectMarkingRefsIds() {
+        LinkedHashSet<Relation<MarkingDefinition>> objectRefs = this.getObjectMarkingRefs();
+        LinkedHashSet<String> ids = new LinkedHashSet<>();
+        if (objectRefs != null) {
+
+            objectRefs.forEach(ref -> {
+                if (ref.hasObject()) {
+                    ids.add(ref.getObject().getId());
+                } else {
+                    ids.add(ref.getId());
+                }
+            });
+            return ids;
+
         } else {
             return null;
-        }
-    }
-
-    public void setObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
-        this.setObjectMarkingRefs(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
-    }
-
-    public void addObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
-        if (this.getObjectMarkingRefs() == null){
-            this.setObjectMarkingRefs(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
-        } else {
-            this.getObjectMarkingRefs().addAll(Arrays.asList(objectMarkingRefs));
         }
     }
 
@@ -177,24 +181,13 @@ public abstract class MarkingDefinitionProperties {
 
     public void setGranularMarkings(LinkedHashSet<GranularMarking> granularMarkings) {
         // Check for Circular References: Where a granul
-        granularMarkings.forEach(gm ->{
+        granularMarkings.forEach(gm -> {
             // @TODO rebuild new methods for .equals() to have a special equals method that compares the combined ID and Modified fields (as per STIX spec)
-            if (gm.getMarkingRef().equals(this)){
+            if (gm.getMarkingRef().equals(this)) {
                 throw new IllegalArgumentException("Circular Reference detected in Granular Marking: " + this.toString());
-            }});
+            }
+        });
         this.granularMarkings = granularMarkings;
-    }
-
-    public void setGranularMarkings(GranularMarking... granularMarkings) {
-        this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(granularMarkings)));
-    }
-
-    public void addGranularMarkings(GranularMarking... granularMarkings) {
-        if (this.getGranularMarkings() == null){
-            this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(granularMarkings)));
-        } else {
-            this.getGranularMarkings().addAll(Arrays.asList(granularMarkings));
-        }
     }
 
     public String getDefinitionType() {
@@ -219,43 +212,68 @@ public abstract class MarkingDefinitionProperties {
     }
 
     @JsonIgnore
-    public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects(){
+    public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects() {
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        bundleObjects.add(getCreatedByRef());
+        if (getCreatedByRef() != null) {
+            if (getCreatedByRef().hasObject()) {
+                bundleObjects.add(getCreatedByRef().getObject());
+            }
+        }
 
         if (getObjectMarkingRefs() != null) {
             getObjectMarkingRefs().forEach(om -> {
-                bundleObjects.add(om);
+                if (om.hasObject()) {
+                    bundleObjects.add(om.getObject());
 
-                if (om.getCreatedByRef() != null){
-                    bundleObjects.add(om.getCreatedByRef());
-                }
+                    // getCreatedByRef
+                    if (om.getObject().getCreatedByRef() != null) {
+                        if (om.getObject().getCreatedByRef().hasObject()) {
+                            bundleObjects.add(om.getObject().getCreatedByRef().getObject());
+                        }
+                    }
 
-                if (om.getObjectMarkingRefs() != null) {
-                    bundleObjects.addAll(om.getObjectMarkingRefs());
-                }
+                    // getObjectMarkingRefs
+                    if (om.getObject().getObjectMarkingRefs() != null) {
+                        om.getObject().getObjectMarkingRefs().forEach(omr -> {
+                            if (omr.hasObject()) {
+                                bundleObjects.add(omr.getObject());
+                            }
+                        });
+                    }
 
-                if (om.getGranularMarkings() != null) {
-                    if (om.getGranularMarkings() != null) {
-                        om.getGranularMarkings().forEach(gm -> {
-                            bundleObjects.add(gm.getMarkingRef());
+                    // getGranularMarkings and get the getMarkingRef for each (if any)
+                    if (om.getObject().getGranularMarkings() != null) {
+                        om.getObject().getGranularMarkings().forEach(gm -> {
+                            if (gm.getMarkingRef().hasObject()) {
+                                bundleObjects.add(gm.getMarkingRef().getObject());
+                            }
                         });
                     }
                 }
+
             });
         }
 
         if (getGranularMarkings() != null) {
             getGranularMarkings().forEach(gm -> {
-                bundleObjects.add(gm.getMarkingRef());
+                if (gm.getMarkingRef().hasObject()) {
+                    bundleObjects.add(gm.getMarkingRef().getObject());
+                }
             });
         }
 
         return bundleObjects;
     }
 
-    //
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
+    }
+
+
+
+        //
     // Overrides for hashcode and equals to support comparison of objects as per the STIX Spec
     //
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.vocabularies.ReportLabels;
 import io.digitalstate.stix.vocabularies.StixVocabulary;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +31,7 @@ public abstract class ReportProperties extends CommonProperties {
     private ZonedDateTime published;
 
     @JsonProperty("object_refs")
-    private LinkedHashSet<String> objectRefs;
+    private LinkedHashSet<Relation<BundleObject>> objectRefs = new LinkedHashSet<>();
 
     // Vocabulary Instances
     private StixVocabulary reportLabelsVocab = new ReportLabels();
@@ -68,11 +69,11 @@ public abstract class ReportProperties extends CommonProperties {
         this.published = published;
     }
 
-    public LinkedHashSet<String> getObjectRefs() {
+    public LinkedHashSet<Relation<BundleObject>> getObjectRefs() {
         return objectRefs;
     }
 
-    public void setObjectRefs(LinkedHashSet<String> objectRefs) {
+    public void setObjectRefs(LinkedHashSet<Relation<BundleObject>> objectRefs) {
         Objects.requireNonNull(objectRefs, "objectRefs cannot be null");
         if (objectRefs.isEmpty()){
             throw new NullPointerException("objectRefs cannot be empty");
@@ -112,9 +113,17 @@ public abstract class ReportProperties extends CommonProperties {
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-//        bundleObjects.addAll(getObjectRefs());
-//        bundleObjects.addAll(getUses());
+        getObjectRefs().forEach(relation->{
+            if (relation.hasObject()){
+                bundleObjects.add(relation.getObject());
+            }
+        });
 
         return bundleObjects;
+    }
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
     }
 }

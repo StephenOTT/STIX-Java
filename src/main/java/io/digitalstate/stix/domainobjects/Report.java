@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.properties.ReportProperties;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.relationshipobjects.Relation;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -28,7 +30,7 @@ public class Report extends ReportProperties implements StixDomainObject {
     public Report(String name,
                   LinkedHashSet<String> reportLabels,
                   ZonedDateTime publishedDateTime,
-                  LinkedHashSet<String> objects) {
+                  LinkedHashSet<Relation<BundleObject>> objects) {
 
         setType(TYPE);
         setId(TYPE, generateUuidAsString());
@@ -41,7 +43,7 @@ public class Report extends ReportProperties implements StixDomainObject {
     public Report(String name,
                   LinkedHashSet<String> reportLabels,
                   ZonedDateTime publishedDateTime,
-                  String... objects) {
+                  Relation<BundleObject>... objects) {
 
         this(name, reportLabels, publishedDateTime, new LinkedHashSet<>(Arrays.asList(objects)));
     }
@@ -49,7 +51,7 @@ public class Report extends ReportProperties implements StixDomainObject {
     public Report(String name,
                   String[] reportLabels,
                   ZonedDateTime publishedDateTime,
-                  String... objects) {
+                  Relation<BundleObject>... objects) {
 
         this(name, new LinkedHashSet<>(Arrays.asList(reportLabels)), publishedDateTime, new LinkedHashSet<>(Arrays.asList(objects)));
     }
@@ -79,7 +81,7 @@ public class Report extends ReportProperties implements StixDomainObject {
 
             Report object = new Report();
 
-            validateAllCommonProperties(node, object, TYPE, true);
+            validateAllCommonProperties(node, jp, object, TYPE, true);
 
             Optional<JsonNode> name = Optional.ofNullable(node.get("name"));
             name.ifPresent(o -> {

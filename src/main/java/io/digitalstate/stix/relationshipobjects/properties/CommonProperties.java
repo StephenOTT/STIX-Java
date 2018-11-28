@@ -11,17 +11,20 @@ import io.digitalstate.stix.domainobjects.Identity;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+/**
+ * RelationshipObjects Common Properties
+ */
 public abstract class CommonProperties {
 
     @JsonIgnore
@@ -30,7 +33,7 @@ public abstract class CommonProperties {
     private String type;
     private String id;
 
-    private Identity createdByRef = null;
+    private Relation<Identity> createdByRef = null;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = StixDataFormats.DATETIMEZONE)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
@@ -42,20 +45,20 @@ public abstract class CommonProperties {
 
     private boolean revoked = false;
 
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> labels = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> labels = new LinkedHashSet<>();
 
     @JsonProperty("external_references")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<ExternalReference> externalReferences = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<ExternalReference> externalReferences = new LinkedHashSet<>();
 
-    private LinkedHashSet<MarkingDefinition> objectMarkingRefs = null;
+    private LinkedHashSet<Relation<MarkingDefinition>> objectMarkingRefs = new LinkedHashSet<>();
 
     @JsonProperty("granular_markings")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<GranularMarking> granularMarkings = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<GranularMarking> granularMarkings = new LinkedHashSet<>();
 
-    private HashMap<String, Object> customProperties = null;
+    private HashMap<String, Object> customProperties = new HashMap<>();
 
 
     //
@@ -101,11 +104,11 @@ public abstract class CommonProperties {
     }
 
     @JsonIgnore
-    public Identity getCreatedByRef() {
+    public Relation<Identity> getCreatedByRef() {
         return createdByRef;
     }
 
-    public void setCreatedByRef(Identity createdByRef) {
+    public void setCreatedByRef(Relation<Identity> createdByRef) {
         this.createdByRef = createdByRef;
     }
 
@@ -116,9 +119,13 @@ public abstract class CommonProperties {
     @JsonProperty("created_by_ref")
     @JsonInclude(NON_NULL)
     public String getCreatedByRefId() {
-        Identity identity = this.getCreatedByRef();
+        Relation<Identity> identity = this.getCreatedByRef();
         if (identity != null){
-            return this.getCreatedByRef().getId();
+            if (identity.hasObject()){
+                return identity.getObject().getId();
+            } else {
+                return identity.getId();
+            }
         } else {
             return null;
         }
@@ -168,56 +175,48 @@ public abstract class CommonProperties {
     }
 
     @JsonIgnore
-    public LinkedHashSet<MarkingDefinition> getObjectMarkingRefs() {
+    public LinkedHashSet<Relation<MarkingDefinition>> getObjectMarkingRefs() {
         return this.objectMarkingRefs;
     }
 
     @JsonProperty("object_marking_refs")
-    @JsonInclude(NON_NULL)
-    public LinkedHashSet<String> getObjectMarkingRefsAsStrings() {
-        if (getObjectMarkingRefs() != null) {
-            return this.getObjectMarkingRefs().stream()
-                    .map(MarkingDefinition::getId)
-                    .collect(Collectors.toCollection(LinkedHashSet::new));
+    @JsonInclude(NON_EMPTY)
+    public LinkedHashSet<String> getObjectMarkingRefsIds() {
+        LinkedHashSet<Relation<MarkingDefinition>> objectRefs = this.getObjectMarkingRefs();
+        LinkedHashSet<String> ids = new LinkedHashSet<>();
+        if (objectRefs != null) {
+
+            objectRefs.forEach(ref->{
+                if (ref.hasObject()){
+                    ids.add(ref.getObject().getId());
+                } else {
+                    ids.add(ref.getId());
+                }
+            });
+            return ids;
+
         } else {
             return null;
         }
     }
 
-    public void setObjectMarkingRefs(LinkedHashSet<MarkingDefinition> markingDefinitions) {
+
+    public void setObjectMarkingRefs(LinkedHashSet<Relation<MarkingDefinition>> markingDefinitions) {
         this.objectMarkingRefs = markingDefinitions;
     }
 
-    public void setObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
-        this.setObjectMarkingRefs(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
-    }
-
-    public void addObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
-        if (this.getObjectMarkingRefs() == null){
-            this.setObjectMarkingRefs(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
-        } else {
-            this.getObjectMarkingRefs().addAll(Arrays.asList(objectMarkingRefs));
-        }
-    }
-
     public LinkedHashSet<GranularMarking> getGranularMarkings() {
-        return this.granularMarkings;
+        return granularMarkings;
     }
 
     public void setGranularMarkings(LinkedHashSet<GranularMarking> granularMarkings) {
+        // Check for Circular References: Where a granul
+        granularMarkings.forEach(gm ->{
+            // @TODO rebuild new methods for .equals() to have a special equals method that compares the combined ID and Modified fields (as per STIX spec)
+            if (gm.getMarkingRef().equals(this)){
+                throw new IllegalArgumentException("Circular Reference detected in Granular Marking: " + this.toString());
+            }});
         this.granularMarkings = granularMarkings;
-    }
-
-    public void setGranularMarkings(GranularMarking... objectMarkingRefs) {
-        this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
-    }
-
-    public void addGranularMarkings(GranularMarking... granularMarkings) {
-        if (this.getGranularMarkings() == null){
-            this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(granularMarkings)));
-        } else {
-            this.getGranularMarkings().addAll(Arrays.asList(granularMarkings));
-        }
     }
 
     @JsonIgnore
@@ -262,24 +261,39 @@ public abstract class CommonProperties {
     public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        bundleObjects.add(getCreatedByRef());
+        if (getCreatedByRef() != null){
+            if (getCreatedByRef().hasObject()){
+                bundleObjects.add(getCreatedByRef().getObject());
+            }
+        }
 
         if (getObjectMarkingRefs() != null) {
             getObjectMarkingRefs().forEach(om -> {
-                bundleObjects.add(om);
+                if (om.hasObject()){
+                    bundleObjects.add(om.getObject());
 
-                if (om.getCreatedByRef() != null){
-                    bundleObjects.add(om.getCreatedByRef());
-                }
+                    // getCreatedByRef
+                    if (om.getObject().getCreatedByRef() != null){
+                        if (om.getObject().getCreatedByRef().hasObject()){
+                            bundleObjects.add(om.getObject().getCreatedByRef().getObject());
+                        }
+                    }
 
-                if (om.getObjectMarkingRefs() != null) {
-                    bundleObjects.addAll(om.getObjectMarkingRefs());
-                }
+                    // getObjectMarkingRefs
+                    if (om.getObject().getObjectMarkingRefs() != null) {
+                        om.getObject().getObjectMarkingRefs().forEach(omr->{
+                            if (omr.hasObject()){
+                                bundleObjects.add(omr.getObject());
+                            }
+                        });
+                    }
 
-                if (om.getGranularMarkings() != null) {
-                    if (om.getGranularMarkings() != null) {
-                        om.getGranularMarkings().forEach(gm -> {
-                            bundleObjects.add(gm.getMarkingRef());
+                    // getGranularMarkings and get the getMarkingRef for each (if any)
+                    if (om.getObject().getGranularMarkings() != null) {
+                        om.getObject().getGranularMarkings().forEach(gm -> {
+                            if (gm.getMarkingRef().hasObject()) {
+                                bundleObjects.add(gm.getMarkingRef().getObject());
+                            }
                         });
                     }
                 }
@@ -288,7 +302,9 @@ public abstract class CommonProperties {
 
         if (getGranularMarkings() != null) {
             getGranularMarkings().forEach(gm -> {
-                bundleObjects.add(gm.getMarkingRef());
+                if (gm.getMarkingRef().hasObject()){
+                    bundleObjects.add(gm.getMarkingRef().getObject());
+                }
             });
         }
 

@@ -8,13 +8,13 @@ import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.datamarkings.DataMarkingsAppliable;
 import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.granular.GranularMarking;
-import io.digitalstate.stix.domainobjects.AttackPattern;
 import io.digitalstate.stix.domainobjects.Identity;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import io.digitalstate.stix.relationshipobjects.CustomStixRelationshipObject;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.Relationship;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -22,9 +22,9 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 import static io.digitalstate.stix.helpers.RelationshipValidators.validateRelationshipClassEquality;
 import static io.digitalstate.stix.helpers.RelationshipValidators.validateRelationshipType;
 import static io.digitalstate.stix.relationshipobjects.RelationshipTypes.*;
@@ -59,7 +59,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * <p>If this attribute is omitted, the source of this information is undefined.</p>
      * <p>This may be used by object creators who wish to remain anonymous.</p>
      */
-    private Identity createdByRef = null;
+    private Relation<Identity> createdByRef = null;
 
     /**
      * <p>The created property represents the time at which the first version of this object was created.
@@ -79,7 +79,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * <p>The modified property represents the time that this particular version of the object was created.
      * The object creator can use the time it deems most appropriate as the time this version of the object was modified.
      * The value of the modified property for a given object version MUST be later than or equal to the value of the created property.</p>
-     *
+     * <p>
      * <p Object creators MUST set the modified property when creating a new version of an object.</p>
      *
      * <p>The modified timestamp MUST be precise to the nearest millisecond (exactly three digits after the decimal place in seconds).</p>
@@ -113,23 +113,23 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * <p>If a vocabulary is defined, items in this list SHOULD come from the vocabulary.
      * Additional labels MAY be added beyond what is in the suggested vocabulary.</p>
      */
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> labels = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> labels = new LinkedHashSet<>();
 
     /**
      * <p>The external_references property specifies a list of external references which refers to non-STIX information.
      * This property is used to provide one or more URLs, descriptions, or IDs to records in other systems.</p>
      */
     @JsonProperty("external_references")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<ExternalReference> externalReferences = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<ExternalReference> externalReferences = new LinkedHashSet<>();
 
     /**
      * <p>The object_marking_refs property specifies a list of IDs of marking-definition objects that apply to this object.</p>
      *
      * <p>See section 4 for further definition of data markings.</p>
      */
-    private LinkedHashSet<MarkingDefinition> objectMarkingRefs = null;
+    private LinkedHashSet<Relation<MarkingDefinition>> objectMarkingRefs = new LinkedHashSet<>();
 
     /**
      * <p>The granular_markings property specifies a list of granular markings applied to this object.</p>
@@ -137,8 +137,8 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * <p>See section 4 for further definition of data markings.</p>
      */
     @JsonProperty("granular_markings")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<GranularMarking> granularMarkings = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<GranularMarking> granularMarkings = new LinkedHashSet<>();
 
     /**
      * <p>There will be cases where certain information exchanges can be improved by adding properties
@@ -177,7 +177,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      *
      * <p>Custom properties do not require you add the "x_"; it will be added for you when the JSON is generated.</p>
      */
-    private HashMap<String, Object> customProperties = null;
+    private HashMap<String, Object> customProperties = new HashMap<>();
 
     // Common Relationship Properties
 
@@ -190,7 +190,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * <p>As an example, a Campaign object from one organization could be marked as a duplicate-of a Campaign object
      * from another organization if they both described the same campaign.</p>
      */
-    private LinkedHashSet<Relationship> duplicateOf = null;
+    private LinkedHashSet<Relation<Relationship>> duplicateOf = new LinkedHashSet<>();
 
     /**
      * <p>The information in the target object is based on information from the source object.</p>
@@ -198,7 +198,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * <p>derived-from is an explicit relationship between two separate objects and MUST NOT be used as a substitute
      * for the versioning process defined in section 3.4.</p>
      */
-    private LinkedHashSet<Relationship> derivedFrom = null;
+    private LinkedHashSet<Relation<Relationship>> derivedFrom = new LinkedHashSet<>();
 
     /**
      * <p>The Relationship of Related-To asserts a non-specific relationship between two SDOs. This relationship can be used when none of the other
@@ -208,12 +208,12 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * if they are commonly used together. That relationship is not common enough to standardize
      * on, but may be useful to some analysts.</p>
      */
-    private LinkedHashSet<Relationship> relatedTo = null;
+    private LinkedHashSet<Relation<Relationship>> relatedTo = new LinkedHashSet<>();
 
     /**
      * <p>Custom Relationships: Relationships that are defined using the CustomStixRelationshipObject interface.</p>
      */
-    private LinkedHashSet<CustomStixRelationshipObject> customRelationships = null;
+    private LinkedHashSet<Relation<CustomStixRelationshipObject>> customRelationships = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -223,6 +223,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * Get the SDO Type
      * <br>
      * See {@link CommonProperties#type}
+     *
      * @return String type value.
      */
     public String getType() {
@@ -236,7 +237,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      */
     public void setType(String type) {
         Objects.requireNonNull(type, "Type cannot be null");
-        if (StringUtils.isNotBlank(type)){
+        if (StringUtils.isNotBlank(type)) {
             this.type = type;
         } else {
             throw new IllegalArgumentException("type cannot be null or blank");
@@ -250,10 +251,10 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     public void setId(String id) {
         Objects.requireNonNull(id, "Id cannot be null");
 
-        if (StringUtils.isBlank(getType())){
+        if (StringUtils.isBlank(getType())) {
             throw new IllegalArgumentException("Cannot set id without Type property being defined");
 
-        }else if (StringUtils.isNotBlank(id)){
+        } else if (StringUtils.isNotBlank(id)) {
             this.id = id;
 
         } else {
@@ -269,26 +270,30 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     }
 
 
-
     @JsonIgnore
-    public Identity getCreatedByRef() {
+    public Relation<Identity> getCreatedByRef() {
         return createdByRef;
     }
 
-    public void setCreatedByRef(Identity createdByRef) {
+    public void setCreatedByRef(Relation<Identity> createdByRef) {
         this.createdByRef = createdByRef;
     }
 
     /**
      * Used by JSON serlizer to return proper spec value for created_by_ref property
+     *
      * @return
      */
     @JsonProperty("created_by_ref")
     @JsonInclude(NON_NULL)
     public String getCreatedByRefId() {
-        Identity identity = this.getCreatedByRef();
-        if (identity != null){
-            return this.getCreatedByRef().getId();
+        Relation<Identity> identity = this.getCreatedByRef();
+        if (identity != null) {
+            if (identity.hasObject()) {
+                return identity.getObject().getId();
+            } else {
+                return identity.getId();
+            }
         } else {
             return null;
         }
@@ -338,60 +343,50 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     }
 
     @JsonIgnore
-    public LinkedHashSet<MarkingDefinition> getObjectMarkingRefs() {
+    public LinkedHashSet<Relation<MarkingDefinition>> getObjectMarkingRefs() {
         return this.objectMarkingRefs;
     }
 
     @JsonProperty("object_marking_refs")
-    @JsonInclude(NON_NULL)
-    public LinkedHashSet<String> getObjectMarkingRefsAsStrings() {
-        if (getObjectMarkingRefs() != null) {
-            return this.getObjectMarkingRefs().stream()
-                    .map(MarkingDefinition::getId)
-                    .collect(Collectors.toCollection(LinkedHashSet::new));
+    @JsonInclude(NON_EMPTY)
+    public LinkedHashSet<String> getObjectMarkingRefsIds() {
+        LinkedHashSet<Relation<MarkingDefinition>> objectRefs = this.getObjectMarkingRefs();
+        LinkedHashSet<String> ids = new LinkedHashSet<>();
+        if (objectRefs != null) {
+
+            objectRefs.forEach(ref -> {
+                if (ref.hasObject()) {
+                    ids.add(ref.getObject().getId());
+                } else {
+                    ids.add(ref.getId());
+                }
+            });
+            return ids;
+
         } else {
             return null;
         }
     }
 
-    public void setObjectMarkingRefs(LinkedHashSet<MarkingDefinition> markingDefinitions) {
+
+    public void setObjectMarkingRefs(LinkedHashSet<Relation<MarkingDefinition>> markingDefinitions) {
         this.objectMarkingRefs = markingDefinitions;
     }
 
-    @JsonIgnore
-    public void setObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
-        this.setObjectMarkingRefs(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
-    }
-
-    public void addObjectMarkingRefs(MarkingDefinition... objectMarkingRefs) {
-        if (this.getObjectMarkingRefs() == null){
-            this.setObjectMarkingRefs(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
-        } else {
-            this.getObjectMarkingRefs().addAll(Arrays.asList(objectMarkingRefs));
-        }
-    }
-
     public LinkedHashSet<GranularMarking> getGranularMarkings() {
-        return this.granularMarkings;
+        return granularMarkings;
     }
 
     public void setGranularMarkings(LinkedHashSet<GranularMarking> granularMarkings) {
+        // Check for Circular References: Where a granul
+        granularMarkings.forEach(gm -> {
+            // @TODO rebuild new methods for .equals() to have a special equals method that compares the combined ID and Modified fields (as per STIX spec)
+            if (gm.getMarkingRef().equals(this)) {
+                throw new IllegalArgumentException("Circular Reference detected in Granular Marking: " + this.toString());
+            }
+        });
         this.granularMarkings = granularMarkings;
     }
-
-    @JsonIgnore
-    public void setGranularMarkings(GranularMarking... objectMarkingRefs) {
-        this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(objectMarkingRefs)));
-    }
-
-    public void addGranularMarkings(GranularMarking... granularMarkings) {
-        if (this.getGranularMarkings() == null){
-            this.setGranularMarkings(new LinkedHashSet<>(Arrays.asList(granularMarkings)));
-        } else {
-            this.getGranularMarkings().addAll(Arrays.asList(granularMarkings));
-        }
-    }
-
 
     @JsonIgnore
     public HashMap<String, Object> getCustomProperties() {
@@ -404,10 +399,11 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
 
     /**
      * Returns a Map with keys that start with "x_".
+     *
      * @return
      */
     @JsonAnyGetter
-    @JsonInclude(NON_NULL)
+    @JsonInclude(NON_EMPTY)
     public HashMap<String, Object> getCustomPropertiesForJson() {
         String prefix = "x_";
 
@@ -415,12 +411,12 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
 
         // @TODO Add support for proper casing of Keys
 
-        if (customProperties == null){
+        if (customProperties == null) {
             return null;
         } else {
             HashMap<String, Object> customPropertiesWithPrefixUpdate = new HashMap<>();
-            this.getCustomProperties().forEach((k,v)->{
-                if (!k.startsWith(prefix)){
+            this.getCustomProperties().forEach((k, v) -> {
+                if (!k.startsWith(prefix)) {
                     customPropertiesWithPrefixUpdate.put(String.join("", prefix, k), v);
                 } else {
                     customPropertiesWithPrefixUpdate.put(k, v);
@@ -432,162 +428,65 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
 
 
     @JsonIgnore
-    public LinkedHashSet<Relationship> getDuplicateOf() {
+    public LinkedHashSet<Relation<Relationship>> getDuplicateOf() {
         return duplicateOf;
     }
 
-    public void setDuplicateOf(LinkedHashSet<Relationship> duplicateOf) {
+    public void setDuplicateOf(LinkedHashSet<Relation<Relationship>> duplicateOf) {
         validateRelationshipClassEquality(
                 DUPLICATE_OF.toString(), duplicateOf);
 
         this.duplicateOf = duplicateOf;
     }
 
-    public void addDuplicateOf(Relationship... relationships){
-        Objects.requireNonNull(relationships, "relationships cannot be null");
-
-        if (this.getDuplicateOf() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            validateRelationshipClassEquality(DUPLICATE_OF.toString(), relationshipObjects);
-
-            this.setDuplicateOf(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            validateRelationshipClassEquality(DUPLICATE_OF.toString(), relationshipObjects);
-
-            this.getDuplicateOf().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addDuplicateOf(StixDomainObject target, String description){
-        Objects.requireNonNull(target, "target cannot be null");
-        Relationship relationship = new Relationship(
-                DUPLICATE_OF.toString(),
-                (StixDomainObject)this,
-                target);
-        addDuplicateOf(relationship);
-    }
-
-    public void addDuplicateOf(StixDomainObject target){
-        Objects.requireNonNull(target, "target cannot be null");
-        addDuplicateOf(target, null);
-    }
-
-
 
     @JsonIgnore
-    public LinkedHashSet<Relationship> getDerivedFrom() {
+    public LinkedHashSet<Relation<Relationship>> getDerivedFrom() {
         return derivedFrom;
     }
 
-    public void setDerivedFrom(LinkedHashSet<Relationship> derivedFrom) {
+    public void setDerivedFrom(LinkedHashSet<Relation<Relationship>> derivedFrom) {
         validateRelationshipClassEquality(DERIVED_FROM.toString(), derivedFrom);
 
         this.derivedFrom = derivedFrom;
     }
 
-    public void addDerivedFrom(Relationship... relationships){
-        Objects.requireNonNull(relationships, "relationships cannot be null");
-
-        if (this.getDerivedFrom() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            validateRelationshipClassEquality(DERIVED_FROM.toString(), relationshipObjects);
-
-            this.setDerivedFrom(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            validateRelationshipClassEquality(DERIVED_FROM.toString(), relationshipObjects);
-
-            this.getDerivedFrom().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addDerivedFrom(StixDomainObject target, String description){
-        Objects.requireNonNull(target, "target cannot be null");
-        Relationship relationship = new Relationship(
-                DERIVED_FROM.toString(),
-                (StixDomainObject)this,
-                target);
-        addDerivedFrom(relationship);
-    }
-
-    public void addDerivedFrom(StixDomainObject target){
-        Objects.requireNonNull(target, "target cannot be null");
-        addDerivedFrom(target, null);
-    }
-
 
     @JsonIgnore
-    public LinkedHashSet<Relationship> getRelatedTo() {
+    public LinkedHashSet<Relation<Relationship>> getRelatedTo() {
         return relatedTo;
     }
 
-    public void setRelatedTo(LinkedHashSet<Relationship> relatedTo) {
+    public void setRelatedTo(LinkedHashSet<Relation<Relationship>> relatedTo) {
         validateRelationshipType(RELATED_TO.toString(), relatedTo);
 
         this.relatedTo = relatedTo;
     }
 
-    public void addRelatedTo(Relationship... relationships){
-        Objects.requireNonNull(relationships, "relationships cannot be null");
-
-        if (this.getRelatedTo() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            validateRelationshipType(RELATED_TO.toString(), relationshipObjects);
-
-            this.setRelatedTo(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            validateRelationshipType(RELATED_TO.toString(), relationshipObjects);
-
-            this.getRelatedTo().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addRelatedTo(StixDomainObject target, String description){
-        Objects.requireNonNull(target, "target cannot be null");
-        Relationship relationship = new Relationship(
-                RELATED_TO.toString(),
-                (StixDomainObject)this,
-                target);
-        addRelatedTo(relationship);
-    }
-
-    public void addRelatedTo(StixDomainObject target){
-        Objects.requireNonNull(target, "target cannot be null");
-        addRelatedTo(target, null);
-    }
-
 
     /**
      * Custom Properties Getter
+     *
      * @return
      */
     @JsonIgnore
-    public LinkedHashSet<CustomStixRelationshipObject> getCustomRelationships() {
+    public LinkedHashSet<Relation<CustomStixRelationshipObject>> getCustomRelationships() {
         return customRelationships;
     }
 
     /**
      * Custom Properties Setter
+     *
      * @param customRelationships
      */
-    public void setCustomRelationships(LinkedHashSet<CustomStixRelationshipObject> customRelationships) {
+    public void setCustomRelationships(LinkedHashSet<Relation<CustomStixRelationshipObject>> customRelationships) {
         this.customRelationships = customRelationships;
     }
 
 
     /**
      * Returns the STIX-Spec-version of the specific STIX SDO.
+     *
      * @return
      */
     public String getSpecVersion() {
@@ -597,6 +496,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
     /**
      * Uses ReflectionToStringBuilder to convert object into String.
      * Primarily used for testing
+     *
      * @return
      */
     @Override
@@ -606,6 +506,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
 
     /**
      * Deep Converts the STIX SDO into a JSON string as per STIX JSON Spec.
+     *
      * @return String JSON string of STIX SDO
      * @throws JsonProcessingException
      */
@@ -617,85 +518,67 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * Returns all common properties' bundle objects.
      * This method is typically used when creating a STIX bundle and you want to detect nested objects
      * that should be added into the Bundle as first class objects (non-nested)
+     *
      * @return
      */
     @JsonIgnore
-    public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects(){
+    public LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects() {
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        bundleObjects.add(getCreatedByRef());
-        if (getCustomRelationships() != null) {
-            getCustomRelationships().forEach(cr -> {
-                Objects.requireNonNull(cr.getBundleObjects(), "Bundle Objects cannot be null");
-                bundleObjects.addAll(cr.getBundleObjects());
-            });
-        }
-
-        if (getRelatedTo() != null) {
-            getRelatedTo().forEach(rt -> {
-                if (rt.getSource().hasObject()){
-                    bundleObjects.add(rt.getSource().getObject());
-                }
-
-                if (rt.getTarget().hasObject()){
-                    bundleObjects.add(rt.getTarget().getObject());
-                }
-            });
-        }
-
-        if (getDuplicateOf() != null) {
-            getDuplicateOf().forEach(dupOf -> {
-                if (dupOf.getSource().hasObject()){
-                    bundleObjects.add(dupOf.getSource().getObject());
-                }
-
-                if (dupOf.getTarget().hasObject()){
-                    bundleObjects.add(dupOf.getTarget().getObject());
-                }
-            });
-        }
-
-        if (getDerivedFrom() != null) {
-            getDerivedFrom().forEach(df -> {
-                if (df.getSource().hasObject()){
-                    bundleObjects.add(df.getSource().getObject());
-                }
-
-                if (df.getTarget().hasObject()){
-                    bundleObjects.add(df.getTarget().getObject());
-                }
-            });
+        if (getCreatedByRef() != null) {
+            if (getCreatedByRef().hasObject()) {
+                bundleObjects.add(getCreatedByRef().getObject());
+            }
         }
 
         if (getObjectMarkingRefs() != null) {
             getObjectMarkingRefs().forEach(om -> {
-                bundleObjects.add(om);
+                if (om.hasObject()) {
+                    bundleObjects.add(om.getObject());
 
-                if (om.getCreatedByRef() != null){
-                    bundleObjects.add(om.getCreatedByRef());
-                }
+                    // getCreatedByRef
+                    if (om.getObject().getCreatedByRef() != null) {
+                        if (om.getObject().getCreatedByRef().hasObject()) {
+                            bundleObjects.add(om.getObject().getCreatedByRef().getObject());
+                        }
+                    }
 
-                if (om.getObjectMarkingRefs() != null) {
-                    bundleObjects.addAll(om.getObjectMarkingRefs());
-                }
+                    // getObjectMarkingRefs
+                    if (om.getObject().getObjectMarkingRefs() != null) {
+                        om.getObject().getObjectMarkingRefs().forEach(omr -> {
+                            if (omr.hasObject()) {
+                                bundleObjects.add(omr.getObject());
+                            }
+                        });
+                    }
 
-                if (om.getGranularMarkings() != null) {
-                    if (om.getGranularMarkings() != null) {
-                        om.getGranularMarkings().forEach(gm -> {
-                            bundleObjects.add(gm.getMarkingRef());
+                    // getGranularMarkings and get the getMarkingRef for each (if any)
+                    if (om.getObject().getGranularMarkings() != null) {
+                        om.getObject().getGranularMarkings().forEach(gm -> {
+                            if (gm.getMarkingRef().hasObject()) {
+                                bundleObjects.add(gm.getMarkingRef().getObject());
+                            }
                         });
                     }
                 }
+
             });
         }
 
         if (getGranularMarkings() != null) {
             getGranularMarkings().forEach(gm -> {
-                bundleObjects.add(gm.getMarkingRef());
+                if (gm.getMarkingRef().hasObject()) {
+                    bundleObjects.add(gm.getMarkingRef().getObject());
+                }
             });
         }
 
         return bundleObjects;
+    }
+
+    @JsonIgnore
+    public void hydrateCommonRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
     }
 
     //
@@ -706,6 +589,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * Overridden: StixDomainObjects have hashcode() method overridden in the CommonProperties class.
      * hashcode() now uses: ID and Modified property as hashcode values.
      * Modified Date will be converted to UTC for brevity of comparison
+     *
      * @return hashcode of object
      */
     @Override
@@ -718,6 +602,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
      * equals() now uses: Must be Instance of StixDomainObject, classes must be equal,
      * and the ID property and Modified Data Property must be equal.
      * Modified Date will be converted to UTC for brevity of comparison
+     *
      * @param obj
      * @return boolean representing the result of the comparison
      */
@@ -732,7 +617,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
             return false;
         }
 
-        StixDomainObject object = (StixDomainObject)obj;
+        StixDomainObject object = (StixDomainObject) obj;
         // Compare the ID and Modified Date fields to be equal.
         // Modified Date field is converted into UTC time for brevity
         return object.getId().equals(this.getId()) &&

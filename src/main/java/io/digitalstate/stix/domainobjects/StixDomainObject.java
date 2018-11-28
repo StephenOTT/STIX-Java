@@ -9,4 +9,6 @@ public interface StixDomainObject extends CommonProperties, BundleObject, JsonCo
 
     LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects();
 
+    void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects);
+
 }

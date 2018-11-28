@@ -54,7 +54,7 @@ public class IntrusionSet extends IntrusionSetProperties implements StixDomainOb
 
             IntrusionSet object = new IntrusionSet();
 
-            validateAllCommonProperties(node, object, TYPE, false);
+            validateAllCommonProperties(node, jp, object, TYPE, false);
 
             Optional<JsonNode> name = Optional.ofNullable(node.get("name"));
             name.ifPresent(o -> {

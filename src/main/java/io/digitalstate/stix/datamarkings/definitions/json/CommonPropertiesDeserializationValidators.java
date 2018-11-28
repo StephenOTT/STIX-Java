@@ -3,15 +3,24 @@ package io.digitalstate.stix.datamarkings.definitions.json;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.digitalstate.stix.datamarkings.StixDataMarking;
+import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
+import io.digitalstate.stix.datamarkings.granular.GranularMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.StatementMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.TlpMarking;
+import io.digitalstate.stix.domainobjects.Identity;
+import io.digitalstate.stix.domainobjects.types.ExternalReference;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.relationshipobjects.Relation;
 
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 
+/**
+ * Data Markings
+ */
 public class CommonPropertiesDeserializationValidators {
 
     /**
@@ -32,9 +41,9 @@ public class CommonPropertiesDeserializationValidators {
         validateId(node, object);
         validateCreatedByRef(node, object);
         validateCreated(node, object);
-        validateExternalRefs(node, object);
+        validateExternalRefs(node, object, jp);
         validateObjectMarkingRefs(node, object);
-        validateGranularMarkings(node, object);
+        validateGranularMarkings(node, object, jp);
         validateDefinitionType(node, object);
         validateDefinition(node, object, jp);
     }
@@ -94,7 +103,7 @@ public class CommonPropertiesDeserializationValidators {
     public static Optional<JsonNode> validateCreatedByRef(JsonNode node, StixDataMarking object) throws IllegalArgumentException {
         Optional<JsonNode> created_by_ref = Optional.ofNullable(node.get("created_by_ref"));
         created_by_ref.ifPresent(o -> {
-            //@TODO
+            object.setCreatedByRef(new Relation<Identity>(o.asText()));
         });
 
         return created_by_ref;
@@ -128,10 +137,24 @@ public class CommonPropertiesDeserializationValidators {
      * @return
      * @throws IllegalArgumentException
      */
-    public static Optional<JsonNode> validateExternalRefs(JsonNode node, StixDataMarking object) throws IllegalArgumentException {
+    public static Optional<JsonNode> validateExternalRefs(JsonNode node, StixDataMarking object, JsonParser jp) throws IllegalArgumentException {
         Optional<JsonNode> external_references = Optional.ofNullable(node.get("external_references"));
         external_references.ifPresent(o -> {
-            //@TODO
+            LinkedHashSet<ExternalReference> set = new LinkedHashSet<>();
+            if (o.isArray()) {
+                o.forEach(extRefObj -> {
+                    JsonParser parser = extRefObj.traverse(jp.getCodec());
+                    try {
+                        set.add(parser.readValueAs(ExternalReference.class));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new IllegalArgumentException("Unable to one of external_references objects");
+                    }
+                });
+                object.setExternalReferences(set);
+            } else {
+                throw new IllegalArgumentException("external_references must be a array of External Reference Objects");
+            }
         });
         return external_references;
     }
@@ -147,7 +170,16 @@ public class CommonPropertiesDeserializationValidators {
     public static Optional<JsonNode> validateObjectMarkingRefs(JsonNode node, StixDataMarking object) throws IllegalArgumentException {
         Optional<JsonNode> object_marking_refs = Optional.ofNullable(node.get("object_marking_refs"));
         object_marking_refs.ifPresent(o -> {
-            //@TODO
+            LinkedHashSet<Relation<MarkingDefinition>> set = new LinkedHashSet<>();
+            if (o.isArray()) {
+                o.forEach(extRefObj -> {
+                    Relation<MarkingDefinition> relation = new Relation<MarkingDefinition>(extRefObj.asText());
+                    set.add(relation);
+                });
+                object.setObjectMarkingRefs(set);
+            } else {
+                throw new IllegalArgumentException("object_marking_refs must be a array of External Reference Objects");
+            }
         });
         return object_marking_refs;
     }
@@ -160,10 +192,24 @@ public class CommonPropertiesDeserializationValidators {
      * @return
      * @throws IllegalArgumentException
      */
-    public static Optional<JsonNode> validateGranularMarkings(JsonNode node, StixDataMarking object) throws IllegalArgumentException {
+    public static Optional<JsonNode> validateGranularMarkings(JsonNode node, StixDataMarking object, JsonParser jp) throws IllegalArgumentException {
         Optional<JsonNode> granular_markings = Optional.ofNullable(node.get("granular_markings"));
         granular_markings.ifPresent(o -> {
-            //@TODO
+            if (o.isArray()) {
+                LinkedHashSet<GranularMarking> set = new LinkedHashSet<>();
+                o.forEach(granMarking -> {
+                    JsonParser parser = granMarking.traverse(jp.getCodec());
+                    try {
+                        set.add(parser.readValueAs(GranularMarking.class));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new IllegalArgumentException("Unable to one of granular_markings objects");
+                    }
+                });
+                object.setGranularMarkings(set);
+            } else {
+                throw new IllegalArgumentException("granular_markings must be a array of granular marking Objects");
+            }
         });
         return granular_markings;
     }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.helpers.RelationshipValidators;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.Relationship;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
@@ -25,14 +27,14 @@ public abstract class CourseOfActionProperties extends CommonProperties{
     @JsonInclude(NON_NULL)
     private String description = null;
 
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> action = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> action = new LinkedHashSet<>();
 
     //
     // Relationships
     //
 
-    private LinkedHashSet<Relationship> mitigates = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> mitigates = new LinkedHashSet<>();
 
 
     //
@@ -69,50 +71,16 @@ public abstract class CourseOfActionProperties extends CommonProperties{
     //
 
     @JsonIgnore
-    public LinkedHashSet<Relationship> getMitigates() {
+    public LinkedHashSet<Relation<Relationship>> getMitigates() {
         return mitigates;
     }
 
-    public void setMitigates(LinkedHashSet<Relationship> mitigates) {
+    public void setMitigates(LinkedHashSet<Relation<Relationship>> mitigates) {
         RelationshipValidators.validateRelationshipAcceptableClasses("mitigates",
                 mitigates, AttackPattern.class, Malware.class, Tool.class, Vulnerability.class);
 
         this.mitigates = mitigates;
     }
-
-    public void addMitigates(Relationship... relationships){
-        if (this.getMitigates() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("mitigates",
-                    relationshipObjects, AttackPattern.class, Malware.class, Tool.class, Vulnerability.class);
-
-            this.setMitigates(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("uses",
-                    relationshipObjects, AttackPattern.class, Malware.class, Tool.class, Vulnerability.class);
-
-            this.getMitigates().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addMitigates(StixDomainObject mitigates, String description){
-        Objects.requireNonNull(mitigates, "mitigates cannot be null");
-
-        Relationship relationship = new Relationship(
-                "mitigates",
-                (StixDomainObject)this,
-                mitigates);
-        addMitigates(relationship);
-    }
-
-    public void addMitigates(StixDomainObject mitigates){
-        addMitigates(mitigates, null);
-    }
-
 
     //
     // Helpers
@@ -122,8 +90,17 @@ public abstract class CourseOfActionProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        bundleObjects.addAll(getMitigates());
+        getMitigates().forEach(relation->{
+            if (relation.hasObject()){
+                bundleObjects.add(relation.getObject());
+            }
+        });
 
         return bundleObjects;
+    }
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
     }
 }

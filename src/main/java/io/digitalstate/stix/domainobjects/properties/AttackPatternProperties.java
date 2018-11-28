@@ -5,13 +5,13 @@ import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import io.digitalstate.stix.helpers.RelationshipValidators;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.Relationship;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.Objects;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
@@ -20,17 +20,17 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public abstract class AttackPatternProperties extends CommonProperties {
     private String name;
 
-    @JsonInclude(NON_NULL)
+    @JsonInclude(NON_EMPTY)
     private String description = null;
 
     @JsonProperty("kill_chain_phases")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<KillChainPhase> killChainPhases = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<KillChainPhase> killChainPhases = new LinkedHashSet<>();
 
     //
     // Relationships
-    private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
-    private LinkedHashSet<Relationship> uses = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> targets = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> uses = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -70,11 +70,11 @@ public abstract class AttackPatternProperties extends CommonProperties {
     //
 
     @JsonIgnore
-    public LinkedHashSet<Relationship> getTargets() {
+    public LinkedHashSet<Relation<Relationship>> getTargets() {
         return targets;
     }
 
-    public void setTargets(LinkedHashSet<Relationship> targets) {
+    public void setTargets(LinkedHashSet<Relation<Relationship>> targets) {
         RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                 targets, Identity.class, Vulnerability.class);
 
@@ -82,85 +82,15 @@ public abstract class AttackPatternProperties extends CommonProperties {
     }
 
     @JsonIgnore
-    public void addTargets(Relationship... relationships){
-        if (this.getTargets() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("targets",
-                    relationshipObjects, Identity.class, Vulnerability.class);
-
-            this.setTargets(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("targets",
-                    relationshipObjects, Identity.class, Vulnerability.class);
-
-            this.getTargets().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    @JsonIgnore
-    public void addTarget(StixDomainObject target, String description){
-        Objects.requireNonNull(target, "target cannot be null");
-        Relationship relationship = new Relationship(
-                "targets",
-                (StixDomainObject)this,
-                target);
-        addTargets(relationship);
-    }
-
-    @JsonIgnore
-    public void addTarget(StixDomainObject target){
-        addTarget(target, null);
-    }
-
-    @JsonIgnore
-    public LinkedHashSet<Relationship> getUses() {
+    public LinkedHashSet<Relation<Relationship>> getUses() {
         return uses;
     }
 
-    public void setUses(LinkedHashSet<Relationship> uses) {
+    public void setUses(LinkedHashSet<Relation<Relationship>> uses) {
         RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                 uses, Malware.class, Tool.class);
 
         this.uses = uses;
-    }
-
-    @JsonIgnore
-    public void addUses(Relationship... relationships){
-        if (this.getUses() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("uses",
-                    relationshipObjects, Malware.class, Tool.class);
-
-            this.setUses(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("uses",
-                    relationshipObjects, Malware.class, Tool.class);
-
-            this.getUses().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    @JsonIgnore
-    public void addUse(StixDomainObject use, String description){
-        Objects.requireNonNull(use, "use cannot be null");
-        Relationship relationship = new Relationship(
-                "uses",
-                (StixDomainObject)this,
-                use);
-        addUses(relationship);
-    }
-
-    @JsonIgnore
-    public void addUse(StixDomainObject use){
-        addUse(use, null);
     }
 
     //
@@ -171,10 +101,24 @@ public abstract class AttackPatternProperties extends CommonProperties {
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        bundleObjects.addAll(getTargets());
-        bundleObjects.addAll(getUses());
+        getTargets().forEach(t->{
+            if (t.hasObject()){
+                bundleObjects.add(t.getObject());
+            }
+        });
+
+        getUses().forEach(u->{
+            if (u.hasObject()){
+                bundleObjects.add(u.getObject());
+            }
+        });
 
         return bundleObjects;
+    }
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
     }
 
 }

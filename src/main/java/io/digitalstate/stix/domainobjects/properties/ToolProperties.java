@@ -10,6 +10,7 @@ import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.domainobjects.Vulnerability;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import io.digitalstate.stix.helpers.RelationshipValidators;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.Relationship;
 import io.digitalstate.stix.vocabularies.StixVocabulary;
 import io.digitalstate.stix.vocabularies.ToolLabels;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
@@ -32,8 +34,8 @@ public abstract class ToolProperties extends CommonProperties{
     private String description = null;
 
     @JsonProperty("kill_chain_phases")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<KillChainPhase> killChainPhases = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<KillChainPhase> killChainPhases = new LinkedHashSet<>();
 
     @JsonProperty("tool_version")
     @JsonInclude(NON_NULL)
@@ -43,7 +45,7 @@ public abstract class ToolProperties extends CommonProperties{
     private StixVocabulary toolLabelsVocab = new ToolLabels();
 
     // Relationships
-    private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> targets = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -112,49 +114,16 @@ public abstract class ToolProperties extends CommonProperties{
     //
 
     @JsonIgnore
-    public LinkedHashSet<Relationship> getTargets() {
+    public LinkedHashSet<Relation<Relationship>> getTargets() {
         return targets;
     }
 
-    public void setTargets(LinkedHashSet<Relationship> targets) {
+    public void setTargets(LinkedHashSet<Relation<Relationship>> targets) {
         RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                 targets, Identity.class, Vulnerability.class);
 
         this.targets = targets;
     }
-
-    public void addTargets(Relationship... relationships){
-        if (this.getTargets() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("targets",
-                    relationshipObjects, Identity.class, Vulnerability.class);
-
-            this.setTargets(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("targets",
-                    relationshipObjects, Identity.class, Vulnerability.class);
-
-            this.getTargets().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addTarget(StixDomainObject target, String description){
-        Objects.requireNonNull(target, "target cannot be null");
-        Relationship relationship = new Relationship(
-                "targets",
-                (StixDomainObject)this,
-                target);
-        addTargets(relationship);
-    }
-
-    public void addTarget(StixDomainObject target){
-        addTarget(target, null);
-    }
-
 
     //
     // Helpers
@@ -164,8 +133,17 @@ public abstract class ToolProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        bundleObjects.addAll(getTargets());
+        getTargets().forEach(relation->{
+            if (relation.hasObject()){
+                bundleObjects.add(relation.getObject());
+            }
+        });
 
         return bundleObjects;
+    }
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
     }
 }

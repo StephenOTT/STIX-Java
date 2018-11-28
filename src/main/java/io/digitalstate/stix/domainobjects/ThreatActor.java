@@ -58,7 +58,7 @@ public class ThreatActor extends ThreatActorProperties implements StixDomainObje
 
             ThreatActor object = new ThreatActor();
 
-            validateAllCommonProperties(node, object, TYPE, true);
+            validateAllCommonProperties(node, jp, object, TYPE, true);
 
             Optional<JsonNode> name = Optional.ofNullable(node.get("name"));
             name.ifPresent(o -> {

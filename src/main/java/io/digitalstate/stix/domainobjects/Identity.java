@@ -52,7 +52,7 @@ public class Identity extends IdentityProperties implements StixDomainObject {
 
             Identity object = new Identity();
 
-            validateAllCommonProperties(node, object, TYPE, false);
+            validateAllCommonProperties(node, jp, object, TYPE, false);
 
             Optional<JsonNode> name = Optional.ofNullable(node.get("name"));
             name.ifPresent(o -> {

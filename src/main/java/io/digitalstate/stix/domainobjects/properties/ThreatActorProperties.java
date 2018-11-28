@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.helpers.RelationshipValidators;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.Relationship;
 import io.digitalstate.stix.vocabularies.*;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
@@ -29,14 +31,14 @@ public abstract class ThreatActorProperties extends CommonProperties{
     @JsonInclude(NON_NULL)
     private String description = null;
 
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> aliases = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> aliases = new LinkedHashSet<>();
 
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> roles = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> roles = new LinkedHashSet<>();
 
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> goals = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> goals = new LinkedHashSet<>();
 
     @JsonInclude(NON_NULL)
     private String sophistication = null;
@@ -50,12 +52,12 @@ public abstract class ThreatActorProperties extends CommonProperties{
     private String primaryMotivation = null;
 
     @JsonProperty("secondary_motivation")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> secondaryMotivations = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> secondaryMotivations = new LinkedHashSet<>();
 
     @JsonProperty("personal_motivations")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> personalMotivations = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> personalMotivations = new LinkedHashSet<>();
 
     // Vocabulary Instances
     private StixVocabulary threatActorLabelsVocab = new ThreatActorLabels();
@@ -67,10 +69,10 @@ public abstract class ThreatActorProperties extends CommonProperties{
     //
     // Relationships
     //
-    private LinkedHashSet<Relationship> attributedTo = new LinkedHashSet<>();
-    private LinkedHashSet<Relationship> impersonates = new LinkedHashSet<>();
-    private LinkedHashSet<Relationship> targets = new LinkedHashSet<>();
-    private LinkedHashSet<Relationship> uses = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> attributedTo = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> impersonates = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> targets = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> uses = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -266,182 +268,52 @@ public abstract class ThreatActorProperties extends CommonProperties{
     //
 
     @JsonIgnore
-    public LinkedHashSet<Relationship> getAttributedTo() {
+    public LinkedHashSet<Relation<Relationship>> getAttributedTo() {
         return attributedTo;
     }
 
-    public void setAttributedTo(LinkedHashSet<Relationship> attributedTo) {
+    public void setAttributedTo(LinkedHashSet<Relation<Relationship>> attributedTo) {
         RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
                 attributedTo, Identity.class);
 
         this.attributedTo = attributedTo;
     }
 
-    public void addAttributedTo(Relationship... relationships){
-        if (this.getAttributedTo() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
-                    relationshipObjects, Identity.class);
-
-            this.setAttributedTo(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("attributed-to",
-                    relationshipObjects, Identity.class);
-
-            this.getAttributedTo().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addAttributedTo(StixDomainObject attributedTo, String description){
-        Objects.requireNonNull(attributedTo, "attributedTo cannot be null");
-        Relationship relationship = new Relationship(
-                "attributed-to",
-                (StixDomainObject)this,
-                attributedTo);
-        addAttributedTo(relationship);
-    }
-
-    public void addAttributedTo(StixDomainObject attributedTo){
-        addAttributedTo(attributedTo, null);
-    }
-
     @JsonIgnore
-    public LinkedHashSet<Relationship> getImpersonates() {
+    public LinkedHashSet<Relation<Relationship>> getImpersonates() {
         return impersonates;
     }
 
-    public void setImpersonates(LinkedHashSet<Relationship> impersonates) {
+    public void setImpersonates(LinkedHashSet<Relation<Relationship>> impersonates) {
         RelationshipValidators.validateRelationshipAcceptableClasses("impersonates",
                 impersonates, Identity.class);
 
         this.impersonates = impersonates;
     }
 
-    public void addImpersonates(Relationship... relationships){
-        if (this.getImpersonates() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("impersonates",
-                    relationshipObjects, Identity.class);
-
-            this.setImpersonates(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("impersonates",
-                    relationshipObjects, Identity.class);
-
-            this.getImpersonates().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addImpersonates(StixDomainObject impersonates, String description){
-        Objects.requireNonNull(impersonates, "impersonates cannot be null");
-        Relationship relationship = new Relationship(
-                "uses",
-                (StixDomainObject)this,
-                impersonates);
-        addImpersonates(relationship);
-    }
-
-    public void addImpersonates(StixDomainObject impersonates){
-        addImpersonates(impersonates, null);
-    }
-
     @JsonIgnore
-    public LinkedHashSet<Relationship> getTargets() {
+    public LinkedHashSet<Relation<Relationship>> getTargets() {
         return targets;
     }
 
-    public void setTargets(LinkedHashSet<Relationship> targets) {
+    public void setTargets(LinkedHashSet<Relation<Relationship>> targets) {
         RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                 targets, Identity.class, Vulnerability.class);
 
         this.targets = targets;
     }
 
-    public void addTargets(Relationship... relationships){
-        if (this.getTargets() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("targets",
-                    relationshipObjects, Identity.class, Vulnerability.class);
-
-            this.setTargets(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("targets",
-                    relationshipObjects, Identity.class, Vulnerability.class);
-
-            this.getTargets().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addTarget(StixDomainObject target, String description){
-        Objects.requireNonNull(target, "target cannot be null");
-        Relationship relationship = new Relationship(
-                "targets",
-                (StixDomainObject)this,
-                target);
-        addTargets(relationship);
-    }
-
-    public void addTarget(StixDomainObject target){
-        addTarget(target, null);
-    }
-
-
     @JsonIgnore
-    public LinkedHashSet<Relationship> getUses() {
+    public LinkedHashSet<Relation<Relationship>> getUses() {
         return uses;
     }
 
-    public void setUses(LinkedHashSet<Relationship> uses) {
+    public void setUses(LinkedHashSet<Relation<Relationship>> uses) {
         RelationshipValidators.validateRelationshipAcceptableClasses("uses",
                 uses, AttackPattern.class, Malware.class, Tool.class);
 
         this.uses = uses;
     }
-
-    public void addUses(Relationship... relationships){
-        if (this.getUses() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("uses",
-                    relationshipObjects, AttackPattern.class, Malware.class, Tool.class);
-
-            this.setUses(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("uses",
-                    relationshipObjects, AttackPattern.class, Malware.class, Tool.class);
-
-            this.getUses().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addUse(StixDomainObject use, String description){
-        Objects.requireNonNull(use, "use cannot be null");
-        Relationship relationship = new Relationship(
-                "uses",
-                (StixDomainObject)this,
-                use);
-        addUses(relationship);
-    }
-
-    public void addUse(StixDomainObject use){
-        addUse(use, null);
-    }
-
 
 
     //
@@ -452,12 +324,35 @@ public abstract class ThreatActorProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        bundleObjects.addAll(getAttributedTo());
-        bundleObjects.addAll(getImpersonates());
-        bundleObjects.addAll(getTargets());
-        bundleObjects.addAll(getUses());
+        getAttributedTo().forEach(relation->{
+            if (relation.hasObject()){
+                bundleObjects.add(relation.getObject());
+            }
+        });
+
+        getImpersonates().forEach(relation->{
+            if (relation.hasObject()){
+                bundleObjects.add(relation.getObject());
+            }
+        });
+
+        getTargets().forEach(relation->{
+            if (relation.hasObject()){
+                bundleObjects.add(relation.getObject());
+            }
+        });
+
+        getUses().forEach(relation->{
+            if (relation.hasObject()){
+                bundleObjects.add(relation.getObject());
+            }
+        });
 
         return bundleObjects;
     }
 
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
+    }
 }

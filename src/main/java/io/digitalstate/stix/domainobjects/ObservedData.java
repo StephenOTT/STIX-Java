@@ -63,7 +63,7 @@ public class ObservedData extends ObservedDataProperties implements StixDomainOb
 
             ObservedData object = new ObservedData();
 
-            validateAllCommonProperties(node, object, TYPE, false);
+            validateAllCommonProperties(node, jp, object, TYPE, false);
 
             Optional<JsonNode> first_observed = Optional.ofNullable(node.get("first_observed"));
             first_observed.ifPresent(o -> {

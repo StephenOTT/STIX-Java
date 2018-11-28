@@ -8,6 +8,7 @@ import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.helpers.RelationshipValidators;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.Relationship;
 import io.digitalstate.stix.vocabularies.IndicatorLabels;
 import io.digitalstate.stix.vocabularies.StixVocabulary;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
@@ -46,9 +48,8 @@ public abstract class IndicatorProperties extends CommonProperties{
     private ZonedDateTime validUntil;
 
     @JsonProperty("kill_chain_phases")
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<KillChainPhase> killChainPhases = null;
-
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<KillChainPhase> killChainPhases = new LinkedHashSet<>();
 
     @JsonIgnore
     private StixVocabulary indicatorLabelsVocab = new IndicatorLabels();
@@ -56,7 +57,7 @@ public abstract class IndicatorProperties extends CommonProperties{
     //
     // Relationships
     //
-    private LinkedHashSet<Relationship> indicates = new LinkedHashSet<>();
+    private LinkedHashSet<Relation<Relationship>> indicates = new LinkedHashSet<>();
 
     //
     // Getters and Setters
@@ -155,53 +156,17 @@ public abstract class IndicatorProperties extends CommonProperties{
     //
 
     @JsonIgnore
-    public LinkedHashSet<Relationship> getIndicates() {
+    public LinkedHashSet<Relation<Relationship>> getIndicates() {
         return indicates;
     }
 
-    public void setIndicates(LinkedHashSet<Relationship> indicates) {
+    public void setIndicates(LinkedHashSet<Relation<Relationship>> indicates) {
         RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
                 indicates, AttackPattern.class, Campaign.class, IntrusionSet.class,
                 Malware.class, ThreatActor.class, Tool.class);
 
         this.indicates = indicates;
     }
-
-    public void addIndicates(Relationship... relationships){
-        if (this.getIndicates() == null){
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
-                    relationshipObjects, AttackPattern.class, Campaign.class, IntrusionSet.class,
-                    Malware.class, ThreatActor.class, Tool.class);
-
-            this.setIndicates(new LinkedHashSet<>(Arrays.asList(relationships)));
-
-        } else {
-            LinkedHashSet<Relationship> relationshipObjects = new LinkedHashSet<>(Arrays.asList(relationships));
-
-            RelationshipValidators.validateRelationshipAcceptableClasses("indicates",
-                    relationshipObjects, AttackPattern.class, Campaign.class, IntrusionSet.class,
-                    Malware.class, ThreatActor.class, Tool.class);
-
-            this.getIndicates().addAll(Arrays.asList(relationships));
-        }
-    }
-
-    public void addIndicates(StixDomainObject indicates, String description){
-        Objects.requireNonNull(indicates, "indicates cannot be null");
-
-        Relationship relationship = new Relationship(
-                "indicates",
-                (StixDomainObject)this,
-                indicates);
-        addIndicates(relationship);
-    }
-
-    public void addIndicates(StixDomainObject indicates){
-        addIndicates(indicates, null);
-    }
-
 
     //
     // Helpers
@@ -211,8 +176,17 @@ public abstract class IndicatorProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        bundleObjects.addAll(getIndicates());
+        getIndicates().forEach(relation->{
+            if (relation.hasObject()){
+                bundleObjects.add(relation.getObject());
+            }
+        });
 
         return bundleObjects;
+    }
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
     }
 }

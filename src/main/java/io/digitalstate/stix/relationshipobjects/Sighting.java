@@ -63,7 +63,7 @@ public class Sighting extends SightingProperties implements StixRelationshipObje
 
             Sighting object = new Sighting();
 
-            validateAllCommonProperties(node, object, TYPE, false);
+            validateAllCommonProperties(node, jp, object, TYPE, false);
 
             Optional<JsonNode> first_seen = Optional.ofNullable(node.get("first_seen"));
             first_seen.ifPresent(o -> {

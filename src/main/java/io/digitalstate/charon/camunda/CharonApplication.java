@@ -233,12 +233,12 @@ public class CharonApplication {
             System.out.println("MarkingDefinition::JSON->Object->JSON:");
             System.out.println(markingDefinitionString.toJsonString());
 
-//            Bundle fullBundle = om.readValue(fullBundleString, Bundle.class);
-//            fullBundle.hydrateRelationsWithObjects();
-//            System.out.println("FullBundle::JSON->Object->JSON:");
-////            fullBundle.autoDetectBundleObjects();
-//            System.out.println(fullBundle.toJsonString());
-//            System.out.println(fullBundle);
+            Bundle fullBundle = om.readValue(fullBundleString, Bundle.class);
+            fullBundle.hydrateRelationsWithObjects();
+            System.out.println("FullBundle::JSON->Object->JSON:");
+            fullBundle.autoDetectBundleObjects();
+            System.out.println(fullBundle.toJsonString());
+            System.out.println(fullBundle);
 
             Bundle bundle1Relation = om.readValue(bundleWith1Relation, Bundle.class);
             System.out.println("BundleWith1Relation::JSON->Object->JSON:");
@@ -272,13 +272,13 @@ public class CharonApplication {
                 new TlpMarking("red"));
 
         // Apply a Object level Marking
-        attackPattern.addObjectMarkingRefs(markingDefinition);
+//        attackPattern.addObjectMarkingRefs(markingDefinition);
         // Create a Granular Marking
         GranularMarking granularMarking =
                 new GranularMarking(refDef, "pattern1", "pattern2", "pattern3");
 
         // Apply a Granular Marking to the attack pattern
-        attackPattern.addGranularMarkings(granularMarking);
+//        attackPattern.addGranularMarkings(granularMarking);
 
 
         MarkingDefinition statement1 = new MarkingDefinition(
@@ -287,9 +287,9 @@ public class CharonApplication {
         GranularMarking markingRestriction =
                 new GranularMarking(refDef, "marking-pattern1", "pattern2", "pattern3");
 
-        statement1.addGranularMarkings(markingRestriction);
+//        statement1.addGranularMarkings(markingRestriction);
 
-        markingDefinition.addObjectMarkingRefs(statement1);
+//        markingDefinition.addObjectMarkingRefs(statement1);
 
         // Generate Observed Data Object:
         ZonedDateTime observedTime = ZonedDateTime.now();
@@ -304,7 +304,7 @@ public class CharonApplication {
 
         ObservedData observedData = new ObservedData(observedTime, observedTime, 3, cyberObservedObjects);
 
-        observedData.addObjectMarkingRefs(statement1);
+//        observedData.addObjectMarkingRefs(statement1);
 
         // Sign Object
         String signedObject = ObjectSigning.signObject(attackPattern);
@@ -321,7 +321,7 @@ public class CharonApplication {
         // Build Identity
 
         Identity steve = new Identity("Stephen", "individual");
-        attackPattern.addTarget(steve);
+//        attackPattern.addTarget(steve);
 
 
         // Add a Sighting that is related to attackPattern

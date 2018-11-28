@@ -59,7 +59,7 @@ public class Tool extends ToolProperties implements StixDomainObject {
 
             Tool object = new Tool();
 
-            validateAllCommonProperties(node, object, TYPE, true);
+            validateAllCommonProperties(node, jp, object, TYPE, true);
 
             Optional<JsonNode> name = Optional.ofNullable(node.get("name"));
             name.ifPresent(o -> {

@@ -109,4 +109,9 @@ public abstract class ObservedDataProperties extends CommonProperties{
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
         return bundleObjects;
     }
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
+    }
 }

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
@@ -28,8 +29,8 @@ public abstract class IdentityProperties extends CommonProperties{
     @JsonProperty("identity_class")
     private String identityClass;
 
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<String> sectors = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<String> sectors = new LinkedHashSet<>();
 
     @JsonInclude(NON_NULL)
     @JsonProperty("contact_information")
@@ -146,5 +147,10 @@ public abstract class IdentityProperties extends CommonProperties{
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
         return bundleObjects;
+    }
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
     }
 }
