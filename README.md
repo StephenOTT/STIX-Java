@@ -264,6 +264,8 @@ The below is a the output from the java example above.
 
 ![Report Review Process 1](./docs/BPMN/report_review.png)
 
+![Translation Process](./docs/BPMN/stix_data_translation.png)
+
 
 -----
 
