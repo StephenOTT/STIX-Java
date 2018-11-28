@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 
 import java.time.ZoneId;
 import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
@@ -27,9 +29,9 @@ public abstract class RelationshipProperties extends CommonProperties {
     @JsonInclude(NON_NULL)
     private String description = null;
 
-    private StixDomainObject source;
+    private Relation<StixDomainObject> source;
 
-    private StixDomainObject target;
+    private Relation<StixDomainObject> target;
 
     //
     // Getters and Setters
@@ -52,40 +54,52 @@ public abstract class RelationshipProperties extends CommonProperties {
     }
 
     @JsonIgnore
-    public StixDomainObject getSource() {
-        return source;
+    public Relation<StixDomainObject> getSource() {
+        return this.source;
+    }
+
+    public void setSource(Relation<StixDomainObject> source) {
+        Objects.requireNonNull(source, "source cannot be null");
+        this.source = source;
     }
 
     public void setSource(StixDomainObject source) {
-        this.source = source;
+        Objects.requireNonNull(source, "source cannot be null");
+        this.source = new Relation<>(source);
     }
 
     @JsonProperty("source")
     @JsonInclude(NON_NULL)
-    public String getSourceRefsAsString() {
-        if (getSource() != null){
-            return getSource().getId();
+    public String getSourceID() {
+        if (getSource().hasObject()){
+            return getSource().getObject().getId();
         } else {
-            return null;
+            return getSource().getId();
         }
     }
 
     @JsonIgnore
-    public StixDomainObject getTarget() {
-        return target;
+    public Relation<StixDomainObject> getTarget() {
+        return this.target;
+    }
+
+    public void setTarget(Relation<StixDomainObject> target) {
+        Objects.requireNonNull(target, "target cannot be null");
+        this.target = target;
     }
 
     public void setTarget(StixDomainObject target) {
-        this.target = target;
+        Objects.requireNonNull(target, "target cannot be null");
+        this.target = new Relation<>(target);
     }
 
     @JsonProperty("target")
     @JsonInclude(NON_NULL)
-    public String getTargetRefsAsString() {
-        if (getTarget() != null){
-            return getTarget().getId();
+    public String getTargetID() {
+        if (getTarget().hasObject()){
+            return getTarget().getObject().getId();
         } else {
-            return null;
+            return getTarget().getId();
         }
     }
 
@@ -93,15 +107,44 @@ public abstract class RelationshipProperties extends CommonProperties {
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        if (getSource() != null) {
-            bundleObjects.add(getSource());
+        if (getSource() != null && getSource().hasObject()) {
+            bundleObjects.add(getSource().getObject());
         }
 
-        if (getTarget() != null) {
-            bundleObjects.add(getTarget());
+        if (getTarget() != null && getTarget().hasObject()) {
+            bundleObjects.add(getTarget().getObject());
         }
 
         return bundleObjects;
+    }
+
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
+        // Hydrate Source
+        String sourceId = getSource().getId();
+        Optional<BundleObject> source = bundleObjects.stream()
+                .filter(o-> o instanceof StixRelationshipObject)
+                .filter(o-> ((StixRelationshipObject) o).getId().equals(sourceId))
+                .findAny();
+
+        source.ifPresent(o->{
+            Relation<StixDomainObject> hydratedRelation = new Relation<StixDomainObject>((StixDomainObject)o);
+            setSource(hydratedRelation);
+        });
+
+        // Hydrate Target
+        String targetId = getSource().getId();
+        Optional<BundleObject> target = bundleObjects.stream()
+                .filter(o-> o instanceof StixRelationshipObject)
+                .filter(o-> ((StixRelationshipObject) o).getId().equals(targetId))
+                .findAny();
+
+        target.ifPresent(o->{
+            Relation<StixDomainObject> hydratedRelation = new Relation<StixDomainObject>((StixDomainObject)o);
+            setTarget(hydratedRelation);
+        });
     }
 
 

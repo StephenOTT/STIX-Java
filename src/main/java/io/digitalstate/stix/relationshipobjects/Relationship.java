@@ -22,7 +22,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = Relationship.Deserializer.class)
 public class Relationship extends RelationshipProperties implements StixRelationshipObject{
 
-    private static final String TYPE = "relationship";
+    public static final String TYPE = "relationship";
 
     public Relationship(String relationshipType,
                  StixDomainObject source,
@@ -80,13 +80,15 @@ public class Relationship extends RelationshipProperties implements StixRelation
 
             Optional<JsonNode> source = Optional.ofNullable(node.get("source"));
             source.ifPresent(o -> {
-                //@TODO
+                Relation<StixDomainObject> relation = new Relation<>(o.asText());
+                object.setSource(relation);
             });
             source.orElseThrow(() -> new IllegalArgumentException("source is Required"));
 
             Optional<JsonNode> target = Optional.ofNullable(node.get("target"));
             target.ifPresent(o -> {
-                //@TODO
+                Relation<StixDomainObject> relation = new Relation<>(o.asText());
+                object.setTarget(relation);
             });
             target.orElseThrow(() -> new IllegalArgumentException("target is Required"));
 

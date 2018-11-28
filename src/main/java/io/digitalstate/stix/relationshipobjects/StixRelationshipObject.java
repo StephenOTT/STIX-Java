@@ -41,4 +41,7 @@ public interface StixRelationshipObject extends BundleObject, JsonConvertable {
     LinkedHashSet<BundleObject> getAllCommonPropertiesBundleObjects();
 
     LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects();
+
+    void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects);
+
 }

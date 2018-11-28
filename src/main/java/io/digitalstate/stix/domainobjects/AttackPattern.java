@@ -19,7 +19,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = AttackPattern.Deserializer.class)
 public class AttackPattern extends AttackPatternProperties implements StixDomainObject {
 
-    private static final String TYPE = "attack-pattern";
+    public static final String TYPE = "attack-pattern";
 
     public AttackPattern(String name) {
         setType(TYPE);

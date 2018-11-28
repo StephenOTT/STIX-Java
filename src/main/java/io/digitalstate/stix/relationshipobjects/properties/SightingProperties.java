@@ -8,10 +8,12 @@ import io.digitalstate.stix.domainobjects.Identity;
 import io.digitalstate.stix.domainobjects.ObservedData;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.relationshipobjects.Relation;
 
 import java.time.ZonedDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
@@ -40,7 +42,7 @@ public abstract class SightingProperties extends CommonProperties {
     @JsonInclude(NON_NULL)
     protected Integer count = null;
 
-    private StixDomainObject sightingOfRef;
+    private Relation<StixDomainObject> sightingOfRef;
 
     @JsonInclude(NON_NULL)
     private LinkedHashSet<ObservedData> observedDataRefs = null;
@@ -85,20 +87,33 @@ public abstract class SightingProperties extends CommonProperties {
         this.count = count;
     }
 
+
     @JsonIgnore
-    public StixDomainObject getSightingOfRef() {
-        return sightingOfRef;
+    public Relation<StixDomainObject> getSightingOfRef() {
+        return this.sightingOfRef;
+    }
+
+    @JsonProperty("sighting_of_ref")
+    @JsonInclude(NON_NULL)
+    public String getSightingOfRefId() {
+        if (getSightingOfRef().hasObject()){
+            return getSightingOfRef().getObject().getId();
+        } else {
+            return getSightingOfRef().getId();
+        }
     }
 
     public void setSightingOfRef(StixDomainObject sightingOfRef) {
         Objects.requireNonNull(sightingOfRef, "sightingOfRed cannot be null");
+        this.sightingOfRef = new Relation<>(sightingOfRef);
+    }
+
+    public void setSightingOfRef(Relation<StixDomainObject> sightingOfRef) {
+        Objects.requireNonNull(sightingOfRef, "sightingOfRef cannot be null");
         this.sightingOfRef = sightingOfRef;
     }
 
-    @JsonProperty("sighting_of_ref")
-    public String getSightingOfRefAsString(){
-        return getSightingOfRef().getId();
-    }
+
 
     @JsonIgnore
     public LinkedHashSet<ObservedData> getObservedDataRefs() {
@@ -160,8 +175,8 @@ public abstract class SightingProperties extends CommonProperties {
     public LinkedHashSet<BundleObject> getAllObjectSpecificBundleObjects(){
         LinkedHashSet<BundleObject> bundleObjects = new LinkedHashSet<>();
 
-        if (getSightingOfRef() != null){
-            bundleObjects.add(getSightingOfRef());
+        if (getSightingOfRef() != null && getSightingOfRef().hasObject()){
+            bundleObjects.add(getSightingOfRef().getObject());
         }
 
         if (getObservedDataRefs() != null){
@@ -174,4 +189,20 @@ public abstract class SightingProperties extends CommonProperties {
 
         return bundleObjects;
     }
+
+    @JsonIgnore
+    public void hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects){
+
+        String sightingOfRefId = getSightingOfRef().getId();
+        Optional<BundleObject> object = bundleObjects.stream()
+                .filter(o-> o instanceof StixDomainObject)
+                .filter(o-> ((StixDomainObject) o).getId().equals(sightingOfRefId))
+                .findAny();
+
+        object.ifPresent(o->{
+            Relation<StixDomainObject> hydratedRelation = new Relation<StixDomainObject>((StixDomainObject)o);
+            setSightingOfRef(hydratedRelation);
+        });
+    }
+
 }

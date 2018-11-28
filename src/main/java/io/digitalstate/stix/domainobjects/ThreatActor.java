@@ -19,7 +19,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = ThreatActor.Deserializer.class)
 public class ThreatActor extends ThreatActorProperties implements StixDomainObject {
 
-    private static final String TYPE = "threat-actor";
+    public static final String TYPE = "threat-actor";
 
     public ThreatActor(String name,
                        LinkedHashSet<String> threatActorLabels){

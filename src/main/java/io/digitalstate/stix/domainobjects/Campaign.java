@@ -21,7 +21,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = Campaign.Deserializer.class)
 public class Campaign extends CampaignProperties implements StixDomainObject {
 
-    private static final String TYPE = "campaign";
+    public static final String TYPE = "campaign";
 
     public Campaign(String name) {
         setType(TYPE);

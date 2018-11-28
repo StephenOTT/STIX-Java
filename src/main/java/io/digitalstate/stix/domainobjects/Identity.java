@@ -18,7 +18,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = Identity.Deserializer.class)
 public class Identity extends IdentityProperties implements StixDomainObject {
 
-    private static final String TYPE = "identity";
+    public static final String TYPE = "identity";
 
     public Identity(String name, String identityClass){
         setType(TYPE);

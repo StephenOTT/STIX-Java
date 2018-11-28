@@ -2,7 +2,6 @@ package io.digitalstate.stix.helpers;
 
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.relationshipobjects.Relationship;
-import io.digitalstate.stix.relationshipobjects.StixRelationshipObject;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -23,7 +22,7 @@ public class RelationshipValidators {
         relationships.forEach(relationship -> {
             if (!relationship.getRelationshipType().equals(relationshipType)){
                 throw new IllegalArgumentException("Invalid relationship type.  Relationship should have type " + relationshipType + " but found type: " + relationship.getRelationshipType());
-            } else if (!relationship.getSource().getClass().equals(relationship.getTarget().getClass())){
+            } else if (!relationship.getSource().getObject().getClass().equals(relationship.getTarget().getObject().getClass())){
                 throw new IllegalArgumentException(relationshipType + " relationships must be with the same SDO Object Type.");
             }
         });
@@ -53,9 +52,13 @@ public class RelationshipValidators {
             if (!relationship.getRelationshipType().equals(relationshipType)){
                 throw new IllegalArgumentException("Invalid relationship type.  Relationship should have type " + relationshipType + " but found type: " + relationship.getRelationshipType());
 
-            } else if (!classes.contains(relationship.getTarget().getClass())){
-                // @TODO build in more robust error message
-                throw new IllegalArgumentException("Not a acceptable class for relationship target");
+            } else if (relationship.getTarget().hasObject()){
+                if (!classes.contains(relationship.getTarget().getObject().getClass())) {
+                    // @TODO build in more robust error message
+                    throw new IllegalArgumentException("Not a acceptable class for relationship target");
+                }
+            } else if (!relationship.getTarget().hasObject()){
+                // @TODO Add error handling for when the target does not have a object
             }
         });
     }

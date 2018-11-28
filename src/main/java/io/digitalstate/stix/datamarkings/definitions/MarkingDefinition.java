@@ -17,7 +17,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = MarkingDefinition.Deserializer.class)
 public class MarkingDefinition extends MarkingDefinitionProperties implements StixDataMarking {
 
-    private static final String TYPE = "marking-definition";
+    public static final String TYPE = "marking-definition";
 
     public MarkingDefinition(MarkingObjectType markingObjectType){
         setType(TYPE);

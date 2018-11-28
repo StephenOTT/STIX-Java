@@ -265,7 +265,7 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
         Objects.requireNonNull(prefix, "prefix cannot be null");
         Objects.requireNonNull(uuid, "Id cannot be null");
 
-        this.setId(String.join("--", getType(), id));
+        this.setId(String.join("--", prefix, uuid));
     }
 
 
@@ -633,22 +633,37 @@ public abstract class CommonProperties implements DataMarkingsAppliable {
 
         if (getRelatedTo() != null) {
             getRelatedTo().forEach(rt -> {
-                bundleObjects.add(rt.getSource());
-                bundleObjects.add(rt.getTarget());
+                if (rt.getSource().hasObject()){
+                    bundleObjects.add(rt.getSource().getObject());
+                }
+
+                if (rt.getTarget().hasObject()){
+                    bundleObjects.add(rt.getTarget().getObject());
+                }
             });
         }
 
         if (getDuplicateOf() != null) {
             getDuplicateOf().forEach(dupOf -> {
-                bundleObjects.add(dupOf.getSource());
-                bundleObjects.add(dupOf.getTarget());
+                if (dupOf.getSource().hasObject()){
+                    bundleObjects.add(dupOf.getSource().getObject());
+                }
+
+                if (dupOf.getTarget().hasObject()){
+                    bundleObjects.add(dupOf.getTarget().getObject());
+                }
             });
         }
 
         if (getDerivedFrom() != null) {
             getDerivedFrom().forEach(df -> {
-                bundleObjects.add(df.getSource());
-                bundleObjects.add(df.getTarget());
+                if (df.getSource().hasObject()){
+                    bundleObjects.add(df.getSource().getObject());
+                }
+
+                if (df.getTarget().hasObject()){
+                    bundleObjects.add(df.getTarget().getObject());
+                }
             });
         }
 

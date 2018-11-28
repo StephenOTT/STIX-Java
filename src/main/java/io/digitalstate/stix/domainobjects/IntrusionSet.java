@@ -21,7 +21,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = IntrusionSet.Deserializer.class)
 public class IntrusionSet extends IntrusionSetProperties implements StixDomainObject {
 
-    private static final String TYPE = "intrusion-set";
+    public static final String TYPE = "intrusion-set";
 
     public IntrusionSet(String name) {
         setType(TYPE);

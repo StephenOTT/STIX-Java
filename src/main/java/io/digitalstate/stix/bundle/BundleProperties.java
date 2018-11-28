@@ -48,18 +48,26 @@ public abstract class BundleProperties {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         Objects.requireNonNull(id, "Id cannot be null");
 
         if (StringUtils.isBlank(getType())){
             throw new IllegalArgumentException("Cannot set id without Type property being defined");
 
-        } else if (StringUtils.isNotBlank(id)){
-            this.id = String.join("--", getType(), id);
+        }else if (StringUtils.isNotBlank(id)){
+            this.id = id;
 
         } else {
             throw new IllegalArgumentException("Id can't be null or blank");
         }
+    }
+
+    public void setId(String prefix, String uuid) {
+        Objects.requireNonNull(prefix, "prefix cannot be null");
+        Objects.requireNonNull(uuid, "Id cannot be null");
+
+        this.setId(String.join("--", prefix, uuid));
     }
 
     public String getSpecVersion() {
@@ -74,6 +82,10 @@ public abstract class BundleProperties {
         objects.removeIf(Objects::isNull);
         return objects;
     }
+
+    //
+    // Getters and Setters
+    //
 
     public void setObjects(LinkedHashSet<BundleObject> objects) {
         this.objects = objects;
@@ -93,7 +105,6 @@ public abstract class BundleProperties {
 
     @Override
     public String toString() {
-        System.out.println(getObjects().size());
         return new ReflectionToStringBuilder(this, new RecursiveToStringStyle()).toString();
     }
 

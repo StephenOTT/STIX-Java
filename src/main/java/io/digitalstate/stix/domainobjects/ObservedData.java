@@ -23,7 +23,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = ObservedData.Deserializer.class)
 public class ObservedData extends ObservedDataProperties implements StixDomainObject {
 
-    private static final String TYPE = "observed-data";
+    public static final String TYPE = "observed-data";
 
     public ObservedData(ZonedDateTime firstObserved,
                         ZonedDateTime lastObserved,

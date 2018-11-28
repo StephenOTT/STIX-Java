@@ -24,7 +24,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = Indicator.Deserializer.class)
 public class Indicator extends IndicatorProperties implements StixDomainObject {
 
-    private static final String TYPE = "indicator";
+    public static final String TYPE = "indicator";
 
     public Indicator(String pattern,
                      ZonedDateTime validFrom,

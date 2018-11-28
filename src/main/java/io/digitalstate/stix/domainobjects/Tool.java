@@ -20,7 +20,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = Tool.Deserializer.class)
 public class Tool extends ToolProperties implements StixDomainObject {
 
-    private static final String TYPE = "tool";
+    public static final String TYPE = "tool";
 
     public Tool(String name,
                 LinkedHashSet<String> toolLabels){

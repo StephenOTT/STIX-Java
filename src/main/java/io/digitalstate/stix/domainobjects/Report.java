@@ -23,7 +23,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = Report.Deserializer.class)
 public class Report extends ReportProperties implements StixDomainObject {
 
-    private static final String TYPE = "report";
+    public static final String TYPE = "report";
 
     public Report(String name,
                   LinkedHashSet<String> reportLabels,

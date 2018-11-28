@@ -95,7 +95,7 @@ public abstract class MarkingDefinitionProperties {
         Objects.requireNonNull(prefix, "prefix cannot be null");
         Objects.requireNonNull(uuid, "Id cannot be null");
 
-        this.setId(String.join("--", getType(), id));
+        this.setId(String.join("--", prefix, uuid));
     }
 
     @JsonIgnore

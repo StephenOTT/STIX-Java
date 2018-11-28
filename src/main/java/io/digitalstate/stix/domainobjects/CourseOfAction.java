@@ -18,7 +18,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = CourseOfAction.Deserializer.class)
 public class CourseOfAction extends CourseOfActionProperties implements StixDomainObject {
 
-    private static final String TYPE = "course-of-action";
+    public static final String TYPE = "course-of-action";
 
     public CourseOfAction(String name){
         setType(TYPE);

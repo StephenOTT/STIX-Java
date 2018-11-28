@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import io.digitalstate.stix.domainobjects.AttackPattern;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.relationshipobjects.properties.SightingProperties;
@@ -30,7 +31,7 @@ import static io.digitalstate.stix.helpers.IdGeneration.generateUuidAsString;
 @JsonDeserialize(using = Sighting.Deserializer.class)
 public class Sighting extends SightingProperties implements StixRelationshipObject {
 
-    private static final String TYPE = "sighting";
+    public static final String TYPE = "sighting";
 
     public Sighting(StixDomainObject sightingOfRef) {
         setType(TYPE);
@@ -87,7 +88,8 @@ public class Sighting extends SightingProperties implements StixRelationshipObje
 
             Optional<JsonNode> sighting_of_ref = Optional.ofNullable(node.get("sighting_of_ref"));
             sighting_of_ref.ifPresent(o -> {
-                //@TODO
+                Relation<StixDomainObject> relation = new Relation<>(o.asText());
+                object.setSightingOfRef(relation);
             });
             sighting_of_ref.orElseThrow(()-> new IllegalArgumentException("sighting_of_ref is required"));
 
