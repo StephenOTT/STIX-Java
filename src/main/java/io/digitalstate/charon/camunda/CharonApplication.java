@@ -17,6 +17,7 @@ import io.digitalstate.stix.domainobjects.*;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
 import io.digitalstate.stix.helpers.ObjectSigning;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.relationshipobjects.Relation;
 import io.digitalstate.stix.relationshipobjects.Sighting;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -272,13 +273,13 @@ public class CharonApplication {
                 new TlpMarking("red"));
 
         // Apply a Object level Marking
-//        attackPattern.addObjectMarkingRefs(markingDefinition);
+        attackPattern.getObjectMarkingRefs().add(new Relation<MarkingDefinition>(markingDefinition));
         // Create a Granular Marking
         GranularMarking granularMarking =
                 new GranularMarking(refDef, "pattern1", "pattern2", "pattern3");
 
         // Apply a Granular Marking to the attack pattern
-//        attackPattern.addGranularMarkings(granularMarking);
+        attackPattern.getGranularMarkings().add(granularMarking);
 
 
         MarkingDefinition statement1 = new MarkingDefinition(
@@ -287,9 +288,9 @@ public class CharonApplication {
         GranularMarking markingRestriction =
                 new GranularMarking(refDef, "marking-pattern1", "pattern2", "pattern3");
 
-//        statement1.addGranularMarkings(markingRestriction);
+        statement1.getGranularMarkings().add(markingRestriction);
 
-//        markingDefinition.addObjectMarkingRefs(statement1);
+        markingDefinition.getObjectMarkingRefs().add(new Relation<>(statement1));
 
         // Generate Observed Data Object:
         ZonedDateTime observedTime = ZonedDateTime.now();
@@ -304,7 +305,7 @@ public class CharonApplication {
 
         ObservedData observedData = new ObservedData(observedTime, observedTime, 3, cyberObservedObjects);
 
-//        observedData.addObjectMarkingRefs(statement1);
+        observedData.getObjectMarkingRefs().add(new Relation<>(statement1));
 
         // Sign Object
         String signedObject = ObjectSigning.signObject(attackPattern);
