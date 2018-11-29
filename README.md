@@ -256,6 +256,10 @@ The below is a the output from the java example above.
 }
 ```
 
+# Charon Data Flow
+
+![Charon data flow](./docs/Diagrams/Generic-Data-Flow.png)
+
 # Workflow / BPM / BPMN
 
 ## Example Process Usage
