@@ -1,13 +1,17 @@
 package io.digitalstate.stix.datamarkings.definitions;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.digitalstate.stix.datamarkings.StixDataMarking;
 import io.digitalstate.stix.datamarkings.markingtypes.MarkingObjectType;
+import io.digitalstate.stix.domainobjects.AttackPattern;
+import io.digitalstate.stix.helpers.StixDataFormats;
 
 import java.io.IOException;
 
@@ -24,6 +28,10 @@ public class MarkingDefinition extends MarkingDefinitionProperties implements St
         setId(TYPE, generateUuidAsString());
         setDefinition(markingObjectType);
         setDefinitionType(markingObjectType.getType());
+    }
+
+    public static MarkingDefinition parse(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+        return StixDataFormats.getJsonMapper().readValue(jsonString, MarkingDefinition.class);
     }
 
     /**

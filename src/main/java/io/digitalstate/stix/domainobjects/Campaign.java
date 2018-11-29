@@ -1,8 +1,10 @@
 package io.digitalstate.stix.domainobjects;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -27,6 +29,10 @@ public class Campaign extends CampaignProperties implements StixDomainObject {
         setType(TYPE);
         setId(TYPE, generateUuidAsString());
         setName(name);
+    }
+
+    public static Campaign parse(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+        return StixDataFormats.getJsonMapper().readValue(jsonString, Campaign.class);
     }
 
     /**

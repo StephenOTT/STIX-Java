@@ -1,8 +1,10 @@
 package io.digitalstate.stix.relationshipobjects;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -37,6 +39,11 @@ public class Sighting extends SightingProperties implements StixRelationshipObje
         setType(TYPE);
         setId(TYPE, generateUuidAsString());
         setSightingOfRef(sightingOfRef);
+    }
+
+
+    public static Sighting parse(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+        return StixDataFormats.getJsonMapper().readValue(jsonString, Sighting.class);
     }
 
     /**

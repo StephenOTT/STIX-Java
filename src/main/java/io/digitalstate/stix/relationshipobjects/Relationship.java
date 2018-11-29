@@ -1,12 +1,16 @@
 package io.digitalstate.stix.relationshipobjects;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import io.digitalstate.stix.domainobjects.AttackPattern;
 import io.digitalstate.stix.domainobjects.StixDomainObject;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.relationshipobjects.properties.RelationshipProperties;
 
 import java.io.IOException;
@@ -42,6 +46,10 @@ public class Relationship extends RelationshipProperties implements StixRelation
                  StixDomainObject target){
 
         this(relationshipType, source, target, null);
+    }
+
+    public static Relationship parse(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+        return StixDataFormats.getJsonMapper().readValue(jsonString, Relationship.class);
     }
 
 

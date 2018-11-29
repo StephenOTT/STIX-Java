@@ -1,8 +1,10 @@
 package io.digitalstate.stix.domainobjects;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -36,6 +38,10 @@ public class ObservedData extends ObservedDataProperties implements StixDomainOb
         setLastObserved(lastObserved);
         setNumberObserved(numberObserved);
         setObjects(objects);
+    }
+
+    public static ObservedData parse(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+        return StixDataFormats.getJsonMapper().readValue(jsonString, ObservedData.class);
     }
 
 

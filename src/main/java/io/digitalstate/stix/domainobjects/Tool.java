@@ -1,13 +1,16 @@
 package io.digitalstate.stix.domainobjects;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.digitalstate.stix.domainobjects.properties.ToolProperties;
 import io.digitalstate.stix.domainobjects.types.KillChainPhase;
+import io.digitalstate.stix.helpers.StixDataFormats;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,6 +35,10 @@ public class Tool extends ToolProperties implements StixDomainObject {
     }
     public Tool(String name, String... toolLabels){
         this(name, new LinkedHashSet<>(Arrays.asList(toolLabels)));
+    }
+
+    public static Tool parse(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+        return StixDataFormats.getJsonMapper().readValue(jsonString, Tool.class);
     }
 
 

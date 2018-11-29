@@ -1,14 +1,17 @@
 package io.digitalstate.stix.bundle;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.digitalstate.stix.datamarkings.StixDataMarking;
 import io.digitalstate.stix.datamarkings.definitions.MarkingDefinition;
 import io.digitalstate.stix.domainobjects.*;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.relationshipobjects.Relationship;
 import io.digitalstate.stix.relationshipobjects.Sighting;
@@ -93,6 +96,10 @@ public class Bundle extends BundleProperties implements StixBundle {
                 ((StixRelationshipObject) bo).hydrateRelationsWithObjects(bundleObjects);
             }
         });
+    }
+
+    public static Bundle parse(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+        return StixDataFormats.getJsonMapper().readValue(jsonString, Bundle.class);
     }
 
 

@@ -1,12 +1,15 @@
 package io.digitalstate.stix.domainobjects;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.digitalstate.stix.domainobjects.properties.ThreatActorProperties;
+import io.digitalstate.stix.helpers.StixDataFormats;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,6 +36,10 @@ public class ThreatActor extends ThreatActorProperties implements StixDomainObje
         this(name, new LinkedHashSet<>(Arrays.asList(threatActorLabels)));
     }
 
+
+    public static ThreatActor parse(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+        return StixDataFormats.getJsonMapper().readValue(jsonString, ThreatActor.class);
+    }
 
     /**
      * Used for JSON Deserialization
