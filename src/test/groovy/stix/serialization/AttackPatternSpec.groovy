@@ -33,12 +33,12 @@ class AttackPatternSpec extends Specification {
         AttackPattern attackPattern = AttackPattern.parse(mapper.writeValueAsString(json))
 
         then: "Basic Properties are accurate"
-        assert attackPattern.getType() == 'attack-pattern'
-        assert attackPattern.getId() == 'attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6'
-        assert attackPattern.getCreated() == Instant.parse('2018-11-26T01:17:26.416Z').atZone(ZoneId.of("Etc/UTC"))
-        assert attackPattern.getModified() == Instant.parse('2018-11-29T01:17:26.416Z').atZone(ZoneId.of("Etc/UTC"))
-        assert attackPattern.revoked == false
-        assert attackPattern.getName() == "some pattern"
+        assert attackPattern.getType() == fullJson.get("type").asText()
+        assert attackPattern.getId() == fullJson.get("id").asText()
+        assert attackPattern.getCreated() == Instant.parse(fullJson.get("created").asText()).atZone(ZoneId.of("Etc/UTC"))
+        assert attackPattern.getModified() == Instant.parse(fullJson.get("modified").asText()).atZone(ZoneId.of("Etc/UTC"))
+        assert attackPattern.revoked == fullJson.get("revoked").asBoolean()
+        assert attackPattern.getName() == fullJson.get("name").asText()
     }
 
     def "AttackPattern with all possible properties"() {
@@ -49,15 +49,15 @@ class AttackPatternSpec extends Specification {
         AttackPattern attackPattern = AttackPattern.parse(mapper.writeValueAsString(json))
 
         then: "Basic Properties are accurate"
-        assert attackPattern.getType() == 'attack-pattern'
-        assert attackPattern.getId() == 'attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6'
-        assert attackPattern.getCreated() == Instant.parse('2018-11-26T01:17:26.416Z').atZone(ZoneId.of("Etc/UTC"))
-        assert attackPattern.getModified() == Instant.parse('2018-11-29T01:17:26.416Z').atZone(ZoneId.of("Etc/UTC"))
-        assert attackPattern.revoked == false
-        assert attackPattern.getName() == "some pattern"
+        assert attackPattern.getType() == fullJson.get("type").asText()
+        assert attackPattern.getId() == fullJson.get("id").asText()
+        assert attackPattern.getCreated() == Instant.parse(fullJson.get("created").asText()).atZone(ZoneId.of("Etc/UTC"))
+        assert attackPattern.getModified() == Instant.parse(fullJson.get("modified").asText()).atZone(ZoneId.of("Etc/UTC"))
+        assert attackPattern.revoked == fullJson.get("revoked").asBoolean()
+        assert attackPattern.getName() == fullJson.get("name").asText()
 
         then: "description is accurate"
-        assert attackPattern.getDescription() == "some description"
+        assert attackPattern.getDescription() == fullJson.get("description").asText()
 
         then: "KillChainPhases Array is accurate"
         assert attackPattern.getKillChainPhases().size() == 2
@@ -68,7 +68,6 @@ class AttackPatternSpec extends Specification {
         assert attackPattern.getKillChainPhases() == kcpSet
 
         then: "ObjectMarkingRefs is accurate"
-        asser
         assert attackPattern.getObjectMarkingRefs().size() == 1
         assert attackPattern.getObjectMarkingRefsIds()[0] == 'marking-definition--b17db0c7-1c2e-4c6a-9cab-34d0cacfbf50'
         assert attackPattern.getObjectMarkingRefs()[0].hasObject() == false
@@ -101,11 +100,11 @@ class AttackPatternSpec extends Specification {
         AttackPattern attackPattern = AttackPattern.parse(mapper.writeValueAsString(json))
 
         then: "Basic Properties are accurate"
-        assert attackPattern.getType() == 'attack-pattern'
-        assert attackPattern.getId() == 'attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6'
-        assert attackPattern.getCreated() == Instant.parse('2018-11-26T01:17:26.416Z').atZone(ZoneId.of("Etc/UTC"))
-        assert attackPattern.getModified() == Instant.parse('2018-11-29T01:17:26.416Z').atZone(ZoneId.of("Etc/UTC"))
-        assert attackPattern.revoked == false
-        assert attackPattern.getName() == "some pattern"
+        assert attackPattern.getType() == fullJson.get("type").asText()
+        assert attackPattern.getId() == fullJson.get("id").asText()
+        assert attackPattern.getCreated() == Instant.parse(fullJson.get("created").asText()).atZone(ZoneId.of("Etc/UTC"))
+        assert attackPattern.getModified() == Instant.parse(fullJson.get("modified").asText()).atZone(ZoneId.of("Etc/UTC"))
+        assert attackPattern.revoked == fullJson.get("revoked").asBoolean()
+        assert attackPattern.getName() == fullJson.get("name").asText()
     }
 }
