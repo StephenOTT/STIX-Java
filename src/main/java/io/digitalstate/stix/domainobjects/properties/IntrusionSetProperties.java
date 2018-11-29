@@ -24,8 +24,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
-        "object_marking_refs", "granular_markings", "name", "attributed_to",
-        "targets", "uses", "description", "aliases",
+        "object_marking_refs", "granular_markings", "name", "description", "aliases",
         "first_seen", "last_seen", "goals", "resource_level",
         "primary_motivation", "secondary_motivation"})
 public abstract class IntrusionSetProperties extends CommonProperties{

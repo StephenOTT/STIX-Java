@@ -25,7 +25,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
-        "object_marking_refs", "granular_markings", "targets", "name",
+        "object_marking_refs", "granular_markings", "name",
         "description", "kill_chain_phases", "tool_version"})
 public abstract class ToolProperties extends CommonProperties{
     private String name;

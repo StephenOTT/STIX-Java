@@ -15,7 +15,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
-        "object_marking_refs", "granular_markings", "targets", "uses",
+        "object_marking_refs", "granular_markings",
         "name", "description", "kill_chain_phases"})
 public abstract class AttackPatternProperties extends CommonProperties {
     private String name;
