@@ -20,7 +20,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
         "object_marking_refs", "granular_markings", "relationship_type", "description",
-        "source", "target"})
+        "source_ref", "target_ref"})
 public abstract class RelationshipProperties extends CommonProperties {
 
     @JsonProperty("relationship_type")
@@ -68,7 +68,7 @@ public abstract class RelationshipProperties extends CommonProperties {
         this.source = new Relation<>(source);
     }
 
-    @JsonProperty("source")
+    @JsonProperty("source_ref")
     @JsonInclude(NON_NULL)
     public String getSourceID() {
         if (getSource().hasObject()){
@@ -93,7 +93,7 @@ public abstract class RelationshipProperties extends CommonProperties {
         this.target = new Relation<>(target);
     }
 
-    @JsonProperty("target")
+    @JsonProperty("target_ref")
     @JsonInclude(NON_NULL)
     public String getTargetID() {
         if (getTarget().hasObject()){
