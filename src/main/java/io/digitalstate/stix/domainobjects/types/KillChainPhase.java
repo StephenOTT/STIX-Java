@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Optional;
 
 @JsonDeserialize(using = KillChainPhase.Deserializer.class)
@@ -78,7 +79,30 @@ public class KillChainPhase {
     }
 
 
+    //
+    // Overrides for hashcode and equals to support comparison of objects as per the STIX Spec
+    //
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getKillChainName(), getPhaseName());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof KillChainPhase)) {
+            return false;
+        } else {
+            KillChainPhase kcp = (KillChainPhase) obj;
+            return kcp.getPhaseName().equals(this.getPhaseName()) &&
+                    kcp.getKillChainName().equals(this.getKillChainName());
+        }
+    }
+
+
+    /**
+     * KillChainPhase JSON Deserializer
+     */
     public static class Deserializer extends StdDeserializer<KillChainPhase> {
 
         public Deserializer() {

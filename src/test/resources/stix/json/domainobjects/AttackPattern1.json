@@ -1,0 +1,8 @@
+{
+  "type": "attack-pattern",
+  "id": "attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6",
+  "created": "2018-11-26T01:17:26.416Z",
+  "modified": "2018-11-29T01:17:26.416Z",
+  "revoked": false,
+  "name": "some pattern"
+}
