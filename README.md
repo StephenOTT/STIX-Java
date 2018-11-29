@@ -232,8 +232,8 @@ The below is a the output from the java example above.
       "modified": "2018-11-26T01:17:26.933Z",
       "revoked": false,
       "relationship_type": "targets",
-      "source": "attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6",
-      "target": "identity--d442813b-7e72-49a6-937a-3e351e219a18"
+      "source_ref": "attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6",
+      "target_ref": "identity--d442813b-7e72-49a6-937a-3e351e219a18"
     },
     {
       "type": "attack-pattern",
