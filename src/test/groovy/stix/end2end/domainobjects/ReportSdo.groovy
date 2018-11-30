@@ -101,7 +101,6 @@ class ReportSdo extends Specification {
         assert parsedJson.get("object_refs").get(1).asText() == report.getObjectRefs()[1].getObject().getId()
         assert parsedJson.get("object_refs").get(2).asText() == report.getObjectRefs()[2].getObject().getId()
 
-
         then: "Parse JSON back into Report Object and compare"
         Report parsedReport = Report.parse(reportJson)
 
