@@ -63,7 +63,7 @@ public class CommonPropertiesDeserializationValidators {
             if (!o.isNull() && o.asText().equals(requiredType)) {
                 object.setType(o.asText());
             } else {
-                throw new IllegalArgumentException("Invalid Type: " + o.asText());
+                throw new IllegalArgumentException("Invalid SDO Type: " + o.asText());
             }
         });
         type.orElseThrow(() -> new IllegalArgumentException("Type is Required"));
