@@ -73,6 +73,19 @@ public abstract class ReportProperties extends CommonProperties {
         return objectRefs;
     }
 
+    @JsonProperty("object_refs")
+    public LinkedHashSet<String> getObjectRefsIds(){
+        LinkedHashSet<String> ids = new LinkedHashSet<>();
+        getObjectRefs().forEach(o->{
+            if (o.hasObject()){
+                ids.add(o.getObject().getId());
+            } else {
+                ids.add(o.getId());
+            }
+        });
+        return ids;
+    }
+
     public void setObjectRefs(LinkedHashSet<Relation<BundleObject>> objectRefs) {
         Objects.requireNonNull(objectRefs, "objectRefs cannot be null");
         if (objectRefs.isEmpty()){

@@ -169,20 +169,23 @@ public abstract class IntrusionSetProperties extends CommonProperties{
     }
 
     // Vocabularies
-
+    @JsonIgnore
     public StixVocabulary getAttackResourceLevelsVocab() {
         return attackResourceLevelsVocab;
     }
 
+    @JsonIgnore
     public void setAttackResourceLevelsVocab(StixVocabulary attackResourceLevelsVocab) {
         Objects.requireNonNull(attackResourceLevelsVocab, "attackResourceLevelsVocab cannot be null");
         this.attackResourceLevelsVocab = attackResourceLevelsVocab;
     }
 
+    @JsonIgnore
     public StixVocabulary getAttackMotivationVocabulary() {
         return attackMotivationVocabulary;
     }
 
+    @JsonIgnore
     public void setAttackMotivationVocabulary(StixVocabulary attackMotivationVocabulary) {
         Objects.requireNonNull(attackMotivationVocabulary, "attackMotivationVocabulary cannot be null");
         this.attackMotivationVocabulary = attackMotivationVocabulary;
