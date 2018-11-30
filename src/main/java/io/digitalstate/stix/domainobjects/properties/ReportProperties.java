@@ -30,7 +30,6 @@ public abstract class ReportProperties extends CommonProperties {
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     private ZonedDateTime published;
 
-    @JsonProperty("object_refs")
     private LinkedHashSet<Relation<BundleObject>> objectRefs = new LinkedHashSet<>();
 
     // Vocabulary Instances
@@ -69,6 +68,7 @@ public abstract class ReportProperties extends CommonProperties {
         this.published = published;
     }
 
+    @JsonIgnore
     public LinkedHashSet<Relation<BundleObject>> getObjectRefs() {
         return objectRefs;
     }
@@ -96,10 +96,12 @@ public abstract class ReportProperties extends CommonProperties {
     }
 
 
+    @JsonIgnore
     public StixVocabulary getReportLabelsVocab() {
         return reportLabelsVocab;
     }
 
+    @JsonIgnore
     public void setReportLabelsVocab(StixVocabulary reportLabelsVocab) {
         Objects.requireNonNull(reportLabelsVocab, "reportLabelsVocab cannot be null");
         this.reportLabelsVocab = reportLabelsVocab;
