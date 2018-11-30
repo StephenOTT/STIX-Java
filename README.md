@@ -9,106 +9,167 @@ This means that a default implementation is provided that meets the STIX JSON sp
 and properties are provided in such a way as you can easily override and extend any implementation detail to meet your 
 variation of the specification.
 
-## Usage
-
-There are two primary purposes of usage: 
-1. create STIX Java Objects (Through code or conversion from a string of STIX JSON) and,
-2. convert STIX Java objects into JSON that is STIX Spec compliant.
+Current Spec Target: **2.0**
 
 ## Java
 
-```java
-// Generate Attack Pattern:
-AttackPattern attackPattern = new AttackPattern("some pattern");
-attackPattern.setKillChainPhases(
-        new KillChainPhase("Chain1", "phase1"),
-        new KillChainPhase("Chain1", "phase2"));
+Here is a Unit Test for the Report SDO
+It shows a End to End testing from Creating a Object in Java, and then converting that object into JSON, and then parsing that Json back into a Report Java Object.
 
-attackPattern.setModified(attackPattern.getCreated().plusDays(3));
+This test shows some of the granular methods to create objects.  Objects typically have helper constructors and methods to eliminate the manual creation of some of the intermediate objects (such as Relation.class objects)
 
-// Setup Custom properties for Attack Pattern:
-HashMap<String, Object> customProperties = new HashMap<>();
-customProperties.put("someCustomKey", "My custom value");
-customProperties.put("someOtherCustom_key", 3939);
-attackPattern.setCustomProperties(customProperties);
+```groovy
+class ReportSdo extends Specification {
 
-// Setup Marking Definitions for Attach pattern
-MarkingDefinition markingDefinition = new MarkingDefinition(
-        new TlpMarking("white"));
+    def "End2End Report SDO: Create Object, Convert to Json, Convert Json back to Object"() {
+        when: "Create a attack pattern"
+        AttackPattern attackPattern = new AttackPattern("Some Attack Pattern Name")
 
-MarkingDefinition refDef = new MarkingDefinition(
-        new TlpMarking("red"));
+        and: "Create a Identity"
+        Identity identity = new Identity("Some Name", "individual")
 
-// Apply a Object level Marking
-attackPattern.addObjectMarkingRefs(markingDefinition);
-// Create a Granular Marking
-GranularMarking granularMarking =
-        new GranularMarking(refDef, "pattern1", "pattern2", "pattern3");
+        and: "Relate the attack pattern to the identity with 'targets' relation"
+        Relationship relationship = new Relationship('targets', attackPattern, identity)
+        attackPattern.getTargets().add(new Relation(relationship))
 
-// Apply a Granular Marking to the attack pattern
-attackPattern.addGranularMarkings(granularMarking);
+        and: "Create a Report and add attack pattern and Identity to the Report"
+        Relation relationAttkPatt = new Relation(attackPattern)
+        Relation relationIden = new Relation(identity)
+        Relation relationRelationship = new Relation(relationship)
+        LinkedHashSet<Relation> objectRefs = [relationAttkPatt, relationIden, relationRelationship]
+
+        ZonedDateTime publishedDate = Instant.now().atZone(ZoneId.of(StixDataFormats.DATETIMEZONE))
+
+        LinkedHashSet<String> labels = ["threat-report"]
+
+        Report report = new Report("Some Report",
+                labels,
+                publishedDate,
+                objectRefs)
+
+        then: "Report should have objectRefs of the 3 relations"
+        assert report.getObjectRefs().size() == 3
+        assert report.getObjectRefs().contains(relationAttkPatt)
+        assert report.getObjectRefs().contains(relationIden)
+        assert report.getObjectRefs().contains(relationRelationship)
+
+        and: "each relation should have a object"
+        report.getObjectRefs().each {
+            assert it.hasObject()
+        }
+
+        then: "Convert Report to JSON"
+        String reportJson = report.toJsonString()
+
+        and: "parse json into JSON object for eval"
+        ObjectMapper mapper = new ObjectMapper()
+        JsonNode parsedJson = mapper.readTree(reportJson)
+
+        then: "Check that only the expected field names are returned"
+        def expectedFieldNames = ["type",
+                                 "id",
+                                 "created",
+                                 "modified",
+                                 "revoked",
+                                 "labels",
+                                 "name",
+                                 "published",
+                                 "object_refs"]
+        parsedJson.fieldNames().forEachRemaining { prop ->
+            assert expectedFieldNames.contains(prop)
+        }
+
+        and: "core fields have the expected values"
+        assert parsedJson.get("type").asText() == report.getType()
+        assert parsedJson.get("id").asText() == report.getId()
+        assert Instant.parse(parsedJson.get("created").asText())
+                .atZone(ZoneId.of(StixDataFormats.DATETIMEZONE)) == report.getCreated().withZoneSameInstant(ZoneId.of(StixDataFormats.DATETIMEZONE))
+        assert Instant.parse(parsedJson.get("modified").asText())
+                .atZone(ZoneId.of(StixDataFormats.DATETIMEZONE)) == report.getModified().withZoneSameInstant(ZoneId.of(StixDataFormats.DATETIMEZONE))
+        assert parsedJson.get("revoked").asText() == report.getRevoked().toString()
+
+        and: "labels fields have the expected values"
+        assert parsedJson.get("labels").isArray()
+        assert parsedJson.get("labels").size() == 1
+        assert parsedJson.get("labels").get(0).asText() == report.getLabels()[0]
+
+        and: "Report specific fields have the expected values"
+        assert parsedJson.get("name").asText() == report.getName()
+        assert Instant.parse(parsedJson.get("published").asText())
+                .atZone(ZoneId.of(StixDataFormats.DATETIMEZONE)) == report.getPublished().withZoneSameInstant(ZoneId.of(StixDataFormats.DATETIMEZONE))
+
+        and: "Object_refs have the expected values"
+        assert parsedJson.get("object_refs").isArray()
+        assert parsedJson.get("object_refs").size() == 3
+        assert parsedJson.get("object_refs").get(0).asText() == report.getObjectRefs()[0].getObject().getId()
+        assert parsedJson.get("object_refs").get(1).asText() == report.getObjectRefs()[1].getObject().getId()
+        assert parsedJson.get("object_refs").get(2).asText() == report.getObjectRefs()[2].getObject().getId()
 
 
-MarkingDefinition statement1 = new MarkingDefinition(
-        new StatementMarking("Internal review of data allows for sharing as per ABC-009 Standard"));
+        then: "Parse JSON back into Report Object and compare"
+        Report parsedReport = Report.parse(reportJson)
 
-GranularMarking markingRestriction =
-        new GranularMarking(refDef, "marking-pattern1", "pattern2", "pattern3");
+        and: "Create relations that match the Parsed Relations"
+        Relation parsedRelationAttkPattern = new Relation(attackPattern.getId())
+        Relation parsedRelationIdentity = new Relation(identity.getId())
+        Relation parsedRelationRelationship = new Relation(relationship.getId())
 
-statement1.addGranularMarkings(markingRestriction);
+        assert parsedReport.getObjectRefs().size() == 3
+        assert parsedReport.getObjectRefs().contains(parsedRelationAttkPattern)
+        assert parsedReport.getObjectRefs().contains(parsedRelationIdentity)
+        assert parsedReport.getObjectRefs().contains(parsedRelationRelationship)
 
-markingDefinition.addObjectMarkingRefs(statement1);
+        and: "each relation should not have a object"
+        parsedReport.getObjectRefs().each {
+            assert it.hasObject() == false
+            assert it.getId() != null
+        }
+    }
+}
+```
 
-// Generate Observed Data Object:
-ZonedDateTime observedTime = ZonedDateTime.now();
-HashMap<String, CyberObservableObject> cyberObservedObjects = new HashMap<>();
-cyberObservedObjects.put("some artifact",
-        new Artifact(){{setUrl("someURL");}}
-        );
+The json generated by the object would be:
 
-cyberObservedObjects.put("some AS",
-        new AutonomousSystem(5){{setRir("someRIR");}}
-);
-
-ObservedData observedData = new ObservedData(observedTime, observedTime, 3, cyberObservedObjects);
-
-observedData.addObjectMarkingRefs(statement1);
-
-// Generate Bundle.  You must add at least 1 item into the bundle.
-Bundle bundle = new Bundle(attackPattern);
-
-// Add some additional items into the bundle:
-bundle.addObjects(observedData);
-
-// Build Identity
-Identity steve = new Identity("Stephen", "individual");
-attackPattern.addTarget(steve);
-
-
-// Add a Sighting that is related to attackPattern
-// and has a Object Marking of redDef
-Sighting someSighting = new Sighting(attackPattern);
-
-AttackPattern ap2 = new AttackPattern("someOtherATTK2");
-someSighting.setWhereSightedRefs(new LinkedHashSet<>(Arrays.asList(steve)));
-bundle.addObjects(someSighting);
-someSighting.setSightingOfRef(ap2);
-
-IntrusionSet intrusionSet = new IntrusionSet("Some Intrusion");
-
-// Auto add Data Markings into the Bundle.  This is a helper method that will search all objects in
-// the bundle that can contain Data Markings and add the Data Marking objects as top level items in the Bundle
-// This saves you the effort of having to manually adding the Data markings into the bundle.
-bundle.autoDetectBundleObjects();
-
-bundle.toJsonString();
+```json
+{
+  "type": "report",
+  "id": "report--d0c4a031-6563-425d-8941-366c3f89874c",
+  "created": "2018-11-30T18:20:24.021Z",
+  "modified": "2018-11-30T18:20:24.021Z",
+  "revoked": false,
+  "labels": [
+    "threat-report"
+  ],
+  "name": "Some Report",
+  "published": "2018-11-30T18:20:23.528Z",
+  "object_refs": [
+    "attack-pattern--0edcddd5-1686-43a4-a312-9a95deb888a0",
+    "identity--2e24cf89-eb91-46eb-b6e5-86bf10061261",
+    "relationship--41321e93-c244-41a6-8b40-cd11fc4e98e7"
+  ]
+}
 ```
 
 All Objects have support for `.toJsonString()`; allowing any STIX related object to be individually exported into JSON.
 
-## JSON
+### Special Methods
 
-The below is a the output from the java example above.
+There are several special methods that enable helpers:
+
+
+`someBundleableObject.toJsonString()` This method allows any object to be converted into a JSON string, including a bundle.
+
+`AttackPattern someAttackPattern = AttackPattern.parse(someJsonString)` This method can be used on any object to parse its Json, including Bundles.
+
+`someAttackPattern.hydrateRelationsWithObjects(LinkedHashSet<BundleObject> bundleObjects)` This method will take a list of bundleObjects and will hydrate a object's relation fields with the objects in the provided list.  This enables the recreation of the tree of relationships within the Java objects.
+
+`somebundle.autoDectectObjectProcessor()` this method will search through the objects in a bundle, and find all of the inner BundleObjects that you may not have manually added into the bundle; for each object it finds it will add it into the bundle.  This saves you from having to manually add all objects into a bundle. 
+
+
+## JSON
+JSON can be outputted for any individual object as well as a Bundle which will perform recursive conversion to JSON for each nested object.
+
+The below is a the output from a full bundle with a typical stack of objects
 
 ```json
 {
@@ -272,6 +333,8 @@ The below is a the output from the java example above.
 
 
 -----
+
+# Raw notes
 
 This project is a packaging of multiple components that will be split into individual projects at some point.
 
