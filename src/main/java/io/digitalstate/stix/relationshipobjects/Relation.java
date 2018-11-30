@@ -2,6 +2,8 @@ package io.digitalstate.stix.relationshipobjects;
 
 import io.digitalstate.stix.bundle.BundleObject;
 
+import java.util.Objects;
+
 /**
  * A wrapper class to support Relationships with STIX.
  * Relationships can be a ID or the actual Object but not both.
@@ -53,5 +55,34 @@ public class Relation<T extends BundleObject> {
      */
     public boolean hasObject(){
         return getObject() != null;
+    }
+
+
+    //
+    // Overrides for hashcode and equals to support comparison of objects as per the STIX Spec
+    //
+
+    @Override
+    public int hashCode() {
+        if (hasObject()){
+            return Objects.hash(this.getObject());
+        } else {
+            return Objects.hash(this.getId());
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Relation)) {
+            return false;
+        }
+
+        if (this.hasObject() && ((Relation) obj).hasObject()){
+            return this.getObject().equals(((Relation) obj).getObject());
+        } else if (!this.hasObject() && !((Relation) obj).hasObject()){
+            return this.getId().equals(((Relation) obj).getId());
+        } else {
+            return false;
+        }
     }
 }
