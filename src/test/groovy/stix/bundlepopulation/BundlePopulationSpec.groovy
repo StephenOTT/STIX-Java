@@ -1,29 +1,16 @@
 package stix.bundlepopulation
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.node.ObjectNode
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.domainobjects.AttackPattern
 import io.digitalstate.stix.domainobjects.Identity
 import io.digitalstate.stix.relationshipobjects.Relation
 import io.digitalstate.stix.relationshipobjects.Relationship
-import spock.lang.Shared
 import spock.lang.Specification
-
-import java.time.Instant
-import java.time.ZoneId
-
 
 class BundlePopulationSpec extends Specification {
 
-//    @Shared String jsonPath = '/stix/json/domainobjects/AttackPattern-Full-Bundle-1.json'
-//    @Shared ObjectMapper mapper = new ObjectMapper()
-//    @Shared URL jsonUrl = getClass().getResource(jsonPath)
-//    @Shared JsonNode fullJson = mapper.readTree(jsonUrl)
-
-    def "AttackPattern Minimum Properties"() {
-        when: "Creating a Bundle"
+    def "Bundle with Attack Pattern and then auto-populate"() {
+        when: "Create a Bundle"
         Bundle bundle = new Bundle()
 
         and: "Create a attack pattern"
@@ -48,5 +35,4 @@ class BundlePopulationSpec extends Specification {
         assert bundle.getObjects().contains(relationship)
         assert bundle.getObjects().contains(identity)
     }
-
 }
