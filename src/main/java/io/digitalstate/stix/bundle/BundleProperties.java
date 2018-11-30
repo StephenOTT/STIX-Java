@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 /**
@@ -29,8 +30,8 @@ public abstract class BundleProperties {
     @JsonProperty("spec_version")
     private String specVersion;
 
-    @JsonInclude(NON_NULL)
-    private LinkedHashSet<BundleObject> objects = null;
+    @JsonInclude(NON_EMPTY)
+    private LinkedHashSet<BundleObject> objects = new LinkedHashSet<>();
 
 
     //

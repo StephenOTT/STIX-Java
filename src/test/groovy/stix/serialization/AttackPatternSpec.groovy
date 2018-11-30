@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
 import io.digitalstate.stix.bundle.Bundle
-import io.digitalstate.stix.bundle.BundleObject
 import io.digitalstate.stix.domainobjects.AttackPattern
 import io.digitalstate.stix.domainobjects.types.KillChainPhase
 import spock.lang.Shared
@@ -116,7 +115,6 @@ class AttackPatternSpec extends Specification {
     def "Bundle with AttackPattern with all possible properties"() {
         setup: "Set json to only have minimum required fields"
         JsonNode json = fullJson.deepCopy()
-//        ObjectNode sdoJson = (ObjectNode)json.get("objects").get(0)
 
         when: "Parsing json into Attack Property"
         Bundle bundle = Bundle.parse(mapper.writeValueAsString(json))

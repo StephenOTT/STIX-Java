@@ -74,6 +74,10 @@ public abstract class AttackPatternProperties extends CommonProperties {
         return targets;
     }
 
+    /**
+     * Supports relationship with {@link Identity} and {@link Vulnerability}
+     * @param targets
+     */
     public void setTargets(LinkedHashSet<Relation<Relationship>> targets) {
         RelationshipValidators.validateRelationshipAcceptableClasses("targets",
                 targets, Identity.class, Vulnerability.class);

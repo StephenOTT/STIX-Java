@@ -71,6 +71,10 @@ public abstract class IdentityProperties extends CommonProperties{
         return identityClass;
     }
 
+    /**
+     * Limited by Identity Classes from {@link IdentityClasses#getTerms()}
+     * @param identityClass
+     */
     public void setIdentityClass(String identityClass) {
         Objects.requireNonNull(identityClass, "identityClass cannot be null");
 

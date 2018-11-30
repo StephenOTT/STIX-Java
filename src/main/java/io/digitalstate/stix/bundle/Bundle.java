@@ -84,7 +84,6 @@ public class Bundle extends BundleProperties implements StixBundle {
 
         temp.removeIf(Objects::isNull);
 
-        System.out.println("DONE Auto Adding Bundle Objects");
         return temp;
     }
 
