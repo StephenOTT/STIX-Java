@@ -93,6 +93,7 @@ public class Bundle extends BundleProperties implements StixBundle {
         bundleObjects.forEach(bo->{
             if (bo instanceof StixRelationshipObject){
                 ((StixRelationshipObject) bo).hydrateRelationsWithObjects(bundleObjects);
+                //@TODO add rest of logic and remove the instanceof condition
             }
         });
     }
