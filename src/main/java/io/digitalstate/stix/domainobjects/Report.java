@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 
@@ -47,7 +48,7 @@ public class Report extends ReportProperties implements StixDomainObject {
                   ZonedDateTime publishedDateTime,
                   Relation<BundleObject>... objects) {
 
-        this(name, reportLabels, publishedDateTime, new LinkedHashSet<>(Arrays.asList(objects)));
+        this(name,reportLabels, publishedDateTime, new LinkedHashSet<>(Arrays.asList(objects)));
     }
 
     public Report(String name,
@@ -70,6 +71,16 @@ public class Report extends ReportProperties implements StixDomainObject {
     }
 
     public static class Deserializer extends StdDeserializer<Report> {
+
+        private static HashMap<String, Class<? extends BundleObject>> reportObjectClassMappings = new HashMap<>();
+
+        public static HashMap<String, Class<? extends BundleObject>> getReportObjectClassMappings() {
+            return reportObjectClassMappings;
+        }
+
+        public static void setReportObjectClassMappings(HashMap<String, Class<? extends BundleObject>> reportObjectClassMappings) {
+            Deserializer.reportObjectClassMappings = reportObjectClassMappings;
+        }
 
         public Deserializer() {
             this(null);
@@ -107,10 +118,20 @@ public class Report extends ReportProperties implements StixDomainObject {
             });
             published.orElseThrow(() -> new IllegalArgumentException("publish is required"));
 
-            Optional<JsonNode> reportObjects = Optional.ofNullable(node.get("objects"));
+
+            Optional<JsonNode> reportObjects = Optional.ofNullable(node.get("object_refs"));
             reportObjects.ifPresent(o -> {
-                //@TODO
+                if (o.isArray()){
+                    o.forEach(ro->{
+                        Relation<BundleObject> relation = new Relation<>(ro.asText());
+                        object.getObjectRefs().add(relation);
+
+                    });
+                } else {
+                    throw new IllegalArgumentException("objects property must be a array");
+                }
             });
+            reportObjects.orElseThrow(()-> new IllegalArgumentException("objects is required"));
 
             return object;
         }
