@@ -1,4 +1,4 @@
-package io.digitalstate.stix.sdo;
+package io.digitalstate.stix.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.immutables.value.Value;

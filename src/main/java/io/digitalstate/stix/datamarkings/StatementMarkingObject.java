@@ -8,7 +8,7 @@ import org.immutables.value.Value;
 import javax.validation.constraints.NotNull;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Statement", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface StatementMarkingObject extends SdoDefaultValidator, StixMarkingObject {
 
     @NotNull

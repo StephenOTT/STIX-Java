@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "ThreatActor", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface ThreatActorSdo extends DomainObject {
 
     @Override

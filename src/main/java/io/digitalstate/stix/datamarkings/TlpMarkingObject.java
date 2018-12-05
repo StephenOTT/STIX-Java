@@ -8,7 +8,7 @@ import org.immutables.value.Value;
 import javax.validation.constraints.NotNull;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Tlp", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface TlpMarkingObject extends SdoDefaultValidator, StixMarkingObject {
 
     @NotNull

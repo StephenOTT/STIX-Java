@@ -1,6 +1,6 @@
 
 
-import io.digitalstate.stix.bundle.Bundle
+import io.digitalstate.stix.bundle.BundleObject
 import io.digitalstate.stix.domainobjects.AttackPattern
 import io.digitalstate.stix.domainobjects.Identity
 import io.digitalstate.stix.relationshipobjects.Relation
@@ -10,8 +10,8 @@ import spock.lang.Specification
 class BundlePopulationSpec extends Specification {
 
     def "Bundle with Attack Pattern and then auto-populate"() {
-        when: "Create a Bundle"
-        Bundle bundle = new Bundle()
+        when: "Create a BundleObject"
+        BundleObject bundle = new BundleObject()
 
         and: "Create a attack pattern"
         AttackPattern attackPattern = new AttackPattern("Some Attack Pattern Name")

@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import java.util.Map;
 
 @Value.Immutable
+@Value.Style(typeImmutable = "Hashes", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface HashesType {
 
     @Size(min = 1, message = "Must have at least 1 hash value")

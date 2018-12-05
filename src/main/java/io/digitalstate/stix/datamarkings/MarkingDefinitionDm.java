@@ -1,15 +1,16 @@
 package io.digitalstate.stix.datamarkings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.digitalstate.stix.sdo.StixCommonProperties;
+import io.digitalstate.stix.common.StixCommonProperties;
+import io.digitalstate.stix.common.StixCustomProperties;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
-public interface MarkingDefinitionDm extends StixCommonProperties {
+@Value.Style(typeImmutable = "MarkingDefinition", validationMethod = Value.Style.ValidationMethod.NONE)
+public interface MarkingDefinitionDm extends StixCommonProperties, StixCustomProperties {
 
     @Override
     @NotBlank

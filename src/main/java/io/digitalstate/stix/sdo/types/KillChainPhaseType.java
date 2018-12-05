@@ -5,7 +5,7 @@ import org.immutables.value.Value;
 import javax.validation.constraints.NotBlank;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "KillChainPhase", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface KillChainPhaseType {
 
     @NotBlank

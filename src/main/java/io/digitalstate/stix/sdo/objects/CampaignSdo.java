@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Campaign", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface CampaignSdo extends DomainObject {
 
     @Override

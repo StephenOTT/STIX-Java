@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.Set;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "ObservedData", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface ObservedDataSdo extends DomainObject {
 
     @Override

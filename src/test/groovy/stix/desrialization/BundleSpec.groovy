@@ -1,28 +1,25 @@
 package stix.desrialization
 
-import io.digitalstate.stix.bundle.ImmutableStixBundleObject
-import io.digitalstate.stix.sdo.objects.ImmutableAttackPatternSdo
-import io.digitalstate.stix.sro.objects.ImmutableRelationshipSro
+import io.digitalstate.stix.bundle.Bundle
+import io.digitalstate.stix.sdo.objects.AttackPattern
+import io.digitalstate.stix.sro.objects.Relationship
 import spock.lang.Specification
 
 class BundleSpec extends Specification {
 
-    def "Basic D Relationship in Bundle"(){
+    def "Basic Derived-From Relationship in Bundle"(){
         when:
-        ImmutableRelationshipSro duplicateRelationship = ImmutableRelationshipSro.builder()
-                .hydrated(true)
+        Relationship duplicateRelationship = Relationship.builder()
                 .relationshipType("derived-from")
-                .sourceRef(ImmutableAttackPatternSdo.builder()
-                        .hydrated(true)
+                .sourceRef(AttackPattern.builder()
                         .name("Some Attack Pattern 1")
                         .build())
-                .targetRef(ImmutableAttackPatternSdo.builder()
-                        .hydrated(true)
+                .targetRef(AttackPattern.builder()
                         .name("Some Other Attack Patter 2")
                         .build())
                 .build()
 
-        ImmutableStixBundleObject stixBundleObject = ImmutableStixBundleObject.builder()
+        Bundle stixBundleObject = Bundle.builder()
                 .addObjects(duplicateRelationship)
                 .build()
 
@@ -30,5 +27,4 @@ class BundleSpec extends Specification {
         assert stixBundleObject.getObjects().size() == 1
         println stixBundleObject
     }
-
 }

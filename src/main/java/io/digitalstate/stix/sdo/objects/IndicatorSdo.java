@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Indicator", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface IndicatorSdo extends DomainObject {
 
     @Override

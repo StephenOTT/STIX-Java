@@ -1,4 +1,4 @@
-package io.digitalstate.stix.sdo;
+package io.digitalstate.stix.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.immutables.value.Value;
@@ -11,10 +11,13 @@ import java.util.Set;
  *
  */
 @Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
-public interface StixLabels {
+public interface StixRevoked {
 
     @NotNull
-    @JsonProperty("labels")
-    Set<@Size(min = 1) String> getLabels();
+    @JsonProperty("revoked")
+    @Value.Default
+    default boolean getRevoked(){
+        return false;
+    }
 
 }

@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "GranularMarking", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface GranularMarkingDm extends SdoDefaultValidator {
 
     @NotNull

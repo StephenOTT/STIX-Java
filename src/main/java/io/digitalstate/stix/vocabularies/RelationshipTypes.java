@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class RelationshipTypes implements StixVocabulary {
 
-    public Set<String> objectSpecificTerms = new HashSet<>(Arrays.asList(
+    private static Set<String> terms = new HashSet<>(Arrays.asList(
                 "targets",
                 "uses",
                 "attributed-to",
@@ -17,14 +17,20 @@ public class RelationshipTypes implements StixVocabulary {
                 "variant-of",
                 "impersonates"));
 
-    public Set<String> commonTerms = new HashSet<>(Arrays.asList(
+    private static Set<String> commonTerms = new HashSet<>(Arrays.asList(
                 "duplicate-of",
                 "derived-from",
                 "related-to"));
 
-
+    @Override
     public Set<String> getAllTerms() {
-        return Stream.concat(commonTerms.stream(), objectSpecificTerms.stream())
+        return Stream.concat(terms.stream(), commonTerms.stream())
+                .collect(Collectors.toCollection(HashSet::new));
+    }
+
+    @Override
+    public Set<String> getAllTermsWithAdditional(String[] terms) {
+        return Stream.concat(getAllTerms().stream(), Arrays.stream(terms))
                 .collect(Collectors.toCollection(HashSet::new));
     }
 }

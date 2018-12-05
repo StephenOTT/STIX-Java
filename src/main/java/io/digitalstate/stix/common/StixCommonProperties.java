@@ -1,8 +1,8 @@
-package io.digitalstate.stix.sdo;
+package io.digitalstate.stix.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.digitalstate.stix.bundle.BundleObject;
+import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.GranularMarkingDm;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
 import io.digitalstate.stix.helpers.StixSpecVersion;
@@ -17,7 +17,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -26,7 +25,7 @@ import java.util.UUID;
  * Base interface used by Immutable STIX Domain Objects
  */
 @Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
-public interface StixCommonProperties extends SdoDefaultValidator, BundleObject {
+public interface StixCommonProperties extends SdoDefaultValidator, BundleableObject {
 
     /**
      * Helper value that is designed to be overridden by each interface that extends this interface.
@@ -48,7 +47,7 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleObject 
     @Value.Default
     @JsonIgnore
     default boolean getHydrated(){
-        return false;
+        return true;
     }
 
     // NotBlank is only enforced when using Default Validator group
@@ -81,11 +80,6 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleObject 
     @NotNull
     @JsonProperty("external_references")
     Set<ExternalReferenceType> getExternalReferences();
-
-    // @TODO json property handling
-    @NotNull
-    @JsonIgnore
-    Set<HashMap<String,String>> getCustomProperties();
 
     @NotNull
     @JsonProperty("object_marking_refs")

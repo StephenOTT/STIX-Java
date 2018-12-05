@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Sighting", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface SightingSro extends RelationshipObject {
 
     @Override

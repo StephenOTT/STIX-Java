@@ -1,7 +1,7 @@
 package io.digitalstate.stix.sdo.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.digitalstate.stix.bundle.BundleObject;
+import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.vocabularies.ReportLabels;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Report", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface ReportSdo extends DomainObject {
 
     @Override
@@ -42,6 +42,6 @@ public interface ReportSdo extends DomainObject {
 
     @NotNull @Size(min = 1, message = "Must have at least one Report object reference")
     @JsonProperty("object_refs")
-    Set<BundleObject> getObjectRefs();
+    Set<BundleableObject> getObjectRefs();
 
 }

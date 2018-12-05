@@ -3,7 +3,7 @@
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
-import io.digitalstate.stix.bundle.Bundle
+import io.digitalstate.stix.bundle.BundleObject
 import io.digitalstate.stix.domainobjects.AttackPattern
 import io.digitalstate.stix.domainobjects.types.KillChainPhase
 import spock.lang.Shared
@@ -15,7 +15,7 @@ import java.time.ZoneId
 
 class AttackPatternSpec extends Specification {
 
-    @Shared String jsonPath = '/stix/json/domainobjects/AttackPattern-Full-Bundle-1.json'
+    @Shared String jsonPath = '/stix/json/domainobjects/AttackPattern-Full-BundleObject-1.json'
     @Shared ObjectMapper mapper = new ObjectMapper()
     @Shared URL jsonUrl = getClass().getResource(jsonPath)
     @Shared JsonNode fullJson = mapper.readTree(jsonUrl)
@@ -117,9 +117,9 @@ class AttackPatternSpec extends Specification {
         JsonNode json = fullJson.deepCopy()
 
         when: "Parsing json into Attack Property"
-        Bundle bundle = Bundle.parse(mapper.writeValueAsString(json))
+        BundleObject bundle = BundleObject.parse(mapper.writeValueAsString(json))
 
-        then: "Bundle has accurate properties"
+        then: "BundleObject has accurate properties"
         assert bundle.getType() == json.get("type").asText()
         assert bundle.getId() == json.get("id").asText()
         assert bundle.getSpecVersion() == json.get("spec_version").asText()

@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Value.Immutable
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "CourseOfAction", validationMethod = Value.Style.ValidationMethod.NONE)
 public interface CourseOfActionSdo extends DomainObject {
 
     @Override
