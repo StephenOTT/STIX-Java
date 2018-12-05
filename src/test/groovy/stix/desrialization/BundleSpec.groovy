@@ -9,7 +9,7 @@ class BundleSpec extends Specification {
 
     def "Basic Derived-From Relationship in Bundle"(){
         when:
-        Relationship duplicateRelationship = Relationship.builder()
+        Relationship derived = Relationship.builder()
                 .relationshipType("derived-from")
                 .sourceRef(AttackPattern.builder()
                         .name("Some Attack Pattern 1")
@@ -20,7 +20,7 @@ class BundleSpec extends Specification {
                 .build()
 
         Bundle stixBundleObject = Bundle.builder()
-                .addObjects(duplicateRelationship)
+                .addObjects(derived)
                 .build()
 
         then:
