@@ -3,9 +3,9 @@ package io.digitalstate.stix.cyberobservableobjects.properties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.digitalstate.stix.types.Hashes;
+import io.digitalstate.stix.types.HashesType;
 
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
@@ -25,7 +25,7 @@ public class ArtifactProperties extends CyberObservableObjectCommonProperties {
     protected String url;
 
     @JsonInclude(NON_NULL)
-    protected LinkedHashSet<Hashes> hashes;
+    protected Set<HashesType> hashes;
 
     //
     // Getters and Setters
@@ -56,11 +56,4 @@ public class ArtifactProperties extends CyberObservableObjectCommonProperties {
         this.url = url;
     }
 
-    public LinkedHashSet<Hashes> getHashes() {
-        return hashes;
-    }
-
-    public void setHashes(LinkedHashSet<Hashes> hashes) {
-        this.hashes = hashes;
-    }
 }

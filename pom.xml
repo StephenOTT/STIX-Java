@@ -93,6 +93,19 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.immutables</groupId>
+            <artifactId>value</artifactId>
+            <version>2.7.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.0-jre</version>
+        </dependency>
+
         <!--Dependencies for Unit Test with Spock Framework:-->
         <!-- Mandatory dependencies for using Spock -->
         <dependency>

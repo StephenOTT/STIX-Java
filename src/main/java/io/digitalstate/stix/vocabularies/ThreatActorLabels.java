@@ -22,38 +22,8 @@ public class ThreatActorLabels implements StixVocabulary {
     // Getters and Setters
     //
 
-    public Set<String> getTerms() {
+    public Set<String> getAllTerms() {
         return terms;
     }
 
-    public void setTerms(Set<String> terms) {
-        Objects.requireNonNull(terms, "terms cannot be null");
-        this.terms = terms;
-    }
-
-    public boolean vocabularyContains(Set<String> value){
-        Objects.requireNonNull(value, "value cannot be null");
-        return getTerms().containsAll(value);
-    }
-
-    public boolean vocabularyContains(String... value){
-        Objects.requireNonNull(value, "value cannot be null");
-        return vocabularyContains(new HashSet<>(Arrays.asList(value)));
-    }
-
-    public boolean vocabularyContains(String value){
-        Objects.requireNonNull(value, "value cannot be null");
-        return vocabularyContains(new HashSet<>(Arrays.asList(value)));
-    }
-
-    public ThreatActorLabels addTerms(Set<String> additionalTerms){
-        Objects.requireNonNull(additionalTerms, "additionalTerms cannot be null");
-        getTerms().addAll(additionalTerms);
-        return this;
-    }
-
-    @Override
-    public String toJsonString() throws JsonProcessingException {
-        return StixDataFormats.getJsonMapper().writeValueAsString(getTerms());
-    }
 }
