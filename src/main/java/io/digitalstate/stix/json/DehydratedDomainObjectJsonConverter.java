@@ -1,19 +1,19 @@
-package io.digitalstate.stix.helpers;
+package io.digitalstate.stix.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdConverter;
-import io.digitalstate.stix.bundle.BundleableObject;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
 
 /**
- * Generates a Dehydrated Bundleable Object based on a ID.
+ * Generates a Dehydrated Domain Object based on a ID.
  */
-public class DehydratedBundleableObjectJsonConverter extends StdConverter<String, BundleableObject> {
+public class DehydratedDomainObjectJsonConverter extends StdConverter<String, DomainObject> {
 
     @Override
-    public BundleableObject convert(String value) {
+    public DomainObject convert(String value) {
             String[] parsedValue = value.split("--");
 
             if (parsedValue.length == 2){
@@ -26,9 +26,9 @@ public class DehydratedBundleableObjectJsonConverter extends StdConverter<String
 
 
                 try {
-                    BundleableObject bundleableObject =  mapper.treeToValue(node, BundleableObject.class);
+                    DomainObject domainObject =  mapper.treeToValue(node, DomainObject.class);
                     //@TODO add more logic
-                    return bundleableObject;
+                    return domainObject;
 
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();

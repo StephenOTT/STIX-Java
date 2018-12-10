@@ -22,7 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Immutable
 @JsonTypeName("course-of-action")
 @DefaultTypeValue(value = "course-of-action", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeImmutable = "CourseOfAction", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = CourseOfAction.class) @JsonDeserialize(builder = CourseOfAction.Builder.class)
 public interface CourseOfActionSdo extends DomainObject {
 

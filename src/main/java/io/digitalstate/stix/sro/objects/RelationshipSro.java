@@ -3,7 +3,7 @@ package io.digitalstate.stix.sro.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.helpers.DehydratedDomainObjectJsonConverter;
+import io.digitalstate.stix.json.DehydratedDomainObjectJsonConverter;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.RelationshipObject;
@@ -22,7 +22,7 @@ import java.util.Optional;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @Value.Immutable
-@Value.Style(typeImmutable = "Relationship", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class, JsonTypeInfo.class})
+@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class, JsonTypeInfo.class})
 @DefaultTypeValue(value = "relationship", groups = {DefaultValuesProcessor.class})
 @JsonTypeName("relationship")
 @JsonSerialize(as = Relationship.class) @JsonDeserialize(builder = Relationship.Builder.class)

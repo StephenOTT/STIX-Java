@@ -1,18 +1,20 @@
-package io.digitalstate.stix.helpers;
+package io.digitalstate.stix.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdConverter;
+import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
 
 /**
  * Generates a Dehydrated Domain Object based on a ID.
  */
-public class DehydratedDomainObjectJsonConverter extends StdConverter<String, DomainObject> {
+public class DehydratedMarkingDefinitionJsonConverter extends StdConverter<String, MarkingDefinitionDm> {
 
     @Override
-    public DomainObject convert(String value) {
+    public MarkingDefinitionDm convert(String value) {
             String[] parsedValue = value.split("--");
 
             if (parsedValue.length == 2){
@@ -25,7 +27,7 @@ public class DehydratedDomainObjectJsonConverter extends StdConverter<String, Do
 
 
                 try {
-                    DomainObject domainObject =  mapper.treeToValue(node, DomainObject.class);
+                    MarkingDefinitionDm domainObject =  mapper.treeToValue(node, MarkingDefinitionDm.class);
                     //@TODO add more logic
                     return domainObject;
 

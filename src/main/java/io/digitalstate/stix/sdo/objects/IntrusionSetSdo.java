@@ -26,7 +26,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Immutable
 @JsonTypeName("intrusion-set")
 @DefaultTypeValue(value = "intrusion-set", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeImmutable = "IntrusionSet", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = IntrusionSet.class) @JsonDeserialize(builder = IntrusionSet.Builder.class)
 public interface IntrusionSetSdo extends DomainObject {
 

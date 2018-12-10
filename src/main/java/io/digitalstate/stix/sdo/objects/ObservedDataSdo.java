@@ -3,7 +3,6 @@ package io.digitalstate.stix.sdo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
@@ -11,7 +10,6 @@ import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeVa
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.value.Value;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -21,7 +19,7 @@ import java.util.Set;
 @Value.Immutable
 @JsonTypeName("observed-data")
 @DefaultTypeValue(value = "observed-data", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeImmutable = "ObservedData", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = ObservedData.class) @JsonDeserialize(builder = ObservedData.Builder.class)
 public interface ObservedDataSdo extends DomainObject {
 

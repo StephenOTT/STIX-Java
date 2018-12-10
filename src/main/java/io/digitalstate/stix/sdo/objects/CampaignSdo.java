@@ -23,7 +23,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Immutable
 @JsonTypeName("campaign")
 @DefaultTypeValue(value = "campaign", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeImmutable = "Campaign", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = Campaign.class) @JsonDeserialize(builder = Campaign.Builder.class)
 public interface CampaignSdo extends DomainObject {
 

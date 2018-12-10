@@ -24,7 +24,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Immutable
 @JsonTypeName("tool")
 @DefaultTypeValue(value = "tool", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeImmutable = "Tool", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = Tool.class) @JsonDeserialize(builder = Tool.Builder.class)
 public interface ToolSdo extends DomainObject {
 

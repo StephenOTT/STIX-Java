@@ -3,10 +3,9 @@ package io.digitalstate.stix.sdo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.bundle.BundleableObject;
-import io.digitalstate.stix.helpers.DehydratedBundleableObjectJsonConverter;
+import io.digitalstate.stix.json.DehydratedBundleableObjectJsonConverter;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
@@ -27,7 +26,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Immutable
 @JsonTypeName("report")
 @DefaultTypeValue(value = "report", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeImmutable = "Report", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = Report.class) @JsonDeserialize(builder = Report.Builder.class)
 public interface ReportSdo extends DomainObject {
 

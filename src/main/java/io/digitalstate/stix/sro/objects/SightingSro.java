@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
-import io.digitalstate.stix.helpers.DehydratedDomainObjectJsonConverter;
+import io.digitalstate.stix.json.DehydratedDomainObjectJsonConverter;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.objects.IdentitySdo;
@@ -22,7 +22,7 @@ import java.util.Set;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @Value.Immutable
-@Value.Style(typeImmutable = "Sighting", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class, JsonTypeInfo.class})
+@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class, JsonTypeInfo.class})
 @DefaultTypeValue(value = "sighting", groups = {DefaultValuesProcessor.class})
 @JsonSerialize(as = Sighting.class) @JsonDeserialize(builder = Sighting.Builder.class)
 public interface SightingSro extends RelationshipObject {
