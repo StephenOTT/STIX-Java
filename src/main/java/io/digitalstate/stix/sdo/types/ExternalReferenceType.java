@@ -3,6 +3,8 @@ package io.digitalstate.stix.sdo.types;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.types.HashesType;
 import org.immutables.value.Value;
 
@@ -14,6 +16,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @Value.Immutable
 @Value.Style(typeImmutable = "ExternalReference", validationMethod = Value.Style.ValidationMethod.NONE)
+@JsonSerialize(as = ExternalReference.class) @JsonDeserialize(builder = ExternalReference.Builder.class)
 public interface ExternalReferenceType {
 
     @NotBlank

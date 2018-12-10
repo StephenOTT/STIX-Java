@@ -6,6 +6,7 @@ import io.digitalstate.stix.bundle.BundleableObject
 import io.digitalstate.stix.common.StixParsers
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Malware
+import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.sro.objects.Relationship
 import spock.lang.Specification
 
@@ -73,5 +74,32 @@ class BundleSpec extends Specification {
 
         AttackPattern parsedAttackPattern = (AttackPattern)StixParsers.parseBundleableObject(attackPatternString)
         println parsedAttackPattern.toJsonString()
+    }
+
+    def "Update a Stix Object with new data"() {
+
+        when: "a object is created, it is immutable"
+        AttackPattern attackPattern = AttackPattern.builder()
+                .name("Some Attack Pattern 1")
+                .build()
+
+        then: "additional data needs to be added to the attack pattern"
+
+        KillChainPhase killChainPhase = KillChainPhase.builder()
+                .phaseName("some phase")
+                .killChainName("some name")
+                .build()
+
+        AttackPattern newAttackPattern = attackPattern.withKillChainPhases(killChainPhase)
+        assert attackPattern != newAttackPattern
+
+        BundleableObject newObject = StixParsers.parseObject(newAttackPattern.toJsonString())
+        assert newObject instanceof AttackPattern
+        println newObject.toJsonString()
+
+        println newAttackPattern.inspect()
+
+        println attackPattern.toJsonString()
+        println newAttackPattern.toJsonString()
     }
 }
