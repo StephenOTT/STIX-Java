@@ -12,6 +12,7 @@ import io.digitalstate.stix.json.DehydratedDomainObjectJsonConverter;
 import io.digitalstate.stix.json.DehydratedMarkingDefinitionJsonConverter;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
+import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.sdo.objects.IdentitySdo;
 import io.digitalstate.stix.sdo.types.ExternalReferenceType;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
@@ -93,7 +94,7 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @Value.Auxiliary
     default String toJsonString() {
         try {
-            return StixDataFormats.getJsonMapper(true).writeValueAsString(this);
+            return StixParsers.getJsonMapper(true).writeValueAsString(this);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             //@TODO followup on https://github.com/immutables/immutables/issues/877

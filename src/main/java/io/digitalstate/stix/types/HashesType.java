@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Map;
 
 @Value.Immutable
-@Value.Style(typeImmutable = "Hashes", validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeAbstract="*Type", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
 @JsonSerialize(as = Hashes.class) @JsonDeserialize(builder = Hashes.Builder.class)
 public interface HashesType {
 

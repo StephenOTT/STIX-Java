@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -50,7 +50,7 @@ public interface BundleObject {
     @Value.Lazy
     default String toJsonString() {
         try {
-            return StixDataFormats.getJsonMapper(true).writeValueAsString(this);
+            return StixParsers.getJsonMapper(true).writeValueAsString(this);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             //@TODO followup on https://github.com/immutables/immutables/issues/877

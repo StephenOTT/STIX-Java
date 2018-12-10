@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdConverter;
 import io.digitalstate.stix.bundle.BundleableObject;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.sdo.DomainObject;
 
 /**
  * Generates a Dehydrated Bundleable Object based on a ID.
@@ -18,7 +16,7 @@ public class DehydratedBundleableObjectJsonConverter extends StdConverter<String
             String[] parsedValue = value.split("--");
 
             if (parsedValue.length == 2){
-                ObjectMapper mapper = StixDataFormats.getJsonMapper(true);
+                ObjectMapper mapper = StixParsers.getJsonMapper(true);
                 ObjectNode node = mapper.createObjectNode();
 
                 node.put("type", parsedValue[0]);

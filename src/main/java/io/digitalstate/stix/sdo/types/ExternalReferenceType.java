@@ -15,7 +15,7 @@ import java.util.Set;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @Value.Immutable
-@Value.Style(typeImmutable = "ExternalReference", validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeAbstract="*Type", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
 @JsonSerialize(as = ExternalReference.class) @JsonDeserialize(builder = ExternalReference.Builder.class)
 public interface ExternalReferenceType {
 
