@@ -1,9 +1,12 @@
 package io.digitalstate.stix.bundle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -42,5 +45,17 @@ public interface BundleObject {
     @Size(min = 1, message = "Must have at least 1 object in bundle")
     @JsonProperty("objects")
     Set<BundleableObject> getObjects();
+
+    @JsonIgnore
+    @Value.Lazy
+    default String toJsonString() {
+        try {
+            return StixDataFormats.getJsonMapper(true).writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            //@TODO followup on https://github.com/immutables/immutables/issues/877
+            return null;
+        }
+    }
 
 }

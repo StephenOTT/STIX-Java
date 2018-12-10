@@ -1,6 +1,7 @@
 package io.digitalstate.stix.common;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
@@ -89,9 +90,15 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
 
     @JsonIgnore
     @Value.Lazy
-    default String toJsonString(){
-        return "SOME_JSON GOES HERE";
-        //@TODO
+    @Value.Auxiliary
+    default String toJsonString() {
+        try {
+            return StixDataFormats.getJsonMapper(true).writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            //@TODO followup on https://github.com/immutables/immutables/issues/877
+            return null;
+        }
     }
 
     @Value.Check

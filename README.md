@@ -13,197 +13,99 @@ Current Spec Target: **2.0**
 
 ## Java
 
-Here is a Unit Test for the Report SDO
-
-Note the usage of Builders and how all objects are generated as Immutable.
-
+Example unit test showing usage.
 
 ```groovy
 import io.digitalstate.stix.bundle.Bundle
+import io.digitalstate.stix.bundle.BundleObject
+import io.digitalstate.stix.bundle.BundleableObject
+import io.digitalstate.stix.common.StixParsers
 import io.digitalstate.stix.sdo.objects.AttackPattern
+import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sro.objects.Relationship
 import spock.lang.Specification
 
+import java.time.Instant
+
 class BundleSpec extends Specification {
 
-    def "Basic Derived-From Relationship in Bundle"(){
-        when:
-        Relationship duplicateRelationship = Relationship.builder()
-                .relationshipType("derived-from")
+    def "Basic 'uses' Relationship object and addition to bundle"(){
+        when: "Create a Relationship with Attack Pattern and Malware"
+
+        Relationship usesRel = Relationship.builder()
+                .relationshipType("uses")
+                .created(Instant.now())
                 .sourceRef(AttackPattern.builder()
                         .name("Some Attack Pattern 1")
                         .build())
-                .targetRef(AttackPattern.builder()
-                        .name("Some Other Attack Patter 2")
+                .targetRef(Malware.builder()
+                        .name("dog")
+                        .addLabels("worm")
                         .build())
                 .build()
 
-        Bundle stixBundleObject = Bundle.builder()
-                .addObjects(duplicateRelationship)
+        then: "print the JSON string version of the created relationship object"
+        println usesRel.toJsonString()
+
+        then: "parse the string back into a relationship object"
+        BundleableObject parsedRelationship = StixParsers.parseObject(usesRel.toJsonString())
+        assert parsedRelationship instanceof Relationship
+
+        Relationship typedRelation = (Relationship)parsedRelationship
+
+        and: "print the parsed relation"
+        println typedRelation
+
+        then: "ensure the original JSON matches the new JSON"
+        assert usesRel.toJsonString() == typedRelation.toJsonString()
+
+        then: "add the relationship into a bundle"
+        Bundle bundle = Bundle.builder()
+                .addObjects(usesRel)
                 .build()
 
-        then:
-        assert stixBundleObject.getObjects().size() == 1
-        println stixBundleObject
+        and: "print the bundle json"
+        println bundle.toJsonString()
+
+        then: "parse json bundle back into object"
+        BundleObject parsedBundle = StixParsers.parseBundle(bundle.toJsonString())
+        assert parsedBundle instanceof Bundle
+        Bundle typedBundle = (Bundle)parsedBundle
+
+        then: "ensure original bundle and parsed bundles match in their json forms"
+        assert bundle.toJsonString() == typedBundle.toJsonString()
+
+    }
+
+    def "bundleable object parsing"(){
+        when: "setup parser and object"
+        String attackPatternString = AttackPattern.builder()
+                                        .name("Some Attack Pattern 1")
+                                        .build().toJsonString()
+
+        then: "can parse the json back into a attack Pattern"
+        BundleableObject parsedAttackPatternBo = StixParsers.parseObject(attackPatternString)
+        assert parsedAttackPatternBo instanceof AttackPattern
+
+        AttackPattern parsedAttackPattern = (AttackPattern)StixParsers.parseObject(attackPatternString)
+        println parsedAttackPattern.toJsonString()
     }
 }
 ```
-
-## Notes:
-
-1. Objects that have Hydration are marked as hydrated by default.  If a dehydrated object can be created by setting the .hydrated(false) property in the builder.
 
 
 ## JSON
-JSON can be outputted for any individual object as well as a Bundle which will perform recursive conversion to JSON for each nested object.
 
-The below is a the output from a full bundle with a typical stack of objects
+1. All objects (Bundles, SDO, SRO, and Marking Definitions; anything that is a "bundleable object" + bundle) are able 
+to be individually converted into their json equivalent.
 
-```json
-{
-  "type": "bundle",
-  "id": "bundle--7a0fe49d-4569-4e9e-87e1-a81231fd72fb",
-  "spec_version": "2.0",
-  "objects": [
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6",
-      "created": "2018-11-26T01:17:26.416Z",
-      "modified": "2018-11-29T01:17:26.416Z",
-      "revoked": false,
-      "object_marking_refs": [
-        "marking-definition--b17db0c7-1c2e-4c6a-9cab-34d0cacfbf50"
-      ],
-      "granular_markings": [
-        {
-          "selectors": [
-            "pattern1",
-            "pattern2",
-            "pattern3"
-          ],
-          "marking_ref": "marking-definition--0f1a0afd-ba25-47a2-b7e1-4d0ab65b1689"
-        }
-      ],
-      "name": "some pattern",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "Chain1",
-          "phase_name": "phase1"
-        },
-        {
-          "kill_chain_name": "Chain1",
-          "phase_name": "phase2"
-        }
-      ],
-      "x_someCustomKey": "My custom value",
-      "x_someOtherCustom_key": 3939
-    },
-    {
-      "type": "observed-data",
-      "id": "observed-data--79ec3f75-6fbf-4fe7-b7d0-c540fcf65753",
-      "created": "2018-11-26T01:17:26.461Z",
-      "modified": "2018-11-26T01:17:26.461Z",
-      "revoked": false,
-      "object_marking_refs": [
-        "marking-definition--a2eb976a-aa5c-4999-8c34-0b74a0d46bef"
-      ],
-      "first_observed": "2018-11-26T01:17:26.448Z",
-      "last_observed": "2018-11-26T01:17:26.448Z",
-      "number_observed": 3,
-      "objects": {
-        "some artifact": {
-          "type": "artifact",
-          "url": "someURL"
-        },
-        "some AS": {
-          "type": "autonomous-system",
-          "number": 5,
-          "rir": "someRIR"
-        }
-      }
-    },
-    {
-      "type": "sighting",
-      "id": "sighting--cbae7c1e-57ef-47b4-9e50-22d9169c246d",
-      "created": "2018-11-26T01:17:26.941Z",
-      "modified": "2018-11-26T01:17:26.941Z",
-      "revoked": false,
-      "sighting_of_ref": "attack-pattern--4c465e41-3c02-4667-8887-c4608e6d3ae9",
-      "where_sighted_refs": [
-        "identity--d442813b-7e72-49a6-937a-3e351e219a18"
-      ],
-      "summary": false
-    },
-    {
-      "type": "marking-definition",
-      "id": "marking-definition--b17db0c7-1c2e-4c6a-9cab-34d0cacfbf50",
-      "created": "2018-11-26T01:17:26.435Z",
-      "object_marking_refs": [
-        "marking-definition--a2eb976a-aa5c-4999-8c34-0b74a0d46bef"
-      ],
-      "definition_type": "tlp",
-      "definition": {
-        "tlp": "white"
-      }
-    },
-    {
-      "type": "marking-definition",
-      "id": "marking-definition--a2eb976a-aa5c-4999-8c34-0b74a0d46bef",
-      "created": "2018-11-26T01:17:26.444Z",
-      "granular_markings": [
-        {
-          "selectors": [
-            "marking-pattern1",
-            "pattern2",
-            "pattern3"
-          ],
-          "marking_ref": "marking-definition--0f1a0afd-ba25-47a2-b7e1-4d0ab65b1689"
-        }
-      ],
-      "definition_type": "statement",
-      "definition": {
-        "statement": "Internal review of data allows for sharing as per ABC-009 Standard"
-      }
-    },
-    {
-      "type": "marking-definition",
-      "id": "marking-definition--0f1a0afd-ba25-47a2-b7e1-4d0ab65b1689",
-      "created": "2018-11-26T01:17:26.436Z",
-      "definition_type": "tlp",
-      "definition": {
-        "tlp": "red"
-      }
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--40c2a4e3-e5cc-4c8a-98fa-9c411a749beb",
-      "created": "2018-11-26T01:17:26.933Z",
-      "modified": "2018-11-26T01:17:26.933Z",
-      "revoked": false,
-      "relationship_type": "targets",
-      "source_ref": "attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6",
-      "target_ref": "identity--d442813b-7e72-49a6-937a-3e351e219a18"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--4c465e41-3c02-4667-8887-c4608e6d3ae9",
-      "created": "2018-11-26T01:17:26.941Z",
-      "modified": "2018-11-26T01:17:26.941Z",
-      "revoked": false,
-      "name": "someOtherATTK2"
-    },
-    {
-      "type": "identity",
-      "id": "identity--d442813b-7e72-49a6-937a-3e351e219a18",
-      "created": "2018-11-26T01:17:26.929Z",
-      "modified": "2018-11-26T01:17:26.929Z",
-      "revoked": false,
-      "name": "Stephen",
-      "identity_class": "individual"
-    }
-  ]
-}
-```
+1. All objects (Bundles, SDO, SRO, and Marking Definitions; anything that is a "bundleable object" + bundle) can be 
+individually parsed from Json into a object.
+
+1. Object references within out objects (for example a "object_markings" property), will create "dehydrated" objects 
+when parsing from json into objects.  This means that the object will detect the "type" based on the Id value, 
+extract the type, and create a object of the specified type with the "hydrated" attribute marked as false.
+
 
 # Charon Data Flow
 
