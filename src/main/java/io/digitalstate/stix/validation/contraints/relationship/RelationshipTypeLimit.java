@@ -19,7 +19,7 @@ import static java.lang.annotation.ElementType.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(RelationshipTypeLimit.List.class)
 public @interface RelationshipTypeLimit {
-    String message() default "{io.digitalstate.stix.validation.contraints.relationship.RelationshipTypeLimit}";
+    String message() default "{io.digitalstate.stix.validation.contraints.relationship.DefaultTypeValue}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

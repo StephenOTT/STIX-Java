@@ -1,8 +1,15 @@
 package io.digitalstate.stix.sdo.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
+import io.digitalstate.stix.sro.objects.RelationshipSro;
+import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
+import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
@@ -11,46 +18,37 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 
-@Value.Immutable
-@Value.Style(typeImmutable = "Campaign", validationMethod = Value.Style.ValidationMethod.NONE)
-public interface CampaignSdo extends DomainObject {
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-    @Override
-    @NotBlank
-    default String typeValue(){
-        return "campaign";
-    }
+@Value.Immutable
+@JsonTypeName("campaign")
+@DefaultTypeValue(value = "campaign", groups = {DefaultValuesProcessor.class})
+@Value.Style(typeImmutable = "Campaign", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@JsonSerialize(as = Campaign.class) @JsonDeserialize(builder = Campaign.Builder.class)
+public interface CampaignSdo extends DomainObject {
 
     @NotBlank
     @JsonProperty("name")
     String getName();
 
-    @JsonProperty("description")
+    @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getDescription();
 
     @NotNull
-    @JsonProperty("aliases")
+    @JsonProperty("aliases") @JsonInclude(NON_EMPTY)
     Set<String> getAliases();
 
-    @JsonProperty("first_seen")
+    @JsonSerialize(using = InstantSerializer.class)
+    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<Instant> getFirstSeen();
 
-    @JsonProperty("last_seen")
+    @JsonSerialize(using = InstantSerializer.class)
+    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<Instant> getLastSeen();
 
-    @JsonProperty("objective")
+    @JsonProperty("objective") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getObjective();
-
-    @NotNull
-    @JsonIgnore
-    Set<String> getAttributedTo();
-
-    @NotNull
-    @JsonIgnore
-    Set<String> getTargets();
-
-    @NotNull
-    @JsonIgnore
-    Set<String> getUses();
 
 }

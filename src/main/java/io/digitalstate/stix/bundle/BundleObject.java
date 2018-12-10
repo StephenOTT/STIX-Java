@@ -1,7 +1,12 @@
 package io.digitalstate.stix.bundle;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.helpers.StixSpecVersion;
+import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
+import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
@@ -10,15 +15,15 @@ import java.util.Set;
 import java.util.UUID;
 
 @Value.Immutable
-@Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE)
+@DefaultTypeValue(value = "bundle", groups = {DefaultValuesProcessor.class})
+@JsonTypeName("bundle")
+@Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@JsonSerialize(as = Bundle.class) @JsonDeserialize(builder = Bundle.Builder.class)
 public interface BundleObject {
 
     @NotBlank
     @JsonProperty("type")
-    @Value.Default
-    default String getType(){
-        return "bundle";
-    }
+    String getType();
 
     @NotBlank
     @JsonProperty("id")
@@ -29,7 +34,7 @@ public interface BundleObject {
 
     @NotBlank
     @JsonProperty("spec_version")
-    @Value.Lazy
+    @Value.Default
     default String getSpecVersion(){
         return StixSpecVersion.SPECVERSION;
     }

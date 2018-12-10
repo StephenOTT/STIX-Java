@@ -1,10 +1,17 @@
 package io.digitalstate.stix.sdo.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.types.KillChainPhaseType;
+import io.digitalstate.stix.sro.objects.RelationshipSro;
+import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
+import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import io.digitalstate.stix.vocabularies.IndicatorLabels;
 import org.immutables.value.Value;
 
@@ -15,44 +22,43 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 
-@Value.Immutable
-@Value.Style(typeImmutable = "Indicator", validationMethod = Value.Style.ValidationMethod.NONE)
-public interface IndicatorSdo extends DomainObject {
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-    @Override
-    @NotBlank
-    default String typeValue(){
-        return "indicator";
-    }
+@Value.Immutable
+@JsonTypeName("indicator")
+@DefaultTypeValue(value = "indicator", groups = {DefaultValuesProcessor.class})
+@Value.Style(typeImmutable = "Indicator", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@JsonSerialize(as = Indicator.class) @JsonDeserialize(builder = Indicator.Builder.class)
+public interface IndicatorSdo extends DomainObject {
 
     @Override
     @NotNull @Size(min = 1)
     @Vocab(IndicatorLabels.class)
     Set<@Size(min = 1) String> getLabels();
 
-    @JsonProperty("name")
+    @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getName();
 
-    @JsonProperty("description")
+    @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getDescription();
 
     @NotBlank
-    @JsonProperty("indicator")
+    @JsonProperty("pattern")
     String getPattern();
 
     @NotNull
     @JsonProperty("valid_from")
+    @JsonSerialize(using = InstantSerializer.class)
+    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
     Instant getValidFrom();
 
-    @JsonProperty("valid_until")
+    @JsonProperty("valid_until") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonSerialize(using = InstantSerializer.class)
+    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
     Optional<Instant> getValidUntil();
 
     @NotNull
-    @JsonProperty("kill_chain_phases")
+    @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
     Set<KillChainPhaseType> getKillChainPhases();
-
-    @NotNull
-    @JsonIgnore
-    Set<String> getIndicates();
 
 }

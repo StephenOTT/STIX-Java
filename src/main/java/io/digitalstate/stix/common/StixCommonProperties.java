@@ -1,15 +1,20 @@
 package io.digitalstate.stix.common;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.GranularMarkingDm;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
+import io.digitalstate.stix.helpers.DehydratedDomainObjectJsonConverter;
+import io.digitalstate.stix.helpers.DehydratedMarkingDefinitionJsonConverter;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
-import io.digitalstate.stix.validation.groups.ValidateIdOnly;
 import io.digitalstate.stix.sdo.objects.IdentitySdo;
 import io.digitalstate.stix.sdo.types.ExternalReferenceType;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
+import io.digitalstate.stix.validation.groups.ValidateIdOnly;
 import org.immutables.value.Value;
 
 import javax.validation.ConstraintViolationException;
@@ -19,23 +24,14 @@ import javax.validation.groups.Default;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * Base interface used by Immutable STIX Domain Objects
  */
 @Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
 public interface StixCommonProperties extends SdoDefaultValidator, BundleableObject {
-
-    /**
-     * Helper value that is designed to be overridden by each interface that extends this interface.
-     * This is used so the getType() method and its annotations can be managed in a central location
-     * @return String of the STIX type
-     */
-    @NotBlank
-    @JsonIgnore
-    @Value.Lazy
-    String typeValue();
 
     /**
      * Dictates if the object is hydrated.
@@ -45,48 +41,50 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
      */
     @NotNull
     @Value.Default
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     default boolean getHydrated(){
         return true;
     }
 
-    // NotBlank is only enforced when using Default Validator group
-    @NotBlank(groups = {Default.class, ValidateIdOnly.class}, message = "Type is required")
     @JsonProperty("type")
-    default String getType(){
-        return typeValue();
-    }
+//    NotBlank is only enforced when using Default Validator group
+    @NotBlank(groups = {Default.class, ValidateIdOnly.class}, message = "Type is required")
+    @NotBlank
+    String getType();
 
-    // NotBlank is only enforced when using Default Validator group
-    @NotBlank(groups = {Default.class, ValidateIdOnly.class}, message = "Id is required")
     @JsonProperty("id")
-    @Value.Default
-    default String getId(){
-     return String.join("--", getType(), UUID.randomUUID().toString());
-    }
+//    NotBlank is only enforced when using Default Validator group
+    @NotBlank(groups = {Default.class, ValidateIdOnly.class}, message = "Id is required")
+    String getId();
 
-
-    @JsonProperty("created_by_ref")
+    @JsonProperty("created_by_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
     Optional<IdentitySdo> getCreatedByRef();
 
     @NotNull
+    @JsonSerialize(using = InstantSerializer.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
     @JsonProperty("created")
     @Value.Default
     default Instant getCreated(){
         return Instant.now();
     }
 
-
     @NotNull
-    @JsonProperty("external_references")
+    @JsonProperty("external_references") @JsonInclude(NON_EMPTY)
     Set<ExternalReferenceType> getExternalReferences();
 
     @NotNull
-    @JsonProperty("object_marking_refs")
+    @JsonProperty("object_marking_refs") @JsonInclude(NON_EMPTY)
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonDeserialize(converter = DehydratedMarkingDefinitionJsonConverter.class)
     Set<MarkingDefinitionDm> getObjectMarkingRefs();
 
     @NotNull
-    @JsonProperty("granular_markings")
+    @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
     Set<GranularMarkingDm> getGranularMarkings();
 
     @JsonIgnore

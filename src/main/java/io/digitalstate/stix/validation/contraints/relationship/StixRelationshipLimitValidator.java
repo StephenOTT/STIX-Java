@@ -36,10 +36,10 @@ public class StixRelationshipLimitValidator implements ConstraintValidator<Relat
                     return false;
                 }
             }
+            //@TODO write detail docs about the logic and how to eval this for debugging
+            // The use of isAssignableFrom is typically confusing from basic logic between the interfaces and the Immutable class
             if (source.isAssignableFrom(object.getSourceRef().getClass())){
-                System.out.println(object.getSourceRef().getClass().getCanonicalName());
-                System.out.println(object.getTargetRef().getClass().getCanonicalName());
-                boolean hasInstance = Arrays.stream(target).anyMatch(t-> t.isInstance(object.getTargetRef().getClass()));
+                boolean hasInstance = Arrays.stream(target).anyMatch(t-> t.isAssignableFrom(object.getTargetRef().getClass()));
                 if (classEquality && object.getTargetRef().getClass().equals(object.getSourceRef().getClass())){
                     return true;
 

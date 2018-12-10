@@ -1,12 +1,17 @@
 package io.digitalstate.stix.sro.objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.helpers.DehydratedDomainObjectJsonConverter;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.RelationshipObject;
+import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.relationship.RelationshipLimit;
 import io.digitalstate.stix.validation.contraints.relationship.RelationshipTypeLimit;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
+import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import io.digitalstate.stix.vocabularies.RelationshipTypes;
 import org.immutables.value.Value;
 
@@ -14,8 +19,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+
 @Value.Immutable
-@Value.Style(typeImmutable = "Relationship", validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Relationship", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class, JsonTypeInfo.class})
+@DefaultTypeValue(value = "relationship", groups = {DefaultValuesProcessor.class})
+@JsonTypeName("relationship")
+@JsonSerialize(as = Relationship.class) @JsonDeserialize(builder = Relationship.Builder.class)
 @RelationshipTypeLimit(source = AttackPatternSdo.class, relationshipTypes = {"targets", "uses"})
 @RelationshipTypeLimit(source = CampaignSdo.class, relationshipTypes = {"attributed-to", "targets", "uses"})
 @RelationshipTypeLimit(source = CourseOfActionSdo.class, relationshipTypes = {"mitigates"})
@@ -48,26 +58,26 @@ import java.util.Optional;
 @RelationshipLimit(source = ToolSdo.class, relationshipType = "targets", target = {IdentitySdo.class, VulnerabilitySdo.class})
 public interface RelationshipSro extends RelationshipObject {
 
-    @Override
-    @NotBlank
-    default String typeValue(){
-        return "relationship";
-    }
-
     @NotBlank
     @Vocab(RelationshipTypes.class)
     @JsonProperty("relationship_type")
     String getRelationshipType();
 
-    @JsonProperty("description")
+    @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("source_ref")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
     DomainObject getSourceRef();
 
     @NotNull
     @JsonProperty("target_ref")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
     DomainObject getTargetRef();
 
 }

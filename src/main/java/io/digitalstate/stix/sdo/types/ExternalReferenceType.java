@@ -1,6 +1,7 @@
 package io.digitalstate.stix.sdo.types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.digitalstate.stix.types.HashesType;
 import org.immutables.value.Value;
@@ -8,6 +9,8 @@ import org.immutables.value.Value;
 import javax.validation.constraints.NotBlank;
 import java.util.Optional;
 import java.util.Set;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @Value.Immutable
 @Value.Style(typeImmutable = "ExternalReference", validationMethod = Value.Style.ValidationMethod.NONE)
@@ -17,16 +20,16 @@ public interface ExternalReferenceType {
     @JsonProperty("source_name")
     String getSourceName();
 
-    @JsonProperty("description")
+    @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getDescription();
 
-    @JsonProperty("url")
+    @JsonProperty("url") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getUrl();
 
-    @JsonProperty("hashes")
+    @JsonProperty("hashes") @JsonInclude(NON_EMPTY)
     Set<HashesType> hashes();
 
-    @JsonProperty("external_id")
+    @JsonProperty("external_id") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> externalId();
 
     @JsonIgnore
