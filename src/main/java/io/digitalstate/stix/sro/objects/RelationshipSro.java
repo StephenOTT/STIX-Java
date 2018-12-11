@@ -3,7 +3,7 @@ package io.digitalstate.stix.sro.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.json.DehydratedDomainObjectJsonConverter;
+import io.digitalstate.stix.json.converters.dehydrated.DomainObjectConverter;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.RelationshipObject;
@@ -70,14 +70,14 @@ public interface RelationshipSro extends RelationshipObject {
     @JsonProperty("source_ref")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
+    @JsonDeserialize(converter = DomainObjectConverter.class)
     DomainObject getSourceRef();
 
     @NotNull
     @JsonProperty("target_ref")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
+    @JsonDeserialize(converter = DomainObjectConverter.class)
     DomainObject getTargetRef();
 
 }

@@ -3,11 +3,10 @@ package io.digitalstate.stix.datamarkings;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.json.DehydratedMarkingDefinitionJsonConverter;
+import io.digitalstate.stix.json.converters.dehydrated.MarkingDefinitionConverter;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
 import org.immutables.value.Value;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -21,7 +20,7 @@ public interface GranularMarkingDm extends SdoDefaultValidator {
     @JsonProperty("marking_ref")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedMarkingDefinitionJsonConverter.class)
+    @JsonDeserialize(converter = MarkingDefinitionConverter.class)
     MarkingDefinitionDm getMarkingRef();
 
     @Size(min = 1, message = "Must have as least 1 selector")

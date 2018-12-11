@@ -1,23 +1,23 @@
-package io.digitalstate.stix.json;
+package io.digitalstate.stix.json.converters.dehydrated;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdConverter;
-import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
+import io.digitalstate.stix.json.StixParsers;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Generates a Dehydrated Bundleable Object based on a ID from a Set of BundleableObjects.
+ * Generates a Dehydrated Marking Definition Set
  */
-public class DehydratedBundleableObjectSetJsonConverter extends StdConverter<Set<String>, Set<BundleableObject>> {
+public class MarkingDefinitionSetConverter extends StdConverter<Set<String>, Set<MarkingDefinitionDm>> {
 
     @Override
-    public Set<BundleableObject> convert(Set<String> values) {
-        Set<BundleableObject> bundleableObjectSet = new HashSet<>();
+    public Set<MarkingDefinitionDm> convert(Set<String> values) {
+        Set<MarkingDefinitionDm> markDefSet = new HashSet<>();
         values.forEach(v -> {
             String[] parsedValue = v.split("--");
 
@@ -29,11 +29,10 @@ public class DehydratedBundleableObjectSetJsonConverter extends StdConverter<Set
                 node.put("id", v);
                 node.put("hydrated", false);
 
-
                 try {
-                    BundleableObject bundleableObject = mapper.treeToValue(node, BundleableObject.class);
+                    MarkingDefinitionDm markingDef = mapper.treeToValue(node, MarkingDefinitionDm.class);
                     //@TODO add more logic
-                    bundleableObjectSet.add(bundleableObject);
+                    markDefSet.add(markingDef);
 
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
@@ -44,6 +43,6 @@ public class DehydratedBundleableObjectSetJsonConverter extends StdConverter<Set
                 throw new IllegalArgumentException("Id is not valid format, Cannot Parse Value: " + v);
             }
         });
-        return bundleableObjectSet;
+        return markDefSet;
     }
 }

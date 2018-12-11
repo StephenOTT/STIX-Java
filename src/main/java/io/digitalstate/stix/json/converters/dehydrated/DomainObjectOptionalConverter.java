@@ -1,9 +1,10 @@
-package io.digitalstate.stix.json;
+package io.digitalstate.stix.json.converters.dehydrated;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdConverter;
+import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.sdo.DomainObject;
 
 import java.util.Optional;
@@ -11,7 +12,7 @@ import java.util.Optional;
 /**
  * Generates a Dehydrated Domain Object based on a ID.
  */
-public class DehydratedOptionalDomainObjectJsonConverter extends StdConverter<String, Optional<DomainObject>> {
+public class DomainObjectOptionalConverter extends StdConverter<String, Optional<DomainObject>> {
 
     @Override
     public Optional<DomainObject> convert(String value) {

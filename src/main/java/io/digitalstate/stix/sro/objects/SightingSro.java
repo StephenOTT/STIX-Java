@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
-import io.digitalstate.stix.json.DehydratedDomainObjectJsonConverter;
+import io.digitalstate.stix.json.converters.dehydrated.DomainObjectConverter;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.objects.IdentitySdo;
@@ -43,19 +43,19 @@ public interface SightingSro extends RelationshipObject {
     @JsonProperty("sighting_of_ref")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
+    @JsonDeserialize(converter = DomainObjectConverter.class)
     DomainObject getSightingOfRef();
 
     @JsonProperty("observed_data_refs") @JsonInclude(NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
+    @JsonDeserialize(converter = DomainObjectConverter.class)
     Set<ObservedDataSdo> getObservedDataRefs();
 
     @JsonProperty("where_sighted_refs") @JsonInclude(NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
+    @JsonDeserialize(converter = DomainObjectConverter.class)
     Set<IdentitySdo> getWhereSightedRefs();
 
     @NotNull

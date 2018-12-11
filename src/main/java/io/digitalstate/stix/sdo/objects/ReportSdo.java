@@ -5,9 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.bundle.BundleableObject;
-import io.digitalstate.stix.json.DehydratedBundleableObjectJsonConverter;
 import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.json.DehydratedBundleableObjectSetJsonConverter;
+import io.digitalstate.stix.json.converters.dehydrated.BundleableObjectSetConverter;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
@@ -16,7 +15,6 @@ import io.digitalstate.stix.vocabularies.ReportLabels;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -55,7 +53,7 @@ public interface ReportSdo extends DomainObject {
     @JsonProperty("object_refs")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedBundleableObjectSetJsonConverter.class)
+    @JsonDeserialize( converter = BundleableObjectSetConverter.class)
     Set<BundleableObject> getObjectRefs();
 
 }
