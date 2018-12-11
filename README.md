@@ -115,6 +115,8 @@ extract the type, and create a object of the specified type with the "hydrated" 
 
 ## Example Process Usage
 
+![course of action processing 1](./docs/BPMN/course_of_action_1.png)
+
 ![taxii collection updates](./docs/BPMN/taxii_collection_propagation.png)
 
 ![process example 1](./docs/BPMN/sample_processes_1.png)
