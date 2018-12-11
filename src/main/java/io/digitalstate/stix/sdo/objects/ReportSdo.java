@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.json.DehydratedBundleableObjectJsonConverter;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.DehydratedBundleableObjectSetJsonConverter;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
@@ -54,7 +55,7 @@ public interface ReportSdo extends DomainObject {
     @JsonProperty("object_refs")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedBundleableObjectJsonConverter.class)
+    @JsonDeserialize(converter = DehydratedBundleableObjectSetJsonConverter.class)
     Set<BundleableObject> getObjectRefs();
 
 }
