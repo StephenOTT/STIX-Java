@@ -9,7 +9,6 @@ import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.sro.objects.Relationship
-import io.digitalstate.stix.types.Hashes
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -39,7 +38,7 @@ class BundleSpec extends Specification {
         println usesRel.toJsonString()
 
         then: "parse the string back into a relationship object"
-        BundleableObject parsedRelationship = StixParsers.parseBundleableObject(usesRel.toJsonString())
+        BundleableObject parsedRelationship = StixParsers.parseObject(usesRel.toJsonString())
         assert parsedRelationship instanceof Relationship
 
         Relationship typedRelation = (Relationship)parsedRelationship
@@ -75,10 +74,10 @@ class BundleSpec extends Specification {
                                         .build().toJsonString()
 
         then: "can parse the json back into a attack Pattern"
-        BundleableObject parsedAttackPatternBo = StixParsers.parseBundleableObject(attackPatternString)
+        BundleableObject parsedAttackPatternBo = StixParsers.parseObject(attackPatternString)
         assert parsedAttackPatternBo instanceof AttackPattern
 
-        AttackPattern parsedAttackPattern = (AttackPattern)StixParsers.parseBundleableObject(attackPatternString)
+        AttackPattern parsedAttackPattern = (AttackPattern)StixParsers.parseObject(attackPatternString)
         println parsedAttackPattern.toJsonString()
     }
 

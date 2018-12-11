@@ -17,7 +17,7 @@ import java.util.Set;
 @JsonSerialize(as = GranularMarking.class) @JsonDeserialize(builder = GranularMarking.Builder.class)
 public interface GranularMarkingDm extends SdoDefaultValidator {
 
-    @NotNull @Valid
+    @NotNull
     @JsonProperty("marking_ref")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)

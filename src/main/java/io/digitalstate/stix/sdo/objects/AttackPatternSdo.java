@@ -31,7 +31,7 @@ public interface AttackPatternSdo extends DomainObject {
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getDescription();
 
-    @NotNull @Valid
+    @NotNull
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
     Set<KillChainPhaseType> getKillChainPhases();
 

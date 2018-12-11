@@ -1,6 +1,5 @@
 package io.digitalstate.stix.datamarkings;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -9,7 +8,6 @@ import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Value.Immutable
 @Value.Style(typeImmutable = "Statement", validationMethod = Value.Style.ValidationMethod.NONE)
@@ -18,6 +16,6 @@ public interface StatementMarkingObject extends SdoDefaultValidator, StixMarking
 
     @NotBlank
     @JsonProperty("statement")
-    String getStatement();
+    @Length(min = 1) String getStatement();
 
 }

@@ -59,7 +59,7 @@ public interface IndicatorSdo extends DomainObject {
     @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
     Optional<Instant> getValidUntil();
 
-    @NotNull @Valid
+    @NotNull
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
     Set<KillChainPhaseType> getKillChainPhases();
 

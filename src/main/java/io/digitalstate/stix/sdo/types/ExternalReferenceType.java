@@ -3,6 +3,7 @@ package io.digitalstate.stix.sdo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.datamarkings.GenericValidation;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.vocabularies.HashingAlgorithms;
 import org.hibernate.validator.constraints.Length;
@@ -19,7 +20,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Immutable
 @Value.Style(typeAbstract="*Type", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
 @JsonSerialize(as = ExternalReference.class) @JsonDeserialize(builder = ExternalReference.Builder.class)
-public interface ExternalReferenceType {
+public interface ExternalReferenceType extends GenericValidation {
 
     @NotBlank
     @JsonProperty("source_name")

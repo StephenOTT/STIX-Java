@@ -52,7 +52,6 @@ public interface ReportSdo extends DomainObject {
 
     @NotNull @Size(min = 1, message = "Must have at least one Report object reference")
     @JsonProperty("object_refs")
-    @Valid
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = DehydratedBundleableObjectJsonConverter.class)

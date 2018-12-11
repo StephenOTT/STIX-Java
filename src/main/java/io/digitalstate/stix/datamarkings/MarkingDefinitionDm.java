@@ -24,7 +24,7 @@ public interface MarkingDefinitionDm extends StixCommonProperties, StixCustomPro
     @JsonProperty("definition_type")
     String getDefinitionType();
 
-    @NotNull @Valid
+    @NotNull
     @JsonProperty("definition")
     StixMarkingObject getDefinition();
 

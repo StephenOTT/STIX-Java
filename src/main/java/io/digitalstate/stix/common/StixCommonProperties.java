@@ -59,10 +59,9 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     String getId();
 
 
-    @JsonProperty("created_by_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("created_by_ref") @JsonInclude(value = NON_EMPTY, content = NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @Valid
     @JsonDeserialize(converter = DehydratedOptionalDomainObjectJsonConverter.class)
     Optional<IdentitySdo> getCreatedByRef();
 
@@ -75,18 +74,18 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
         return Instant.now();
     }
 
-    @NotNull @Valid
+    @NotNull
     @JsonProperty("external_references") @JsonInclude(NON_EMPTY)
     Set<ExternalReferenceType> getExternalReferences();
 
-    @NotNull @Valid
+    @NotNull
     @JsonProperty("object_marking_refs") @JsonInclude(NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = DehydratedMarkingDefinitionSetJsonConverter.class)
     Set<MarkingDefinitionDm> getObjectMarkingRefs();
 
-    @NotNull @Valid
+    @NotNull
     @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
     Set<GranularMarkingDm> getGranularMarkings();
 

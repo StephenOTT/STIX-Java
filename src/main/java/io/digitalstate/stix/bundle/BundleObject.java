@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.datamarkings.GenericValidation;
 import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @JsonTypeName("bundle")
 @Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = Bundle.class) @JsonDeserialize(builder = Bundle.Builder.class)
-public interface BundleObject {
+public interface BundleObject extends GenericValidation {
 
     @NotBlank
     @JsonProperty("type")
@@ -31,10 +32,7 @@ public interface BundleObject {
 
     @NotBlank
     @JsonProperty("id")
-    @Value.Default
-    default String getId(){
-        return String.join("--", getType(), UUID.randomUUID().toString());
-    }
+    String getId();
 
     @NotBlank
     @JsonProperty("spec_version")
@@ -45,7 +43,6 @@ public interface BundleObject {
 
     @Size(min = 1, message = "Must have at least 1 object in bundle")
     @JsonProperty("objects")
-    @Valid
     Set<BundleableObject> getObjects();
 
     @JsonIgnore

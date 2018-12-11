@@ -20,7 +20,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 public interface StixCustomProperties {
 
     // @TODO json property handling
-    @JsonAnyGetter
-    @JsonInclude(NON_EMPTY)
+    @JsonIgnore
     Set<HashMap<String,String>> getCustomProperties();
 }

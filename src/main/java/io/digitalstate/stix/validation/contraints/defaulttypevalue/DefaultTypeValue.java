@@ -19,7 +19,7 @@ import static java.lang.annotation.ElementType.TYPE;
  * If the {@code type} attribute does not equal the value set in this annotation, then validation will fail.</p>
  */
 @Documented
-@Constraint(validatedBy = {StixDefaultTypeValueValidator.class})
+@Constraint(validatedBy = {StixDefaultTypeValueValidator.class, StixDefaultTypeValueBundleObjectValidator.class})
 @Target( { ANNOTATION_TYPE, TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DefaultTypeValue {
