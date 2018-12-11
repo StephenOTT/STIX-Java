@@ -9,6 +9,7 @@ import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeVa
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.value.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public interface AttackPatternSdo extends DomainObject {
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getDescription();
 
-    @NotNull
+    @NotNull @Valid
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
     Set<KillChainPhaseType> getKillChainPhases();
 

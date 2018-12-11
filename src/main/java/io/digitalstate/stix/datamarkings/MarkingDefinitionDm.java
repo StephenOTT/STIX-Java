@@ -10,6 +10,7 @@ import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeVa
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.value.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Value.Immutable
@@ -23,7 +24,7 @@ public interface MarkingDefinitionDm extends StixCommonProperties, StixCustomPro
     @JsonProperty("definition_type")
     String getDefinitionType();
 
-    @NotNull
+    @NotNull @Valid
     @JsonProperty("definition")
     StixMarkingObject getDefinition();
 

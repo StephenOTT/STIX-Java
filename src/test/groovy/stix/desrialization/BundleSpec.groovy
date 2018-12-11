@@ -1,5 +1,6 @@
 package stix.desrialization
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.bundle.BundleObject
 import io.digitalstate.stix.bundle.BundleableObject
@@ -8,11 +9,16 @@ import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.sro.objects.Relationship
+import io.digitalstate.stix.types.Hashes
+import spock.lang.Shared
 import spock.lang.Specification
 
 import java.time.Instant
 
 class BundleSpec extends Specification {
+
+    @Shared ObjectMapper mapper = new ObjectMapper()
+
 
     def "Basic 'uses' Relationship object and addition to bundle"(){
         when: "Create a Relationship with Attack Pattern and Malware"
@@ -101,5 +107,21 @@ class BundleSpec extends Specification {
 
         println attackPattern.toJsonString()
         println newAttackPattern.toJsonString()
+    }
+
+    def "parse Attack Pattern Bundle"(){
+
+        when:"setup file access to attack pattern"
+
+        String attackJson = getClass()
+                .getResource("/stix/json/domainobjects/AttackPattern-Full-Bundle-1.json").getText("UTF-8")
+
+        then: "Parse json into bundle"
+        Bundle bundle = (Bundle)StixParsers.parseBundle(attackJson)
+        println bundle.inspect()
+        println bundle.toJsonString()
+
+        and: "the original bundle json matches the parsed object that was converted back to json"
+        assert mapper.readTree(bundle.toJsonString()) == mapper.readTree(attackJson)
     }
 }

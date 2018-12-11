@@ -11,8 +11,10 @@ import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeVa
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import io.digitalstate.stix.vocabularies.ToolLabels;
+import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,7 +33,7 @@ public interface ToolSdo extends DomainObject {
     @Override
     @NotNull
     @Vocab(ToolLabels.class)
-    Set<@Size(min = 1) String> getLabels();
+    Set<@Length(min = 1) String> getLabels();
 
     @NotBlank
     @JsonProperty("name")
@@ -40,7 +42,7 @@ public interface ToolSdo extends DomainObject {
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getDescription();
 
-    @NotNull
+    @NotNull @Valid
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
     Set<KillChainPhaseType> getKillChainPhases();
 

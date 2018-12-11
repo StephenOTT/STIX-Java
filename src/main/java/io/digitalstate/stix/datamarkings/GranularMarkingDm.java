@@ -7,6 +7,7 @@ import io.digitalstate.stix.json.DehydratedMarkingDefinitionJsonConverter;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
 import org.immutables.value.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -16,7 +17,7 @@ import java.util.Set;
 @JsonSerialize(as = GranularMarking.class) @JsonDeserialize(builder = GranularMarking.Builder.class)
 public interface GranularMarkingDm extends SdoDefaultValidator {
 
-    @NotNull
+    @NotNull @Valid
     @JsonProperty("marking_ref")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)

@@ -14,7 +14,7 @@ import static java.lang.annotation.ElementType.*;
  * <p>Value is the vocabulary class to be used for validation.
  * The class must implement {@link StixVocabulary} interface.</p>
  * <br>
- * <p>Example usage: {@code @Vocab(AttackMotivations.class)}</p>
+ * <p>Example usage: {@code @HashingVocab(AttackMotivations.class)}</p>
  */
 @Documented
 @Constraint(validatedBy = {StixVocabValidatorString.class, StixVocabValidatorCollection.class})

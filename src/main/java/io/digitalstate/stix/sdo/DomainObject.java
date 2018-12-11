@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.digitalstate.stix.common.*;
 import io.digitalstate.stix.sro.objects.RelationshipSro;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public interface DomainObject extends
         StixModified,
         StixRevoked{
 
-    @NotNull
+    @NotNull @Valid
     @JsonIgnore
     Set<RelationshipSro> getRelationships();
 

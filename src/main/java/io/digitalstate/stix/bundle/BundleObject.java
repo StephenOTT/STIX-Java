@@ -12,6 +12,7 @@ import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeVa
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.value.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -44,6 +45,7 @@ public interface BundleObject {
 
     @Size(min = 1, message = "Must have at least 1 object in bundle")
     @JsonProperty("objects")
+    @Valid
     Set<BundleableObject> getObjects();
 
     @JsonIgnore

@@ -8,11 +8,9 @@ import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.GranularMarkingDm;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
-import io.digitalstate.stix.json.DehydratedDomainObjectJsonConverter;
-import io.digitalstate.stix.json.DehydratedMarkingDefinitionJsonConverter;
+import io.digitalstate.stix.json.*;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
-import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.sdo.objects.IdentitySdo;
 import io.digitalstate.stix.sdo.types.ExternalReferenceType;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
@@ -20,6 +18,7 @@ import io.digitalstate.stix.validation.groups.ValidateIdOnly;
 import org.immutables.value.Value;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
@@ -59,10 +58,12 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @NotBlank(groups = {Default.class, ValidateIdOnly.class}, message = "Id is required")
     String getId();
 
+
     @JsonProperty("created_by_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedDomainObjectJsonConverter.class)
+    @Valid
+    @JsonDeserialize(converter = DehydratedOptionalDomainObjectJsonConverter.class)
     Optional<IdentitySdo> getCreatedByRef();
 
     @NotNull
@@ -74,18 +75,18 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
         return Instant.now();
     }
 
-    @NotNull
+    @NotNull @Valid
     @JsonProperty("external_references") @JsonInclude(NON_EMPTY)
     Set<ExternalReferenceType> getExternalReferences();
 
-    @NotNull
+    @NotNull @Valid
     @JsonProperty("object_marking_refs") @JsonInclude(NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DehydratedMarkingDefinitionJsonConverter.class)
+    @JsonDeserialize(converter = DehydratedMarkingDefinitionSetJsonConverter.class)
     Set<MarkingDefinitionDm> getObjectMarkingRefs();
 
-    @NotNull
+    @NotNull @Valid
     @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
     Set<GranularMarkingDm> getGranularMarkings();
 

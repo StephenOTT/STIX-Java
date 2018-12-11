@@ -13,8 +13,10 @@ import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeVa
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import io.digitalstate.stix.vocabularies.IndicatorLabels;
+import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -34,7 +36,7 @@ public interface IndicatorSdo extends DomainObject {
     @Override
     @NotNull @Size(min = 1)
     @Vocab(IndicatorLabels.class)
-    Set<@Size(min = 1) String> getLabels();
+    Set<@Length(min = 1) String> getLabels();
 
     @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<String> getName();
@@ -57,7 +59,7 @@ public interface IndicatorSdo extends DomainObject {
     @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
     Optional<Instant> getValidUntil();
 
-    @NotNull
+    @NotNull @Valid
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
     Set<KillChainPhaseType> getKillChainPhases();
 
