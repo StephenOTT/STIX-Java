@@ -6,7 +6,6 @@ import org.immutables.value.Value;
 import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
-@Value.Immutable
 @Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
 public interface CyberObservableObjectCommonProperties {
 
