@@ -125,6 +125,7 @@ extract the type, and create a object of the specified type with the "hydrated" 
 
 ![Translation Process](./docs/BPMN/stix_data_translation.png)
 
+![Cyber Observable Processing](./docs/BPMN/cyber-observable-processing-1.png)
 
 -----
 
