@@ -68,7 +68,7 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
 
     @NotNull
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("created")
     @Value.Default
     default Instant getCreated(){

@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 
 /**
- * <p>A modified version of the @Vocab annotation, where this modified version
+ * <p>A modified version of the @StartsWith annotation, where this modified version
  * provides a parameter level control over Map keys, that meet the Hashes spec,
  * and allows x_ key names in addition</p>
  */

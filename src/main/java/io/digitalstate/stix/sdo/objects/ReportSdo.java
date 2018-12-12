@@ -46,7 +46,7 @@ public interface ReportSdo extends DomainObject {
     @NotNull
     @JsonProperty("published")
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     Instant getPublished();
 
     @NotNull @Size(min = 1, message = "Must have at least one Report object reference")

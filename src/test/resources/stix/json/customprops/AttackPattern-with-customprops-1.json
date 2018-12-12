@@ -1,0 +1,27 @@
+{
+  "type": "attack-pattern",
+  "id": "attack-pattern--477b763e-226f-46b3-a211-3cb5b86978a6",
+  "created_by_ref": "identity--c69da8a7-1b4e-3a2b-8aac-24a0cbaafa70",
+  "created": "2018-11-26T01:17:26.416Z",
+  "modified": "2018-11-29T01:17:26.416Z",
+  "revoked": false,
+  "name": "some pattern",
+  "x_some1": "some1",
+  "x_some2": true,
+  "x_some3": 123,
+  "x_some4": [
+    "some1"
+  ],
+  "x_some5": {
+    "prop1": "value1",
+    "prop2": {
+      "sub1": {
+        "sub2": [{
+          "sub3": 1234
+        }, {
+          "sub3": 4321
+        }]
+      }
+    }
+  }
+}

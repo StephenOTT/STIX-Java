@@ -3,11 +3,9 @@ package io.digitalstate.stix.sdo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.sdo.DomainObject;
-import io.digitalstate.stix.sro.objects.RelationshipSro;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.value.Value;
@@ -39,12 +37,12 @@ public interface CampaignSdo extends DomainObject {
     Set<String> getAliases();
 
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<Instant> getFirstSeen();
 
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<Instant> getLastSeen();
 

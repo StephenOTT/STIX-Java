@@ -2,17 +2,13 @@ package io.digitalstate.stix.common;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.Instant;
-import java.util.Set;
 
 /**
  *
@@ -23,7 +19,7 @@ public interface StixModified {
     @NotNull
     @JsonProperty("modified")
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Value.Default
     default Instant getModified(){
         return Instant.now();

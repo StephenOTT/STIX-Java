@@ -10,10 +10,10 @@ import io.digitalstate.stix.json.StixParsers;
 /**
  * Generates a Dehydrated Bundleable Object based on a ID.
  */
-public class BundleableObjectConverter extends StdConverter<String, io.digitalstate.stix.bundle.BundleableObject> {
+public class BundleableObjectConverter extends StdConverter<String, BundleableObject> {
 
     @Override
-    public io.digitalstate.stix.bundle.BundleableObject convert(String value) {
+    public BundleableObject convert(String value) {
             String[] parsedValue = value.split("--");
 
             if (parsedValue.length == 2){
@@ -26,7 +26,7 @@ public class BundleableObjectConverter extends StdConverter<String, io.digitalst
 
 
                 try {
-                    io.digitalstate.stix.bundle.BundleableObject bundleableObject =  mapper.treeToValue(node, io.digitalstate.stix.bundle.BundleableObject.class);
+                    BundleableObject bundleableObject =  mapper.treeToValue(node, BundleableObject.class);
                     //@TODO add more logic
                     return bundleableObject;
 

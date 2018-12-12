@@ -1,5 +1,6 @@
 package io.digitalstate.stix.json;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
@@ -58,6 +59,7 @@ public class StixParsers {
         jsonMapper.registerSubtypes(sroClasses);
         jsonMapper.registerSubtypes(dataMarkingClasses);
         jsonMapper.registerSubtypes(bundleClasses);
+//        jsonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return jsonMapper;
     }

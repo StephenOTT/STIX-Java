@@ -1,25 +1,27 @@
 package io.digitalstate.stix.common;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import io.digitalstate.stix.validation.contraints.startswith.StartsWith;
+import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.HashMap;
-import java.util.Set;
-
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+import java.util.Map;
 
 /**
  * Stix Custom Properties
  */
+
 @Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
 public interface StixCustomProperties {
 
-    // @TODO json property handling
-    @JsonIgnore
-    Set<HashMap<String,String>> getCustomProperties();
+    /**
+     * Custom Properties for STIX Objects.
+     * Any object that supports custom properties will have a validation of the custom property prefix (typically "x_").
+     * If the additional property in the JSON does not meet the StartsWith condition, then the JSON will be rejected.
+     * @return Map of custom properties {@code Map<String, Object>}
+     */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonUnwrapped @JsonAnyGetter
+    Map<@StartsWith() @Length(min = 3, max = 250, message = "STIX Custom Properties must have a min key length of 3 and max of 250") String, Object> getCustomProperties();
+
 }

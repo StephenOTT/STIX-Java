@@ -28,12 +28,12 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 public interface SightingSro extends RelationshipObject {
 
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<Instant> getFirstSeen();
 
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     Optional<Instant> getLastSeen();
 

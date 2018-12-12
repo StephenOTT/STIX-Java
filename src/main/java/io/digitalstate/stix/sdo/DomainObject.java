@@ -19,7 +19,7 @@ public interface DomainObject extends
         StixModified,
         StixRevoked{
 
-    @NotNull @Valid
+    @NotNull
     @JsonIgnore
     Set<RelationshipSro> getRelationships();
 

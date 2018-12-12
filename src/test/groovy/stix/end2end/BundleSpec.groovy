@@ -1,4 +1,4 @@
-package stix.desrialization
+package stix.end2end
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.digitalstate.stix.bundle.Bundle

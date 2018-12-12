@@ -26,13 +26,13 @@ public interface ObservedDataSdo extends DomainObject {
     @NotNull
     @JsonProperty("first_observed")
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     Instant getFirstObserved();
 
     @NotNull
     @JsonProperty("last_observed")
     @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.DATEPATTERN, timezone = "UTC")
+    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     Instant getLastObserved();
 
     @NotNull @Positive
