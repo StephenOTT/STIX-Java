@@ -22,10 +22,14 @@ import java.util.Optional;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @Value.Immutable
-@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class, JsonTypeInfo.class})
+@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @DefaultTypeValue(value = "relationship", groups = {DefaultValuesProcessor.class})
 @JsonTypeName("relationship")
 @JsonSerialize(as = Relationship.class) @JsonDeserialize(builder = Relationship.Builder.class)
+@JsonPropertyOrder({"type", "id", "created_by_ref", "created",
+        "modified", "revoked", "labels", "external_references",
+        "object_marking_refs", "granular_markings", "relationship_type", "description",
+        "source_ref", "target_ref"})
 @RelationshipTypeLimit(source = AttackPatternSdo.class, relationshipTypes = {"targets", "uses"})
 @RelationshipTypeLimit(source = CampaignSdo.class, relationshipTypes = {"attributed-to", "targets", "uses"})
 @RelationshipTypeLimit(source = CourseOfActionSdo.class, relationshipTypes = {"mitigates"})

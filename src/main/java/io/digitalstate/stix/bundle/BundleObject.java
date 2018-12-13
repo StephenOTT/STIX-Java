@@ -2,6 +2,7 @@ package io.digitalstate.stix.bundle;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -22,6 +23,7 @@ import java.util.Set;
 @JsonTypeName("bundle")
 @Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = Bundle.class) @JsonDeserialize(builder = Bundle.Builder.class)
+@JsonPropertyOrder({"type", "id", "spec_version", "objects"})
 public interface BundleObject extends GenericValidation {
 
     @NotBlank

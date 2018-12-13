@@ -1,9 +1,6 @@
 package io.digitalstate.stix.sdo.objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
@@ -26,6 +23,10 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @DefaultTypeValue(value = "campaign", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = Campaign.class) @JsonDeserialize(builder = Campaign.Builder.class)
+@JsonPropertyOrder({"type", "id", "created_by_ref", "created",
+        "modified", "revoked", "labels", "external_references",
+        "object_marking_refs", "granular_markings", "name", "description",
+        "aliases", "first_seen", "last_seen", "objective"})
 public interface CampaignSdo extends DomainObject {
 
     @NotBlank

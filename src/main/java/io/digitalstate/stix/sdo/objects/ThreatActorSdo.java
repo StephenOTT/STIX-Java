@@ -2,6 +2,7 @@ package io.digitalstate.stix.sdo.objects;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -25,6 +26,11 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("threat-actor")
 @DefaultTypeValue(value = "threat-actor", groups = {DefaultValuesProcessor.class})
 @JsonSerialize(as = ThreatActor.class) @JsonDeserialize(builder = ThreatActor.Builder.class)
+@JsonPropertyOrder({"type", "id", "created_by_ref", "created",
+        "modified", "revoked", "labels", "external_references",
+        "object_marking_refs", "granular_markings", "uses", "name",
+        "description", "aliases", "roles", "goals", "sophistication",
+        "resource_level", "primary_motivation", "secondary_motivation", "personal_motivations"})
 public interface ThreatActorSdo extends DomainObject {
 
     @Override

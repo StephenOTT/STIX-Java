@@ -22,9 +22,14 @@ import java.util.Set;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 @Value.Immutable
-@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class, JsonTypeInfo.class})
+@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @DefaultTypeValue(value = "sighting", groups = {DefaultValuesProcessor.class})
 @JsonSerialize(as = Sighting.class) @JsonDeserialize(builder = Sighting.Builder.class)
+@JsonPropertyOrder({"type", "id", "created_by_ref", "created",
+        "modified", "revoked", "labels", "external_references",
+        "object_marking_refs", "granular_markings", "first_seen", "last_seen",
+        "count", "sighting_of_ref", "observed_data_refs", "where_sighted_refs",
+        "summary"})
 public interface SightingSro extends RelationshipObject {
 
     @JsonSerialize(using = InstantSerializer.class)
