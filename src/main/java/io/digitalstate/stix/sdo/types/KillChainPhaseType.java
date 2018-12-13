@@ -3,7 +3,7 @@ package io.digitalstate.stix.sdo.types;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.datamarkings.GenericValidation;
+import io.digitalstate.stix.validation.GenericValidation;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;

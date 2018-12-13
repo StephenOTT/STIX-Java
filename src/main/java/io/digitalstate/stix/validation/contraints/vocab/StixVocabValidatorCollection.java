@@ -5,7 +5,8 @@ import io.digitalstate.stix.vocabularies.StixVocabulary;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StixVocabValidatorCollection implements ConstraintValidator<Vocab, Set<String>> {
 

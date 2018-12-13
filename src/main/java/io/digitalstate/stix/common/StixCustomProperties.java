@@ -1,6 +1,8 @@
 package io.digitalstate.stix.common;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import io.digitalstate.stix.validation.contraints.startswith.StartsWith;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;

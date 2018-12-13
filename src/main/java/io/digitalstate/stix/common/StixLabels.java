@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;

@@ -6,18 +6,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.datamarkings.GenericValidation;
-import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.helpers.StixSpecVersion;
+import io.digitalstate.stix.json.StixParsers;
+import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.value.Value;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
-import java.util.UUID;
 
 @Value.Immutable
 @DefaultTypeValue(value = "bundle", groups = {DefaultValuesProcessor.class})

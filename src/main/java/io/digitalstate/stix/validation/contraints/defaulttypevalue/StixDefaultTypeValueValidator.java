@@ -1,10 +1,11 @@
 package io.digitalstate.stix.validation.contraints.defaulttypevalue;
 
 import io.digitalstate.stix.bundle.BundleableObject;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.UUID;
 
 public class StixDefaultTypeValueValidator implements ConstraintValidator<DefaultTypeValue, BundleableObject> {
 

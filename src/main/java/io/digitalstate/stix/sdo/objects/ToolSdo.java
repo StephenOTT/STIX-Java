@@ -14,10 +14,8 @@ import io.digitalstate.stix.vocabularies.ToolLabels;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Optional;
 import java.util.Set;
 

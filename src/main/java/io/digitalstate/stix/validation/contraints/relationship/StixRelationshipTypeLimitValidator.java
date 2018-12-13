@@ -1,16 +1,12 @@
 package io.digitalstate.stix.validation.contraints.relationship;
 
-import com.google.common.collect.Sets;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sro.objects.RelationshipSro;
-import io.digitalstate.stix.vocabularies.StixVocabulary;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class StixRelationshipTypeLimitValidator implements ConstraintValidator<RelationshipTypeLimit, RelationshipSro> {
 

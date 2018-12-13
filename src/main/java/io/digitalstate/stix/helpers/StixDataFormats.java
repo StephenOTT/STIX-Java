@@ -12,9 +12,4 @@ public class StixDataFormats {
      */
     public static final String TIMEZONE = "UTC";
 
-    /**
-     * Default Custom Property Prefix: {@code x_ }.
-     */
-    public static final String CUSTOM_PROPERTY_PREFIX = "x_";
-
 }

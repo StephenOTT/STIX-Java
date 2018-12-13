@@ -1,8 +1,6 @@
 package io.digitalstate.stix.validation.contraints.startswith;
 
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.validation.contraints.vocab.StixVocabValidatorCollection;
-import io.digitalstate.stix.vocabularies.StixVocabulary;
+import io.digitalstate.stix.helpers.StixCustomPropertiesConfig;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,12 +9,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE_USE;
 
 /**
  * <p>Provides a Starts With validator of String values.</p>
  * <br>
- * <p>Defaults to {@link StixDataFormats#CUSTOM_PROPERTY_PREFIX}</p>
+ * <p>Defaults to {@link StixCustomPropertiesConfig#DEFAULT_CUSTOM_PROPERTY_PREFIX}</p>
  */
 @Documented
 @Constraint(validatedBy = {StixStartsWithValidatorString.class})
@@ -27,6 +26,6 @@ public @interface StartsWith {
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
-    String value() default StixDataFormats.CUSTOM_PROPERTY_PREFIX;
+    String value() default StixCustomPropertiesConfig.DEFAULT_CUSTOM_PROPERTY_PREFIX;
 
 }

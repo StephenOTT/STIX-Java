@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdConverter;
 import io.digitalstate.stix.bundle.BundleableObject;
-import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
 import io.digitalstate.stix.json.StixParsers;
 
 import java.util.HashSet;

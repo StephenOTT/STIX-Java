@@ -1,6 +1,5 @@
-package io.digitalstate.stix.datamarkings;
+package io.digitalstate.stix.validation;
 
-import io.digitalstate.stix.validation.SdoDefaultValidator;
 import org.immutables.value.Value;
 
 public interface GenericValidation extends SdoDefaultValidator {

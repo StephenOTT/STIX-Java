@@ -1,13 +1,13 @@
 package io.digitalstate.stix.validation.contraints.relationship;
 
 import io.digitalstate.stix.sdo.DomainObject;
-import io.digitalstate.stix.validation.contraints.vocab.StixVocabValidatorCollection;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE;
 
 @Documented
 @Constraint(validatedBy = {StixRelationshipLimitValidator.class})

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
 /**
  *
