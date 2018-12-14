@@ -1,4 +1,4 @@
 package io.digitalstate.stix.datamarkings;
 
-interface StixMarkingObject {
+public interface StixMarkingObject {
 }
