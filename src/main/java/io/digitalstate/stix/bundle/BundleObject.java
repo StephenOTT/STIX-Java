@@ -56,5 +56,4 @@ public interface BundleObject extends GenericValidation {
             return null;
         }
     }
-
 }

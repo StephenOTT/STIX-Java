@@ -1,7 +1,0 @@
-server.port: 8090
-camunda:
-    bpm:
-        admin-user:
-            id: admin
-            password: admin
-            firstName: Admin
