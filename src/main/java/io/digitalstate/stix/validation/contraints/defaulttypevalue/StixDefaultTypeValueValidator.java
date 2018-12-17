@@ -7,6 +7,9 @@ import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
 import java.util.UUID;
 
+/**
+ * This is used on any class that implements <strong>BundleableObject</strong>.
+ */
 public class StixDefaultTypeValueValidator implements ConstraintValidator<DefaultTypeValue, BundleableObject> {
 
     private String defaultTypeValue;
@@ -48,6 +51,7 @@ public class StixDefaultTypeValueValidator implements ConstraintValidator<Defaul
             }
         }
 
+        // Validate the ID attribute
         String id = bundleableObject.getId();
         if (id == null || id.isEmpty()){
             try {
@@ -75,6 +79,7 @@ public class StixDefaultTypeValueValidator implements ConstraintValidator<Defaul
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 return false;
             }
+            //@TODO add optional logic to enforce a style of UUID
         }
 
         return true;

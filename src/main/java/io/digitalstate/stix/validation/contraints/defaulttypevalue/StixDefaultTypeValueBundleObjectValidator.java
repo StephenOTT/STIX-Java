@@ -7,6 +7,9 @@ import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
 import java.util.UUID;
 
+/**
+ * This is used solely for a STIX Bundle.
+ */
 public class StixDefaultTypeValueBundleObjectValidator implements ConstraintValidator<DefaultTypeValue, BundleObject> {
 
     private String defaultTypeValue;

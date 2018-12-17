@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Generates a Dehydrated Marking Definition Set
+ * Generates a Dehydrated Marking Definition Set used for Deserialization
  */
 public class MarkingDefinitionSetConverter extends StdConverter<Set<String>, Set<MarkingDefinitionDm>> {
 
