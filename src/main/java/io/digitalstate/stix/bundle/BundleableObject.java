@@ -1,6 +1,10 @@
 package io.digitalstate.stix.bundle;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.digitalstate.stix.datamarkings.GranularMarkingDm;
+import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
+
+import java.util.Set;
 
 /**
  * This interface is typically inherited by other interfaces that are considered "objects" that are part of a Bundle.
@@ -12,5 +16,8 @@ public interface BundleableObject {
 
     String getType();
     String getId();
+    Set<MarkingDefinitionDm> getObjectMarkingRefs();
+    Set<GranularMarkingDm> getGranularMarkings();
+    String toJsonString();
 
 }
