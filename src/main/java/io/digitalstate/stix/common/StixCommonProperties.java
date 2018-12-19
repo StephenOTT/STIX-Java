@@ -8,11 +8,14 @@ import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.GranularMarkingDm;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
+import io.digitalstate.stix.datamarkings.Tlp;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.json.converters.dehydrated.DomainObjectOptionalConverter;
 import io.digitalstate.stix.json.converters.dehydrated.MarkingDefinitionSetConverter;
+import io.digitalstate.stix.redaction.Redactable;
+import io.digitalstate.stix.redaction.processors.BundleableObjectRedactionProcessor;
 import io.digitalstate.stix.sdo.objects.IdentitySdo;
 import io.digitalstate.stix.sdo.types.ExternalReferenceType;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
@@ -24,6 +27,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -64,6 +69,7 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = DomainObjectOptionalConverter.class)
+    @Redactable(useMask = true, redactionMask = "identity--__REDACTED__")
     Optional<IdentitySdo> getCreatedByRef();
 
     @NotNull
@@ -71,12 +77,19 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("created")
     @Value.Default
+    @Redactable(useMask = true)
     default Instant getCreated(){
         return Instant.now();
     }
 
     @NotNull
+    @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
+    @Redactable
+    Set<GranularMarkingDm> getGranularMarkings();
+
+    @NotNull
     @JsonProperty("external_references") @JsonInclude(NON_EMPTY)
+    @Redactable
     Set<ExternalReferenceType> getExternalReferences();
 
     @NotNull
@@ -84,22 +97,21 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = MarkingDefinitionSetConverter.class)
+    @Redactable
     Set<MarkingDefinitionDm> getObjectMarkingRefs();
 
-    @NotNull
-    @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
-    Set<GranularMarkingDm> getGranularMarkings();
+
 
     @JsonIgnore
     @Value.Lazy
     @Value.Auxiliary
     default String toJsonString() {
         try {
-            return StixParsers.getJsonMapper(true).writeValueAsString(this);
+            String jsonString = StixParsers.getJsonMapper(true).writeValueAsString(this);
+            return BundleableObjectRedactionProcessor.processObject(this, jsonString, new HashSet<>(Arrays.asList(Tlp.builder().tlp("white").build())));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            //@TODO followup on https://github.com/immutables/immutables/issues/877
-            return null;
+            throw new IllegalStateException("Cannot process JSON");
         }
     }
 

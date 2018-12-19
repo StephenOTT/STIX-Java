@@ -2,14 +2,9 @@ package stix.end2end
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.digitalstate.stix.bundle.Bundle
-import io.digitalstate.stix.bundle.BundleObject
-import io.digitalstate.stix.bundle.BundleableObject
 import io.digitalstate.stix.json.StixParsers
 import io.digitalstate.stix.sdo.objects.AttackPattern
-import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sdo.objects.Report
-import io.digitalstate.stix.sdo.types.KillChainPhase
-import io.digitalstate.stix.sro.objects.Relationship
 import spock.lang.Shared
 import spock.lang.Specification
 

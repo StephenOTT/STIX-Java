@@ -18,6 +18,7 @@ public interface BundleableObject {
     String getId();
     Set<MarkingDefinitionDm> getObjectMarkingRefs();
     Set<GranularMarkingDm> getGranularMarkings();
+    boolean getHydrated();
     String toJsonString();
 
 }

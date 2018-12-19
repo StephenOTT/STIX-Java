@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.validation.GenericValidation;
-import io.digitalstate.stix.validation.SdoDefaultValidator;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 

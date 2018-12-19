@@ -2,6 +2,7 @@ package io.digitalstate.stix.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.redaction.Redactable;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.value.Value;
 
@@ -18,6 +19,7 @@ public interface StixLabels {
 
     @NotNull
     @JsonProperty("labels") @JsonInclude(NON_EMPTY)
+    @Redactable
     Set<@Length(min = 1) String> getLabels();
 
 }

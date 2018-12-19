@@ -1,7 +1,6 @@
 package io.digitalstate.stix.validation.contraints.markingdefinitiontype;
 
 import io.digitalstate.stix.datamarkings.StixMarkingObject;
-import io.digitalstate.stix.sdo.DomainObject;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
