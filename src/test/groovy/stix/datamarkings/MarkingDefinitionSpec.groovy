@@ -64,8 +64,7 @@ class MarkingDefinitionSpec extends Specification {
 
         GranularMarking granularMarking = GranularMarking.builder()
                 .markingRef(markingDefinition)
-                .addSelectors("granular_markings")
-                .addSelectors("created_by_ref")
+                .addSelectors("granular_markings", "created_by_ref")
                 .addSelectors("created")
                 .build()
 
