@@ -103,6 +103,138 @@ when parsing from json into objects.  This means that the object will detect the
 extract the type, and create a object of the specified type with the "hydrated" attribute marked as false.
 
 
+
+## STIX Marking Definitions and Granular Markings Data Redaction
+
+This library implements a redaction feature to support JSON redaction during serialization. 
+This feature allows the execution of Marking Definitions (`object_marking_refs`) and Granular Markings (`granular_marking_refs`). 
+
+Current execution rules:
+
+1. Object Markings Refs are executed as a "Entire Object" rule.
+1. Granular Markings are executed as "property value masks" and "property removal".
+1. Properties that are "required" (Minimum properties needed to init the specific object) are Redacted using a mask.
+1. Properties that are "optional" (Properties that are not required to init the specific object) are Redacted using property removal.
+1. UNDER REVIEW: Nested objects cannot be redacted within the nested object.  They must be redacted at the parent object level using the property in the parent that holds the child object.  
+
+Marking Definitions and Granular Markings are enforced through a "Subject" security pattern: A Subject is defined at the 
+time of serialization of a Bundle or bundleable object.
+A subject is characteristics about a subject that define the security rules.  In STIX's  most basic form a subject has a 
+list of "Object Markings" (TLP and Statements).  This markings are used as the Subject's context to define what markings 
+the subject "has" at the time of serialization.  
+
+When serialization occurs a the Subject's context 
+(a set of object markings) are passed into the serialization process.  For each item in `object_marking_refs` and 
+`granular_marking_refs`, the Subject's context is used for evaluation.  If the subject does not have all of the required 
+Object Markings, then redaction is actioned.  
+
+`object_marking_refs` are executed first, and if the subject is denied, 
+then granular markings will be ignored, and the entire object will be redacted (removed and returned as `{}`).  
+In the case of a serialization of a Bundle, a redacted object would result in it be omitted from the 
+Bundle's `objects` array. 
+
+If the subject passes all `object_marking_refs` validation, then `granular_marking_refs` are validated.  
+For each Granular Marking object, the Object Marking is validated, and if denied, the Granular Marking's Selectors 
+are actioned for redaction.  Once all `granular_marking_refs` objects have been processed, then resulting object is returned.
+
+
+Consider the following example:
+
+```groovy
+Tlp tlp = Tlp.builder().tlp("red").build()
+MarkingDefinition markingDefinition = MarkingDefinition.builder()
+        .definition(tlp)
+        .definitionType("tlp")
+        .build()
+
+GranularMarking granularMarking = GranularMarking.builder()
+        .markingRef(markingDefinition)
+        .addSelectors("granular_markings", "created_by_ref")
+        .addSelectors("created")
+        .build()
+
+AttackPattern attackPattern = AttackPattern.builder()
+        .name("some Attack Pattern")
+        .addGranularMarkings(granularMarking)
+        .createdByRef(Identity.builder()
+            .name("some Identity")
+            .identityClass("individual")
+            .build())
+        .build()
+```
+
+The above serialized with a Subject context that only contains a TLP=White Object Marking would result in the following JSON:
+
+```json
+{
+  "type": "bundle",
+  "id": "bundle--3d6bdcdd-2137-4e97-a8a4-8020dd30bc8d",
+  "spec_version": "2.0",
+  "objects": [
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--0f4d3058-f4de-4743-ae4c-988645309d92",
+      "created_by_ref": "identity--__REDACTED__",
+      "created": "██REDACTED██",
+      "modified": "2018-12-19T20:49:06.403Z",
+      "revoked": false,
+      "name": "some Attack Pattern"
+    }
+  ]
+}
+```
+
+The internal implementation is configured as follows:
+
+```java
+class SomeClass {
+...
+    @JsonProperty("created_by_ref") @JsonInclude(value = NON_EMPTY, content = NON_EMPTY)
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonDeserialize(converter = DomainObjectOptionalConverter.class)
+    @Redactable(useMask = true, redactionMask = "identity--__REDACTED__")
+    Optional<IdentitySdo> getCreatedByRef();
+    
+    @NotNull
+    @JsonSerialize(using = InstantSerializer.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonProperty("created")
+    @Value.Default
+    @Redactable(useMask = true)
+    default Instant getCreated(){
+        return Instant.now();
+    }
+    
+    @NotNull
+    @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
+    @Redactable
+    Set<GranularMarkingDm> getGranularMarkings();
+...
+}
+```
+
+Notice the varying usage of the `@Redactable` annotation.
+
+If `object_marking_refs` were used and a bundle was generated with the Attack Pattern, the resulting bundle would contain:
+```json
+{
+  "type": "bundle",
+  "id": "bundle--3d6bdcdd-2137-4e97-a8a4-8020dd30bc8d",
+  "spec_version": "2.0",
+  "objects": []
+}
+```
+
+`objects` is empty because the Attack Pattern would have been redacted at the object level.
+
+
+Future Improvements:
+
+1. Customizable redactions passed in based on the toJsonString() method and the Subject's context
+1. Config for Throwing errors when redactions cannot be processed
+1. Config for Ignoring errors when redactions cannot be process 
+
 # Charon Data Flow
 
 ![Charon data flow](./docs/Diagrams/Generic-Data-Flow.png)
