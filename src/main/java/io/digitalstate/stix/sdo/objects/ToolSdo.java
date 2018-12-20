@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.types.KillChainPhaseType;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
@@ -31,25 +32,31 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "modified", "revoked", "labels", "external_references",
         "object_marking_refs", "granular_markings", "name",
         "description", "kill_chain_phases", "tool_version"})
+@Redactable
 public interface ToolSdo extends DomainObject {
 
     @Override
     @NotNull
     @Vocab(ToolLabels.class)
+    @Redactable(useMask = true)
     Set<@Length(min = 1) String> getLabels();
 
     @NotBlank
     @JsonProperty("name")
+    @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
+    @Redactable
     Set<KillChainPhaseType> getKillChainPhases();
 
     @JsonProperty("tool_version") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<String> getToolVersion();
 
 }

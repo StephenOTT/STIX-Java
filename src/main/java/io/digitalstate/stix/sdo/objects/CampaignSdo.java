@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -27,30 +28,37 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "modified", "revoked", "labels", "external_references",
         "object_marking_refs", "granular_markings", "name", "description",
         "aliases", "first_seen", "last_seen", "objective"})
+@Redactable
 public interface CampaignSdo extends DomainObject {
 
     @NotBlank
     @JsonProperty("name")
+    @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("aliases") @JsonInclude(NON_EMPTY)
+    @Redactable
     Set<String> getAliases();
 
     @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<Instant> getFirstSeen();
 
     @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<Instant> getLastSeen();
 
     @JsonProperty("objective") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<String> getObjective();
 
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.types.KillChainPhaseType;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
@@ -33,36 +34,44 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "object_marking_refs", "granular_markings", "name",
         "description", "pattern", "valid_from", "valid_until",
         "kill_chain_phases"})
+@Redactable
 public interface IndicatorSdo extends DomainObject {
 
     @Override
     @NotNull @Size(min = 1)
     @Vocab(IndicatorLabels.class)
+    @Redactable(useMask = true)
     Set<@Length(min = 1) String> getLabels();
 
     @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<String> getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<String> getDescription();
 
     @NotBlank
     @JsonProperty("pattern")
+    @Redactable(useMask = true)
     String getPattern();
 
     @NotNull
     @JsonProperty("valid_from")
     @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @Redactable(useMask = true)
     Instant getValidFrom();
 
     @JsonProperty("valid_until") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @Redactable
     Optional<Instant> getValidUntil();
 
     @NotNull
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
+    @Redactable
     Set<KillChainPhaseType> getKillChainPhases();
 
 }

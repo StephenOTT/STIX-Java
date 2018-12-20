@@ -94,7 +94,7 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @JsonDeserialize(converter = MarkingDefinitionSetConverter.class)
     @Redactable
     Set<MarkingDefinitionDm> getObjectMarkingRefs();
-    
+
     @NotNull
     @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
     @Redactable

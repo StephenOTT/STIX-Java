@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.json.converters.dehydrated.MarkingDefinitionConverter;
+import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
 import org.immutables.value.Value;
 
@@ -17,6 +18,7 @@ import java.util.Set;
 @Value.Immutable
 @Value.Style(typeAbstract="*Dm", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
 @JsonSerialize(as = GranularMarking.class) @JsonDeserialize(builder = GranularMarking.Builder.class)
+@Redactable
 public interface GranularMarkingDm extends SdoDefaultValidator {
 
     @NotNull

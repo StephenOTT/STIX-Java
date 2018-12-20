@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.json.converters.dehydrated.BundleableObjectSetConverter;
+import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
@@ -33,24 +34,29 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "modified", "revoked", "labels", "external_references",
         "object_marking_refs", "granular_markings", "name", "description",
         "published", "object_refs"})
+@Redactable
 public interface ReportSdo extends DomainObject {
 
     @Override
     @NotNull
     @Vocab(ReportLabels.class)
+    @Redactable(useMask = true)
     Set<@Length(min = 1) String> getLabels();
 
     @NotBlank
     @JsonProperty("name")
+    @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("published")
     @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @Redactable(useMask = true)
     Instant getPublished();
 
     @NotNull @Size(min = 1, message = "Must have at least one Report object reference")
@@ -58,6 +64,7 @@ public interface ReportSdo extends DomainObject {
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize( converter = BundleableObjectSetConverter.class)
+    @Redactable(useMask = true)
     Set<BundleableObject> getObjectRefs();
 
 }

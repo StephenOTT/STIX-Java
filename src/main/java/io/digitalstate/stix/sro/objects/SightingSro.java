@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.json.converters.dehydrated.DomainObjectConverter;
+import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.objects.IdentitySdo;
 import io.digitalstate.stix.sdo.objects.ObservedDataSdo;
@@ -30,41 +31,49 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "object_marking_refs", "granular_markings", "first_seen", "last_seen",
         "count", "sighting_of_ref", "observed_data_refs", "where_sighted_refs",
         "summary"})
+@Redactable
 public interface SightingSro extends RelationshipObject {
 
     @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<Instant> getFirstSeen();
 
     @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<Instant> getLastSeen();
 
     @JsonProperty("count") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @Redactable
     Optional<Integer> getCount();
 
     @JsonProperty("sighting_of_ref")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = DomainObjectConverter.class)
+    @Redactable(useMask = true)
     DomainObject getSightingOfRef();
 
     @JsonProperty("observed_data_refs") @JsonInclude(NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = DomainObjectConverter.class)
+    @Redactable
     Set<ObservedDataSdo> getObservedDataRefs();
 
     @JsonProperty("where_sighted_refs") @JsonInclude(NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = DomainObjectConverter.class)
+    @Redactable
     Set<IdentitySdo> getWhereSightedRefs();
 
     @NotNull
     @JsonProperty("summary") @JsonInclude(NON_EMPTY)
+    @Redactable
     default boolean getSummary(){
         return false;
     }

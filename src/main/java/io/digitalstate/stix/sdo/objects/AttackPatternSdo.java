@@ -29,6 +29,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "modified", "revoked", "labels", "external_references",
         "object_marking_refs", "granular_markings",
         "name", "description", "kill_chain_phases"})
+@Redactable
 public interface AttackPatternSdo extends DomainObject {
 
     @NotBlank

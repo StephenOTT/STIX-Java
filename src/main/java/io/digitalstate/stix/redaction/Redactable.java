@@ -9,11 +9,13 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.*;
 
-
+/**
+ * Marker to indicate which classes and methods are
+ */
 @Documented
-@Target( { ANNOTATION_TYPE, TYPE, FIELD, METHOD })
+@Target( { ANNOTATION_TYPE, TYPE, METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@InjectAnnotation(target = InjectAnnotation.Where.ACCESSOR, code = "([[*]])", type = Redactable.class)
+@InjectAnnotation(target = {InjectAnnotation.Where.ACCESSOR, InjectAnnotation.Where.IMMUTABLE_TYPE}, code = "([[*]])", type = Redactable.class)
 public @interface Redactable {
 
     boolean useMask() default false;
