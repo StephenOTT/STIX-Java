@@ -83,11 +83,6 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     }
 
     @NotNull
-    @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
-    @Redactable
-    Set<GranularMarkingDm> getGranularMarkings();
-
-    @NotNull
     @JsonProperty("external_references") @JsonInclude(NON_EMPTY)
     @Redactable
     Set<ExternalReferenceType> getExternalReferences();
@@ -99,8 +94,11 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @JsonDeserialize(converter = MarkingDefinitionSetConverter.class)
     @Redactable
     Set<MarkingDefinitionDm> getObjectMarkingRefs();
-
-
+    
+    @NotNull
+    @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
+    @Redactable
+    Set<GranularMarkingDm> getGranularMarkings();
 
     @JsonIgnore
     @Value.Lazy
