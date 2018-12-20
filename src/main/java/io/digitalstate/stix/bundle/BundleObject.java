@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.json.StixParsers;
-import io.digitalstate.stix.redaction.processors.BundleableObjectRedactionProcessor;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;

@@ -10,7 +10,9 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 
 /**
- * Marker to indicate which classes and methods are
+ * Marker to indicate which classes and methods are Redactable.
+ * Redaction is the modification of JSON properties or removal of properties and
+ * entire objects during serialization based on STIX Marking Definitions and Granular Markings.
  */
 @Documented
 @Target( { ANNOTATION_TYPE, TYPE, METHOD })

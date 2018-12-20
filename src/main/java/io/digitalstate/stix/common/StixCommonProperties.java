@@ -64,7 +64,6 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @NotBlank(groups = {Default.class, ValidateIdOnly.class}, message = "Id is required")
     String getId();
 
-
     @JsonProperty("created_by_ref") @JsonInclude(value = NON_EMPTY, content = NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
