@@ -1,15 +1,31 @@
 # STIX 2.x Java library
 
-The libary aims to provide a flexible full implementation of [STIX 2.x](https://oasis-open.github.io/cti-documentation/resources#stix-20-specification).  
+The library aims to provide a flexible full implementation of [STIX 2.x](https://oasis-open.github.io/cti-documentation/resources#stix-20-specification).  
 This means that a default implementation is provided that meets the STIX JSON specification and the core objects 
 and properties are provided in such a way as you can easily override and extend any implementation detail to meet your 
 variation of the specification.
 
+De/Serilization is provided with Jackson.
+
 Current Spec Target: **2.0**
 
-:exclamation: For TAXII Server see: https://github.com/StephenOTT/TAXII-springboot-bpmn
 
-## Java
+## Other Implementations
+
+### TAXII-springboot-bpmn
+
+Taxii server based on springboot and backed by bpmn automation.
+This taxii server implements the this STIX-Java library. 
+
+https://github.com/StephenOTT/TAXII-springboot-bpmn
+ 
+### stix2 (Gson based implementation)
+
+If you are looking for a gson based implementation, [CS-AWARE](https://cs-aware.eu) provides a [gson based implementation of the Stix2 library](https://github.com/cs-aware/stix2).
+
+-----
+
+## Java Usage
 
 Example unit test showing usage.
 
