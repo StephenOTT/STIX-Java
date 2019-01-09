@@ -17,7 +17,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
-        <jackson.verion>2.9.7</jackson.verion>
+        <jackson.verion>[2.9.8,)</jackson.verion>
     </properties>
 
 
