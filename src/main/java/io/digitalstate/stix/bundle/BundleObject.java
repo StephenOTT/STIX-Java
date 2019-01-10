@@ -15,21 +15,23 @@ import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Set;
 
-@Value.Immutable
+@Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "bundle", groups = {DefaultValuesProcessor.class})
 @JsonTypeName("bundle")
 @Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = Bundle.class)
 @JsonDeserialize(builder = Bundle.Builder.class)
 @JsonPropertyOrder({"type", "id", "spec_version", "objects"})
-public interface BundleObject extends GenericValidation {
+public interface BundleObject extends GenericValidation, Serializable {
 
     @NotBlank
     @JsonProperty("type")

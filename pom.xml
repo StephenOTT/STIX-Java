@@ -92,6 +92,12 @@
             <version>2.7.3</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.immutables</groupId>
+            <artifactId>serial</artifactId>
+            <version>2.7.3</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!--Dependencies for Unit Test with Spock Framework:-->
         <!-- Mandatory dependencies for using Spock -->
