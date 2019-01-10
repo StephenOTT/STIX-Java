@@ -2,7 +2,9 @@ package io.digitalstate.stix.sro;
 
 import io.digitalstate.stix.common.*;
 
-public interface RelationshipObject extends
+import java.io.Serializable;
+
+public interface RelationshipObject extends Serializable,
         StixCommonProperties,
         StixCustomProperties,
         StixLabels,

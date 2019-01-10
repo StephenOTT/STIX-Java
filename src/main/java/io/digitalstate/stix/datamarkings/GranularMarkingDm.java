@@ -9,17 +9,19 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.json.converters.dehydrated.MarkingDefinitionConverter;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Set;
 
-@Value.Immutable
+@Value.Immutable @Serial.Version(1L)
 @Value.Style(typeAbstract="*Dm", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
 @JsonSerialize(as = GranularMarking.class) @JsonDeserialize(builder = GranularMarking.Builder.class)
 @Redactable
-public interface GranularMarkingDm extends SdoDefaultValidator {
+public interface GranularMarkingDm extends SdoDefaultValidator, Serializable {
 
     @NotNull
     @JsonProperty("marking_ref")

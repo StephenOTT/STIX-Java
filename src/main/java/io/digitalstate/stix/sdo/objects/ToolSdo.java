@@ -14,6 +14,7 @@ import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import io.digitalstate.stix.vocabularies.ToolLabels;
 import org.hibernate.validator.constraints.Length;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
@@ -23,7 +24,7 @@ import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-@Value.Immutable
+@Value.Immutable @Serial.Version(1L)
 @JsonTypeName("tool")
 @DefaultTypeValue(value = "tool", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})

@@ -11,6 +11,7 @@ import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.markingdefinitiontype.MarkingDefinitionTypeLimit;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotNull;
  *     <li>{@link MarkingDefinition#definition}  - the Marking Object.  Two objects are currently supported: {@link Tlp} and {@link Statement}.</li>
  * </ol>
  */
-@Value.Immutable
+@Value.Immutable @Serial.Version(1L)
 @JsonTypeName("marking-definition")
 @DefaultTypeValue(value = "marking-definition", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Dm", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})

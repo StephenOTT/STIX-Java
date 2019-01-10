@@ -9,6 +9,7 @@ import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 
-@Value.Immutable
+@Value.Immutable @Serial.Version(1L)
 @JsonTypeName("observed-data")
 @DefaultTypeValue(value = "observed-data", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})

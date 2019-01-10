@@ -7,11 +7,12 @@ import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.vocabularies.TlpLevels;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
 
-@Value.Immutable
+@Value.Immutable @Serial.Version(1L)
 @Value.Style(typeImmutable = "Tlp", validationMethod = Value.Style.ValidationMethod.NONE)
 @JsonSerialize(as = Tlp.class) @JsonDeserialize(builder = Tlp.Builder.class)
 @Redactable

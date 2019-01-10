@@ -13,6 +13,7 @@ import io.digitalstate.stix.sdo.objects.ObservedDataSdo;
 import io.digitalstate.stix.sro.RelationshipObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
@@ -22,7 +23,7 @@ import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-@Value.Immutable
+@Value.Immutable @Serial.Version(1L)
 @Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @DefaultTypeValue(value = "sighting", groups = {DefaultValuesProcessor.class})
 @JsonSerialize(as = Sighting.class) @JsonDeserialize(builder = Sighting.Builder.class)

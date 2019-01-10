@@ -1,4 +1,6 @@
 package io.digitalstate.stix.datamarkings;
 
-public interface StixMarkingObject {
+import java.io.Serializable;
+
+public interface StixMarkingObject extends Serializable {
 }

@@ -8,19 +8,21 @@ import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.vocabularies.HashingAlgorithms;
 import org.hibernate.validator.constraints.Length;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-@Value.Immutable
+@Value.Immutable @Serial.Version(1L)
 @Value.Style(typeAbstract="*Type", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
 @JsonSerialize(as = ExternalReference.class) @JsonDeserialize(builder = ExternalReference.Builder.class)
-public interface ExternalReferenceType extends GenericValidation {
+public interface ExternalReferenceType extends GenericValidation, Serializable {
 
     @NotBlank
     @JsonProperty("source_name")
