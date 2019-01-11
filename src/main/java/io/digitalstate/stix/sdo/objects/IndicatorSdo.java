@@ -65,7 +65,6 @@ public interface IndicatorSdo extends DomainObject {
     Instant getValidFrom();
 
     @JsonProperty("valid_until") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-    @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable
     Optional<Instant> getValidUntil();

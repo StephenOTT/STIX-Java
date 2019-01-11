@@ -51,13 +51,11 @@ public interface IntrusionSetSdo extends DomainObject {
     Set<String> getAliases();
 
     @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-    @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable
     Optional<Instant> getFirstSeen();
 
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-    @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable
     Optional<Instant> getLastSeen();

@@ -32,14 +32,12 @@ public interface ObservedDataSdo extends DomainObject {
 
     @NotNull
     @JsonProperty("first_observed")
-    @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable(useMask = true)
     Instant getFirstObserved();
 
     @NotNull
     @JsonProperty("last_observed")
-    @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable(useMask = true)
     Instant getLastObserved();

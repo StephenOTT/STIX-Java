@@ -19,7 +19,6 @@ public interface StixModified {
 
     @NotNull
     @JsonProperty("modified")
-    @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Value.Default
     @Redactable

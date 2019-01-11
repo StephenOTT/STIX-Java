@@ -55,7 +55,6 @@ public interface ReportSdo extends DomainObject {
 
     @NotNull
     @JsonProperty("published")
-    @JsonSerialize(using = InstantSerializer.class)
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable(useMask = true)
     Instant getPublished();

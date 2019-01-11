@@ -28,8 +28,7 @@ import java.util.Set;
 @DefaultTypeValue(value = "bundle", groups = {DefaultValuesProcessor.class})
 @JsonTypeName("bundle")
 @Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
-@JsonSerialize(as = Bundle.class)
-@JsonDeserialize(builder = Bundle.Builder.class)
+@JsonSerialize(as = Bundle.class) @JsonDeserialize(builder = Bundle.Builder.class)
 @JsonPropertyOrder({"type", "id", "spec_version", "objects"})
 public interface BundleObject extends GenericValidation, Serializable {
 
