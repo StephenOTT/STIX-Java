@@ -26,8 +26,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonTypeName("dictionary")
 @JsonSerialize(as = Dictionary.class) @JsonDeserialize(builder = Dictionary.Builder.class)
-@JsonPropertyOrder({"type"})
-@Redactable
+@JsonPropertyOrder({"type", "extensions", "path", "path_enc", "created", "modified", "accessed", "contains_refs"})
 public interface DictionaryCoo extends CyberObservableObject {
 
     @NotBlank

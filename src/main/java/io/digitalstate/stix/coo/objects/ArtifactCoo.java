@@ -28,8 +28,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonTypeName("artifact")
 @JsonSerialize(as = Artifact.class) @JsonDeserialize(builder = Artifact.Builder.class)
-@JsonPropertyOrder({"type"})
-@Redactable
+@JsonPropertyOrder({"type", "extensions", "mime_type", "payload_bin", "url", "hashes"})
 public interface ArtifactCoo extends CyberObservableObject {
 
     @NotBlank
