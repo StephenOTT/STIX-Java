@@ -104,7 +104,8 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     default String toJsonString() {
         try {
             String jsonString = StixParsers.getJsonMapper(true).writeValueAsString(this);
-            return BundleableObjectRedactionProcessor.processObject(this, jsonString, new HashSet<>(Arrays.asList(Tlp.builder().tlp("white").build())));
+//            return BundleableObjectRedactionProcessor.processObject(this, jsonString, new HashSet<>(Arrays.asList()));
+            return jsonString;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new IllegalStateException("Cannot process JSON");
