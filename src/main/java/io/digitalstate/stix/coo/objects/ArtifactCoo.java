@@ -33,7 +33,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 public interface ArtifactCoo extends CyberObservableObject {
 
     @NotBlank
-    @JsonProperty("mime_type")
+    @JsonProperty("mime_type") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @Redactable
     Optional<String> getMimeType();
 

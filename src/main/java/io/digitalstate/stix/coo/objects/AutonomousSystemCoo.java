@@ -33,7 +33,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 public interface AutonomousSystemCoo extends CyberObservableObject {
 
     @NotBlank
-    @JsonProperty("number")
+    @JsonProperty("number") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @Redactable
     Optional<Long> getNumber();
 
