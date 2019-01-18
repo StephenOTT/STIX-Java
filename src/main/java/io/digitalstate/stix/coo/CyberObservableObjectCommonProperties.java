@@ -2,8 +2,6 @@ package io.digitalstate.stix.coo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.digitalstate.stix.validation.GenericValidation;
-import io.digitalstate.stix.validation.sequences.SequenceDefault;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;

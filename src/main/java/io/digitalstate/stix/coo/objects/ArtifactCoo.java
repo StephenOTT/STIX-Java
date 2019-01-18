@@ -30,7 +30,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("artifact")
 @JsonSerialize(as = Artifact.class) @JsonDeserialize(builder = Artifact.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "mime_type", "payload_bin", "url", "hashes"})
-public interface ArtifactCoo extends CyberObservableObject, GenericValidation {
+public interface ArtifactCoo extends CyberObservableObject {
 
     @JsonProperty("mime_type") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @Redactable
