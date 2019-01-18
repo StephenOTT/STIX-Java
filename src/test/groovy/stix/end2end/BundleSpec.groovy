@@ -6,6 +6,7 @@ import io.digitalstate.stix.bundle.BundleObject
 import io.digitalstate.stix.bundle.BundleableObject
 import io.digitalstate.stix.json.StixParsers
 import io.digitalstate.stix.sdo.objects.AttackPattern
+import io.digitalstate.stix.sdo.objects.AttackPatternSdo
 import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.sro.objects.Relationship
@@ -122,5 +123,22 @@ class BundleSpec extends Specification {
 
         and: "the original bundle json matches the parsed object that was converted back to json"
         assert mapper.readTree(bundle.toJsonString()) == mapper.readTree(attackJson)
+    }
+
+    def "Generate a Bundle"(){
+
+        when:"setup file access to attack pattern"
+
+        AttackPatternSdo attackPatternSdo = AttackPattern.builder()
+                .name("some attk")
+                .build()
+
+        BundleObject bundle = Bundle.builder()
+                .addObjects(attackPatternSdo)
+                .build()
+
+        then: "convert bundle to json and println"
+
+        println bundle.toJsonString()
     }
 }
