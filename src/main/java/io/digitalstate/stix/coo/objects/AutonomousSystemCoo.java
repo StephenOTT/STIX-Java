@@ -34,7 +34,7 @@ public interface AutonomousSystemCoo extends CyberObservableObject {
 
     @NotBlank
     @JsonProperty("number")
-    @Redactable(useMask = true)
+    @Redactable
     Optional<Long> getNumber();
 
     @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
