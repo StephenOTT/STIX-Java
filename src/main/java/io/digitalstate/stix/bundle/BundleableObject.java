@@ -12,7 +12,7 @@ import java.util.Set;
  * Thus the name "BundleableObject".  A Bundleable Object by STIX standard is: SDO, SRO, and Marking Definition.
  * The Type field is used to determine the sub-types as registered in the {@link io.digitalstate.stix.json.StixParsers}
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", include = JsonTypeInfo.As.EXISTING_PROPERTY )
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", include = JsonTypeInfo.As.EXISTING_PROPERTY)
 public interface BundleableObject extends Serializable {
 
     String getType();
