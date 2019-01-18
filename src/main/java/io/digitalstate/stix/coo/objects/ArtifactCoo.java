@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.redaction.Redactable;
+import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -29,9 +30,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("artifact")
 @JsonSerialize(as = Artifact.class) @JsonDeserialize(builder = Artifact.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "mime_type", "payload_bin", "url", "hashes"})
-public interface ArtifactCoo extends CyberObservableObject {
+public interface ArtifactCoo extends CyberObservableObject, GenericValidation {
 
-    @NotBlank
     @JsonProperty("mime_type") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @Redactable
     Optional<String> getMimeType();
@@ -46,7 +46,6 @@ public interface ArtifactCoo extends CyberObservableObject {
 
     //@TODO review logic requirements for Redactable on Hash values
     @JsonProperty("hashes") @JsonInclude(NON_EMPTY)
-    @Size(min = 1, message = "Must have at least 1 hash value")
     Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
 
 }

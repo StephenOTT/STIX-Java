@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
+import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
@@ -49,10 +50,8 @@ public interface ObservedDataSdo extends DomainObject {
 
     @NotNull @Size(min = 1, message = "At least one Cyber Observable Reference must be provided")
     @JsonProperty("objects")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true)
     @Redactable(useMask = true)
-    Set<String> getObjects();
+    Set<CyberObservableObject> getObjects();
     //@TODO Refactor to use Cyber Observables
 
 }

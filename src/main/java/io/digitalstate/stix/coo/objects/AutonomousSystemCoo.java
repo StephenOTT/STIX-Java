@@ -31,7 +31,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({"type", "extensions", "number", "name", "rir"})
 public interface AutonomousSystemCoo extends CyberObservableObject {
 
-    @NotBlank
     @JsonProperty("number") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @Redactable
     Optional<Long> getNumber();

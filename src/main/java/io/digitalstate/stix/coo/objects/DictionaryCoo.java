@@ -29,7 +29,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({"type", "extensions", "path", "path_enc", "created", "modified", "accessed", "contains_refs"})
 public interface DictionaryCoo extends CyberObservableObject {
 
-    @NotBlank
     @JsonProperty("path") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @Redactable(useMask = true)
     String getPath();

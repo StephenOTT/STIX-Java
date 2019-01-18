@@ -9,6 +9,9 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import io.digitalstate.stix.bundle.Bundle;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.bundle.BundleableObject;
+import io.digitalstate.stix.coo.objects.Artifact;
+import io.digitalstate.stix.coo.objects.AutonomousSystem;
+import io.digitalstate.stix.coo.objects.Dictionary;
 import io.digitalstate.stix.datamarkings.MarkingDefinition;
 import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.objects.Relationship;
@@ -54,11 +57,14 @@ public class StixParsers {
 
         Class<?>[] bundleClasses = {Bundle.class};
 
+        Class<?>[] cyberObvervableClasses = {Artifact.class, AutonomousSystem.class, Dictionary.class};
+
         jsonMapper.registerSubtypes(sdoClasses);
         jsonMapper.registerSubtypes(sroClasses);
         jsonMapper.registerSubtypes(dataMarkingClasses);
         jsonMapper.registerSubtypes(bundleClasses);
-//        jsonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        jsonMapper.registerSubtypes(cyberObvervableClasses);
+        jsonMapper.registerSubtypes(additionalNamedTypes);
 
         return jsonMapper;
     }
