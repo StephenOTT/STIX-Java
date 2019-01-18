@@ -16,6 +16,7 @@ public class IndicatorLabels implements StixVocabulary {
             "compromised", "malicious-activity", "attribution"));
 
 
+    @Override
     public Set<String> getAllTerms() {
         return terms;
     }

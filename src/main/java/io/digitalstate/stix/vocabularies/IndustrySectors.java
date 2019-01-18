@@ -26,6 +26,7 @@ public class IndustrySectors implements StixVocabulary {
     // Getters and Setters
     //
 
+    @Override
     public Set<String> getAllTerms() {
         return terms;
     }

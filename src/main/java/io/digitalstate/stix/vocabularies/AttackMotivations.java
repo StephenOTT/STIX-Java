@@ -18,6 +18,7 @@ public class AttackMotivations implements StixVocabulary {
             "unpredictable"));
 
 
+    @Override
     public Set<String> getAllTerms() {
         return terms;
     }

@@ -21,6 +21,7 @@ public class ThreatActorLabels implements StixVocabulary {
     // Getters and Setters
     //
 
+    @Override
     public Set<String> getAllTerms() {
         return terms;
     }

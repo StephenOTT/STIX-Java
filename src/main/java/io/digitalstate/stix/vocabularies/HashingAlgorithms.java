@@ -18,6 +18,7 @@ public class HashingAlgorithms implements StixVocabulary {
             "SSDEEP", "WHIRLPOOL"));
 
 
+    @Override
     public Set<String> getAllTerms() {
         return terms;
     }
