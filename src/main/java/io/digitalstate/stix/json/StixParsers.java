@@ -11,7 +11,7 @@ import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.coo.objects.Artifact;
 import io.digitalstate.stix.coo.objects.AutonomousSystem;
-import io.digitalstate.stix.coo.objects.Dictionary;
+import io.digitalstate.stix.coo.objects.Directory;
 import io.digitalstate.stix.datamarkings.MarkingDefinition;
 import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.objects.Relationship;
@@ -57,7 +57,7 @@ public class StixParsers {
 
         Class<?>[] bundleClasses = {Bundle.class};
 
-        Class<?>[] cyberObvervableClasses = {Artifact.class, AutonomousSystem.class, Dictionary.class};
+        Class<?>[] cyberObvervableClasses = {Artifact.class, AutonomousSystem.class, Directory.class};
 
         jsonMapper.registerSubtypes(sdoClasses);
         jsonMapper.registerSubtypes(sroClasses);
