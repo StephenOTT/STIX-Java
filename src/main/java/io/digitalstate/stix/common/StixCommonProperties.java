@@ -97,7 +97,6 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @NotNull
     @JsonProperty("external_references") @JsonInclude(NON_EMPTY)
     @JsonPropertyDescription("A list of external references which refers to non-STIX information.")
-    @Valid
     @Redactable
     Set<ExternalReferenceType> getExternalReferences();
 
@@ -107,7 +106,6 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = MarkingDefinitionSetConverter.class)
-    @Valid
     @Redactable
     Set<MarkingDefinitionDm> getObjectMarkingRefs();
 
