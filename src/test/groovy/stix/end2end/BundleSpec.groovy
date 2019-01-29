@@ -15,10 +15,14 @@ import spock.lang.Specification
 
 import java.time.Instant
 
+import org.junit.Rule
+import org.junit.rules.TestName
+
 class BundleSpec extends Specification {
 
     @Shared ObjectMapper mapper = new ObjectMapper()
-
+	@Rule public TestName name = new TestName();
+	
 
     def "Basic 'uses' Relationship object and addition to bundle"(){
         when: "Create a Relationship with Attack Pattern and Malware"
@@ -36,6 +40,7 @@ class BundleSpec extends Specification {
                 .build()
 
         then: "print the JSON string version of the created relationship object"
+		println(name.getMethodName())
         println usesRel.toJsonString()
 
         then: "parse the string back into a relationship object"
@@ -75,6 +80,7 @@ class BundleSpec extends Specification {
                                         .build().toJsonString()
 
         then: "can parse the json back into a attack Pattern"
+		println(name.getMethodName())
         BundleableObject parsedAttackPatternBo = StixParsers.parseObject(attackPatternString)
         assert parsedAttackPatternBo instanceof AttackPattern
 
@@ -90,7 +96,8 @@ class BundleSpec extends Specification {
                 .build()
 
         then: "additional data needs to be added to the attack pattern"
-
+		println(name.getMethodName())
+		
         KillChainPhase killChainPhase = KillChainPhase.builder()
                 .phaseName("some phase")
                 .killChainName("some name")
@@ -117,6 +124,7 @@ class BundleSpec extends Specification {
                 .getResource("/stix/json/domainobjects/AttackPattern-Full-Bundle-1.json").getText("UTF-8")
 
         then: "Parse json into bundle"
+ 		println(name.getMethodName())
         Bundle bundle = (Bundle)StixParsers.parseBundle(attackJson)
         println bundle.inspect()
         println bundle.toJsonString()
@@ -138,7 +146,7 @@ class BundleSpec extends Specification {
                 .build()
 
         then: "convert bundle to json and println"
-
+		println(name.getMethodName())
         println bundle.toJsonString()
     }
 }

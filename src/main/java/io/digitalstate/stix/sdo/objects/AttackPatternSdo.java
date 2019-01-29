@@ -2,6 +2,7 @@ package io.digitalstate.stix.sdo.objects;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -21,6 +22,12 @@ import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
+/**
+ * attack-pattern
+ * <p>
+ * Attack Patterns are a type of TTP that describe ways that adversaries attempt to compromise targets. 
+ * 
+ */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "attack-pattern", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
@@ -34,16 +41,18 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 public interface AttackPatternSdo extends DomainObject {
 
     @NotBlank
-    @JsonProperty("name")
+    @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+	@JsonPropertyDescription("The name used to identify the Attack Pattern.")
     @Redactable(useMask = true)
     String getName();
 
-    @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("description")
+	@JsonPropertyDescription("A description that provides more details and context about the Attack Pattern, potentially including its purpose and its key characteristics.")
     @Redactable
     Optional<String> getDescription();
 
-    @NotNull
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
+	@JsonPropertyDescription("The list of kill chain phases for which this attack pattern is used.")
     @Redactable
     Set<KillChainPhaseType> getKillChainPhases();
 
