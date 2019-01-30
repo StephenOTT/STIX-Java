@@ -1,0 +1,24 @@
+{
+  "type": "bundle",
+  "id": "bundle--44af6c39-c09b-49c5-9de2-394224b04982",
+  "spec_version": "2.0",
+  "objects": [
+  	{
+		"type" : "observed-data",
+ 		"id" : "observed-data--44af6c39-c09b-49c5-9de2-394224b04982",
+		"created": "2014-05-08T09:00:00.000Z",
+		"modified": "2014-05-08T09:00:00.000Z",
+ 		"first_observed": "2014-05-08T09:00:00.000Z",
+		"last_observed": "2014-05-08T09:00:00.000Z",
+		"number_observed" : 20,
+		"objects" : {
+			"0" : {
+				"type" : "file",
+				"hashes" : {
+					"SHA-256" : "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+				}
+			}
+		}
+    }
+  ]
+}
