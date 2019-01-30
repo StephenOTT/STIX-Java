@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
@@ -24,6 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.redaction.Redactable;
+import io.digitalstate.stix.validation.OptionalPattern;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 
@@ -51,7 +51,7 @@ public interface DirectoryCoo extends CyberObservableObject {
 	 */
     @JsonProperty("path_enc") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the observed encoding for the path.")
-	@Pattern(regexp="^[a-zA-Z0-9/\\.+_:-]{2,250}$")
+	@OptionalPattern(regexp="^[a-zA-Z0-9/\\.+_:-]{2,250}$")
     @Redactable
     Optional<String> getName();
 
