@@ -12,6 +12,14 @@ import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.coo.objects.Artifact;
 import io.digitalstate.stix.coo.objects.AutonomousSystem;
 import io.digitalstate.stix.coo.objects.Directory;
+import io.digitalstate.stix.coo.objects.DomainName;
+import io.digitalstate.stix.coo.objects.EmailAddress;
+import io.digitalstate.stix.coo.objects.EmailMessage;
+import io.digitalstate.stix.coo.objects.Ipv4Address;
+import io.digitalstate.stix.coo.objects.Ipv6Address;
+import io.digitalstate.stix.coo.objects.MacAddress;
+import io.digitalstate.stix.coo.objects.Mutex;
+import io.digitalstate.stix.coo.objects.Url;
 import io.digitalstate.stix.datamarkings.MarkingDefinition;
 import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.objects.Relationship;
@@ -57,7 +65,9 @@ public class StixParsers {
 
         Class<?>[] bundleClasses = {Bundle.class};
 
-        Class<?>[] cyberObvervableClasses = {Artifact.class, AutonomousSystem.class, Directory.class};
+        Class<?>[] cyberObvervableClasses = {Artifact.class, AutonomousSystem.class, Directory.class,
+        		DomainName.class, EmailAddress.class, EmailMessage.class, Ipv4Address.class, Ipv6Address.class,
+        		MacAddress.class, Mutex.class, Url.class};
 
         jsonMapper.registerSubtypes(sdoClasses);
         jsonMapper.registerSubtypes(sroClasses);
