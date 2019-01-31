@@ -1,7 +1,7 @@
 package io.digitalstate.stix.sdo.objects;
 
 import java.time.Instant;
-import java.util.Map;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -66,7 +66,7 @@ public interface ObservedDataSdo extends DomainObject {
     @JsonProperty("objects")
 	@JsonPropertyDescription("A dictionary of Cyber Observable Objects that describes the single 'fact' that was observed.")
     @Redactable(useMask = true)
-    Map<String,CyberObservableObject> getObjects();
+    Set<CyberObservableObject> getObjects();
     //@TODO Refactor to use Cyber Observables
 
 }

@@ -33,7 +33,7 @@ class ObservableSdoSpec extends Specification {
         .firstObserved(Instant.now())
         .numberObserved(1)
         .lastObserved(Instant.now())
-        .putObjects("0",artifact)
+        .addObjects(artifact)
         .build()
 
         and: "Create a bundle with the observed data"
