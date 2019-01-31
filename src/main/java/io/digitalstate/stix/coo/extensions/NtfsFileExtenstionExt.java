@@ -5,8 +5,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -21,33 +19,29 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberExtension;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+
 /**
- * The Archive File extension specifies a default extension for capturing
- * properties specific to archive files.
- * 
- */
+* The NTFS file extension specifies a default extension for capturing properties specific to the storage of the file on the NTFS file system.
+* 
+*/
 @Value.Immutable @Serial.Version(1L)
-@DefaultTypeValue(value = "archive-ext", groups = {DefaultValuesProcessor.class})
+@DefaultTypeValue(value = "ntfs-ext", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Ext", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
-@JsonSerialize(as = ArchiveFileExtension.class) @JsonDeserialize(builder = ArchiveFileExtension.Builder.class)
+@JsonSerialize(as = NtfsFileExtenstion.class) @JsonDeserialize(builder = NtfsFileExtenstion.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-@JsonPropertyOrder({ "contains_refs", "version", "comment" })
-@JsonTypeName("archive-ext")
-public interface ArchiveFileExtensionExt extends CyberExtension {
+@JsonPropertyOrder({ "sid", "alternate_data_streams" })
+@JsonTypeName("ntfs-ext")
+public interface NtfsFileExtenstionExt extends CyberExtension {
 
-	@JsonProperty("contains_refs")
-	@JsonPropertyDescription("Specifies the files contained in the archive, as a reference to one or more other File Objects. The objects referenced in this list MUST be of type file-object.")
-	@NotNull
-	Set<String> getContainsRefs();
+	// either SID or alternateDataStream is needed.
 	
+	@JsonProperty("sid")
+	@JsonPropertyDescription("Specifies the security ID (SID) value assigned to the file.")
+	Optional<String> getSid();
 
-	@JsonProperty("version")
-	@JsonPropertyDescription("Specifies the version of the archive type used in the archive file.")
-	Optional<String> getVersion();
-	
 
-	@JsonProperty("comment")
-	@JsonPropertyDescription("Specifies a comment included as part of the archive file.")
-	Optional<String> getComment();
+	@JsonProperty("alternate_data_streams")
+	@JsonPropertyDescription("Specifies a list of NTFS alternate data streams that exist for the file.")
+	Set<NtfsAlternateDataStream> getAlternateDataStreams();
 
 }
