@@ -1,11 +1,10 @@
 package io.digitalstate.stix.coo.objects;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+import javax.validation.constraints.NotNull;
 
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -30,7 +29,8 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 @JsonPropertyOrder({"type", "extensions", "name"})
 public interface MutexCoo extends CyberObservableObject {
 
-	@JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+	@JsonProperty("name")
 	@JsonPropertyDescription("Specifies the name of the mutex object.")
+	@NotNull
 	String getName();
 }

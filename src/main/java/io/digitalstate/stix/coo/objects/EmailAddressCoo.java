@@ -2,6 +2,9 @@ package io.digitalstate.stix.coo.objects;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
+import java.util.Optional;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.immutables.serial.Serial;
@@ -36,14 +39,15 @@ public interface EmailAddressCoo extends CyberObservableObject {
 	@JsonProperty("value") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies a single email address. This MUST not include the display name.")
 	@Pattern(regexp="(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)")
+	@NotNull
 	String getValue();
 	
-	@JsonProperty("display_name")
+	@JsonProperty("display_name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies a single email display name, i.e., the name that is displayed to the human user of a mail application.")
-	String getDisplayName();
+	Optional<String> getDisplayName();
 	
-	@JsonProperty("belongs_to_ref")
+	@JsonProperty("belongs_to_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the user account that the email address belongs to, as a reference to a User Account Object.")
-	String getBelongsToRef();
+	Optional<String> getBelongsToRef();
 
 }

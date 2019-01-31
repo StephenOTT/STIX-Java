@@ -1,13 +1,11 @@
 package io.digitalstate.stix.coo.objects;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
-
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -37,8 +35,9 @@ public interface MacAddressCoo extends CyberObservableObject {
 	* (Required)
 	* 
 	*/
-	@JsonProperty("value") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+	@JsonProperty("value")
 	@JsonPropertyDescription("Specifies one or more mac addresses expressed using CIDR notation.")
 	@Pattern(regexp="^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$")
+	@NotNull
 	String getValue();
 }

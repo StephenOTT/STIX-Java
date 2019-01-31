@@ -6,8 +6,6 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -74,8 +72,7 @@ public interface DirectoryCoo extends CyberObservableObject {
     Optional<Instant> getAccessed();
 
     //@TODO add proper support for contains refs.  Must be Set of File or Directory types
-    @NotNull
-    @JsonProperty("contains_refs") @JsonInclude(NON_EMPTY)
+    @JsonProperty("contains_refs") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies a list of references to other File and/or Directory Objects contained within the directory.")
     @Redactable
     Set<String> getContainsRefs();

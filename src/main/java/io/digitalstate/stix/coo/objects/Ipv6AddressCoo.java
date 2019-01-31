@@ -4,7 +4,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 import java.util.Set;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
@@ -30,6 +30,7 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "ipv6-addr", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonTypeName("ipv6-addr")
 @JsonSerialize(as = Ipv6Address.class) @JsonDeserialize(builder = Ipv6Address.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "value", "resolves_to_refs", "belongs_to_refs"})
@@ -42,15 +43,16 @@ public interface Ipv6AddressCoo extends CyberObservableObject {
 	* (Required)
 	* 
 	*/
-	@JsonProperty("value")  @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+	@JsonProperty("value") 
 	@JsonPropertyDescription("Specifies one or more IPv6 addresses expressed using CIDR notation.")
+	@NotNull
 	String getValue();
 	
 	/**
 	* The objects referenced in this list MUST be of type mac-addr.
 	* 
 	*/
-	@JsonProperty("resolves_to_refs") @JsonInclude(NON_EMPTY)
+	@JsonProperty("resolves_to_refs")
 	@JsonPropertyDescription("Specifies a list of references to one or more Layer 2 Media Access Control (MAC) addresses that the IPv4 address resolves to.")
 	Set<String> getResolvesToRefs();
 	
@@ -58,7 +60,7 @@ public interface Ipv6AddressCoo extends CyberObservableObject {
 	* The objects referenced in this list MUST be of type autonomous-system.
 	* 
 	*/
-	@JsonProperty("belongs_to_refs") @JsonInclude(NON_EMPTY)
+	@JsonProperty("belongs_to_refs")
 	@JsonPropertyDescription("Specifies a reference to one or more autonomous systems (AS) that the IPv4 address belongs to.")
 	Set<String> getBelongsToRefs();
 }

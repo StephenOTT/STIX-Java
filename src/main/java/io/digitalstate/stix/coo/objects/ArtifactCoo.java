@@ -74,7 +74,7 @@ public interface ArtifactCoo extends CyberObservableObject {
      * This MUST be provided when the url property is present.  Optional if payload_bin is present.
      * 
      */
-    @JsonProperty("hashes") @JsonInclude(NON_EMPTY)
+    @JsonProperty("hashes") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies a dictionary of hashes for the contents of the url or the payload_bin.")
     Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
 
