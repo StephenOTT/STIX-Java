@@ -76,7 +76,7 @@ class ObservableSdoSpec extends Specification {
 		.firstObserved(Instant.now())
 		.numberObserved(1)
 		.lastObserved(Instant.now())
-		.putObjects("0",ip)
+		.addObjects(ip)
 		.build()
 
 		and: "Create a bundle with the observed data"
