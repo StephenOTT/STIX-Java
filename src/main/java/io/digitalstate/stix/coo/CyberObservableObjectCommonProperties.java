@@ -4,9 +4,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 import java.util.Map;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -26,10 +24,8 @@ public interface CyberObservableObjectCommonProperties {
     @Size(min = 3, max = 250)
     String getType();
 
-    @NotNull
     @JsonProperty("extensions") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies any extensions of the object, as a dictionary.")
-    @Valid
     Map<String, String> getExtensions();
 
 }
