@@ -26,6 +26,13 @@ import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
+/**
+ * report
+ * <p>
+ * Reports are collections of threat intelligence focused on one or more topics, such as a 
+ * description of a threat actor, malware, or attack technique, including context and related details.
+ * 
+ */
 @Value.Immutable @Serial.Version(1L)
 @JsonTypeName("report")
 @DefaultTypeValue(value = "report", groups = {DefaultValuesProcessor.class})
@@ -41,26 +48,31 @@ public interface ReportSdo extends DomainObject {
     @Override
     @NotNull
     @Vocab(ReportLabels.class)
+	@JsonPropertyDescription("This field is an Open Vocabulary that specifies the primary subject of this report. The suggested values for this field are in report-label-ov.")
     @Redactable(useMask = true)
     Set<@Length(min = 1) String> getLabels();
 
     @NotBlank
     @JsonProperty("name")
+	@JsonPropertyDescription("A description that provides more details and context about Report.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+	@JsonPropertyDescription("A description that provides more details and context about Report.")
     @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("published")
+    @JsonPropertyDescription("The date that this report object was officially published by the creator of this report.")
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable(useMask = true)
     Instant getPublished();
 
     @NotNull @Size(min = 1, message = "Must have at least one Report object reference")
     @JsonProperty("object_refs")
+	@JsonPropertyDescription("Specifies the STIX Objects that are referred to by this Report.")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize( converter = BundleableObjectSetConverter.class)
