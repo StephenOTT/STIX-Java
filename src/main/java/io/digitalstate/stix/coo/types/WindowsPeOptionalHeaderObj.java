@@ -1,4 +1,4 @@
-package io.digitalstate.stix.coo.extensions;
+package io.digitalstate.stix.coo.types;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
@@ -19,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import io.digitalstate.stix.coo.extensions.WindowsPeOptionalHeader;
+import io.digitalstate.stix.coo.extensions.WindowsPeOptionalHeader.Builder;
 import io.digitalstate.stix.validation.OptionalPattern;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;

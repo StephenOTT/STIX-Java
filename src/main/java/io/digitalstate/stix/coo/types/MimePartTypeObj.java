@@ -1,4 +1,4 @@
-package io.digitalstate.stix.coo.objects;
+package io.digitalstate.stix.coo.types;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
@@ -15,6 +15,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import io.digitalstate.stix.coo.objects.MimePartType;
+import io.digitalstate.stix.coo.objects.MimePartType.Builder;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 

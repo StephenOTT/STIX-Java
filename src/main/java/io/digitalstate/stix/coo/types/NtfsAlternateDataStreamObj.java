@@ -1,4 +1,4 @@
-package io.digitalstate.stix.coo.extensions;
+package io.digitalstate.stix.coo.types;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
@@ -20,6 +20,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.digitalstate.stix.coo.CyberExtension;
+import io.digitalstate.stix.coo.extensions.NtfsAlternateDataStream;
+import io.digitalstate.stix.coo.extensions.NtfsAlternateDataStream.Builder;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
