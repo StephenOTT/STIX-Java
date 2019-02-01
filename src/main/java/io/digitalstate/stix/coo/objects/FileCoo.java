@@ -77,17 +77,17 @@ public interface FileCoo extends CyberObservableObject {
 	@JsonProperty("created")
 	@JsonPropertyDescription("Specifies the date/time the file was created.")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-	Instant getCreated();
+	Optional<Instant> getCreated();
 
 	@JsonProperty("modified")
 	@JsonPropertyDescription("Specifies the date/time the file was last written to/modified.")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-	Instant getModified();
+	Optional<Instant> getModified();
 
 	@JsonProperty("accessed")
 	@JsonPropertyDescription("Specifies the date/time the file was last accessed.")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-	Instant getAccessed();
+	Optional<Instant> getAccessed();
 
 	@JsonProperty("parent_directory_ref")
 	@JsonPropertyDescription("Specifies the parent directory of the file, as a reference to a Directory Object.")

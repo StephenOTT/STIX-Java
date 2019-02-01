@@ -52,12 +52,12 @@ public interface NetworkTrafficCoo extends CyberObservableObject {
 	@JsonProperty("start")
 	@JsonPropertyDescription("Specifies the date/time the network traffic was initiated, if known.")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-	Instant getStart();
+	Optional<Instant> getStart();
 	
 	@JsonProperty("end")
 	@JsonPropertyDescription("Specifies the date/time the network traffic ended, if known.")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-	Instant getEnd();
+	Optional<Instant> getEnd();
 	
 	@JsonProperty("is_active")
 	@JsonPropertyDescription("Indicates whether the network traffic is still ongoing.")

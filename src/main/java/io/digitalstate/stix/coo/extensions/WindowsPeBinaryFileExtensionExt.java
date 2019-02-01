@@ -2,6 +2,7 @@ package io.digitalstate.stix.coo.extensions;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -23,6 +25,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.digitalstate.stix.coo.CyberExtension;
+import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
@@ -67,8 +70,8 @@ public interface WindowsPeBinaryFileExtensionExt extends CyberExtension {
 	
 	@JsonProperty("time_date_stamp")
 	@JsonPropertyDescription("Specifies the time when the PE binary was created. The timestamp value MUST BE precise to the second.")
-    @Pattern(regexp = "^[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\\.[0-9]+)?Z$")
-	Optional<String> timeDateStamp();
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+	Optional<Instant> timeDateStamp();
 	
 	@JsonProperty("pointer_to_symbol_table_hex")
 	@JsonPropertyDescription("Specifies the file offset of the COFF symbol table.")
