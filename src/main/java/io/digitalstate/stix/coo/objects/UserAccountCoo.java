@@ -5,16 +5,23 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
+import org.immutables.serial.Serial;
+import org.immutables.value.Value;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
+import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import io.digitalstate.stix.vocabularies.AccountTypes;
 
 /**
@@ -25,6 +32,10 @@ import io.digitalstate.stix.vocabularies.AccountTypes;
  * social media platform accounts.
  * 
  */
+@Value.Immutable @Serial.Version(1L)
+@DefaultTypeValue(value = "user-account", groups = {DefaultValuesProcessor.class})
+@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@JsonSerialize(as = UserAccount.class) @JsonDeserialize(builder = UserAccount.Builder.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeName("user-account")
 @JsonPropertyOrder({ "type", "extensions","user_id", "account_login", "account_type", "display_name",
