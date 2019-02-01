@@ -12,7 +12,10 @@ import io.digitalstate.stix.coo.extensions.NtfsFileExtenstion;
 import io.digitalstate.stix.coo.extensions.PdfFileExtension;
 import io.digitalstate.stix.coo.extensions.RasterImageFileExtension;
 import io.digitalstate.stix.coo.extensions.TcpExtension;
+import io.digitalstate.stix.coo.extensions.UnixAccountExtension;
 import io.digitalstate.stix.coo.extensions.WindowsPeBinaryFileExtension;
+import io.digitalstate.stix.coo.extensions.WindowsProcessExtension;
+import io.digitalstate.stix.coo.extensions.WindowsServiceExtension;
 
 
 /**
@@ -32,9 +35,9 @@ import io.digitalstate.stix.coo.extensions.WindowsPeBinaryFileExtension;
 	@Type(value = TcpExtension.class, name="tcp-ext"),
 	@Type(value = IcmpExtension.class, name="icmp-ext"),
 	@Type(value = NetworkSocketExtension.class, name="socket-ext"),
-//	@Type(value = WindowsProcessExtension.class, name="windows-process-ext"),
-//	@Type(value = WindowsServiceExtension.class, name="windows-service-ext"),
-//	@Type(value = UnixAccountExtension.class, name="unix-account-ext")
+	@Type(value = WindowsProcessExtension.class, name="windows-process-ext"),
+	@Type(value = WindowsServiceExtension.class, name="windows-service-ext"),
+	@Type(value = UnixAccountExtension.class, name="unix-account-ext")
 
 })
 public interface CyberExtension {
