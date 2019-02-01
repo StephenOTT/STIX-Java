@@ -27,7 +27,9 @@ import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.validation.OptionalPattern;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
+import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import io.digitalstate.stix.vocabularies.EncryptionAlgorithms;
 import io.digitalstate.stix.vocabularies.HashingAlgorithms;
 
 /**
@@ -107,6 +109,7 @@ public interface FileCoo extends CyberObservableObject {
 
 	@JsonProperty("encryption_algorithm")
 	@JsonPropertyDescription("Specifies the name of the encryption algorithm used to encrypt the file. Open Vocabulary - encryption-algorithm-ov")
+	@Vocab(EncryptionAlgorithms.class)
 	Optional<String> getEncryptionAlgorithm();
 
 	@JsonProperty("decryption_key")
