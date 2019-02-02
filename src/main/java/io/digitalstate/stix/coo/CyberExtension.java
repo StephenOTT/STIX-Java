@@ -3,19 +3,7 @@ package io.digitalstate.stix.coo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import io.digitalstate.stix.coo.extensions.ArchiveFileExtension;
-import io.digitalstate.stix.coo.extensions.HttpRequestExtension;
-import io.digitalstate.stix.coo.extensions.IcmpExtension;
-import io.digitalstate.stix.coo.extensions.NetworkSocketExtension;
-import io.digitalstate.stix.coo.extensions.NtfsFileExtenstion;
-import io.digitalstate.stix.coo.extensions.PdfFileExtension;
-import io.digitalstate.stix.coo.extensions.RasterImageFileExtension;
-import io.digitalstate.stix.coo.extensions.TcpExtension;
-import io.digitalstate.stix.coo.extensions.UnixAccountExtension;
-import io.digitalstate.stix.coo.extensions.WindowsPeBinaryFileExtension;
-import io.digitalstate.stix.coo.extensions.WindowsProcessExtension;
-import io.digitalstate.stix.coo.extensions.WindowsServiceExtension;
+import io.digitalstate.stix.coo.extensions.*;
 
 
 /**

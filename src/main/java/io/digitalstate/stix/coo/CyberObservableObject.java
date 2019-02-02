@@ -1,30 +1,14 @@
 package io.digitalstate.stix.coo;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import io.digitalstate.stix.common.StixCustomProperties;
-import io.digitalstate.stix.coo.objects.Artifact;
-import io.digitalstate.stix.coo.objects.AutonomousSystem;
-import io.digitalstate.stix.coo.objects.Directory;
-import io.digitalstate.stix.coo.objects.DomainName;
-import io.digitalstate.stix.coo.objects.EmailAddress;
-import io.digitalstate.stix.coo.objects.EmailMessage;
-import io.digitalstate.stix.coo.objects.File;
-import io.digitalstate.stix.coo.objects.Ipv4Address;
-import io.digitalstate.stix.coo.objects.Ipv6Address;
-import io.digitalstate.stix.coo.objects.MacAddress;
-import io.digitalstate.stix.coo.objects.Mutex;
-import io.digitalstate.stix.coo.objects.NetworkTraffic;
-import io.digitalstate.stix.coo.objects.Software;
-import io.digitalstate.stix.coo.objects.Url;
-import io.digitalstate.stix.coo.objects.UserAccount;
-import io.digitalstate.stix.coo.objects.WindowsRegistryKey;
-import io.digitalstate.stix.coo.objects.X509Certificate;
+import io.digitalstate.stix.coo.objects.*;
 import io.digitalstate.stix.validation.GenericValidation;
+
+import java.io.Serializable;
+import java.lang.Process;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", include = JsonTypeInfo.As.EXISTING_PROPERTY)
 
