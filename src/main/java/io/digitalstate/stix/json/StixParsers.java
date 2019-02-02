@@ -65,7 +65,7 @@ public class StixParsers {
 
         Class<?>[] bundleClasses = {Bundle.class};
 
-        Class<?>[] cyberObvervableClasses = {Artifact.class, AutonomousSystem.class, Directory.class,
+        Class<?>[] cyberObservableClasses = {Artifact.class, AutonomousSystem.class, Directory.class,
         		DomainName.class, EmailAddress.class, EmailMessage.class, Ipv4Address.class, Ipv6Address.class,
         		MacAddress.class, Mutex.class, Url.class};
 
@@ -73,7 +73,7 @@ public class StixParsers {
         jsonMapper.registerSubtypes(sroClasses);
         jsonMapper.registerSubtypes(dataMarkingClasses);
         jsonMapper.registerSubtypes(bundleClasses);
-        jsonMapper.registerSubtypes(cyberObvervableClasses);
+        jsonMapper.registerSubtypes(cyberObservableClasses);
         jsonMapper.registerSubtypes(additionalNamedTypes);
 
         return jsonMapper;
