@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.coo.objects.*;
+import io.digitalstate.stix.coo.objects.Process;
 import io.digitalstate.stix.validation.GenericValidation;
 
 import java.io.Serializable;
-import java.lang.Process;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", include = JsonTypeInfo.As.EXISTING_PROPERTY)
 
