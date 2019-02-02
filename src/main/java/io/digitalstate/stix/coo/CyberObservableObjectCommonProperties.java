@@ -24,6 +24,7 @@ public interface CyberObservableObjectCommonProperties {
 
     @JsonProperty("extensions") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies any extensions of the object, as a dictionary.")
+    //@TODO Add proper dictionary support
     Map<String, String> getExtensions();
 
 }
