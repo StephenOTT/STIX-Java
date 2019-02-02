@@ -13,7 +13,7 @@ import java.lang.Process;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", include = JsonTypeInfo.As.EXISTING_PROPERTY)
 
 @JsonSubTypes({
-	@Type(value = Artifact.class, name="attack-pattern"),
+	@Type(value = Artifact.class, name="artifact"),
 	@Type(value = AutonomousSystem.class, name = "autonomous-system"),
 	@Type(value = Directory.class, name = "directory"),
 	@Type(value = DomainName.class, name = "domain-name"),
