@@ -35,7 +35,7 @@ import java.util.Set;
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "bundle", groups = {DefaultValuesProcessor.class})
 @JsonTypeName("bundle")
-@Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = Bundle.class) @JsonDeserialize(builder = Bundle.Builder.class)
 @JsonPropertyOrder({"type", "id", "spec_version", "objects"})
 public interface BundleObject extends GenericValidation, Serializable {
