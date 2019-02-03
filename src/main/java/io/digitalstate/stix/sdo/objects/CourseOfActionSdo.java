@@ -33,7 +33,7 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 @Value.Immutable @Serial.Version(1L)
 @JsonTypeName("course-of-action")
 @DefaultTypeValue(value = "course-of-action", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = CourseOfAction.class) @JsonDeserialize(builder = CourseOfAction.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",

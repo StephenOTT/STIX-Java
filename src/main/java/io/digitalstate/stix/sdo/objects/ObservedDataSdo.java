@@ -33,7 +33,7 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 @Value.Immutable @Serial.Version(1L)
 @JsonTypeName("observed-data")
 @DefaultTypeValue(value = "observed-data", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = ObservedData.class) @JsonDeserialize(builder = ObservedData.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",

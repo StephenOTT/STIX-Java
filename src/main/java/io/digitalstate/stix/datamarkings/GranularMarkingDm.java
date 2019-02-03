@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeAbstract="*Dm", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeAbstract="*Dm", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, depluralize = true)
 @JsonSerialize(as = GranularMarking.class) @JsonDeserialize(builder = GranularMarking.Builder.class)
 @Redactable
 public interface GranularMarkingDm extends SdoDefaultValidator, Serializable {

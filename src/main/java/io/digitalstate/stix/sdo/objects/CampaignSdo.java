@@ -36,7 +36,7 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 @Value.Immutable @Serial.Version(1L)
 @JsonTypeName("campaign")
 @DefaultTypeValue(value = "campaign", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = Campaign.class) @JsonDeserialize(builder = Campaign.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",

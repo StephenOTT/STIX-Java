@@ -38,7 +38,7 @@ import io.digitalstate.stix.vocabularies.ThreatActorSophistication;
  * 
  */
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonTypeName("threat-actor")
 @DefaultTypeValue(value = "threat-actor", groups = {DefaultValuesProcessor.class})
 @JsonSerialize(as = ThreatActor.class) @JsonDeserialize(builder = ThreatActor.Builder.class)

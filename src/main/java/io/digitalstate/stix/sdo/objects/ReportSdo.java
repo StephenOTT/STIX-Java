@@ -36,7 +36,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Immutable @Serial.Version(1L)
 @JsonTypeName("report")
 @DefaultTypeValue(value = "report", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = Report.class) @JsonDeserialize(builder = Report.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",

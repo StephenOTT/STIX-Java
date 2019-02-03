@@ -39,7 +39,7 @@ import io.digitalstate.stix.vocabularies.ToolLabels;
 @Value.Immutable @Serial.Version(1L)
 @JsonTypeName("tool")
 @DefaultTypeValue(value = "tool", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = Tool.class) @JsonDeserialize(builder = Tool.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",

@@ -42,7 +42,7 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
  * 
  */
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @DefaultTypeValue(value = "sighting", groups = {DefaultValuesProcessor.class})
 @JsonSerialize(as = Sighting.class) @JsonDeserialize(builder = Sighting.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",

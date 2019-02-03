@@ -39,7 +39,7 @@ import io.digitalstate.stix.vocabularies.AttackResourceLevels;
 @Value.Immutable @Serial.Version(1L)
 @JsonTypeName("intrusion-set")
 @DefaultTypeValue(value = "intrusion-set", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = IntrusionSet.class) @JsonDeserialize(builder = IntrusionSet.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
