@@ -30,17 +30,15 @@ public interface AutonomousSystemCoo extends CyberObservableObject {
 
     @JsonProperty("number") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the number assigned to the AS. Such assignments are typically performed by a Regional Internet Registries (RIR)")
-    @Redactable
-    Optional<Long> getNumber();
+    //@TODO Review if "Integer" should be 32 or 64 bit Long as the spec does not detail what the specifics are
+    int getNumber();
 
     @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the name of the AS.")
-    @Redactable
     Optional<String> getName();
 
     @JsonProperty("rir") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the name of the Regional Internet Registry (RIR) that assigned the number to the AS.")
-    @Redactable
     Optional<String> getRir();
 
 }
