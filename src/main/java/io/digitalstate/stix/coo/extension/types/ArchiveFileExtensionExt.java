@@ -1,9 +1,9 @@
-package io.digitalstate.stix.coo.extensions;
+package io.digitalstate.stix.coo.extension.types;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.coo.CyberExtension;
+import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+
 /**
  * The Archive File extension specifies a default extension for capturing
  * properties specific to archive files.
@@ -26,18 +27,17 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "contains_refs", "version", "comment" })
 @JsonTypeName("archive-ext")
-public interface ArchiveFileExtensionExt extends CyberExtension {
+public interface ArchiveFileExtensionExt extends CyberObservableExtension {
 
 	@JsonProperty("contains_refs")
 	@JsonPropertyDescription("Specifies the files contained in the archive, as a reference to one or more other File Objects. The objects referenced in this list MUST be of type file-object.")
 	@NotNull
+	//@TODO add support for Hydration - Review options to do this: may be better to create another method rather than create hydration
 	Set<String> getContainsRefs();
-	
 
 	@JsonProperty("version")
 	@JsonPropertyDescription("Specifies the version of the archive type used in the archive file.")
 	Optional<String> getVersion();
-	
 
 	@JsonProperty("comment")
 	@JsonPropertyDescription("Specifies a comment included as part of the archive file.")

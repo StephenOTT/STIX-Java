@@ -1,9 +1,9 @@
-package io.digitalstate.stix.coo.extensions;
+package io.digitalstate.stix.coo.extension.types;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.coo.CyberExtension;
+import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -30,7 +30,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "request_method", "request_value", "request_version", "request_header", "message_body_length",
 		"message_body_data_ref" })
 @JsonTypeName("http-request-ext")
-public interface HttpRequestExtensionExt extends CyberExtension {
+public interface HttpRequestExtensionExt extends CyberObservableExtension {
 
 	@JsonProperty("request_method")
 	@JsonPropertyDescription("Specifies the HTTP method portion of the HTTP request line, as a lowercase string.")

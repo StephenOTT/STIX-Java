@@ -1,9 +1,9 @@
-package io.digitalstate.stix.coo.extensions;
+package io.digitalstate.stix.coo.extension.types;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.coo.CyberExtension;
+import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -28,7 +28,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "icmp_type_hex", "icmp_code_hex" })
 @JsonTypeName("icmp-ext")
-public interface IcmpExtensionExt extends CyberExtension {
+public interface IcmpExtensionExt extends CyberObservableExtension {
 
 	@JsonProperty("icmp_type_hex")
 	@JsonPropertyDescription("Specifies the ICMP type byte.")

@@ -1,9 +1,9 @@
-package io.digitalstate.stix.coo.extensions;
+package io.digitalstate.stix.coo.extension.types;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.coo.CyberExtension;
+import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -30,7 +30,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({"address_family", "is_blocking", "is_listening", "protocol_family", "options", "socket_type",
 		"socket_descriptor", "socket_handle" })
 @JsonTypeName("socket-ext")
-public interface NetworkSocketExtensionExt extends CyberExtension {
+public interface NetworkSocketExtensionExt extends CyberObservableExtension {
 
 	@JsonProperty("address_family")
 	@JsonPropertyDescription("Specifies the address family (AF_*) that the socket is configured for.")

@@ -1,9 +1,9 @@
-package io.digitalstate.stix.coo.extensions;
+package io.digitalstate.stix.coo.extension.types;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.coo.CyberExtension;
+import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -25,7 +25,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "version", "is_optimized", "document_info_dict", "pdfid0", "pdfid1" })
 @JsonTypeName("pdf-ext")
-public interface PdfFileExtensionExt extends CyberExtension {
+public interface PdfFileExtensionExt extends CyberObservableExtension {
 
 	@JsonProperty("version")
 	@JsonPropertyDescription("Specifies the decimal version number of the Optional<String> from the PDF header that specifies the version of the PDF specification to which the PDF file conforms. E.g., '1.4'.")

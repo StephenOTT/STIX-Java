@@ -1,9 +1,9 @@
-package io.digitalstate.stix.coo.extensions;
+package io.digitalstate.stix.coo.extension.types;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.coo.CyberExtension;
+import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.coo.types.WindowsPeOptionalHeader;
 import io.digitalstate.stix.coo.types.WindowsPeSection;
 import io.digitalstate.stix.helpers.StixDataFormats;
@@ -41,7 +41,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 		"pointer_to_symbol_table_hex", "number_of_symbols", "size_of_optional_header", "characteristics_hex",
 		"file_header_hashes", "optional_header", "sections", "required" })
 @JsonTypeName("windows-pebinary-ext")
-public interface WindowsPeBinaryFileExtensionExt extends CyberExtension {
+public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtension {
 
 	@JsonProperty("pe_type")
 	@JsonPropertyDescription("Specifies the type of the PE binary. Open Vocabulary - windows-pebinary-type-ov")
