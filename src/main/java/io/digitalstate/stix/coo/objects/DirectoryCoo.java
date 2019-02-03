@@ -34,7 +34,6 @@ public interface DirectoryCoo extends CyberObservableObject {
 
     @JsonProperty("path") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the path, as originally observed, to the directory on the file system.")
-    @Redactable(useMask = true)
     String getPath();
 
 	/**
@@ -43,31 +42,26 @@ public interface DirectoryCoo extends CyberObservableObject {
     @JsonProperty("path_enc") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the observed encoding for the path.")
 	@OptionalPattern(regexp="^[a-zA-Z0-9/\\.+_:-]{2,250}$")
-    @Redactable
     Optional<String> getName();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("created") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the date/time the directory was created.")
-    @Redactable
     Optional<Instant> getCreated();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("modified") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the date/time the directory was last written to/modified.")
-    @Redactable
     Optional<Instant> getModified();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("accessed") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies the date/time the directory was last accessed.")
-    @Redactable
     Optional<Instant> getAccessed();
 
     //@TODO add proper support for contains refs.  Must be Set of File or Directory types
     @JsonProperty("contains_refs") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("Specifies a list of references to other File and/or Directory Objects contained within the directory.")
-    @Redactable
     Set<String> getContainsRefs();
 
 
