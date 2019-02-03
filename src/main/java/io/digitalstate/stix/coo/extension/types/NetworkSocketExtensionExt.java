@@ -76,7 +76,7 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
 		AF_IRDA,
 		AF_BTH;
 	}
-	
+
 	@JsonTypeName(" network-socket-protocol-family-enum")
 	public enum ProtocolFamily {
 		PF_INET,
