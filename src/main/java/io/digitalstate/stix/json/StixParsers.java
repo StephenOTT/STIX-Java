@@ -9,17 +9,9 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import io.digitalstate.stix.bundle.Bundle;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.bundle.BundleableObject;
-import io.digitalstate.stix.coo.objects.Artifact;
-import io.digitalstate.stix.coo.objects.AutonomousSystem;
-import io.digitalstate.stix.coo.objects.Directory;
-import io.digitalstate.stix.coo.objects.DomainName;
-import io.digitalstate.stix.coo.objects.EmailAddress;
-import io.digitalstate.stix.coo.objects.EmailMessage;
-import io.digitalstate.stix.coo.objects.Ipv4Address;
-import io.digitalstate.stix.coo.objects.Ipv6Address;
-import io.digitalstate.stix.coo.objects.MacAddress;
-import io.digitalstate.stix.coo.objects.Mutex;
-import io.digitalstate.stix.coo.objects.Url;
+import io.digitalstate.stix.coo.extension.types.*;
+import io.digitalstate.stix.coo.objects.*;
+import io.digitalstate.stix.coo.objects.Process;
 import io.digitalstate.stix.datamarkings.MarkingDefinition;
 import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.objects.Relationship;
@@ -55,25 +47,34 @@ public class StixParsers {
     }
 
     public static ObjectMapper registerBundleMapperSubTypes(NamedType... additionalNamedTypes){
-        Class<?>[] sdoClasses = {AttackPattern.class, Campaign.class, CourseOfAction.class,
+        Class<?>[] sdoClasses = { AttackPattern.class, Campaign.class, CourseOfAction.class,
                 Identity.class, Indicator.class, IntrusionSet.class, Malware.class, ObservedData.class,
                 Report.class, ThreatActor.class, Tool.class, Vulnerability.class};
 
-        Class<?>[] sroClasses = {Relationship.class, Sighting.class};
+        Class<?>[] sroClasses = { Relationship.class, Sighting.class};
 
-        Class<?>[] dataMarkingClasses = {MarkingDefinition.class};
+        Class<?>[] dataMarkingClasses = { MarkingDefinition.class};
 
-        Class<?>[] bundleClasses = {Bundle.class};
+        Class<?>[] bundleClasses = { Bundle.class};
 
-        Class<?>[] cyberObservableClasses = {Artifact.class, AutonomousSystem.class, Directory.class,
-        		DomainName.class, EmailAddress.class, EmailMessage.class, Ipv4Address.class, Ipv6Address.class,
-        		MacAddress.class, Mutex.class, Url.class};
+        Class<?>[] cyberObservableClasses = { Artifact.class, AutonomousSystem.class, Directory.class,
+                DomainName.class, EmailAddress.class, EmailMessage.class, File.class, Ipv4Address.class, Ipv6Address.class,
+                MacAddress.class, Mutex.class, NetworkTraffic.class, Process.class, Software.class, Url.class,
+                UserAccount.class, WindowsRegistryKey.class, X509Certificate.class};
+
+        Class<?>[] cyberObservableExtensionClasses = { ArchiveFileExtension.class, HttpRequestExtension.class, IcmpExtension.class,
+                NetworkSocketExtension.class, NtfsFileExtenstion.class, PdfFileExtension.class, RasterImageFileExtension.class,
+                TcpExtension.class, UnixAccountExtension.class, WindowsPeBinaryFileExtension.class, WindowsProcessExtension.class,
+                WindowsServiceExtension.class};
+
+
 
         jsonMapper.registerSubtypes(sdoClasses);
         jsonMapper.registerSubtypes(sroClasses);
         jsonMapper.registerSubtypes(dataMarkingClasses);
         jsonMapper.registerSubtypes(bundleClasses);
         jsonMapper.registerSubtypes(cyberObservableClasses);
+        jsonMapper.registerSubtypes(cyberObservableExtensionClasses);
         jsonMapper.registerSubtypes(additionalNamedTypes);
 
         return jsonMapper;
