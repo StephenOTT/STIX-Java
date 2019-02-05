@@ -95,10 +95,10 @@ public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtensio
 
 	@JsonProperty("optional_header")
 	@JsonPropertyDescription("Specifies the PE optional header of the PE binary.")
-	Optional<WindowsPeOptionalHeader> optionalHeader();
+	Optional<WindowsPeOptionalHeaderObj> optionalHeader();
 
 	@JsonProperty("sections")
 	@JsonPropertyDescription("Specifies metadata about the sections in the PE file.")
-	Set<WindowsPeSection> sections();
+	Set<WindowsPeSectionObj> sections();
 
 }

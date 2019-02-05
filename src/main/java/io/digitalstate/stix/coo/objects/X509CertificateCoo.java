@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.types.X509v3Extensions;
+import io.digitalstate.stix.coo.types.X509v3ExtensionsObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
@@ -94,6 +95,6 @@ public interface X509CertificateCoo extends CyberObservableObject {
 	
 	@JsonProperty("x509_v3_extensions")
 	@JsonPropertyDescription("Specifies any standard X.509 v3 extensions that may be used in the certificate.")
-	Optional<X509v3Extensions> getX509V3Extensions();
+	Optional<X509v3ExtensionsObj> getX509V3Extensions();
 
 }
