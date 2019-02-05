@@ -13,6 +13,7 @@ import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,6 +45,7 @@ public interface NtfsAlternateDataStreamObj extends CyberObservableExtension {
 
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the alternate data stream, in bytes, as a non-negative integer.")
+    @PositiveOrZero
     Optional<Integer> getSize();
 
 }
