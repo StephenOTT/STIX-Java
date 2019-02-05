@@ -22,6 +22,7 @@ import org.immutables.value.Value;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
@@ -81,7 +82,7 @@ public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtensio
 
     @JsonProperty("size_of_optional_header")
     @JsonPropertyDescription("Specifies the size of the optional header of the PE binary.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> sizeOfOptionalHeader();
 
     @JsonProperty("characteristics_hex")
