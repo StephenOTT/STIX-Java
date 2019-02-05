@@ -32,10 +32,12 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @AllowedParents({FileCoo.class})
 public interface RasterImageFileExtensionExt extends CyberObservableExtension {
 
+    //@TODO Spec is missing direction about limits: Value likely needs to be MUST be positive
     @JsonProperty("image_height")
     @JsonPropertyDescription("Specifies the height of the image in the image file, in pixels.")
     Optional<Integer> getImageHeight();
 
+    //@TODO Spec is missing direction about limits: Value likely needs to be MUST be positive
     @JsonProperty("image_width")
     @JsonPropertyDescription("Specifies the width of the image in the image file, in pixels.")
     Optional<Integer> getImageWidth();
