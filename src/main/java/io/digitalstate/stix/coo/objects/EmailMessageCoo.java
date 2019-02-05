@@ -34,10 +34,10 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @BusinessRule(ifExp = "isMultipart() == true", thenExp = "getBody().isPresent() == false", errorMessage = "Email Message cannot have Body when email is Multipart")
 public interface EmailMessageCoo extends CyberObservableObject {
 
-    @JsonProperty("is_multipart") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("is_multipart")
     @JsonPropertyDescription("Indicates whether the email body contains multiple MIME parts.")
     @NotNull
-    Boolean isMultipart();
+    boolean isMultipart();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("date")
