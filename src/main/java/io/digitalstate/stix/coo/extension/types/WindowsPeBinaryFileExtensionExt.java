@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.extension.CyberObservableExtension;
-import io.digitalstate.stix.coo.types.WindowsPeOptionalHeader;
-import io.digitalstate.stix.coo.types.WindowsPeSection;
+import io.digitalstate.stix.coo.objects.FileCoo;
+import io.digitalstate.stix.coo.types.WindowsPeOptionalHeaderObj;
+import io.digitalstate.stix.coo.types.WindowsPeSectionObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.validation.contraints.allowedparents.AllowedParents;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
@@ -34,13 +36,14 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "windows-pebinary-ext", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Ext", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Ext", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, passAnnotations = {AllowedParents.class})
 @JsonSerialize(as = WindowsPeBinaryFileExtension.class) @JsonDeserialize(builder = WindowsPeBinaryFileExtension.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "pe_type", "imphash", "machine_hex", "number_of_sections", "time_date_stamp",
 		"pointer_to_symbol_table_hex", "number_of_symbols", "size_of_optional_header", "characteristics_hex",
 		"file_header_hashes", "optional_header", "sections", "required" })
 @JsonTypeName("windows-pebinary-ext")
+@AllowedParents({FileCoo.class})
 public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtension {
 
 	@JsonProperty("pe_type")

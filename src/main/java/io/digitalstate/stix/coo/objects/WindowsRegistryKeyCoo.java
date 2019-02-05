@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.coo.types.WindowsRegistryValue;
+import io.digitalstate.stix.coo.types.WindowsRegistryValueObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -42,7 +42,7 @@ public interface WindowsRegistryKeyCoo extends CyberObservableObject {
 
 	@JsonProperty("values")
 	@JsonPropertyDescription("Specifies the values found under the registry key.")
-	Set<WindowsRegistryValue> getValues();
+	Set<WindowsRegistryValueObj> getValues();
 
 	@JsonProperty("modified")
 	@JsonPropertyDescription("Specifies the last date/time that the registry key was modified.")
