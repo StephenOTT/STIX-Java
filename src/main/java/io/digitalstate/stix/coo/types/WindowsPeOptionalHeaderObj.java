@@ -13,6 +13,7 @@ import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 import java.util.Optional;
 
@@ -54,17 +55,17 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("size_of_code")
     @JsonPropertyDescription("Specifies the size of the code (text) section. If there are multiple such sections, this refers to the sum of the sizes of each section.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfCode();
 
     @JsonProperty("size_of_initialized_data")
     @JsonPropertyDescription("Specifies the size of the initialized data section. If there are multiple such sections, this refers to the sum of the sizes of each section.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfInitializedData();
 
     @JsonProperty("size_of_uninitialized_data")
     @JsonPropertyDescription("Specifies the size of the uninitialized data section. If there are multiple such sections, this refers to the sum of the sizes of each section.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfUninitializedData();
 
     @JsonProperty("address_of_entry_point")
@@ -122,12 +123,12 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("size_of_image")
     @JsonPropertyDescription("Specifies the size, in bytes, of the image, including all headers, as the image is loaded in memory.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfImage();
 
     @JsonProperty("size_of_headers")
     @JsonPropertyDescription("Specifies the combined size of the MS-DOS, PE header, and section headers, rounded up a multiple of the value specified in the file_alignment header.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfHeaders();
 
     @JsonProperty("checksum_hex")
@@ -147,22 +148,22 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("size_of_stack_reserve")
     @JsonPropertyDescription("Specifies the size of the stack to reserve")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfStackReserve();
 
     @JsonProperty("size_of_stack_commit")
     @JsonPropertyDescription("Specifies the size of the stack to commit.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfStackCommit();
 
     @JsonProperty("size_of_heap_reserve")
     @JsonPropertyDescription("Specifies the size of the local heap space to reserve.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfHeapReserve();
 
     @JsonProperty("size_of_heap_commit")
     @JsonPropertyDescription("Specifies the size of the local heap space to commit.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSizeOfHeapCommit();
 
     @JsonProperty("loader_flags_hex")
