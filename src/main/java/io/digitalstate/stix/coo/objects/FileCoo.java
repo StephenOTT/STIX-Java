@@ -17,6 +17,7 @@ import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Positive;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the file, in bytes, as a non-negative integer.")
-    @DecimalMin("0")
+    @Positive
     Optional<Integer> getSize();
 
     @JsonProperty("name")
