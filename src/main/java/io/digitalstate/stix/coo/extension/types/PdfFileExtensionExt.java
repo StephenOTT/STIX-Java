@@ -36,7 +36,7 @@ public interface PdfFileExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("is_optimized")
     @JsonPropertyDescription("Specifies whether the PDF file has been optimized.")
-    Boolean isOptimized();
+    Optional<Boolean> isOptimized();
 
     @JsonProperty("document_info_dict")
     @JsonPropertyDescription("Specifies details of the PDF document information dictionary (DID), which includes properties like the document creation data and producer, as a dictionary.")
