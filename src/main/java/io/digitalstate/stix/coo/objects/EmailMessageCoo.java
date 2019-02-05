@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.types.MimePartTypeObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -30,6 +31,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonSerialize(as = EmailMessage.class) @JsonDeserialize(builder = EmailMessage.Builder.class)
 @JsonPropertyOrder({ "type", "extensions", "is_multipart", "date", "content_type", "from_ref", "sender_ref", "to_refs", "cc_refs", "bcc_refs", "subject",
         "received_lines", "additional_header_fields", "body", "body_multipart", "raw_email_ref" })
+@BusinessRule(ifExp = "isMultipart() == true", thenExp = "getBody().isPresent() == false", errorMessage = "Email Message cannot have Body when email is Multipart")
 public interface EmailMessageCoo extends CyberObservableObject {
 
     @JsonProperty("is_multipart") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)

@@ -7,6 +7,7 @@ import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.coo.objects.Process;
 import io.digitalstate.stix.coo.objects.ProcessCoo;
 import io.digitalstate.stix.validation.contraints.allowedparents.AllowedParents;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -29,6 +30,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "aslr_enabled", "dep_enabled", "priority", "owner_sid", "window_title", "startup_info" })
 @JsonTypeName("windows-process-ext")
 @AllowedParents({ProcessCoo.class})
+@BusinessRule(ifExp = "getAslrEnabled().isPresent() == true", thenExp = "getDepEnabled().isPresent() == false", errorMessage = "Dep and ASLR cannot both be enabled")
 public interface WindowsProcessExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("aslr_enabled")

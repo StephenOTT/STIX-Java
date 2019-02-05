@@ -3,6 +3,8 @@ package stix.observables
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.coo.extension.types.TcpExtension
 import io.digitalstate.stix.coo.extension.types.WindowsProcessExtension
+import io.digitalstate.stix.coo.objects.EmailMessage
+import io.digitalstate.stix.coo.objects.EmailMessageCoo
 import io.digitalstate.stix.coo.objects.Process
 import io.digitalstate.stix.coo.objects.ProcessCoo
 import io.digitalstate.stix.json.StixParsers
@@ -27,6 +29,11 @@ class ProcessObjectSpec extends Specification {
                         .windowTitle("some title")
                         .build())
                 .build()
+
+        EmailMessageCoo emailMessage = EmailMessage.builder()
+            .isMultipart(true)
+//            .body("DOG!")
+            .build()
 
         then: "Add Process to observed data SDO"
 
