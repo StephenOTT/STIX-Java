@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
  * mutex
  * <p>
  * The Mutex Object represents the properties of a mutual exclusion (mutex) object.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "mutex", groups = {DefaultValuesProcessor.class})
@@ -27,8 +27,8 @@ import javax.validation.constraints.NotNull;
 @JsonPropertyOrder({"type", "extensions", "name"})
 public interface MutexCoo extends CyberObservableObject {
 
-	@JsonProperty("name")
-	@JsonPropertyDescription("Specifies the name of the mutex object.")
-	@NotNull
-	String getName();
+    @JsonProperty("name")
+    @JsonPropertyDescription("Specifies the name of the mutex object.")
+    @NotNull
+    String getName();
 }

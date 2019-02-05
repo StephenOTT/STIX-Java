@@ -26,35 +26,35 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("windows-registry-value-type")
 public interface WindowsRegistryValueObj {
 
-	@JsonProperty("name")
-	@JsonPropertyDescription("Specifies the name of the registry value. For specifying the default value in a registry key, an empty string MUST be used.")
-	@NotNull
-	String getName();
+    @JsonProperty("name")
+    @JsonPropertyDescription("Specifies the name of the registry value. For specifying the default value in a registry key, an empty string MUST be used.")
+    @NotNull
+    String getName();
 
-	@JsonProperty("data")
-	@JsonPropertyDescription("Specifies the data contained in the registry value.")
-	Optional<String> getData();
+    @JsonProperty("data")
+    @JsonPropertyDescription("Specifies the data contained in the registry value.")
+    Optional<String> getData();
 
-	@JsonProperty("data_type")
-	@JsonPropertyDescription("Specifies the registry (REG_*) data type used in the registry value.")
-	Optional<DataType> getDataType();
-	
+    @JsonProperty("data_type")
+    @JsonPropertyDescription("Specifies the registry (REG_*) data type used in the registry value.")
+    Optional<DataType> getDataType();
 
 
-	public enum DataType {
-		REG_NONE, 
-		REG_SZ, 
-		REG_EXPAND_SZ, 
-		REG_BINARY, 
-		REG_DWORD, 
-		REG_DWORD_BIG_ENDIAN, 
-		REG_LINK, 
-		REG_MULTI_SZ, 
-		REG_RESOURCE_LIST, 
-		REG_FULL_RESOURCE_DESCRIPTION, 
-		REG_RESOURCE_REQUIREMENTS_LIST, 
-		REG_QWORD, 
-		REG_INVALID_TYPE;
-	}
+
+    public enum DataType {
+        REG_NONE,
+        REG_SZ,
+        REG_EXPAND_SZ,
+        REG_BINARY,
+        REG_DWORD,
+        REG_DWORD_BIG_ENDIAN,
+        REG_LINK,
+        REG_MULTI_SZ,
+        REG_RESOURCE_LIST,
+        REG_FULL_RESOURCE_DESCRIPTION,
+        REG_RESOURCE_REQUIREMENTS_LIST,
+        REG_QWORD,
+        REG_INVALID_TYPE;
+    }
 
 }

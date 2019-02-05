@@ -18,9 +18,9 @@ import java.util.Optional;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
-* The Windows Process extension specifies a default extension for capturing properties specific to Windows processes.
-* 
-*/
+ * The Windows Process extension specifies a default extension for capturing properties specific to Windows processes.
+ *
+ */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "windows-process-ext", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Ext", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, passAnnotations = {AllowedParents.class})
@@ -31,28 +31,28 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @AllowedParents({ProcessCoo.class})
 public interface WindowsProcessExtensionExt extends CyberObservableExtension {
 
-	@JsonProperty("aslr_enabled")
-	@JsonPropertyDescription("Specifies whether Address Space Layout Randomization (ASLR) is enabled for the process.")
-	Optional<Boolean> getAslrEnabled();
+    @JsonProperty("aslr_enabled")
+    @JsonPropertyDescription("Specifies whether Address Space Layout Randomization (ASLR) is enabled for the process.")
+    Optional<Boolean> getAslrEnabled();
 
-	@JsonProperty("dep_enabled")
-	@JsonPropertyDescription("Specifies whether Data Execution Prevention (DEP) is enabled for the process.")
-	Optional<Boolean> getDepEnabled();
+    @JsonProperty("dep_enabled")
+    @JsonPropertyDescription("Specifies whether Data Execution Prevention (DEP) is enabled for the process.")
+    Optional<Boolean> getDepEnabled();
 
-	@JsonProperty("priority")
-	@JsonPropertyDescription("Specifies the current priority class of the process in Windows.")
-	Optional<String> getPriority();
+    @JsonProperty("priority")
+    @JsonPropertyDescription("Specifies the current priority class of the process in Windows.")
+    Optional<String> getPriority();
 
-	@JsonProperty("owner_sid")
-	@JsonPropertyDescription("Specifies the Security ID (SID) value of the owner of the process.")
-	Optional<String> getOwnerSid();
+    @JsonProperty("owner_sid")
+    @JsonPropertyDescription("Specifies the Security ID (SID) value of the owner of the process.")
+    Optional<String> getOwnerSid();
 
-	@JsonProperty("window_title")
-	@JsonPropertyDescription("Specifies the title of the main window of the process.")
-	Optional<String> getWindowTitle();
+    @JsonProperty("window_title")
+    @JsonPropertyDescription("Specifies the title of the main window of the process.")
+    Optional<String> getWindowTitle();
 
-	@JsonProperty("startup_info")
-	@JsonPropertyDescription("Specifies the STARTUP_INFO struct used by the process, as a dictionary.")
-	Map<String,String> getStartupInfo();
+    @JsonProperty("startup_info")
+    @JsonPropertyDescription("Specifies the STARTUP_INFO struct used by the process, as a dictionary.")
+    Map<String,String> getStartupInfo();
 
 }

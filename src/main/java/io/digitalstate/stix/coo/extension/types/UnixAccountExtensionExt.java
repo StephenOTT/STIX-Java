@@ -21,7 +21,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * <p>
  * The UNIX account extension specifies a default extension for capturing the additional information
  * for an account on a UNIX system.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "unix-account-ext", groups = {DefaultValuesProcessor.class})
@@ -33,19 +33,19 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @AllowedParents({UserAccountCoo.class})
 public interface UnixAccountExtensionExt extends CyberObservableExtension {
 
-	@JsonProperty("gid")
-	@JsonPropertyDescription("Specifies the primary group ID of the account.")
-	Optional<Integer> getGid();
+    @JsonProperty("gid")
+    @JsonPropertyDescription("Specifies the primary group ID of the account.")
+    Optional<Integer> getGid();
 
-	@JsonProperty("groups")
-	@JsonPropertyDescription("Specifies a list of names of groups that the account is a member of.")
-	Set<String> getGroups();
+    @JsonProperty("groups")
+    @JsonPropertyDescription("Specifies a list of names of groups that the account is a member of.")
+    Set<String> getGroups();
 
-	@JsonProperty("home_dir")
-	@JsonPropertyDescription("Specifies the home directory of the account.")
-	Optional<String> getHomeDir();
+    @JsonProperty("home_dir")
+    @JsonPropertyDescription("Specifies the home directory of the account.")
+    Optional<String> getHomeDir();
 
-	@JsonProperty("shell")
-	@JsonPropertyDescription("Specifies the account\u2019s command shell.")
-	Optional<String> getShell();
+    @JsonProperty("shell")
+    @JsonPropertyDescription("Specifies the account\u2019s command shell.")
+    Optional<String> getShell();
 }

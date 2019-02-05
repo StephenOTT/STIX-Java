@@ -18,7 +18,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 /**
  * The PDF file extension specifies a default extension for capturing properties
  * specific to PDF files.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "pdf-ext", groups = {DefaultValuesProcessor.class})
@@ -30,24 +30,24 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @AllowedParents({FileCoo.class})
 public interface PdfFileExtensionExt extends CyberObservableExtension {
 
-	@JsonProperty("version")
-	@JsonPropertyDescription("Specifies the decimal version number of the Optional<String> from the PDF header that specifies the version of the PDF specification to which the PDF file conforms. E.g., '1.4'.")
-	Optional<String> getVersion();
-	
-	@JsonProperty("is_optimized")
-	@JsonPropertyDescription("Specifies whether the PDF file has been optimized.")
-	Boolean isOptimized();
-	
-	@JsonProperty("document_info_dict")
-	@JsonPropertyDescription("Specifies details of the PDF document information dictionary (DID), which includes properties like the document creation data and producer, as a dictionary.")
-	Map<String,String> getDocumentInfoDict();
-	
-	@JsonProperty("pdfid0")
-	@JsonPropertyDescription("Specifies the first file identifier found for the PDF file.")
-	Optional<String> getPdfid0();
-	
-	@JsonProperty("pdfid1")
-	@JsonPropertyDescription("Specifies the second file identifier found for the PDF file.")
-	Optional<String> getPdfid1();
+    @JsonProperty("version")
+    @JsonPropertyDescription("Specifies the decimal version number of the Optional<String> from the PDF header that specifies the version of the PDF specification to which the PDF file conforms. E.g., '1.4'.")
+    Optional<String> getVersion();
+
+    @JsonProperty("is_optimized")
+    @JsonPropertyDescription("Specifies whether the PDF file has been optimized.")
+    Boolean isOptimized();
+
+    @JsonProperty("document_info_dict")
+    @JsonPropertyDescription("Specifies details of the PDF document information dictionary (DID), which includes properties like the document creation data and producer, as a dictionary.")
+    Map<String,String> getDocumentInfoDict();
+
+    @JsonProperty("pdfid0")
+    @JsonPropertyDescription("Specifies the first file identifier found for the PDF file.")
+    Optional<String> getPdfid0();
+
+    @JsonProperty("pdfid1")
+    @JsonPropertyDescription("Specifies the second file identifier found for the PDF file.")
+    Optional<String> getPdfid1();
 
 }

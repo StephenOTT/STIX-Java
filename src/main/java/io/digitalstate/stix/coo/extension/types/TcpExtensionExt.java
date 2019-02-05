@@ -24,7 +24,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * <p>
  * The TCP extension specifies a default extension for capturing network traffic
  * properties specific to TCP.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "tcp-ext", groups = {DefaultValuesProcessor.class})
@@ -35,26 +35,26 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("tcp-ext")
 @AllowedParents({NetworkTrafficCoo.class})
 public interface TcpExtensionExt extends CyberObservableExtension {
-	/**
-	 * Specifies the source TCP flags, as the union of all TCP flags observed
-	 * between the start of the traffic (as defined by the start property) and
-	 * the end of the traffic (as defined by the end property).
-	 * 
-	 */
-	@JsonProperty("src_flags_hex")
-	@JsonPropertyDescription("Specifies the source TCP flags, as the union of all TCP flags observed between the start of the traffic (as defined by the start property) and the end of the traffic (as defined by the end property). ")
-	@OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-	Optional<String> getSrcFlagsHex();
+    /**
+     * Specifies the source TCP flags, as the union of all TCP flags observed
+     * between the start of the traffic (as defined by the start property) and
+     * the end of the traffic (as defined by the end property).
+     *
+     */
+    @JsonProperty("src_flags_hex")
+    @JsonPropertyDescription("Specifies the source TCP flags, as the union of all TCP flags observed between the start of the traffic (as defined by the start property) and the end of the traffic (as defined by the end property). ")
+    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
+    Optional<String> getSrcFlagsHex();
 
-	/**
-	 * Specifies the destination TCP flags, as the union of all TCP flags
-	 * observed between the start of the traffic (as defined by the start
-	 * property) and the end of the traffic (as defined by the end property).
-	 * 
-	 */
-	@JsonProperty("dst_flags_hex")
-	@JsonPropertyDescription("Specifies the destination TCP flags, as the union of all TCP flags observed between the start of the traffic (as defined by the start property) and the end of the traffic (as defined by the end property).")
-	@OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-	Optional<String> getDstFlagsHex();
+    /**
+     * Specifies the destination TCP flags, as the union of all TCP flags
+     * observed between the start of the traffic (as defined by the start
+     * property) and the end of the traffic (as defined by the end property).
+     *
+     */
+    @JsonProperty("dst_flags_hex")
+    @JsonPropertyDescription("Specifies the destination TCP flags, as the union of all TCP flags observed between the start of the traffic (as defined by the start property) and the end of the traffic (as defined by the end property).")
+    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
+    Optional<String> getDstFlagsHex();
 
 }

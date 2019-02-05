@@ -19,7 +19,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * email-addr
  * <p>
  * The Email Address Object represents a single email address.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "email-addr", groups = {DefaultValuesProcessor.class})
@@ -28,19 +28,19 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonSerialize(as = EmailAddress.class) @JsonDeserialize(builder = EmailAddress.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "value", "display_name", "belongs_to_ref"})
 public interface EmailAddressCoo extends CyberObservableObject {
-	
-	@JsonProperty("value") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies a single email address. This MUST not include the display name.")
-	@Pattern(regexp="(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)")
-	@NotNull
-	String getValue();
-	
-	@JsonProperty("display_name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies a single email display name, i.e., the name that is displayed to the human user of a mail application.")
-	Optional<String> getDisplayName();
-	
-	@JsonProperty("belongs_to_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the user account that the email address belongs to, as a reference to a User Account Object.")
-	Optional<String> getBelongsToRef();
+
+    @JsonProperty("value") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("Specifies a single email address. This MUST not include the display name.")
+    @Pattern(regexp="(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)")
+    @NotNull
+    String getValue();
+
+    @JsonProperty("display_name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("Specifies a single email display name, i.e., the name that is displayed to the human user of a mail application.")
+    Optional<String> getDisplayName();
+
+    @JsonProperty("belongs_to_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("Specifies the user account that the email address belongs to, as a reference to a User Account Object.")
+    Optional<String> getBelongsToRef();
 
 }

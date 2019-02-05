@@ -20,7 +20,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 /**
  * The Archive File extension specifies a default extension for capturing
  * properties specific to archive files.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "archive-ext", groups = {DefaultValuesProcessor.class})
@@ -32,18 +32,18 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @AllowedParents({FileCoo.class})
 public interface ArchiveFileExtensionExt extends CyberObservableExtension {
 
-	@JsonProperty("contains_refs")
-	@JsonPropertyDescription("Specifies the files contained in the archive, as a reference to one or more other File Objects. The objects referenced in this list MUST be of type file-object.")
-	@NotNull
-	//@TODO add support for Hydration - Review options to do this: may be better to create another method rather than create hydration
-	Set<String> getContainsRefs();
+    @JsonProperty("contains_refs")
+    @JsonPropertyDescription("Specifies the files contained in the archive, as a reference to one or more other File Objects. The objects referenced in this list MUST be of type file-object.")
+    @NotNull
+        //@TODO add support for Hydration - Review options to do this: may be better to create another method rather than create hydration
+    Set<String> getContainsRefs();
 
-	@JsonProperty("version")
-	@JsonPropertyDescription("Specifies the version of the archive type used in the archive file.")
-	Optional<String> getVersion();
+    @JsonProperty("version")
+    @JsonPropertyDescription("Specifies the version of the archive type used in the archive file.")
+    Optional<String> getVersion();
 
-	@JsonProperty("comment")
-	@JsonPropertyDescription("Specifies a comment included as part of the archive file.")
-	Optional<String> getComment();
+    @JsonProperty("comment")
+    @JsonPropertyDescription("Specifies a comment included as part of the archive file.")
+    Optional<String> getComment();
 
 }

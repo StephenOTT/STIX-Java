@@ -21,7 +21,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * <p>
  * The ICMP extension specifies a default extension for capturing network
  * traffic properties specific to ICMP.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "icmp-ext", groups = {DefaultValuesProcessor.class})
@@ -33,16 +33,16 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @AllowedParents({NetworkTrafficCoo.class})
 public interface IcmpExtensionExt extends CyberObservableExtension {
 
-	@JsonProperty("icmp_type_hex")
-	@JsonPropertyDescription("Specifies the ICMP type byte.")
-	@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
-	@NotNull
-	String getOcmpTypeHex();
+    @JsonProperty("icmp_type_hex")
+    @JsonPropertyDescription("Specifies the ICMP type byte.")
+    @Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+    @NotNull
+    String getOcmpTypeHex();
 
-	@JsonProperty("icmp_code_hex")
-	@JsonPropertyDescription("Specifies the ICMP code byte.")
-	@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
-	@NotNull
-	String getIcmpCodeHex();
+    @JsonProperty("icmp_code_hex")
+    @JsonPropertyDescription("Specifies the ICMP code byte.")
+    @Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+    @NotNull
+    String getIcmpCodeHex();
 
 }

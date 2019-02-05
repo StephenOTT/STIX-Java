@@ -20,7 +20,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * The PE Section type specifies metadata about a PE file section.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "windows-pe-section-type", groups = {DefaultValuesProcessor.class})
@@ -30,22 +30,22 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "name", "size", "entropy", "hashes" })
 @JsonTypeName("windows-pe-section-type")
 public interface WindowsPeSectionObj {
-	
-	@JsonProperty("name")
-	@JsonPropertyDescription("Specifies the name of the section.")
-	@NotNull
-	Optional<String> getName();
 
-	@JsonProperty("size")
-	@JsonPropertyDescription("Specifies the size of the section, in bytes.")
-	@DecimalMin("0")
-	Optional<Integer> getSize();
+    @JsonProperty("name")
+    @JsonPropertyDescription("Specifies the name of the section.")
+    @NotNull
+    Optional<String> getName();
 
-	@JsonProperty("entropy")
-	@JsonPropertyDescription("Specifies the calculated entropy for the section, as calculated using the Shannon algorithm.")
-	Optional<Float> getEntropy();
+    @JsonProperty("size")
+    @JsonPropertyDescription("Specifies the size of the section, in bytes.")
+    @DecimalMin("0")
+    Optional<Integer> getSize();
 
-	@JsonProperty("hashes")
-	@JsonPropertyDescription("Specifies any hashes computed over the section.")
+    @JsonProperty("entropy")
+    @JsonPropertyDescription("Specifies the calculated entropy for the section, as calculated using the Shannon algorithm.")
+    Optional<Float> getEntropy();
+
+    @JsonProperty("hashes")
+    @JsonPropertyDescription("Specifies any hashes computed over the section.")
     Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
 }

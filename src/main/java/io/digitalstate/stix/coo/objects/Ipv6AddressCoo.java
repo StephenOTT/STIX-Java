@@ -18,7 +18,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * ipv6-addr
  * <p>
  * The IPv6 Address Object represents one or more IPv6 addresses expressed using CIDR notation.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "ipv6-addr", groups = {DefaultValuesProcessor.class})
@@ -28,32 +28,32 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonSerialize(as = Ipv6Address.class) @JsonDeserialize(builder = Ipv6Address.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "value", "resolves_to_refs", "belongs_to_refs"})
 public interface Ipv6AddressCoo extends CyberObservableObject {
-	// TODO  Consider using regexp to validate:
-	//	http://blog.markhatton.co.uk/2011/03/15/regular-expressions-for-ip-addresses-cidr-ranges-and-hostnames/
+    // TODO  Consider using regexp to validate:
+    // http://blog.markhatton.co.uk/2011/03/15/regular-expressions-for-ip-addresses-cidr-ranges-and-hostnames/
 
-	/**
-	* If a given IPv6 Address Object represents a single IPv6 address, the CIDR /128 suffix MAY be omitted.
-	* (Required)
-	* 
-	*/
-	@JsonProperty("value") 
-	@JsonPropertyDescription("Specifies one or more IPv6 addresses expressed using CIDR notation.")
-	@NotNull
-	String getValue();
-	
-	/**
-	* The objects referenced in this list MUST be of type mac-addr.
-	* 
-	*/
-	@JsonProperty("resolves_to_refs")
-	@JsonPropertyDescription("Specifies a list of references to one or more Layer 2 Media Access Control (MAC) addresses that the IPv4 address resolves to.")
-	Set<String> getResolvesToRefs();
-	
-	/**
-	* The objects referenced in this list MUST be of type autonomous-system.
-	* 
-	*/
-	@JsonProperty("belongs_to_refs")
-	@JsonPropertyDescription("Specifies a reference to one or more autonomous systems (AS) that the IPv4 address belongs to.")
-	Set<String> getBelongsToRefs();
+    /**
+     * If a given IPv6 Address Object represents a single IPv6 address, the CIDR /128 suffix MAY be omitted.
+     * (Required)
+     *
+     */
+    @JsonProperty("value")
+    @JsonPropertyDescription("Specifies one or more IPv6 addresses expressed using CIDR notation.")
+    @NotNull
+    String getValue();
+
+    /**
+     * The objects referenced in this list MUST be of type mac-addr.
+     *
+     */
+    @JsonProperty("resolves_to_refs")
+    @JsonPropertyDescription("Specifies a list of references to one or more Layer 2 Media Access Control (MAC) addresses that the IPv4 address resolves to.")
+    Set<String> getResolvesToRefs();
+
+    /**
+     * The objects referenced in this list MUST be of type autonomous-system.
+     *
+     */
+    @JsonProperty("belongs_to_refs")
+    @JsonPropertyDescription("Specifies a reference to one or more autonomous systems (AS) that the IPv4 address belongs to.")
+    Set<String> getBelongsToRefs();
 }

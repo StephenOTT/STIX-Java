@@ -21,7 +21,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * <p>
  * The Process Object represents common properties of an instance of a computer
  * program as executed on an operating system.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "process", groups = {DefaultValuesProcessor.class})
@@ -30,59 +30,59 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonTypeName("process")
 @JsonPropertyOrder({ "type", "extensions", "is_hidden", "pid", "name", "created", "cwd", "arguments", "command_line",
-		"environment_variables", "opened_connection_refs", "creator_user_ref", "binary_ref", "parent_ref",
-		"child_refs" })
+        "environment_variables", "opened_connection_refs", "creator_user_ref", "binary_ref", "parent_ref",
+        "child_refs" })
 public interface ProcessCoo extends CyberObservableObject {
-	
-	@JsonProperty("is_hidden")
-	@JsonPropertyDescription("Specifies whether the process is hidden.")
-	Optional<Boolean> getIsHidden();
 
-	@JsonProperty("pid")
-	@JsonPropertyDescription("Specifies the Process ID, or PID, of the process.")
-	Optional<Integer> getPid();
+    @JsonProperty("is_hidden")
+    @JsonPropertyDescription("Specifies whether the process is hidden.")
+    Optional<Boolean> getIsHidden();
 
-	@JsonProperty("name")
-	@JsonPropertyDescription("Specifies the name of the process.")
-	Optional<String> getName();
+    @JsonProperty("pid")
+    @JsonPropertyDescription("Specifies the Process ID, or PID, of the process.")
+    Optional<Integer> getPid();
 
-	@JsonProperty("created")
-	@JsonPropertyDescription("Specifies the date/time at which the process was created.")
-	Optional<Instant> getCreated();
+    @JsonProperty("name")
+    @JsonPropertyDescription("Specifies the name of the process.")
+    Optional<String> getName();
 
-	@JsonProperty("cwd")
-	@JsonPropertyDescription("Specifies the current working directory of the process.")
-	Optional<String> getCwd();
+    @JsonProperty("created")
+    @JsonPropertyDescription("Specifies the date/time at which the process was created.")
+    Optional<Instant> getCreated();
 
-	@JsonProperty("arguments")
-	@JsonPropertyDescription("Specifies the list of arguments used in executing the process.")
-	Set<String> getArguments();
+    @JsonProperty("cwd")
+    @JsonPropertyDescription("Specifies the current working directory of the process.")
+    Optional<String> getCwd();
 
-	@JsonProperty("command_line")
-	@JsonPropertyDescription("Specifies the full command line used in executing the process, including the process name (depending on the operating system).")
-	Optional<String> getCommandLine();
+    @JsonProperty("arguments")
+    @JsonPropertyDescription("Specifies the list of arguments used in executing the process.")
+    Set<String> getArguments();
 
-	@JsonProperty("environment_variables")
-	@JsonPropertyDescription("Specifies the list of environment variables associated with the process as a dictionary.")
-	Map<String,String> getEnvironmentVariables();
+    @JsonProperty("command_line")
+    @JsonPropertyDescription("Specifies the full command line used in executing the process, including the process name (depending on the operating system).")
+    Optional<String> getCommandLine();
 
-	@JsonProperty("opened_connection_refs")
-	@JsonPropertyDescription("Specifies the list of network connections opened by the process, as a reference to one or more Network Traffic Objects.")
-	Set<String> getGpenedConnectionRefs();
+    @JsonProperty("environment_variables")
+    @JsonPropertyDescription("Specifies the list of environment variables associated with the process as a dictionary.")
+    Map<String,String> getEnvironmentVariables();
 
-	@JsonProperty("creator_user_ref")
-	@JsonPropertyDescription("Specifies the user that created the process, as a reference to a User Account Object.")
-	Optional<String> getCreatorUserRef();
+    @JsonProperty("opened_connection_refs")
+    @JsonPropertyDescription("Specifies the list of network connections opened by the process, as a reference to one or more Network Traffic Objects.")
+    Set<String> getGpenedConnectionRefs();
 
-	@JsonProperty("binary_ref")
-	@JsonPropertyDescription("Specifies the executable binary that was executed as the process, as a reference to a File Object.")
-	Optional<String> getBinaryRef();
+    @JsonProperty("creator_user_ref")
+    @JsonPropertyDescription("Specifies the user that created the process, as a reference to a User Account Object.")
+    Optional<String> getCreatorUserRef();
 
-	@JsonProperty("parent_ref")
-	@JsonPropertyDescription("Specifies the other process that spawned (i.e. is the parent of) this one, as represented by a Process Object.")
-	Optional<String> getParentRef();
+    @JsonProperty("binary_ref")
+    @JsonPropertyDescription("Specifies the executable binary that was executed as the process, as a reference to a File Object.")
+    Optional<String> getBinaryRef();
 
-	@JsonProperty("child_refs")
-	@JsonPropertyDescription("Specifies the other processes that were spawned by (i.e. children of) this process, as a reference to one or more other Process Objects.")
-	Set<String> getChildRefs();
+    @JsonProperty("parent_ref")
+    @JsonPropertyDescription("Specifies the other process that spawned (i.e. is the parent of) this one, as represented by a Process Object.")
+    Optional<String> getParentRef();
+
+    @JsonProperty("child_refs")
+    @JsonPropertyDescription("Specifies the other processes that were spawned by (i.e. children of) this process, as a reference to one or more other Process Objects.")
+    Set<String> getChildRefs();
 }

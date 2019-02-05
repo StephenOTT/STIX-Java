@@ -32,21 +32,21 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({"type", "extensions", "mime_type", "payload_bin", "url", "hashes"})
 public interface ArtifactCoo extends CyberObservableObject {
 
-	/**
-	* The value of this property MUST be a valid MIME type as specified in the IANA Media Types registry.
-	* 
-	*/
-	@JsonProperty("mime_type") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("The value of this property MUST be a valid MIME type as specified in the IANA Media Types registry.")
-	@OptionalPattern(regexp = "^(application|audio|font|image|message|model|multipart|text|video)/[a-zA-Z0-9.+_-]+")
+    /**
+    * The value of this property MUST be a valid MIME type as specified in the IANA Media Types registry.
+    *
+    */
+    @JsonProperty("mime_type") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("The value of this property MUST be a valid MIME type as specified in the IANA Media Types registry.")
+    @OptionalPattern(regexp = "^(application|audio|font|image|message|model|multipart|text|video)/[a-zA-Z0-9.+_-]+")
     Optional<String> getMimeType();
 
     @JsonProperty("payload_bin") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the binary data contained in the artifact as a base64-encoded string.")
-	@OptionalPattern(regexp = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
+    @JsonPropertyDescription("Specifies the binary data contained in the artifact as a base64-encoded string.")
+    @OptionalPattern(regexp = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
     Optional<String> getPayloadBin();
 
-	/**
+    /**
      * url-regex
      * <p>
      * Matches the elements of a URL using a regular expression. Uses Diego Perini's regex from https://gist.github.com/dperini/729294.

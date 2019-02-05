@@ -22,7 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * <p>
  * The HTTP request extension specifies a default extension for capturing
  * network traffic properties specific to HTTP requests.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "http-request-ext", groups = {DefaultValuesProcessor.class})
@@ -30,39 +30,39 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonSerialize(as = HttpRequestExtension.class) @JsonDeserialize(builder = HttpRequestExtension.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "request_method", "request_value", "request_version", "request_header", "message_body_length",
-		"message_body_data_ref" })
+        "message_body_data_ref" })
 @JsonTypeName("http-request-ext")
 @AllowedParents({NetworkTrafficCoo.class})
 public interface HttpRequestExtensionExt extends CyberObservableExtension {
 
-	@JsonProperty("request_method")
-	@JsonPropertyDescription("Specifies the HTTP method portion of the HTTP request line, as a lowercase string.")
-	@NotNull
-	String getRequestMethod();
+    @JsonProperty("request_method")
+    @JsonPropertyDescription("Specifies the HTTP method portion of the HTTP request line, as a lowercase string.")
+    @NotNull
+    String getRequestMethod();
 
-	@JsonProperty("request_value")
-	@JsonPropertyDescription("Specifies the value (typically a resource path) portion of the HTTP request line.")
-	@NotNull
-	String getRequestValue();
+    @JsonProperty("request_value")
+    @JsonPropertyDescription("Specifies the value (typically a resource path) portion of the HTTP request line.")
+    @NotNull
+    String getRequestValue();
 
-	@JsonProperty("request_version")
-	@JsonPropertyDescription("Specifies the HTTP version portion of the HTTP request line, as a lowercase string.")
-	Optional<String> getRequestVersion();
-	
+    @JsonProperty("request_version")
+    @JsonPropertyDescription("Specifies the HTTP version portion of the HTTP request line, as a lowercase string.")
+    Optional<String> getRequestVersion();
 
-	@JsonProperty("request_header")
-	@JsonPropertyDescription("Specifies all of the HTTP header fields that may be found in the HTTP client request, as a dictionary.")
-	Map<String,String> getRequestHeader();
 
-	@JsonProperty("message_body_length")
-	@JsonPropertyDescription("Specifies the length of the HTTP message body, if included, in bytes.")
-	Optional<Integer> getMessageBodyLength();
+    @JsonProperty("request_header")
+    @JsonPropertyDescription("Specifies all of the HTTP header fields that may be found in the HTTP client request, as a dictionary.")
+    Map<String,String> getRequestHeader();
 
-	/*
-	 * Must be of type artifact
-	 */
-	@JsonProperty("message_body_data_ref")
-	@JsonPropertyDescription("Specifies the data contained in the HTTP message body, if included.")
-	Optional<String> getMessageBodyDataRef();
+    @JsonProperty("message_body_length")
+    @JsonPropertyDescription("Specifies the length of the HTTP message body, if included, in bytes.")
+    Optional<Integer> getMessageBodyLength();
+
+    /*
+     * Must be of type artifact
+     */
+    @JsonProperty("message_body_data_ref")
+    @JsonPropertyDescription("Specifies the data contained in the HTTP message body, if included.")
+    Optional<String> getMessageBodyDataRef();
 
 }

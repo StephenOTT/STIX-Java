@@ -20,7 +20,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * The Alternate Data Stream type represents an NTFS alternate data stream.
- * 
+ *
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "alternate-data-stream-type", groups = {DefaultValuesProcessor.class})
@@ -31,19 +31,19 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("alternate-data-stream-type")
 public interface NtfsAlternateDataStreamObj extends CyberObservableExtension {
 
-	@JsonProperty("name")
-	@JsonPropertyDescription("Specifies the name of the alternate data stream.")
-	@NotNull
-	String getName();
-	
+    @JsonProperty("name")
+    @JsonPropertyDescription("Specifies the name of the alternate data stream.")
+    @NotNull
+    String getName();
 
-	@JsonProperty("hashes")
-	@JsonPropertyDescription("Specifies a dictionary of hashes for the data contained in the alternate data stream.")
+
+    @JsonProperty("hashes")
+    @JsonPropertyDescription("Specifies a dictionary of hashes for the data contained in the alternate data stream.")
     Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
-	
 
-	@JsonProperty("size")
-	@JsonPropertyDescription("Specifies the size of the alternate data stream, in bytes, as a non-negative integer.")
-	Optional<Integer> getSize();
-	
+
+    @JsonProperty("size")
+    @JsonPropertyDescription("Specifies the size of the alternate data stream, in bytes, as a non-negative integer.")
+    Optional<Integer> getSize();
+
 }
