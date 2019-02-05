@@ -1,6 +1,7 @@
 package stix.observables
 
 import io.digitalstate.stix.bundle.Bundle
+import io.digitalstate.stix.coo.extension.types.TcpExtension
 import io.digitalstate.stix.coo.extension.types.WindowsProcessExtension
 import io.digitalstate.stix.coo.objects.Process
 import io.digitalstate.stix.coo.objects.ProcessCoo
@@ -20,10 +21,14 @@ class ProcessObjectSpec extends Specification {
         ProcessCoo process = Process.builder()
                 .isHidden(true)
                 .name("Dog")
-                .addExtensions(WindowsProcessExtension.builder()
-                    .aslrEnabled(true)
-                    .windowTitle("some title")
-                    .build())
+                .addExtensions(
+                    WindowsProcessExtension.builder()
+                        .aslrEnabled(true)
+                        .windowTitle("some title")
+                        .build(),
+                    TcpExtension.builder()
+                        .dstFlagsHex("1234")
+                        .build())
                 .build()
 
         then: "Add Process to observed data SDO"
