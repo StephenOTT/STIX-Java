@@ -44,10 +44,10 @@ public interface PdfFileExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("pdfid0")
     @JsonPropertyDescription("Specifies the first file identifier found for the PDF file.")
-    Optional<String> getPdfid0();
+    Optional<String> getPdfId0();
 
     @JsonProperty("pdfid1")
     @JsonPropertyDescription("Specifies the second file identifier found for the PDF file.")
-    Optional<String> getPdfid1();
+    Optional<String> getPdfId1();
 
 }
