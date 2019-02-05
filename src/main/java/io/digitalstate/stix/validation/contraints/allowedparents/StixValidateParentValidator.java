@@ -30,7 +30,7 @@ public class StixValidateParentValidator implements ConstraintValidator<Validate
                             return true;
                         } else {
                             String violationMessage = "Class attempting to use extension is not part of allowedParents interface list found on the Extension.  Calling Cyber Observable Class: " +
-                                    cyberObservableObject.getClass().getCanonicalName() + " and Extension only supports interfaces: " + Arrays.toString(values);
+                                    ext.getClass().getCanonicalName() + " and Extension only supports interfaces: " + Arrays.toString(values);
                             cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                             return false;
                         }

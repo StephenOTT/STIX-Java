@@ -25,9 +25,6 @@ class ProcessObjectSpec extends Specification {
                     WindowsProcessExtension.builder()
                         .aslrEnabled(true)
                         .windowTitle("some title")
-                        .build(),
-                    TcpExtension.builder()
-                        .dstFlagsHex("1234")
                         .build())
                 .build()
 
