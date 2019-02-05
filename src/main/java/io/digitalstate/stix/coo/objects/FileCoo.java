@@ -98,7 +98,7 @@ public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("is_encrypted")
     @JsonPropertyDescription("Specifies whether the file is encrypted.")
-    Boolean isEncrypted();
+    Optional<Boolean> isEncrypted();
 
     @JsonProperty("encryption_algorithm")
     @JsonPropertyDescription("Specifies the name of the encryption algorithm used to encrypt the file. Open Vocabulary - encryption-algorithm-ov")
