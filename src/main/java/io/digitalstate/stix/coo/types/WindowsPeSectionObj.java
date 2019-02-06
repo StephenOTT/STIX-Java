@@ -13,6 +13,7 @@ import org.immutables.value.Value;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public interface WindowsPeSectionObj {
 
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the section, in bytes.")
-    @DecimalMin("0")
+    @PositiveOrZero
     Optional<Integer> getSize();
 
     @JsonProperty("entropy")
