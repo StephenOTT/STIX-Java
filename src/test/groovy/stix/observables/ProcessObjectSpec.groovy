@@ -27,7 +27,7 @@ class ProcessObjectSpec extends Specification {
                 .name("Dog")
                 .addExtensions(
                     WindowsProcessExtension.builder()
-                        .aslrEnabled(true)
+                        .isAslrEnabled(true)
                         .windowTitle("some title")
                         .build())
                 .build()
