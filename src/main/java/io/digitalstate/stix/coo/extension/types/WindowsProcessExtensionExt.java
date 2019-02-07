@@ -30,8 +30,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "aslr_enabled", "dep_enabled", "priority", "owner_sid", "window_title", "startup_info" })
 @JsonTypeName("windows-process-ext")
 @AllowedParents({ProcessCoo.class})
-@BusinessRule(ifExp = "isAslrEnabled().orElse(false) == true", thenExp = "isDepEnabled().orElse(false) == false", errorMessage = "Dep and ASLR cannot both be enabled")
-@BusinessRule(ifExp = "isDepEnabled().orElse(false) == true", thenExp = "isAslrEnabled().orElse(false) == false", errorMessage = "Dep and ASLR cannot both be enabled")
+@BusinessRule(ifExp = "isAslrEnabled().orElse(false) == true || isDepEnabled().orElse(false) == true", thenExp = "isDepEnabled().orElse(false) == false || isAslrEnabled().orElse(false) == false", errorMessage = "Dep and ASLR cannot both be enabled")
+//@BusinessRule(ifExp = "isDepEnabled().orElse(false) == true", thenExp = "isAslrEnabled().orElse(false) == false", errorMessage = "Dep and ASLR cannot both be enabled")
 public interface WindowsProcessExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("aslr_enabled")
