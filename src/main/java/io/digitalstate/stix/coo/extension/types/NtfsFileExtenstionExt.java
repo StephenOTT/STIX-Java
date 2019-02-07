@@ -7,6 +7,7 @@ import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.coo.objects.FileCoo;
 import io.digitalstate.stix.coo.types.NtfsAlternateDataStreamObj;
 import io.digitalstate.stix.validation.contraints.allowedparents.AllowedParents;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -29,14 +30,12 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "sid", "alternate_data_streams" })
 @JsonTypeName("ntfs-ext")
 @AllowedParents({FileCoo.class})
+@BusinessRule(ifExp = "true", thenExp = "getSid().isPresent() == true || getAlternateDataStreams().isEmpty() == false", errorMessage = "NTFS File Extension MUST contain at least one property from this extension")
 public interface NtfsFileExtenstionExt extends CyberObservableExtension {
-
-    // either SID or alternateDataStream is needed.
 
     @JsonProperty("sid")
     @JsonPropertyDescription("Specifies the security ID (SID) value assigned to the file.")
     Optional<String> getSid();
-
 
     @JsonProperty("alternate_data_streams")
     @JsonPropertyDescription("Specifies a list of NTFS alternate data streams that exist for the file.")

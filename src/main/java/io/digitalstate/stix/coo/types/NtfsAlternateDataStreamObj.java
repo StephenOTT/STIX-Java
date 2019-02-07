@@ -37,11 +37,9 @@ public interface NtfsAlternateDataStreamObj extends CyberObservableExtension {
     @NotNull
     String getName();
 
-
     @JsonProperty("hashes")
     @JsonPropertyDescription("Specifies a dictionary of hashes for the data contained in the alternate data stream.")
     Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
-
 
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the alternate data stream, in bytes, as a non-negative integer.")

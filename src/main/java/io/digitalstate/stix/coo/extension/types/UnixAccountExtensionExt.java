@@ -50,4 +50,5 @@ public interface UnixAccountExtensionExt extends CyberObservableExtension {
     @JsonProperty("shell")
     @JsonPropertyDescription("Specifies the account\u2019s command shell.")
     Optional<String> getShell();
+
 }

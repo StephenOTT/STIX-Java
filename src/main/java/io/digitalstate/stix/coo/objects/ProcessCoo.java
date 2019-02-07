@@ -89,4 +89,5 @@ public interface ProcessCoo extends CyberObservableObject {
     @JsonProperty("child_refs")
     @JsonPropertyDescription("Specifies the other processes that were spawned by (i.e. children of) this process, as a reference to one or more other Process Objects.")
     Set<String> getChildRefs();
+
 }

@@ -49,4 +49,5 @@ public interface WindowsPeSectionObj {
     @JsonProperty("hashes")
     @JsonPropertyDescription("Specifies any hashes computed over the section.")
     Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
+
 }

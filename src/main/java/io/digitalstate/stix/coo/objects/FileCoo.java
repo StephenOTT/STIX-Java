@@ -111,5 +111,4 @@ public interface FileCoo extends CyberObservableObject {
     @JsonPropertyDescription("Specifies the decryption key used to decrypt the archive file.")
     Optional<String> getDecryptionKey();
 
-    // TODO predefined extensions for File are NtfsFileExtensions, RasterImageFileExt, PdfFileExt, ArchiveFileExt, and WindowsPeBinaryExt
 }

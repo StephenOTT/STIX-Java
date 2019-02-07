@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
+import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import io.digitalstate.stix.vocabularies.WindowsRegistryValueDataTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -37,24 +39,7 @@ public interface WindowsRegistryValueObj {
 
     @JsonProperty("data_type")
     @JsonPropertyDescription("Specifies the registry (REG_*) data type used in the registry value.")
-    Optional<DataType> getDataType();
-
-
-    //@TODO Convert to VOCAB Pattern
-    public enum DataType {
-        REG_NONE,
-        REG_SZ,
-        REG_EXPAND_SZ,
-        REG_BINARY,
-        REG_DWORD,
-        REG_DWORD_BIG_ENDIAN,
-        REG_LINK,
-        REG_MULTI_SZ,
-        REG_RESOURCE_LIST,
-        REG_FULL_RESOURCE_DESCRIPTION,
-        REG_RESOURCE_REQUIREMENTS_LIST,
-        REG_QWORD,
-        REG_INVALID_TYPE;
-    }
+    @Vocab(WindowsRegistryValueDataTypes.class)
+    Optional<String> getDataType();
 
 }

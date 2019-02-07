@@ -7,7 +7,11 @@ import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.coo.objects.NetworkTrafficCoo;
 import io.digitalstate.stix.validation.contraints.allowedparents.AllowedParents;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
+import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import io.digitalstate.stix.vocabularies.NetworkSocketAddressFamilies;
+import io.digitalstate.stix.vocabularies.NetworkSocketProtocolFamilies;
+import io.digitalstate.stix.vocabularies.NetworkSocketTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -39,7 +43,8 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
     @JsonProperty("address_family")
     @JsonPropertyDescription("Specifies the address family (AF_*) that the socket is configured for.")
     @NotNull
-    AddressFamily getAddressFamily();
+    @Vocab(NetworkSocketAddressFamilies.class)
+    String getAddressFamily();
 
     @JsonProperty("is_blocking")
     @JsonPropertyDescription("Specifies whether the socket is in blocking mode.")
@@ -51,7 +56,8 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("protocol_family")
     @JsonPropertyDescription("Specifies the protocol family (PF_*) that the socket is configured for.")
-    Optional<ProtocolFamily> getProtocolFamily();
+    @Vocab(NetworkSocketProtocolFamilies.class)
+    Optional<String> getProtocolFamily();
 
     @JsonProperty("options")
     @JsonPropertyDescription("Specifies any options (SO_*) that may be used by the socket, as a dictionary.")
@@ -59,7 +65,8 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("socket_type")
     @JsonPropertyDescription("Specifies the type of the socket.")
-    Optional<SocketType> getSocketType();
+    @Vocab(NetworkSocketTypes.class)
+    Optional<String> getSocketType();
 
     @JsonProperty("socket_descriptor")
     @JsonPropertyDescription("Specifies the socket file descriptor value associated with the socket, as a non-negative integer.")
@@ -70,56 +77,4 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
     @JsonPropertyDescription("Specifies the handle or inode value associated with the socket.")
     Optional<Integer> getSocketHandle();
 
-    //@TODO Convert to VOCAB
-    @JsonTypeName("network-socket-address-family-enum")
-    public enum AddressFamily {
-        AF_UNSPEC,
-        AF_INET,
-        AF_IPX,
-        AF_APPLETALK,
-        AF_NETBIOS,
-        AF_INET_6,
-        AF_IRDA,
-        AF_BTH;
-    }
-
-    //@TODO Convert to VOCAB
-    @JsonTypeName(" network-socket-protocol-family-enum")
-    public enum ProtocolFamily {
-        PF_INET,
-        PF_AX25,
-        PF_IPX,
-        PF_INET_6,
-        PF_APPLETALK,
-        PF_NETROM,
-        PF_BRIDGE,
-        PF_ATMPVC,
-        PF_X25,
-        PF_ROSE,
-        PF_DECNET,
-        PF_NETBEUI,
-        PF_SECURITY,
-        PF_KEY,
-        PF_NETLINK,
-        PF_ROUTE,
-        PF_PACKET,
-        PF_ASH,
-        PF_ECONET,
-        PF_ATMSVC,
-        PF_SNA,
-        PF_IRDA,
-        PF_PPPOX,
-        PF_WANPIPE,
-        PF_BLUETOOTH;
-    }
-
-    //@TODO Convert to VOCAB
-    @JsonTypeName("network-socket-type-enum")
-    public enum SocketType {
-        SOCK_STREAM,
-        SOCK_DGRAM,
-        SOCK_RAW,
-        SOCK_RDM,
-        SOCK_SEQPACKET;
-    }
 }

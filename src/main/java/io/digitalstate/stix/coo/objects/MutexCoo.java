@@ -31,4 +31,5 @@ public interface MutexCoo extends CyberObservableObject {
     @JsonPropertyDescription("Specifies the name of the mutex object.")
     @NotNull
     String getName();
+
 }

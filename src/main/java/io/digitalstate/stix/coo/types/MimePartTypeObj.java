@@ -3,6 +3,7 @@ package io.digitalstate.stix.coo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -22,8 +23,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("mime-part-type")
 @JsonSerialize(as = MimePartType.class) @JsonDeserialize(builder = MimePartType.Builder.class)
 @JsonPropertyOrder({"body", "body_raw_ref", "content_type", "content_disposition"})
+@BusinessRule(ifExp = "true", thenExp = "getBody().isPresent() == true || getBodyRawRef().isPresent() == true", errorMessage = "One of body OR body_raw_ref MUST be included.")
 public interface MimePartTypeObj {
-    // Note: one of either body or body_raw_ref is needed
 
     /**
      * Contents of body MUST be decoded to Unicode.
@@ -41,7 +42,6 @@ public interface MimePartTypeObj {
     @JsonPropertyDescription("Specifies the contents of non-textual MIME parts, that is those whose content_type does not start with text/")
     Optional<String> getBodyRawRef();
 
-
     /**
      * Any additional “Content-Type” header field parameters such as charset SHOULD be included in this property.
      */
@@ -49,8 +49,8 @@ public interface MimePartTypeObj {
     @JsonPropertyDescription("Specifies the value of the 'Content-Type' header field of the MIME part.")
     Optional<String> getContentType();
 
-
     @JsonProperty("content_disposition") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies the value of the 'Content-Disposition' header field of the MIME part.")
     Optional<String> getContentDisposition();
+
 }

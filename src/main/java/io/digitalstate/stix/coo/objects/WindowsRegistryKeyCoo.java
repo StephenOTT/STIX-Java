@@ -34,7 +34,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("windows-registry-key")
 public interface WindowsRegistryKeyCoo extends CyberObservableObject {
 
-    //@TODO turn pattern in VOCAB pattern
     @JsonProperty("key")
     @JsonPropertyDescription("Specifies the full registry key including the hive.")
     @Pattern(regexp = "^HKEY_LOCAL_MACHINE|hkey_local_machine|HKEY_CURRENT_USER|hkey_current_user|HKEY_CLASSES_ROOT|hkey_classes_root|HKEY_CURRENT_CONFIG|hkey_current_config|HKEY_PERFORMANCE_DATA|hkey_performance_data|HKEY_USERS|hkey_users|HKEY_DYN_DATA")

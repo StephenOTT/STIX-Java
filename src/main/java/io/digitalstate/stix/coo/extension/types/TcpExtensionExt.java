@@ -37,6 +37,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @AllowedParents({NetworkTrafficCoo.class})
 @BusinessRule(ifExp = "true", thenExp = "getSrcFlagsHex().isPresent() == true || getDstFlagsHex().isPresent() == true", errorMessage = "TCP Extension MUST contain at least one property from this extension")
 public interface TcpExtensionExt extends CyberObservableExtension {
+
     /**
      * Specifies the source TCP flags, as the union of all TCP flags observed
      * between the start of the traffic (as defined by the start property) and

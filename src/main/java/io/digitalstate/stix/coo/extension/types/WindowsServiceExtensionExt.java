@@ -7,7 +7,11 @@ import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.coo.objects.ProcessCoo;
 import io.digitalstate.stix.validation.contraints.allowedparents.AllowedParents;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
+import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import io.digitalstate.stix.vocabularies.WindowsServiceStartTypes;
+import io.digitalstate.stix.vocabularies.WindowsServiceStatuses;
+import io.digitalstate.stix.vocabularies.WindowsServiceTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -54,7 +58,8 @@ public interface WindowsServiceExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("start_type")
     @JsonPropertyDescription("Specifies the start options defined for the service. windows-service-start-enum")
-    Optional<ServiceStartType> getServiceStartType();
+    @Vocab(WindowsServiceStartTypes.class)
+    Optional<String> getServiceStartType();
 
     @JsonProperty("service_dll_refs")
     @JsonPropertyDescription("Specifies the DLLs loaded by the service, as a reference to one or more File Objects.")
@@ -62,28 +67,12 @@ public interface WindowsServiceExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("service_type")
     @JsonPropertyDescription("Specifies the type of the service. windows-service-enum")
-    Optional<ServiceType> getServiceType();
+    @Vocab(WindowsServiceTypes.class)
+    Optional<String> getServiceType();
 
     @JsonProperty("service_status")
     @JsonPropertyDescription("Specifies the current status of the service. windows-service-status-enum")
-    Optional<ServiceStatus> getServiceStatus();
+    @Vocab(WindowsServiceStatuses.class)
+    Optional<String> getServiceStatus();
 
-
-    //@TODO Convert to VOCAB Pattern
-    @JsonTypeName("windows-service-status-enum")
-    public enum ServiceStatus {
-        SERVICE_CONTINUE_PENDING, SERVICE_PAUSE_PENDING, SERVICE_PAUSED, SERVICE_RUNNING, SERVICE_START_PENDING, SERVICE_STOP_PENDING, SERVICE_STOPPED;
-    }
-
-    //@TODO Convert to VOCAB Pattern
-    @JsonTypeName("windows-service-type-enum")
-    public enum ServiceType {
-        SERVICE_KERNEL_DRIVER, SERVICE_FILE_SYSTEM_DRIVER, SERVICE_WIN32_OWN_PROCESS, SERVICE_WIN32_SHARE_PROCESS;
-    }
-
-    //@TODO Convert to VOCAB Pattern
-    @JsonTypeName("windows-service-start-type-enum")
-    public enum ServiceStartType {
-        SERVICE_AUTO_START, SERVICE_BOOT_START, SERVICE_DEMAND_START, SERVICE_DISABLED, SERVICE_SYSTEM_ALERT;
-    }
 }

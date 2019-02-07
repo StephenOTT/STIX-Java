@@ -56,4 +56,5 @@ public interface Ipv4AddressCoo extends CyberObservableObject {
     @JsonProperty("belongs_to_refs")
     @JsonPropertyDescription("Specifies a reference to one or more autonomous systems (AS) that the IPv4 address belongs to.")
     Set<String> getBelongsToRefs();
+
 }

@@ -35,7 +35,6 @@ public interface ArchiveFileExtensionExt extends CyberObservableExtension {
     @JsonProperty("contains_refs")
     @JsonPropertyDescription("Specifies the files contained in the archive, as a reference to one or more other File Objects. The objects referenced in this list MUST be of type file-object.")
     @NotNull
-        //@TODO add support for Hydration - Review options to do this: may be better to create another method rather than create hydration
     Set<String> getContainsRefs();
 
     @JsonProperty("version")

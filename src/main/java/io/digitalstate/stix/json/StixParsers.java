@@ -31,6 +31,7 @@ public class StixParsers {
     }
 
     public static ObjectMapper getJsonMapper(boolean withSubTypeMappings, NamedType... additionalNamedTypes) {
+        //@TODO Add config to only serialize/deserialize that have @JsonProperty() annotation
         if (withSubTypeMappings){
             return registerBundleMapperSubTypes(additionalNamedTypes);
         } else {

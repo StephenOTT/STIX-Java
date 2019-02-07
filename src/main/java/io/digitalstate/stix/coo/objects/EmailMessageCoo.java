@@ -45,31 +45,25 @@ public interface EmailMessageCoo extends CyberObservableObject {
     @JsonPropertyDescription("Specifies the date/time that the email message was sent.")
     Optional<Instant> getDate();
 
-
     @JsonProperty("content_type") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies the value of the 'Content-Type' header of the email message.")
     Optional<String> getContentType();
-
 
     @JsonProperty("from_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies the value of the 'From:' header of the email message.")
     Optional<String> getFromRef();
 
-
     @JsonProperty("sender_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies the value of the 'From' field of the email message")
     Optional<String> getSenderRef();
-
 
     @JsonProperty("to_refs")  @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies the mailboxes that are 'To:' recipients of the email message")
     Set<String> getToRefs();
 
-
     @JsonProperty("cc_refs")  @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies the mailboxes that are 'CC:' recipients of the email message")
     Set<String> getCcRefs();
-
 
     @JsonProperty("bcc_refs")  @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies the mailboxes that are 'BCC:' recipients of the email message.")
@@ -98,6 +92,5 @@ public interface EmailMessageCoo extends CyberObservableObject {
     @JsonProperty("body") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies a string containing the email body.")
     Optional<String> getBody();
-
 
 }
