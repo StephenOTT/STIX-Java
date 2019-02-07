@@ -31,6 +31,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonSerialize(as = EmailMessage.class) @JsonDeserialize(builder = EmailMessage.Builder.class)
 @JsonPropertyOrder({ "type", "extensions", "is_multipart", "date", "content_type", "from_ref", "sender_ref", "to_refs", "cc_refs", "bcc_refs", "subject",
         "received_lines", "additional_header_fields", "body", "body_multipart", "raw_email_ref" })
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @BusinessRule(ifExp = "isMultipart() == true", thenExp = "getBody().isPresent() == false", errorMessage = "Body cannot be used if isMultipart equals true")
 @BusinessRule(ifExp = "isMultipart() == false", thenExp = "getBodyMultipart().isPresent() == false", errorMessage = "Body_Multipart cannot be used if isMultipart equals false")
 public interface EmailMessageCoo extends CyberObservableObject {
@@ -45,51 +46,51 @@ public interface EmailMessageCoo extends CyberObservableObject {
     @JsonPropertyDescription("Specifies the date/time that the email message was sent.")
     Optional<Instant> getDate();
 
-    @JsonProperty("content_type") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("content_type")
     @JsonPropertyDescription("Specifies the value of the 'Content-Type' header of the email message.")
     Optional<String> getContentType();
 
-    @JsonProperty("from_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("from_ref")
     @JsonPropertyDescription("Specifies the value of the 'From:' header of the email message.")
     Optional<String> getFromRef();
 
-    @JsonProperty("sender_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("sender_ref")
     @JsonPropertyDescription("Specifies the value of the 'From' field of the email message")
     Optional<String> getSenderRef();
 
-    @JsonProperty("to_refs")  @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("to_refs")
     @JsonPropertyDescription("Specifies the mailboxes that are 'To:' recipients of the email message")
     Set<String> getToRefs();
 
-    @JsonProperty("cc_refs")  @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("cc_refs")
     @JsonPropertyDescription("Specifies the mailboxes that are 'CC:' recipients of the email message")
     Set<String> getCcRefs();
 
-    @JsonProperty("bcc_refs")  @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("bcc_refs")
     @JsonPropertyDescription("Specifies the mailboxes that are 'BCC:' recipients of the email message.")
     Set<String> getBccRefs();
 
-    @JsonProperty("subject") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("subject")
     @JsonPropertyDescription("Specifies the subject of the email message.")
     Optional<String> getSubject();
 
-    @JsonProperty("received_lines") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("received_lines")
     @JsonPropertyDescription("Specifies one or more Received header fields that may be included in the email headers.")
     Set<String> getReceivedLines();
 
-    @JsonProperty("additional_header_fields") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("additional_header_fields")
     @JsonPropertyDescription("Specifies any other header fields (except for date, received_lines, content_type, from_ref, sender_ref, to_refs, cc_refs, bcc_refs, and subject) found in the email message, as a dictionary.")
     Map<String, Set<String>> getAdditionalHeaderFields();
 
-    @JsonProperty("raw_email_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("raw_email_ref")
     @JsonPropertyDescription("Specifies the raw binary contents of the email message, including both the headers and body, as a reference to an Artifact Object.")
     Optional<String> getRawEmailRef();
 
-    @JsonProperty("body_multipart")  @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("body_multipart")
     @JsonPropertyDescription("Specifies a list of the MIME parts that make up the email body.")
     Set<MimePartTypeObj> getBodyMultipart();
 
-    @JsonProperty("body") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("body")
     @JsonPropertyDescription("Specifies a string containing the email body.")
     Optional<String> getBody();
 

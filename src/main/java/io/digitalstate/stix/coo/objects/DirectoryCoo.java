@@ -29,39 +29,39 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("directory")
 @JsonSerialize(as = Directory.class) @JsonDeserialize(builder = Directory.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "path", "path_enc", "created", "modified", "accessed", "contains_refs"})
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 public interface DirectoryCoo extends CyberObservableObject {
 
-    @JsonProperty("path") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("path")
     @JsonPropertyDescription("Specifies the path, as originally observed, to the directory on the file system.")
     String getPath();
 
     /**
      * This value MUST be specified using the corresponding name from the 2013-12-20 revision of the IANA character set registry.
      */
-    @JsonProperty("path_enc") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("path_enc")
     @JsonPropertyDescription("Specifies the observed encoding for the path.")
     @OptionalPattern(regexp="^[a-zA-Z0-9/\\.+_:-]{2,250}$")
     Optional<String> getName();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-    @JsonProperty("created") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("created")
     @JsonPropertyDescription("Specifies the date/time the directory was created.")
     Optional<Instant> getCreated();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-    @JsonProperty("modified") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("modified")
     @JsonPropertyDescription("Specifies the date/time the directory was last written to/modified.")
     Optional<Instant> getModified();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-    @JsonProperty("accessed") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("accessed")
     @JsonPropertyDescription("Specifies the date/time the directory was last accessed.")
     Optional<Instant> getAccessed();
 
     //@TODO add proper support for contains refs.  Must be Set of File or Directory types
-    @JsonProperty("contains_refs") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("contains_refs")
     @JsonPropertyDescription("Specifies a list of references to other File and/or Directory Objects contained within the directory.")
     Set<String> getContainsRefs();
-
 
 }

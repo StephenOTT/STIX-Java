@@ -26,9 +26,10 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("domain-name")
 @JsonSerialize(as = DomainName.class) @JsonDeserialize(builder = DomainName.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "value", "resolves_to_refs"})
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 public interface DomainNameCoo extends CyberObservableObject {
 
-    @JsonProperty("value") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("value")
     @JsonPropertyDescription("Specifies the value of the domain name.")
     @NotNull
     String getValue();

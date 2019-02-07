@@ -27,19 +27,20 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("email-addr")
 @JsonSerialize(as = EmailAddress.class) @JsonDeserialize(builder = EmailAddress.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "value", "display_name", "belongs_to_ref"})
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 public interface EmailAddressCoo extends CyberObservableObject {
 
-    @JsonProperty("value") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("value")
     @JsonPropertyDescription("Specifies a single email address. This MUST not include the display name.")
     @Pattern(regexp="(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)")
     @NotNull
     String getValue();
 
-    @JsonProperty("display_name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("display_name")
     @JsonPropertyDescription("Specifies a single email display name, i.e., the name that is displayed to the human user of a mail application.")
     Optional<String> getDisplayName();
 
-    @JsonProperty("belongs_to_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("belongs_to_ref")
     @JsonPropertyDescription("Specifies the user account that the email address belongs to, as a reference to a User Account Object.")
     Optional<String> getBelongsToRef();
 

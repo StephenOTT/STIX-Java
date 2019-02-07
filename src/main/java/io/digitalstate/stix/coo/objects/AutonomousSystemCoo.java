@@ -25,17 +25,18 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("autonomous-system")
 @JsonSerialize(as = AutonomousSystem.class) @JsonDeserialize(builder = AutonomousSystem.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "number", "name", "rir"})
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 public interface AutonomousSystemCoo extends CyberObservableObject {
 
-    @JsonProperty("number") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("number")
     @JsonPropertyDescription("Specifies the number assigned to the AS. Such assignments are typically performed by a Regional Internet Registries (RIR)")
     Long getNumber();
 
-    @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the AS.")
     Optional<String> getName();
 
-    @JsonProperty("rir") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("rir")
     @JsonPropertyDescription("Specifies the name of the Regional Internet Registry (RIR) that assigned the number to the AS.")
     Optional<String> getRir();
 

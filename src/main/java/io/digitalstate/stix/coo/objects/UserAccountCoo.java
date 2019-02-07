@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Optional;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+
 /**
  * user-account
  * <p>
@@ -28,7 +30,7 @@ import java.util.Optional;
 @DefaultTypeValue(value = "user-account", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
 @JsonSerialize(as = UserAccount.class) @JsonDeserialize(builder = UserAccount.Builder.class)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonTypeName("user-account")
 @JsonPropertyOrder({ "type", "extensions","user_id", "account_login", "account_type", "display_name",
         "is_service_account", "is_privileged", "can_escalate_privs", "is_disabled", "account_created",

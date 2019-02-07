@@ -23,13 +23,14 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonTypeName("mime-part-type")
 @JsonSerialize(as = MimePartType.class) @JsonDeserialize(builder = MimePartType.Builder.class)
 @JsonPropertyOrder({"body", "body_raw_ref", "content_type", "content_disposition"})
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @BusinessRule(ifExp = "true", thenExp = "getBody().isPresent() == true || getBodyRawRef().isPresent() == true", errorMessage = "One of body OR body_raw_ref MUST be included.")
 public interface MimePartTypeObj {
 
     /**
      * Contents of body MUST be decoded to Unicode.
      */
-    @JsonProperty("body") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("body")
     @JsonPropertyDescription("Specifies the contents of the MIME part if the content_type is not provided OR starts with text/")
     Optional<String> getBody();
 
@@ -38,18 +39,18 @@ public interface MimePartTypeObj {
      * For use cases where conveying the actual data contained in the MIME part is of primary importance, artifact SHOULD be used.
      * Otherwise, for use cases where conveying metadata about the file-like properties of the MIME part is of primary importance, file SHOULD be used.
      */
-    @JsonProperty("body_raw_ref") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("body_raw_ref")
     @JsonPropertyDescription("Specifies the contents of non-textual MIME parts, that is those whose content_type does not start with text/")
     Optional<String> getBodyRawRef();
 
     /**
      * Any additional “Content-Type” header field parameters such as charset SHOULD be included in this property.
      */
-    @JsonProperty("content_type") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("content_type")
     @JsonPropertyDescription("Specifies the value of the 'Content-Type' header field of the MIME part.")
     Optional<String> getContentType();
 
-    @JsonProperty("content_disposition") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("content_disposition")
     @JsonPropertyDescription("Specifies the value of the 'Content-Disposition' header field of the MIME part.")
     Optional<String> getContentDisposition();
 
