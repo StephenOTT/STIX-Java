@@ -35,11 +35,11 @@ public interface WindowsProcessExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("aslr_enabled")
     @JsonPropertyDescription("Specifies whether Address Space Layout Randomization (ASLR) is enabled for the process.")
-    Optional<Boolean> getAslrEnabled();
+    Optional<Boolean> isAslrEnabled();
 
     @JsonProperty("dep_enabled")
     @JsonPropertyDescription("Specifies whether Data Execution Prevention (DEP) is enabled for the process.")
-    Optional<Boolean> getDepEnabled();
+    Optional<Boolean> isDepEnabled();
 
     @JsonProperty("priority")
     @JsonPropertyDescription("Specifies the current priority class of the process in Windows.")
