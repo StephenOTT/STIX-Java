@@ -14,16 +14,6 @@ import static java.lang.annotation.ElementType.TYPE;
 @Repeatable(BusinessRule.List.class)
 public @interface BusinessRule {
 
-    // @BusinessRule(if = “some_field”, is = PRESENT, then = {“some1”, “some11”}, mustBe = PRESENT)
-    // @BusinessRule(if = “url”, is = PRESENT, then = {“payload_bin”}, mustBe = EMPTY)
-    // @BusinessRule(if = “url”, is = PRESENT, then = {“hashes”}, mustBe = PRESENT)
-    // @BusinessRule(if = “payload_bin”, is = PRESENT, then = {“url”}, mustBe = EMPTY)
-
-    // @BusinessRule(if = “url”, is = PRESENT, then = {“payload_bin”}, mustBe = EMPTY)
-    // @BusinessRule(if = “url”, is = PRESENT, then = {“some1”, "some2}, mustBe = PRESENT, MIN=, MAX=, )
-
-    //getAslrEnabled.isPresent() == true
-
     String message() default "{io.digitalstate.stix.validation.contraints.businessrule.BusinessRule}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
@@ -39,5 +29,4 @@ public @interface BusinessRule {
     @interface List {
         BusinessRule[] value();
     }
-
 }
