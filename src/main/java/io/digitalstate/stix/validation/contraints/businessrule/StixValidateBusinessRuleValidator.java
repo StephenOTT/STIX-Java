@@ -9,6 +9,7 @@ import org.springframework.expression.common.TemplateParserContext;
 import org.springframework.expression.spel.SpelCompilerMode;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.SimpleEvaluationContext;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import javax.validation.ConstraintValidator;
@@ -23,6 +24,10 @@ public class StixValidateBusinessRuleValidator implements ConstraintValidator<Bu
     private String errorMessage;
     private boolean expectedResult;
 
+    //@TODO review compilation settings and how to optimize this
+    private SpelParserConfiguration spelConfig = new SpelParserConfiguration(SpelCompilerMode.MIXED, this.getClass().getClassLoader());
+    private ExpressionParser parser = new SpelExpressionParser(spelConfig);
+
     @Override
     public void initialize(BusinessRule constraintAnnotation) {
         ifExp = constraintAnnotation.ifExp();
@@ -33,35 +38,32 @@ public class StixValidateBusinessRuleValidator implements ConstraintValidator<Bu
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext cxt) {
-        SpelParserConfiguration config = new SpelParserConfiguration(SpelCompilerMode.MIXED,
-                this.getClass().getClassLoader());
 
-        ExpressionParser parser = new SpelExpressionParser(config);
-        ParserContext parserContext = new TemplateParserContext();
         StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
-//        new SimpleEvaluationContext()
         evaluationContext.setRootObject(value);
 
         Expression evalIf = parser.parseExpression(ifExp);
-
-        Expression evalThen = parser.parseExpression(thenExp);
-
         boolean evalIfResult = Optional.ofNullable(evalIf.getValue(evaluationContext, Boolean.class))
                 .orElseThrow(() -> new IllegalArgumentException("Unable to parse business rule's ifExp"));
 
-        if (evalIfResult){
+        if (!evalIfResult) {
+            // If the if statement is false then no further eval is required as the rule does not apply
+            return true;
+
+        } else {
+            // If the business rule applies then:
+            Expression evalThen = parser.parseExpression(thenExp);
             boolean evalThenResult = Optional.ofNullable(evalThen.getValue(evaluationContext, Boolean.class))
                     .orElseThrow(() -> new IllegalArgumentException("Unable to parse business rule's thenExp"));
 
-            if (evalThenResult == expectedResult){
+            if (evalThenResult == expectedResult) {
                 return true;
+
             } else {
                 String violationMessage = errorMessage;
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 return false;
             }
-        } else {
-            return true;
         }
     }
 }
