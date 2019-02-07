@@ -37,7 +37,6 @@ public interface ProcessCoo extends CyberObservableObject {
 
     @JsonProperty("is_hidden")
     @JsonPropertyDescription("Specifies whether the process is hidden.")
-    Optional<Boolean> getIsHidden();
 
     @JsonProperty("pid")
     @JsonPropertyDescription("Specifies the Process ID, or PID, of the process.")
