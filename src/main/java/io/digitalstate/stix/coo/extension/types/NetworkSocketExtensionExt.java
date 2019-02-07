@@ -12,6 +12,7 @@ import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 import java.util.Optional;
 
@@ -62,12 +63,14 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("socket_descriptor")
     @JsonPropertyDescription("Specifies the socket file descriptor value associated with the socket, as a non-negative integer.")
+    @PositiveOrZero
     Optional<Integer> getSocketDescriptor();
 
     @JsonProperty("socket_handle")
     @JsonPropertyDescription("Specifies the handle or inode value associated with the socket.")
     Optional<Integer> getSocketHandle();
 
+    //@TODO Convert to VOCAB
     @JsonTypeName("network-socket-address-family-enum")
     public enum AddressFamily {
         AF_UNSPEC,
@@ -80,6 +83,7 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
         AF_BTH;
     }
 
+    //@TODO Convert to VOCAB
     @JsonTypeName(" network-socket-protocol-family-enum")
     public enum ProtocolFamily {
         PF_INET,
@@ -109,6 +113,7 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
         PF_BLUETOOTH;
     }
 
+    //@TODO Convert to VOCAB
     @JsonTypeName("network-socket-type-enum")
     public enum SocketType {
         SOCK_STREAM,
