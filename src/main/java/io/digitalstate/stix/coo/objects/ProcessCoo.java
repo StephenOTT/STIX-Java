@@ -10,6 +10,7 @@ import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -54,9 +55,10 @@ public interface ProcessCoo extends CyberObservableObject {
     @JsonPropertyDescription("Specifies the current working directory of the process.")
     Optional<String> getCwd();
 
+    //@TODO need better clarification in the STIX SPEC about if this should be a SET or LIST. Are duplicate arguments allowed?
     @JsonProperty("arguments")
     @JsonPropertyDescription("Specifies the list of arguments used in executing the process.")
-    Set<String> getArguments();
+    List<String> getArguments();
 
     @JsonProperty("command_line")
     @JsonPropertyDescription("Specifies the full command line used in executing the process, including the process name (depending on the operating system).")
