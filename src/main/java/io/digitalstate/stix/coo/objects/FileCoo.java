@@ -50,7 +50,7 @@ public interface FileCoo extends CyberObservableObject {
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the file, in bytes, as a non-negative integer.")
     @Positive
-    Optional<Integer> getSize();
+    Optional<Long> getSize();
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the file.")

@@ -35,16 +35,16 @@ public interface RasterImageFileExtensionExt extends CyberObservableExtension {
     //@TODO Spec is missing direction about limits: Value likely needs to be MUST be positive
     @JsonProperty("image_height")
     @JsonPropertyDescription("Specifies the height of the image in the image file, in pixels.")
-    Optional<Integer> getImageHeight();
+    Optional<Long> getImageHeight();
 
     //@TODO Spec is missing direction about limits: Value likely needs to be MUST be positive
     @JsonProperty("image_width")
     @JsonPropertyDescription("Specifies the width of the image in the image file, in pixels.")
-    Optional<Integer> getImageWidth();
+    Optional<Long> getImageWidth();
 
     @JsonProperty("bits_per_pixel")
     @JsonPropertyDescription("Specifies the sum of bits used for each color channel in the image in the image file, and thus the total number of pixels used for expressing the color depth of the image.")
-    Optional<Integer> getBitsPerPixel();
+    Optional<Long> getBitsPerPixel();
 
     @JsonProperty("image_compression_algorithm")
     @JsonPropertyDescription("Specifies the name of the compression algorithm used to compress the image in the image file, if applicable.")

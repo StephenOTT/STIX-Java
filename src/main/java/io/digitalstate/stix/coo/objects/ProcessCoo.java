@@ -43,7 +43,7 @@ public interface ProcessCoo extends CyberObservableObject {
 
     @JsonProperty("pid")
     @JsonPropertyDescription("Specifies the Process ID, or PID, of the process.")
-    Optional<Integer> getPid();
+    Optional<Long> getPid();
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the process.")

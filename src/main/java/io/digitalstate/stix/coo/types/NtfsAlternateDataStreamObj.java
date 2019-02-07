@@ -44,6 +44,6 @@ public interface NtfsAlternateDataStreamObj extends CyberObservableExtension {
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the alternate data stream, in bytes, as a non-negative integer.")
     @PositiveOrZero
-    Optional<Integer> getSize();
+    Optional<Long> getSize();
 
 }

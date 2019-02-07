@@ -91,7 +91,7 @@ public interface X509CertificateCoo extends CyberObservableObject {
 
     @JsonProperty("subject_public_key_exponent")
     @JsonPropertyDescription("Specifies the exponent portion of the subject\u2019s public RSA key, as an integer.")
-    Optional<Integer> getSubjectPublicKeyExponent();
+    Optional<Long> getSubjectPublicKeyExponent();
 
     @JsonProperty("x509_v3_extensions")
     @JsonPropertyDescription("Specifies any standard X.509 v3 extensions that may be used in the certificate.")

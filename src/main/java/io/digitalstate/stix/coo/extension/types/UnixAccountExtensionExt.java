@@ -37,7 +37,7 @@ public interface UnixAccountExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("gid")
     @JsonPropertyDescription("Specifies the primary group ID of the account.")
-    Optional<Integer> getGid();
+    Optional<Long> getGid();
 
     @JsonProperty("groups")
     @JsonPropertyDescription("Specifies a list of names of groups that the account is a member of.")

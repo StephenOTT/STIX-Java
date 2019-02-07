@@ -60,7 +60,7 @@ public interface HttpRequestExtensionExt extends CyberObservableExtension {
     //@TODO Review if this should be a long
     @JsonProperty("message_body_length")
     @JsonPropertyDescription("Specifies the length of the HTTP message body, if included, in bytes.")
-    Optional<Integer> getMessageBodyLength();
+    Optional<Long> getMessageBodyLength();
 
     /*
      * Must be of type artifact

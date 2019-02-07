@@ -47,66 +47,66 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("major_linker_version")
     @JsonPropertyDescription("Specifies the linker major version number.")
-    Optional<Integer> getMajorLinkerVersion();
+    Optional<Long> getMajorLinkerVersion();
 
     @JsonProperty("minor_linker_version")
     @JsonPropertyDescription("Specifies the linker minor version number.")
-    Optional<Integer> getMinorLinkerVersion();
+    Optional<Long> getMinorLinkerVersion();
 
     @JsonProperty("size_of_code")
     @JsonPropertyDescription("Specifies the size of the code (text) section. If there are multiple such sections, this refers to the sum of the sizes of each section.")
     @PositiveOrZero
-    Optional<Integer> getSizeOfCode();
+    Optional<Long> getSizeOfCode();
 
     @JsonProperty("size_of_initialized_data")
     @JsonPropertyDescription("Specifies the size of the initialized data section. If there are multiple such sections, this refers to the sum of the sizes of each section.")
     @PositiveOrZero
-    Optional<Integer> getSizeOfInitializedData();
+    Optional<Long> getSizeOfInitializedData();
 
     @JsonProperty("size_of_uninitialized_data")
     @JsonPropertyDescription("Specifies the size of the uninitialized data section. If there are multiple such sections, this refers to the sum of the sizes of each section.")
     @PositiveOrZero
-    Optional<Integer> getSizeOfUninitializedData();
+    Optional<Long> getSizeOfUninitializedData();
 
     @JsonProperty("address_of_entry_point")
     @JsonPropertyDescription("Specifies the address of the entry point relative to the image base when the executable is loaded into memory.")
-    Optional<Integer> getAddressOfEntryPoint();
+    Optional<Long> getAddressOfEntryPoint();
 
     @JsonProperty("base_of_code")
     @JsonPropertyDescription("Specifies the address that is relative to the image base of the beginning-of-code section when it is loaded into memory.")
-    Optional<Integer> getBaseOfCode();
+    Optional<Long> getBaseOfCode();
 
     @JsonProperty("base_of_data")
     @JsonPropertyDescription("Specifies the address that is relative to the image base of the beginning-of-data section when it is loaded into memory.")
-    Optional<Integer> getBaseOfData();
+    Optional<Long> getBaseOfData();
 
     @JsonProperty("image_base")
     @JsonPropertyDescription("Specifies the preferred address of the first byte of the image when loaded into memory.")
-    Optional<Integer> getImageBase();
+    Optional<Long> getImageBase();
 
     @JsonProperty("section_alignment")
     @JsonPropertyDescription("Specifies the alignment (in bytes) of PE sections when they are loaded into memory.")
-    Optional<Integer> getSectionAlignment();
+    Optional<Long> getSectionAlignment();
 
     @JsonProperty("file_alignment")
     @JsonPropertyDescription("Specifies the factor (in bytes) that is used to align the raw data of sections in the image file.")
-    Optional<Integer> getFileAlignment();
+    Optional<Long> getFileAlignment();
 
     @JsonProperty("major_os_version")
     @JsonPropertyDescription("Specifies the major version number of the required operating system.")
-    Optional<Integer> getMajorOsVersion();
+    Optional<Long> getMajorOsVersion();
 
     @JsonProperty("minor_os_version")
     @JsonPropertyDescription("Specifies the minor version number of the required operating system.")
-    Optional<Integer> getMinorOsVersion();
+    Optional<Long> getMinorOsVersion();
 
     @JsonProperty("major_image_version")
     @JsonPropertyDescription("Specifies the major version number of the image.")
-    Optional<Integer> getMajorImageVersion();
+    Optional<Long> getMajorImageVersion();
 
     @JsonProperty("minor_image_version")
     @JsonPropertyDescription("Specifies the minor version number of the image.")
-    Optional<Integer> getMinorImageVersion();
+    Optional<Long> getMinorImageVersion();
 
     @JsonProperty("major_subsystem_version")
     @JsonPropertyDescription("Specifies the major version number of the subsystem.")
@@ -173,7 +173,7 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("number_of_rva_and_sizes")
     @JsonPropertyDescription("Specifies the number of data-directory entries in the remainder of the optional header.")
-    Optional<Integer> getNumberOfRvaAndSizes();
+    Optional<Long> getNumberOfRvaAndSizes();
 
     @JsonProperty("hashes")
     @JsonPropertyDescription("Specifies any hashes that were computed for the optional header.")

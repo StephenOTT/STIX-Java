@@ -58,6 +58,6 @@ public interface WindowsRegistryKeyCoo extends CyberObservableObject {
 
     @JsonProperty("number_of_subkeys")
     @JsonPropertyDescription("Specifies the number of subkeys contained under the registry key.")
-    Optional<Integer> getNumberOfSubkeys();
+    Optional<Long> getNumberOfSubkeys();
 
 }

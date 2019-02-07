@@ -64,7 +64,7 @@ public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtensio
 
     @JsonProperty("number_of_sections")
     @JsonPropertyDescription("Specifies the number of sections in the PE binary, as a non-negative integer.")
-    Optional<Integer> numberOfSections();
+    Optional<Long> numberOfSections();
 
     @JsonProperty("time_date_stamp")
     @JsonPropertyDescription("Specifies the time when the PE binary was created. The timestamp value MUST BE precise to the second.")
@@ -78,12 +78,12 @@ public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtensio
 
     @JsonProperty("number_of_symbols")
     @JsonPropertyDescription("Specifies the number of entries in the symbol table of the PE binary, as a non-negative integer.")
-    Optional<Integer> numberOfSymbols();
+    Optional<Long> numberOfSymbols();
 
     @JsonProperty("size_of_optional_header")
     @JsonPropertyDescription("Specifies the size of the optional header of the PE binary.")
     @PositiveOrZero
-    Optional<Integer> sizeOfOptionalHeader();
+    Optional<Long> sizeOfOptionalHeader();
 
     @JsonProperty("characteristics_hex")
     @JsonPropertyDescription("Specifies the flags that indicate the file\u2019s characteristics.")

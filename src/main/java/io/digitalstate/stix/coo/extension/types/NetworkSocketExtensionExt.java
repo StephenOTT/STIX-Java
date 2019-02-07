@@ -71,10 +71,10 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
     @JsonProperty("socket_descriptor")
     @JsonPropertyDescription("Specifies the socket file descriptor value associated with the socket, as a non-negative integer.")
     @PositiveOrZero
-    Optional<Integer> getSocketDescriptor();
+    Optional<Long> getSocketDescriptor();
 
     @JsonProperty("socket_handle")
     @JsonPropertyDescription("Specifies the handle or inode value associated with the socket.")
-    Optional<Integer> getSocketHandle();
+    Optional<Long> getSocketHandle();
 
 }

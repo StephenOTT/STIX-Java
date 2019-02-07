@@ -71,12 +71,12 @@ public interface NetworkTrafficCoo extends CyberObservableObject {
     @JsonProperty("src_port")
     @JsonPropertyDescription("Specifies the source port used in the network traffic, as an integer. The port value MUST be in the range of 0 - 65535.")
     @Range(min = 0, max = 65535 )
-    Optional<Integer> getSrcPort();
+    Optional<Long> getSrcPort();
 
     @JsonProperty("dst_port")
     @JsonPropertyDescription("Specifies the destination port used in the network traffic, as an integer. The port value MUST be in the range of 0 - 65535.")
     @Range(min = 0, max = 65535)
-    Optional<Integer> getDstPort();
+    Optional<Long> getDstPort();
 
     /*
      * Specifies the protocols observed in the network traffic, along with their
@@ -93,19 +93,19 @@ public interface NetworkTrafficCoo extends CyberObservableObject {
 
     @JsonProperty("src_byte_count")
     @JsonPropertyDescription("Specifies the number of bytes sent from the source to the destination.")
-    Optional<Integer> getSrcByteCount();
+    Optional<Long> getSrcByteCount();
 
     @JsonProperty("dst_byte_count")
     @JsonPropertyDescription("Specifies the number of bytes sent from the destination to the source.")
-    Optional<Integer> getDstByteCount();
+    Optional<Long> getDstByteCount();
 
     @JsonProperty("src_packets")
     @JsonPropertyDescription("Specifies the number of packets sent from the source to the destination.")
-    Optional<Integer> getSrcPackets();
+    Optional<Long> getSrcPackets();
 
     @JsonProperty("dst_packets")
     @JsonPropertyDescription("Specifies the number of packets sent destination to the source.")
-    Optional<Integer> getDstPackets();
+    Optional<Long> getDstPackets();
 
     /*
      * Objects much be Integers or Strings
