@@ -69,17 +69,19 @@ public interface WindowsServiceExtensionExt extends CyberObservableExtension {
     Optional<ServiceStatus> getServiceStatus();
 
 
-
+    //@TODO Convert to VOCAB Pattern
     @JsonTypeName("windows-service-status-enum")
     public enum ServiceStatus {
         SERVICE_CONTINUE_PENDING, SERVICE_PAUSE_PENDING, SERVICE_PAUSED, SERVICE_RUNNING, SERVICE_START_PENDING, SERVICE_STOP_PENDING, SERVICE_STOPPED;
     }
 
+    //@TODO Convert to VOCAB Pattern
     @JsonTypeName("windows-service-type-enum")
     public enum ServiceType {
         SERVICE_KERNEL_DRIVER, SERVICE_FILE_SYSTEM_DRIVER, SERVICE_WIN32_OWN_PROCESS, SERVICE_WIN32_SHARE_PROCESS;
     }
 
+    //@TODO Convert to VOCAB Pattern
     @JsonTypeName("windows-service-start-type-enum")
     public enum ServiceStartType {
         SERVICE_AUTO_START, SERVICE_BOOT_START, SERVICE_DEMAND_START, SERVICE_DISABLED, SERVICE_SYSTEM_ALERT;
