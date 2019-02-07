@@ -40,7 +40,7 @@ public interface WindowsRegistryValueObj {
     Optional<DataType> getDataType();
 
 
-
+    //@TODO Convert to VOCAB Pattern
     public enum DataType {
         REG_NONE,
         REG_SZ,
