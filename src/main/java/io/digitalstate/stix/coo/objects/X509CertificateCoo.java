@@ -7,6 +7,7 @@ import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.types.X509v3Extensions;
 import io.digitalstate.stix.coo.types.X509v3ExtensionsObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -38,10 +39,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "subject", "subject_public_key_algorithm", "subject_public_key_modulus",
         "subject_public_key_exponent", "x509_v3_extensions"
 })
+//@TODO refactor BusinessRule annotation with custom emthod that looks up every field and does a check if there is a value
+@BusinessRule(ifExp = "true", thenExp = "isSelfSigned().isPresent() == true || getHashes().isEmpty() == false || getVersion().isPresent() == true || getSerialNumber().isPresent() == true || getSignatureAlgorithm().isPresent() == true || getIssuer().isPresent() == true || getValidityNotBefore().isPresent() == true || getValidityNotAfter().isPresent() == true || getSubject().isPresent() == true || getSubjectPublicKeyAlgorithm().isPresent() == true || getSubjectPublicKeyModulus().isPresent() == true || getSubjectPublicKeyExponent().isPresent() == true || getX509V3Extensions().isPresent() == true")
 public interface X509CertificateCoo extends CyberObservableObject {
-
-    //@TODO Add Annotation validation that requires at least 1 optional field.
-    // Must contain at least one property
 
     @JsonProperty("is_self_signed")
     @JsonPropertyDescription("Specifies whether the certificate is self-signed, i.e., whether it is signed by the same entity whose identity it certifies.")

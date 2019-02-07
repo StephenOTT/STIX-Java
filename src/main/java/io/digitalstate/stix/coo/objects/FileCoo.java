@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.validation.OptionalPattern;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
@@ -39,6 +40,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "type", "extensions", "hashes", "size", "name", "name_enc", "magic_number_hex", "mime_type", "created", "modified",
         "accessed", "parent_directory_ref", "is_encrypted", "encryption_algorithm", "decryption_key" , "contains_refs", "content_ref", })
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+@BusinessRule(ifExp = "isEncrypted().orElse(false) == false", thenExp = "getEncryptionAlgorithm().isPresent() == false && getDecryptionKey().isPresent() == false")
 public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("hashes")

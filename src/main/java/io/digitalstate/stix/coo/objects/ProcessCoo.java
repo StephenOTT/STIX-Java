@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -33,10 +34,12 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "type", "extensions", "is_hidden", "pid", "name", "created", "cwd", "arguments", "command_line",
         "environment_variables", "opened_connection_refs", "creator_user_ref", "binary_ref", "parent_ref",
         "child_refs" })
+@BusinessRule(ifExp = "true", thenExp = "getExtensions().isEmpty() == false || isHidden().isPresent() == true || getPid().isPresent() == true || getName().isPresent() == true || getCreated().isPresent() == true || getCwd().isPresent() == true || getArguments().isEmpty() == false || getCommandLine().isPresent() == true ||getEnvironmentVariables().isPresent() == true || getGpenedConnectionRefs().isPresent() == true || getCreatorUserRef().isPresent() == true || getBinaryRef().isPresent() == true || getParentRef().isPresent() == true || getChildRefs().isPresent() == true", errorMessage = "A Process Object MUST contain at least one property (other than type) from this object (or one of its extensions).")
 public interface ProcessCoo extends CyberObservableObject {
 
     @JsonProperty("is_hidden")
     @JsonPropertyDescription("Specifies whether the process is hidden.")
+    Optional<Boolean> isHidden();
 
     @JsonProperty("pid")
     @JsonPropertyDescription("Specifies the Process ID, or PID, of the process.")

@@ -10,6 +10,7 @@ import io.digitalstate.stix.coo.objects.NetworkTrafficCoo;
 import io.digitalstate.stix.coo.objects.ProcessCoo;
 import io.digitalstate.stix.validation.OptionalPattern;
 import io.digitalstate.stix.validation.contraints.allowedparents.AllowedParents;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -34,6 +35,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "src_flags_hex", "dst_flags_hex" })
 @JsonTypeName("tcp-ext")
 @AllowedParents({NetworkTrafficCoo.class})
+@BusinessRule(ifExp = "true", thenExp = "getSrcFlagsHex().isPresent() == true || getDstFlagsHex().isPresent() == true", errorMessage = "TCP Extension MUST contain at least one property from this extension")
 public interface TcpExtensionExt extends CyberObservableExtension {
     /**
      * Specifies the source TCP flags, as the union of all TCP flags observed
