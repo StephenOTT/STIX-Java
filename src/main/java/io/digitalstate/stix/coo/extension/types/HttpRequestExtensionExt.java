@@ -49,11 +49,15 @@ public interface HttpRequestExtensionExt extends CyberObservableExtension {
     @JsonPropertyDescription("Specifies the HTTP version portion of the HTTP request line, as a lowercase string.")
     Optional<String> getRequestVersion();
 
-
+    /**
+     * Currently only supports non-duplicate keys: https://github.com/oasis-tcs/cti-stix2/issues/137
+     * @return
+     */
     @JsonProperty("request_header")
     @JsonPropertyDescription("Specifies all of the HTTP header fields that may be found in the HTTP client request, as a dictionary.")
     Map<String,String> getRequestHeader();
 
+    //@TODO Review if this should be a long
     @JsonProperty("message_body_length")
     @JsonPropertyDescription("Specifies the length of the HTTP message body, if included, in bytes.")
     Optional<Integer> getMessageBodyLength();
