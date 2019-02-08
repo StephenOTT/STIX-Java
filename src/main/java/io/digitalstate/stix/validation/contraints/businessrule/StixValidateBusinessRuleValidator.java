@@ -25,7 +25,7 @@ public class StixValidateBusinessRuleValidator implements ConstraintValidator<Bu
     private boolean expectedResult;
 
     //@TODO review compilation settings and how to optimize this
-    private SpelParserConfiguration spelConfig = new SpelParserConfiguration(SpelCompilerMode.MIXED, this.getClass().getClassLoader());
+    private SpelParserConfiguration spelConfig = new SpelParserConfiguration(SpelCompilerMode.MIXED, Thread.currentThread().getContextClassLoader());
     private ExpressionParser parser = new SpelExpressionParser(spelConfig);
 
     @Override
