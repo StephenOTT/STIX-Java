@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -60,12 +61,13 @@ public interface ObservedDataSdo extends DomainObject {
     @JsonProperty("number_observed")
 	@JsonPropertyDescription("The number of times the data represented in the objects property was observed. This MUST be an integer between 1 and 999,999,999 inclusive.")
     @Redactable(useMask = true)
-    int getNumberObserved();
+    @Range(min = 1, max = 999999999)
+    Integer getNumberObserved();
 
     @NotNull @Size(min = 1, message = "At least one Cyber Observable Reference must be provided")
     @JsonProperty("objects")
 	@JsonPropertyDescription("A dictionary of Cyber Observable Objects that describes the single 'fact' that was observed.")
     @Redactable(useMask = true)
     Set<? extends CyberObservableObject> getObjects();
-    
+
 }

@@ -10,6 +10,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Range;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -67,8 +68,7 @@ public interface SightingSro extends RelationshipObject {
 
     @JsonProperty("count") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("This is an integer between 0 and 999,999,999 inclusive and represents the number of times the object was sighted.")
-    @DecimalMin("0")
-    @DecimalMax("999999999")
+    @Range(min = 0, max = 999999999)
     @Redactable
     Optional<Integer> getCount();
 

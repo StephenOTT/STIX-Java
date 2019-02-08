@@ -44,6 +44,7 @@ public interface KillChainPhaseType extends GenericValidation, Serializable {
     /**
      * Create an Enumeration of the most common one:  Lockheed-Martin
      */
+    //@TODO Convert to Vocab pattern
     public enum LockheedMartinKillChain {
     	RECONNAISSANCE("reconnaissance"),
     	WEAPONIZATION("weaponization"),
