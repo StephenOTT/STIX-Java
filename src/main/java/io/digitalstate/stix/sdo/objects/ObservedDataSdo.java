@@ -66,7 +66,6 @@ public interface ObservedDataSdo extends DomainObject {
     @JsonProperty("objects")
 	@JsonPropertyDescription("A dictionary of Cyber Observable Objects that describes the single 'fact' that was observed.")
     @Redactable(useMask = true)
-    Set<CyberObservableObject> getObjects();
-    //@TODO Refactor to use Cyber Observables
-
+    Set<? extends CyberObservableObject> getObjects();
+    
 }
