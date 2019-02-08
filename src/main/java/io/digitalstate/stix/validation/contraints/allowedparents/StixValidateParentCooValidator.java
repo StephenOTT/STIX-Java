@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class StixValidateParentValidator implements ConstraintValidator<ValidateExtensions, CyberObservableObject> {
+public class StixValidateParentCooValidator implements ConstraintValidator<ValidateExtensions, CyberObservableObject> {
 
     //@TODO ADD LOGGING!!!
     @Override

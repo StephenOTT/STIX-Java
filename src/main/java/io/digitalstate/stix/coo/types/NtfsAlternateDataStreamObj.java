@@ -25,7 +25,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "alternate-data-stream-type", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = NtfsAlternateDataStream.class) @JsonDeserialize(builder = NtfsAlternateDataStream.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "hashes", "size" })

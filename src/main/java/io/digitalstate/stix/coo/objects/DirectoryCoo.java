@@ -25,7 +25,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "directory", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonTypeName("directory")
 @JsonSerialize(as = Directory.class) @JsonDeserialize(builder = Directory.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "path", "path_enc", "created", "modified", "accessed", "contains_refs"})

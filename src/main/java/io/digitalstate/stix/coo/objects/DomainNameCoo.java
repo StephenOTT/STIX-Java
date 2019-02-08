@@ -22,7 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "domain-name", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonTypeName("domain-name")
 @JsonSerialize(as = DomainName.class) @JsonDeserialize(builder = DomainName.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "value", "resolves_to_refs"})

@@ -11,7 +11,7 @@ import static java.lang.annotation.ElementType.*;
  * Should only be placed on Cyber Observable Object classes.
  */
 @Documented
-@Constraint(validatedBy = {StixValidateParentValidator.class})
+@Constraint(validatedBy = {StixValidateParentCooValidator.class})
 @Target( { ANNOTATION_TYPE, TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidateExtensions {

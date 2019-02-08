@@ -13,7 +13,7 @@ import org.immutables.value.Value;
 import javax.validation.constraints.NotNull;
 
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeImmutable = "Tlp", validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Tlp", validationMethod = Value.Style.ValidationMethod.NONE, depluralize = true)
 @JsonSerialize(as = Tlp.class) @JsonDeserialize(builder = Tlp.Builder.class)
 @Redactable
 public interface TlpMarkingObject extends GenericValidation, StixMarkingObject {

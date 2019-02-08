@@ -12,7 +12,7 @@ import org.immutables.value.Value;
 import javax.validation.constraints.NotBlank;
 
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeImmutable = "Statement", validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeImmutable = "Statement", validationMethod = Value.Style.ValidationMethod.NONE, depluralize = true)
 @JsonSerialize(as = Statement.class) @JsonDeserialize(builder = Statement.Builder.class)
 @Redactable
 public interface StatementMarkingObject extends GenericValidation, StixMarkingObject {

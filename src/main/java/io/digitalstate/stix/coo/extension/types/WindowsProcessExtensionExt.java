@@ -24,14 +24,13 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "windows-process-ext", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Ext", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, passAnnotations = {AllowedParents.class})
+@Value.Style(typeAbstract="*Ext", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, passAnnotations = {AllowedParents.class}, depluralize = true)
 @JsonSerialize(as = WindowsProcessExtension.class) @JsonDeserialize(builder = WindowsProcessExtension.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "aslr_enabled", "dep_enabled", "priority", "owner_sid", "window_title", "startup_info" })
 @JsonTypeName("windows-process-ext")
 @AllowedParents({ProcessCoo.class})
 @BusinessRule(ifExp = "isAslrEnabled().orElse(false) == true || isDepEnabled().orElse(false) == true", thenExp = "isDepEnabled().orElse(false) == false || isAslrEnabled().orElse(false) == false", errorMessage = "Dep and ASLR cannot both be enabled")
-//@BusinessRule(ifExp = "isDepEnabled().orElse(false) == true", thenExp = "isAslrEnabled().orElse(false) == false", errorMessage = "Dep and ASLR cannot both be enabled")
 public interface WindowsProcessExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("aslr_enabled")

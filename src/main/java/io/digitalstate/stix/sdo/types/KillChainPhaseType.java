@@ -22,7 +22,7 @@ import io.digitalstate.stix.validation.GenericValidation;
  * The kill-chain-phase represents a phase in a kill chain.
  */
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeAbstract="*Type", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeAbstract="*Type", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, depluralize = true)
 @JsonSerialize(as = KillChainPhase.class) @JsonDeserialize(builder = KillChainPhase.Builder.class)
 @JsonPropertyOrder({
     "kill_chain_name",

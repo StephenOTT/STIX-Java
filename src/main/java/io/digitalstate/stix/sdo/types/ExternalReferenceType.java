@@ -31,7 +31,7 @@ import io.digitalstate.stix.vocabularies.HashingAlgorithms;
  * 
  */
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeAbstract="*Type", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE)
+@Value.Style(typeAbstract="*Type", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, depluralize = true)
 @JsonSerialize(as = ExternalReference.class) @JsonDeserialize(builder = ExternalReference.Builder.class)
 @JsonPropertyOrder({
 	"source_name",

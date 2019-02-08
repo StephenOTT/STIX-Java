@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @Value.Immutable @Serial.Version(1L)
 @JsonTypeName("marking-definition")
 @DefaultTypeValue(value = "marking-definition", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Dm", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Dm", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = MarkingDefinition.class) @JsonDeserialize(builder = MarkingDefinition.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "external_references", "object_marking_refs", "granular_markings", "definition_type",
