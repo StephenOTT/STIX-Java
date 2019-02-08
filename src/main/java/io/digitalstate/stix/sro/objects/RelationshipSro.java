@@ -23,8 +23,14 @@ import java.util.Optional;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
+/**
+ * relationship
+ * <p>
+ * The Relationship object is used to link together two SDOs in order to describe how they are related to each other.
+ * 
+ */
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class})
+@Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @DefaultTypeValue(value = "relationship", groups = {DefaultValuesProcessor.class})
 @JsonTypeName("relationship")
 @JsonSerialize(as = Relationship.class) @JsonDeserialize(builder = Relationship.Builder.class)
@@ -68,15 +74,18 @@ public interface RelationshipSro extends RelationshipObject {
     @NotBlank
     @Vocab(RelationshipTypes.class)
     @JsonProperty("relationship_type")
+	@JsonPropertyDescription("The name used to identify the type of relationship.")
     @Redactable(useMask = true)
     String getRelationshipType();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+	@JsonPropertyDescription("A description that helps provide context about the relationship.")
     @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("source_ref")
+	@JsonPropertyDescription("The ID of the source (from) object.")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = DomainObjectConverter.class)
@@ -85,6 +94,7 @@ public interface RelationshipSro extends RelationshipObject {
 
     @NotNull
     @JsonProperty("target_ref")
+	@JsonPropertyDescription("The ID of the target (to) object.")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize(converter = DomainObjectConverter.class)

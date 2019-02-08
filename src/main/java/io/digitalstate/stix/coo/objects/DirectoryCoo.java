@@ -1,31 +1,21 @@
 package io.digitalstate.stix.coo.objects;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.coo.CyberObservableObject;
+import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.validation.OptionalPattern;
+import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
+import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import org.immutables.serial.Serial;
+import org.immutables.value.Value;
 
 import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import org.immutables.serial.Serial;
-import org.immutables.value.Value;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.redaction.Redactable;
-import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
-import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * directory
@@ -39,46 +29,39 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 @JsonTypeName("directory")
 @JsonSerialize(as = Directory.class) @JsonDeserialize(builder = Directory.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "path", "path_enc", "created", "modified", "accessed", "contains_refs"})
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 public interface DirectoryCoo extends CyberObservableObject {
 
-    @JsonProperty("path") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the path, as originally observed, to the directory on the file system.")
-    @Redactable(useMask = true)
+    @JsonProperty("path")
+    @JsonPropertyDescription("Specifies the path, as originally observed, to the directory on the file system.")
     String getPath();
 
-	/**
-	 * This value MUST be specified using the corresponding name from the 2013-12-20 revision of the IANA character set registry.
-	 */
-    @JsonProperty("path_enc") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the observed encoding for the path.")
-	@Pattern(regexp="^[a-zA-Z0-9/\\.+_:-]{2,250}$")
-    @Redactable
+    /**
+     * This value MUST be specified using the corresponding name from the 2013-12-20 revision of the IANA character set registry.
+     */
+    @JsonProperty("path_enc")
+    @JsonPropertyDescription("Specifies the observed encoding for the path.")
+    @OptionalPattern(regexp="^[a-zA-Z0-9/\\.+_:-]{2,250}$")
     Optional<String> getName();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-    @JsonProperty("created") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the date/time the directory was created.")
-    @Redactable
+    @JsonProperty("created")
+    @JsonPropertyDescription("Specifies the date/time the directory was created.")
     Optional<Instant> getCreated();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-    @JsonProperty("modified") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the date/time the directory was last written to/modified.")
-    @Redactable
+    @JsonProperty("modified")
+    @JsonPropertyDescription("Specifies the date/time the directory was last written to/modified.")
     Optional<Instant> getModified();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-    @JsonProperty("accessed") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the date/time the directory was last accessed.")
-    @Redactable
+    @JsonProperty("accessed")
+    @JsonPropertyDescription("Specifies the date/time the directory was last accessed.")
     Optional<Instant> getAccessed();
 
     //@TODO add proper support for contains refs.  Must be Set of File or Directory types
-    @NotNull
-    @JsonProperty("contains_refs") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("Specifies a list of references to other File and/or Directory Objects contained within the directory.")
-    @Redactable
+    @JsonProperty("contains_refs")
+    @JsonPropertyDescription("Specifies a list of references to other File and/or Directory Objects contained within the directory.")
     Set<String> getContainsRefs();
-
 
 }

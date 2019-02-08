@@ -1,24 +1,17 @@
 package io.digitalstate.stix.coo.objects;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
-
-import java.util.Optional;
-
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.coo.CyberObservableObject;
+import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
+import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.Optional;
 
-import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.redaction.Redactable;
-import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
-import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * autonomous-system
@@ -32,21 +25,19 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 @JsonTypeName("autonomous-system")
 @JsonSerialize(as = AutonomousSystem.class) @JsonDeserialize(builder = AutonomousSystem.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "number", "name", "rir"})
+@JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 public interface AutonomousSystemCoo extends CyberObservableObject {
 
-    @JsonProperty("number") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the number assigned to the AS. Such assignments are typically performed by a Regional Internet Registries (RIR)")
-    @Redactable
-    Optional<Long> getNumber();
+    @JsonProperty("number")
+    @JsonPropertyDescription("Specifies the number assigned to the AS. Such assignments are typically performed by a Regional Internet Registries (RIR)")
+    Long getNumber();
 
-    @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the name of the AS.")
-    @Redactable
+    @JsonProperty("name")
+    @JsonPropertyDescription("Specifies the name of the AS.")
     Optional<String> getName();
 
-    @JsonProperty("rir") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Specifies the name of the Regional Internet Registry (RIR) that assigned the number to the AS.")
-    @Redactable
+    @JsonProperty("rir")
+    @JsonPropertyDescription("Specifies the name of the Regional Internet Registry (RIR) that assigned the number to the AS.")
     Optional<String> getRir();
 
 }

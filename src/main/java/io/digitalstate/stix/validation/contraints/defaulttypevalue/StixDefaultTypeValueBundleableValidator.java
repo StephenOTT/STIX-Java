@@ -10,7 +10,7 @@ import java.util.UUID;
 /**
  * This is used on any class that implements <strong>BundleableObject</strong>.
  */
-public class StixDefaultTypeValueValidator implements ConstraintValidator<DefaultTypeValue, BundleableObject> {
+public class StixDefaultTypeValueBundleableValidator implements ConstraintValidator<DefaultTypeValue, BundleableObject> {
 
     private String defaultTypeValue;
 
