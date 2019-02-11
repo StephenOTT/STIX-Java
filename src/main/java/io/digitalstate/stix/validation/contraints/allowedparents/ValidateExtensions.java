@@ -2,9 +2,13 @@ package io.digitalstate.stix.validation.contraints.allowedparents;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE;
 
 /**
  * Used to Validation Cyber Observable Extensions
@@ -15,7 +19,7 @@ import static java.lang.annotation.ElementType.*;
 @Target( { ANNOTATION_TYPE, TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidateExtensions {
-    String message() default "{io.digitalstate.stix.validation.contraints.allowedparents.ValidateExtensions}";
+    String message() default "{io.digitalstate.stix.validation.contraints.allowedparents.ValidateReferences}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

@@ -1,15 +1,10 @@
 package io.digitalstate.stix.validation.contraints.businessrule;
 
-import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.ParserContext;
-import org.springframework.expression.common.TemplateParserContext;
 import org.springframework.expression.spel.SpelCompilerMode;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.SimpleEvaluationContext;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import javax.validation.ConstraintValidator;

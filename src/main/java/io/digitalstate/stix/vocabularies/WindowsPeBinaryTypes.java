@@ -1,12 +1,12 @@
 package io.digitalstate.stix.vocabularies;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WindowsPeBinaryTypes implements StixVocabulary {
 	

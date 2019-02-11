@@ -17,7 +17,6 @@ import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Positive;
 import java.time.Instant;
 import java.util.Map;

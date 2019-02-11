@@ -1,35 +1,24 @@
 package io.digitalstate.stix.sdo.objects;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
-
-import java.util.Optional;
-import java.util.Set;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.immutables.serial.Serial;
-import org.immutables.value.Value;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.AttackMotivations;
-import io.digitalstate.stix.vocabularies.AttackResourceLevels;
-import io.digitalstate.stix.vocabularies.ThreatActorLabels;
-import io.digitalstate.stix.vocabularies.ThreatActorRoles;
-import io.digitalstate.stix.vocabularies.ThreatActorSophistication;
+import io.digitalstate.stix.vocabularies.*;
+import org.immutables.serial.Serial;
+import org.immutables.value.Value;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Optional;
+import java.util.Set;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * threat-actor

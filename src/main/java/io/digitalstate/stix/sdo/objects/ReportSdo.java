@@ -3,7 +3,6 @@ package io.digitalstate.stix.sdo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.json.converters.dehydrated.BundleableObjectSetConverter;

@@ -1,29 +1,9 @@
 package io.digitalstate.stix.sdo.objects;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
-
-import java.time.Instant;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Length;
-import org.immutables.serial.Serial;
-import org.immutables.value.Value;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
-
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
@@ -32,6 +12,18 @@ import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeVa
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import io.digitalstate.stix.vocabularies.IndicatorLabels;
+import org.hibernate.validator.constraints.Length;
+import org.immutables.serial.Serial;
+import org.immutables.value.Value;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.util.Optional;
+import java.util.Set;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * indicator

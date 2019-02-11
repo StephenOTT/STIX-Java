@@ -11,8 +11,7 @@ import org.hibernate.validator.constraints.Range;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;

@@ -1,10 +1,6 @@
 package io.digitalstate.stix.sdo.objects;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.redaction.Redactable;
@@ -16,7 +12,6 @@ import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.Set;
 

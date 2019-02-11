@@ -1,20 +1,17 @@
 package io.digitalstate.stix.sdo.types;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotBlank;
-
-import org.immutables.serial.Serial;
-import org.immutables.value.Value;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import io.digitalstate.stix.validation.GenericValidation;
+import org.immutables.serial.Serial;
+import org.immutables.value.Value;
+
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
  * kill-chain-phase

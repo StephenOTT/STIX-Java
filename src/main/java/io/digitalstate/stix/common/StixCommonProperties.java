@@ -1,31 +1,8 @@
 package io.digitalstate.stix.common;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
-
-import java.time.Instant;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import javax.validation.groups.Default;
-
-import org.immutables.value.Value;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.GranularMarkingDm;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
@@ -39,6 +16,19 @@ import io.digitalstate.stix.sdo.objects.IdentitySdo;
 import io.digitalstate.stix.sdo.types.ExternalReferenceType;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
 import io.digitalstate.stix.validation.groups.ValidateIdOnly;
+import org.immutables.value.Value;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
+import java.time.Instant;
+import java.util.Optional;
+import java.util.Set;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
  * Base interface used by Immutable STIX Domain Objects
@@ -63,15 +53,12 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
     @JsonPropertyDescription("The type property identifies the type of STIX Object (SDO, Relationship Object, etc). The value of the type field MUST be one of the types defined by a STIX Object (e.g., indicator).")
     @Pattern(regexp = "^\\-?[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\\-?$")
     @Size(min = 3, max = 250)
-//    NotBlank is only enforced when using Default Validator group
     @NotBlank(groups = {Default.class, ValidateIdOnly.class}, message = "Type is required")
-    @NotBlank
     String getType();
 
     @JsonProperty("id")
     @JsonPropertyDescription("Represents identifiers across the CTI specifications. The format consists of the name of the top-level object being identified, followed by two dashes (--), followed by a UUIDv4.")
     @Pattern(regexp = "^[a-z][a-z-]+[a-z]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
-//    NotBlank is only enforced when using Default Validator group
     @NotBlank(groups = {Default.class, ValidateIdOnly.class}, message = "Id is required")
     String getId();
 
@@ -123,8 +110,7 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
 //            return BundleableObjectRedactionProcessor.processObject(this, jsonString, new HashSet<>(Arrays.asList()));
             return jsonString;
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Cannot process JSON");
+            throw new IllegalStateException("Cannot process JSON", e);
         }
     }
 

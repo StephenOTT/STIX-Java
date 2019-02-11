@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.coo.types.X509v3Extensions;
 import io.digitalstate.stix.coo.types.X509v3ExtensionsObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;

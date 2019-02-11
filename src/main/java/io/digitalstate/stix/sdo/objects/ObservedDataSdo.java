@@ -1,30 +1,25 @@
 package io.digitalstate.stix.sdo.objects;
 
-import java.time.Instant;
-import java.util.Set;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Range;
-import org.immutables.serial.Serial;
-import org.immutables.value.Value;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import io.digitalstate.stix.coo.CyberObservableObject;
+import io.digitalstate.stix.coo.json.observables.CyberObservableSetFieldDeserializer;
+import io.digitalstate.stix.coo.json.observables.CyberObservableSetFieldSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
+import org.hibernate.validator.constraints.Range;
+import org.immutables.serial.Serial;
+import org.immutables.value.Value;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.util.Set;
 /**
  * observed-data
  * <p>
@@ -68,6 +63,8 @@ public interface ObservedDataSdo extends DomainObject {
     @JsonProperty("objects")
 	@JsonPropertyDescription("A dictionary of Cyber Observable Objects that describes the single 'fact' that was observed.")
     @Redactable(useMask = true)
-    Set<? extends CyberObservableObject> getObjects();
+    @JsonSerialize(using = CyberObservableSetFieldSerializer.class)
+    @JsonDeserialize(using = CyberObservableSetFieldDeserializer.class)
+    Set<CyberObservableObject> getObjects();
 
 }

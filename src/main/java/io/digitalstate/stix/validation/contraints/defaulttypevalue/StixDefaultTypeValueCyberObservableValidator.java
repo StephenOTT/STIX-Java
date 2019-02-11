@@ -21,7 +21,6 @@ public class StixDefaultTypeValueCyberObservableValidator implements ConstraintV
     @Override
     public boolean isValid(CyberObservableObject cyberObservableObject,
                            ConstraintValidatorContext cxt) {
-
         String type = cyberObservableObject.getType();
         if (type == null || type.isEmpty()){
             try {
@@ -49,7 +48,6 @@ public class StixDefaultTypeValueCyberObservableValidator implements ConstraintV
                 return false;
             }
         }
-
         return true;
     }
 }
