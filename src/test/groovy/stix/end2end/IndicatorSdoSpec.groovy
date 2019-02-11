@@ -3,10 +3,8 @@ package stix.end2end
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.json.StixParsers
-import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Indicator
 import io.digitalstate.stix.sdo.objects.IndicatorSdo
-import io.digitalstate.stix.sdo.objects.Report
 import spock.lang.Shared
 import spock.lang.Specification
 

@@ -7,14 +7,12 @@ import io.digitalstate.stix.coo.objects.Ipv4Address
 import io.digitalstate.stix.json.StixParsers
 import io.digitalstate.stix.sdo.objects.ObservedData
 import io.digitalstate.stix.sdo.objects.ObservedDataSdo
-import spock.lang.Specification
-
-import java.time.Instant
-
-import javax.validation.ConstraintViolationException
-
 import org.junit.Rule
 import org.junit.rules.TestName
+import spock.lang.Specification
+
+import javax.validation.ConstraintViolationException
+import java.time.Instant
 
 class ObservableSdoSpec extends Specification {
 	@Rule public TestName name = new TestName();

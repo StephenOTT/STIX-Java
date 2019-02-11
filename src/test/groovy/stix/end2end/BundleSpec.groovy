@@ -10,13 +10,12 @@ import io.digitalstate.stix.sdo.objects.AttackPatternSdo
 import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.sro.objects.Relationship
+import org.junit.Rule
+import org.junit.rules.TestName
 import spock.lang.Shared
 import spock.lang.Specification
 
 import java.time.Instant
-
-import org.junit.Rule
-import org.junit.rules.TestName
 
 class BundleSpec extends Specification {
 

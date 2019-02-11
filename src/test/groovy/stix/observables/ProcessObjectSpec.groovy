@@ -1,14 +1,10 @@
 package stix.observables
 
-import io.digitalstate.stix.bundle.Bundle
+
 import io.digitalstate.stix.coo.extension.types.PdfFileExtension
 import io.digitalstate.stix.coo.extension.types.PdfFileExtensionExt
-import io.digitalstate.stix.coo.extension.types.TcpExtension
 import io.digitalstate.stix.coo.extension.types.WindowsProcessExtension
-import io.digitalstate.stix.coo.objects.EmailMessage
-import io.digitalstate.stix.coo.objects.EmailMessageCoo
-import io.digitalstate.stix.coo.objects.Process
-import io.digitalstate.stix.coo.objects.ProcessCoo
+import io.digitalstate.stix.coo.objects.*
 import io.digitalstate.stix.json.StixParsers
 import io.digitalstate.stix.sdo.objects.ObservedData
 import io.digitalstate.stix.sdo.objects.ObservedDataSdo
@@ -47,18 +43,36 @@ class ProcessObjectSpec extends Specification {
                 .firstObserved(Instant.now())
                 .numberObserved(1)
                 .lastObserved(Instant.now())
-                .addObjects(process)
+                .addObject(process)
                 .build()
 
-        and: "Create a bundle with the observed data"
+        DirectoryCoo dir2 = Directory.builder().path("cat/cat/cat").build()
+        DirectoryCoo dir1 = Directory.builder().path("cat/cat").addContainsRef(dir2.getObservableObjectKey()).build()
 
-        Bundle bundle = Bundle.builder()
-                .addObjects(observedData)
+        DirectoryCoo directoryCoo = Directory.builder()
+                .path("/123/123/123")
+                .addContainsRef(dir2.getObservableObjectKey())
                 .build()
 
-        println bundle.toJsonString()
+        ObservedDataSdo directoryTest1 = ObservedData.builder()
+                .firstObserved(Instant.now())
+                .numberObserved(1)
+                .lastObserved(Instant.now())
+                .addObjects(directoryCoo, dir2)
+                .build()
 
-        println StixParsers.parseBundle(bundle.toJsonString()).inspect()
+        println directoryTest1.toJsonString()
+        println StixParsers.parseObject(directoryTest1.toJsonString())
+
+//        and: "Create a bundle with the observed data"
+//
+//        Bundle bundle = Bundle.builder()
+//                .addObjects(observedData)
+//                .build()
+//
+//        println bundle.toJsonString()
+//
+//        println StixParsers.parseBundle(bundle.toJsonString()).inspect()
 
     }
 
