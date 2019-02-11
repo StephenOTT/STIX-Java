@@ -1,4 +1,4 @@
-package io.digitalstate.stix.coo.json;
+package io.digitalstate.stix.coo.json.extension;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -19,9 +19,14 @@ public class CyberObservableExtensionsFieldSerializer extends StdSerializer<Set<
     }
 
     @Override
+    public boolean isEmpty(SerializerProvider provider, Set<CyberObservableExtension> value) {
+        return value.isEmpty();
+    }
+
+    @Override
     public void serialize(Set<CyberObservableExtension> value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        value.forEach(ext->{
+        value.forEach(ext -> {
             try {
                 gen.writeObjectField(ext.getType(), ext);
             } catch (IOException e) {

@@ -3,22 +3,20 @@ package io.digitalstate.stix.coo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.extension.CyberObservableExtension;
-import io.digitalstate.stix.coo.json.CyberObservableExtensionsFieldDeserializer;
-import io.digitalstate.stix.coo.json.CyberObservableExtensionsFieldSerializer;
+import io.digitalstate.stix.sdo.objects.ObservedDataSdo;
+import io.digitalstate.stix.validation.GenericValidation;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
-public interface CyberObservableObjectCommonProperties {
+public interface CyberObservableObjectCommonProperties extends GenericValidation {
 
     @NotBlank
     @JsonProperty("type")
@@ -31,12 +29,23 @@ public interface CyberObservableObjectCommonProperties {
      * Multiple extensions can be added, but only 1 instance of a specific extension can be added.
      * @return
      */
+    // @TODO Add validation to ensure that only 1 instance of each extension is applied as per the spec
     @JsonProperty("extensions")
     @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies any extensions of the object, as a dictionary.")
-    // @TODO Add validation to ensure that only 1 instance of each extension is applied as per the spec
-    @JsonSerialize(using = CyberObservableExtensionsFieldSerializer.class)
-    @JsonDeserialize(using = CyberObservableExtensionsFieldDeserializer.class)
+//    @JsonSerialize(using = CyberObservableExtensionsFieldSerializer.class)
+//    @JsonDeserialize(using = CyberObservableExtensionsFieldDeserializer.class)
     Set<CyberObservableExtension> getExtensions();
+
+    /**
+     * Used for generation of Map Keys by {@link ObservedDataSdo#getObjects()}
+     * Manually set this value if you want to control key names.  Otherwise UUIDs will be used.
+     * @return
+     */
+    @JsonProperty(value = "observable_object_key", access = JsonProperty.Access.WRITE_ONLY)
+    @Value.Default
+    default String getObservableObjectKey(){
+        return UUID.randomUUID().toString();
+    }
 
 }

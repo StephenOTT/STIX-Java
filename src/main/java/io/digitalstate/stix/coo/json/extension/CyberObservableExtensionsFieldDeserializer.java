@@ -1,4 +1,4 @@
-package io.digitalstate.stix.coo.json;
+package io.digitalstate.stix.coo.json.extension;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
