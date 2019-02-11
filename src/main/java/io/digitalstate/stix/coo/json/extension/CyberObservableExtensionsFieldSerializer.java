@@ -30,7 +30,7 @@ public class CyberObservableExtensionsFieldSerializer extends StdSerializer<Set<
             try {
                 gen.writeObjectField(ext.getType(), ext);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IllegalStateException("Unable to serialize COO Extension:", e);
             }
         });
         gen.writeEndObject();

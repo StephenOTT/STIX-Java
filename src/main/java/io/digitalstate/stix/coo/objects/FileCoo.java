@@ -48,8 +48,7 @@ public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the file, in bytes, as a non-negative integer.")
-    @Positive
-    Optional<Long> getSize();
+    Optional<@Positive Long> getSize();
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the file.")
@@ -103,8 +102,7 @@ public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("encryption_algorithm")
     @JsonPropertyDescription("Specifies the name of the encryption algorithm used to encrypt the file. Open Vocabulary - encryption-algorithm-ov")
-    @Vocab(EncryptionAlgorithms.class)
-    Optional<String> getEncryptionAlgorithm();
+    Optional<@Vocab(EncryptionAlgorithms.class) String> getEncryptionAlgorithm();
 
     @JsonProperty("decryption_key")
     @JsonPropertyDescription("Specifies the decryption key used to decrypt the archive file.")

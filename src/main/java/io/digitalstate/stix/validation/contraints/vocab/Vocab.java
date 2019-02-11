@@ -20,8 +20,11 @@ import static java.lang.annotation.ElementType.*;
  * <p>Example usage: {@code @HashingVocab(AttackMotivations.class)}</p>
  */
 @Documented
-@Constraint(validatedBy = {StixVocabValidatorString.class, StixVocabValidatorCollection.class})
-@Target( { METHOD, FIELD, ANNOTATION_TYPE, PARAMETER })
+@Constraint(validatedBy = {
+        StixVocabValidatorString.class,
+        StixVocabValidatorCollection.class
+})
+@Target( { METHOD, FIELD, TYPE_USE, ANNOTATION_TYPE, PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Vocab {
     String message() default "{io.digitalstate.stix.validation.contraints.VocabContains}";

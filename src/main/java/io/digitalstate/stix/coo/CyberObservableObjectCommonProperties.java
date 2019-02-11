@@ -3,7 +3,11 @@ package io.digitalstate.stix.coo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.extension.CyberObservableExtension;
+import io.digitalstate.stix.coo.json.extension.CyberObservableExtensionsFieldDeserializer;
+import io.digitalstate.stix.coo.json.extension.CyberObservableExtensionsFieldSerializer;
 import io.digitalstate.stix.sdo.objects.ObservedDataSdo;
 import io.digitalstate.stix.validation.GenericValidation;
 import org.immutables.value.Value;
@@ -33,8 +37,8 @@ public interface CyberObservableObjectCommonProperties extends GenericValidation
     @JsonProperty("extensions")
     @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("Specifies any extensions of the object, as a dictionary.")
-//    @JsonSerialize(using = CyberObservableExtensionsFieldSerializer.class)
-//    @JsonDeserialize(using = CyberObservableExtensionsFieldDeserializer.class)
+    @JsonSerialize(using = CyberObservableExtensionsFieldSerializer.class)
+    @JsonDeserialize(using = CyberObservableExtensionsFieldDeserializer.class)
     Set<CyberObservableExtension> getExtensions();
 
     /**

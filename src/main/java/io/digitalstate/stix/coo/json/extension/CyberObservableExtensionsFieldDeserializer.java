@@ -25,10 +25,12 @@ public class CyberObservableExtensionsFieldDeserializer extends StdDeserializer<
     @Override
     public Set<CyberObservableExtension> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         Set<CyberObservableExtension> extensions = new HashSet<>();
+
         TreeNode tree = p.readValueAsTree();
-        tree.fieldNames().forEachRemaining(f->{
-           ObjectNode node =  (ObjectNode)tree.get(f);
-           node.put("type",f);
+
+        tree.fieldNames().forEachRemaining(f -> {
+            ObjectNode node = (ObjectNode) tree.get(f);
+            node.put("type", f);
             try {
                 CyberObservableExtension extension = node.traverse(p.getCodec()).readValueAs(CyberObservableExtension.class);
                 extensions.add(extension);

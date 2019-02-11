@@ -49,16 +49,19 @@ class ProcessObjectSpec extends Specification {
         DirectoryCoo dir2 = Directory.builder().path("cat/cat/cat").build()
         DirectoryCoo dir1 = Directory.builder().path("cat/cat").addContainsRef(dir2.getObservableObjectKey()).build()
 
+        FileCoo file1 = File.builder().name("mypdf.pdf").addExtension(pdfFileExtensionExt).build()
+
         DirectoryCoo directoryCoo = Directory.builder()
                 .path("/123/123/123")
                 .addContainsRef(dir2.getObservableObjectKey())
+                .addContainsRef(file1.getObservableObjectKey())
                 .build()
 
         ObservedDataSdo directoryTest1 = ObservedData.builder()
                 .firstObserved(Instant.now())
                 .numberObserved(1)
                 .lastObserved(Instant.now())
-                .addObjects(directoryCoo, dir2)
+                .addObjects(directoryCoo, dir2, file1)
                 .build()
 
         println directoryTest1.toJsonString()
