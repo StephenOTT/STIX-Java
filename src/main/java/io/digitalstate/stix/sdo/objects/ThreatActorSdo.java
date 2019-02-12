@@ -42,44 +42,44 @@ public interface ThreatActorSdo extends DomainObject {
     @Override
     @NotNull @Size(min = 1, message = "Must have at least one value from threat-actor-label-ov")
     @Vocab(ThreatActorLabels.class)
-	@JsonPropertyDescription("This field specifies the type of threat actor. Open Vocab - threat-actor-label-ov")
+    @JsonPropertyDescription("This field specifies the type of threat actor. Open Vocab - threat-actor-label-ov")
     @Redactable(useMask = true)
     Set<@Size(min = 1) String> getLabels();
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("A name used to identify this Threat Actor or Threat Actor group.")
+    @JsonPropertyDescription("A name used to identify this Threat Actor or Threat Actor group.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("A description that provides more details and context about the Threat Actor.")
+    @JsonPropertyDescription("A description that provides more details and context about the Threat Actor.")
     @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("aliases") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("A list of other names that this Threat Actor is believed to use.")
+    @JsonPropertyDescription("A list of other names that this Threat Actor is believed to use.")
     @Redactable
     Set<String> getAliases();
 
     @NotNull
     @Vocab(ThreatActorRoles.class)
     @JsonProperty("roles") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("This is a list of roles the Threat Actor plays. Open Vocab - threat-actor-role-ov")
+    @JsonPropertyDescription("This is a list of roles the Threat Actor plays. Open Vocab - threat-actor-role-ov")
     @Redactable
     Set<String> getRoles();
 
     @NotNull
     @JsonProperty("goals") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("The high level goals of this Threat Actor, namely, what are they trying to do.")
+    @JsonPropertyDescription("The high level goals of this Threat Actor, namely, what are they trying to do.")
     @Redactable
     Set<@Size(min = 1) String> getGoals();
 
     @NotNull
     @Vocab(ThreatActorSophistication.class)
     @JsonProperty("sophistication") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("The skill, specific knowledge, special training, or expertise a Threat Actor must have to perform the attack. Open Vocab - threat-actor-sophistication-ov")
+    @JsonPropertyDescription("The skill, specific knowledge, special training, or expertise a Threat Actor must have to perform the attack. Open Vocab - threat-actor-sophistication-ov")
     @Redactable
     Set<String> getSophistication();
 

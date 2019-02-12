@@ -38,36 +38,38 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Redactable
 public interface IdentitySdo extends DomainObject {
 
-	// Note for the labels attribute:
-	// The list of roles that this Identity performs (e.g., CEO, Domain Administrators, Doctors, Hospital, or Retailer). No open vocabulary is yet defined for this property.
+    // Note for the labels attribute:
+    // The list of roles that this Identity performs (e.g., CEO, Domain Administrators, Doctors, Hospital, or Retailer). No open vocabulary is yet defined for this property.
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("The name of this Identity.")
+    @JsonPropertyDescription("The name of this Identity.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("A description that provides more details and context about the Identity.")
+    @JsonPropertyDescription("A description that provides more details and context about the Identity.")
     @Redactable
     Optional<String> getDescription();
 
     @NotBlank
     @Vocab(IdentityClasses.class)
     @JsonProperty("identity_class")
-	@JsonPropertyDescription("The type of entity that this Identity describes, e.g., an individual or organization. Open Vocab - identity-class-ov")
+    @JsonPropertyDescription("The type of entity that this Identity describes, e.g., an individual or organization. Open Vocab - identity-class-ov")
     @Redactable(useMask = true)
     String getIdentityClass();
 
     @NotNull
     @Vocab(IndustrySectors.class)
-    @JsonProperty("sectors") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("The list of sectors that this Identity belongs to. Open Vocab - industry-sector-ov")
+    @JsonProperty("sectors")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("The list of sectors that this Identity belongs to. Open Vocab - industry-sector-ov")
     @Redactable
     Set<String> getSectors();
 
-    @JsonProperty("contact_information") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("The contact information (e-mail, phone number, etc.) for this Identity.")
+    @JsonProperty("contact_information")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("The contact information (e-mail, phone number, etc.) for this Identity.")
     @Redactable
     Optional<String> getContactInformation();
 

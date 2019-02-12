@@ -36,17 +36,19 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 public interface AttackPatternSdo extends DomainObject {
 
     @NotBlank
-    @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonProperty("name")
 	@JsonPropertyDescription("The name used to identify the Attack Pattern.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("A description that provides more details and context about the Attack Pattern, potentially including its purpose and its key characteristics.")
     @Redactable
     Optional<String> getDescription();
 
-    @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
+    @JsonProperty("kill_chain_phases")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 	@JsonPropertyDescription("The list of kill chain phases for which this attack pattern is used.")
     @Redactable
     Set<KillChainPhaseType> getKillChainPhases();

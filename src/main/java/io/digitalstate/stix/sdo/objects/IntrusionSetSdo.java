@@ -43,18 +43,18 @@ public interface IntrusionSetSdo extends DomainObject {
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("The name used to identify the Intrusion Set.")
+    @JsonPropertyDescription("The name used to identify the Intrusion Set.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Provides more context and details about the Intrusion Set object.")
+    @JsonPropertyDescription("Provides more context and details about the Intrusion Set object.")
     @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("aliases") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("Alternative names used to identify this Intrusion Set.")
+    @JsonPropertyDescription("Alternative names used to identify this Intrusion Set.")
     @Redactable
     Set<String> getAliases();
 
@@ -72,7 +72,7 @@ public interface IntrusionSetSdo extends DomainObject {
 
     @NotNull
     @JsonProperty("goals") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("The high level goals of this Intrusion Set, namely, what are they trying to do.")
+    @JsonPropertyDescription("The high level goals of this Intrusion Set, namely, what are they trying to do.")
     @Redactable
     Set<String> getGoals();
 
