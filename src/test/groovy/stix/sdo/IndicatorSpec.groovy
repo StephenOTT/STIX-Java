@@ -1,7 +1,6 @@
 package stix.sdo
 
 import io.digitalstate.stix.json.StixParsers
-import io.digitalstate.stix.sdo.objects.Identity
 import io.digitalstate.stix.sdo.objects.Indicator
 import spock.lang.Specification
 import spock.lang.Unroll

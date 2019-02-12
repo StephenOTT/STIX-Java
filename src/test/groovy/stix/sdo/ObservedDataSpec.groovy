@@ -3,7 +3,6 @@ package stix.sdo
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import io.digitalstate.stix.json.StixParsers
-import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sdo.objects.ObservedData
 import spock.lang.Specification
 import spock.lang.Unroll
