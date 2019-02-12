@@ -37,19 +37,19 @@ public interface AttackPatternSdo extends DomainObject {
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("The name used to identify the Attack Pattern.")
+    @JsonPropertyDescription("The name used to identify the Attack Pattern.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description")
     @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("A description that provides more details and context about the Attack Pattern, potentially including its purpose and its key characteristics.")
+    @JsonPropertyDescription("A description that provides more details and context about the Attack Pattern, potentially including its purpose and its key characteristics.")
     @Redactable
     Optional<String> getDescription();
 
     @JsonProperty("kill_chain_phases")
     @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("The list of kill chain phases for which this attack pattern is used.")
+    @JsonPropertyDescription("The list of kill chain phases for which this attack pattern is used.")
     @Redactable
     Set<KillChainPhaseType> getKillChainPhases();
 
