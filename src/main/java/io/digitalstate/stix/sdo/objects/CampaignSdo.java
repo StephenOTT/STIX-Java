@@ -63,6 +63,7 @@ public interface CampaignSdo extends DomainObject {
     @Redactable
     Optional<Instant> getFirstSeen();
 
+    //@TODO add support to ensure that Last Seen is AFTER the First Seen value
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The time that this Campaign was last seen.")

@@ -1,12 +1,16 @@
 package stix.sdo
 
 import io.digitalstate.stix.sdo.objects.AttackPattern
+import io.digitalstate.stix.sdo.objects.Campaign
 import io.digitalstate.stix.sdo.objects.Identity
 import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.vocabularies.IdentityClasses
 import io.digitalstate.stix.vocabularies.IndustrySectors
 import net.andreinc.mockneat.MockNeat
+
+import java.time.Instant
+import java.time.ZoneOffset
 
 trait StixMockDataGenerator {
 
@@ -169,6 +173,58 @@ trait StixMockDataGenerator {
     }
 
     /**
+     * Generate a random Campaign
+     * @return
+     */
+    Campaign mockCampaign() {
+        Campaign.Builder builder = Campaign.builder()
+                .name(mock.words().accumulate(mock.ints().range(1,5).get(),"-").get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0,5).get().times {
+                builder.addAliase(mock.words().accumulate(mock.ints().range(1,5).get(),"-").get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.firstSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.lastSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.objective(mock.words().accumulate(mock.ints().range(1,50).get()," ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.addAllLabels(generateRandomLabels())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
+
+    /**
      * Generate a random Identity
      * @return
      */
@@ -218,6 +274,7 @@ trait StixMockDataGenerator {
 
         return builder.build()
     }
+
 
 
 }
