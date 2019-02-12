@@ -18,6 +18,19 @@ trait StixMockDataGenerator {
     //
 
     /**
+     * Generates a random set of single word labels
+     * @return
+     */
+    Set<String> generateRandomLabels(){
+        Set<String> labels = new HashSet<>()
+
+        mock.ints().range(0,20).get().times {
+            labels.add(mock.words().get())
+        }
+        return labels
+    }
+
+    /**
      * Generate a random Map of Custom Properties
      * @return
      */
@@ -131,7 +144,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.addLabel(mock.words().get())
+            builder.addAllLabels(generateRandomLabels())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -184,7 +197,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.addLabel(mock.words().get())
+            builder.addAllLabels(generateRandomLabels())
         }
 
         if (mock.bools().probability(50).get()) {
