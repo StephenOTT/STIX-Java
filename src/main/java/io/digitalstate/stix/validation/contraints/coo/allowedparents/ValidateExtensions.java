@@ -1,4 +1,4 @@
-package io.digitalstate.stix.validation.contraints.allowedparents;
+package io.digitalstate.stix.validation.contraints.coo.allowedparents;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -19,7 +19,7 @@ import static java.lang.annotation.ElementType.TYPE;
 @Target( { ANNOTATION_TYPE, TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidateExtensions {
-    String message() default "{io.digitalstate.stix.validation.contraints.allowedparents.ValidateReferences}";
+    String message() default "{io.digitalstate.stix.validation.contraints.coo.allowedparents.ValidateReferences}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

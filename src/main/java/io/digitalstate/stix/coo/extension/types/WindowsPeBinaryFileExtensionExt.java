@@ -8,7 +8,7 @@ import io.digitalstate.stix.coo.objects.FileCoo;
 import io.digitalstate.stix.coo.types.WindowsPeOptionalHeaderObj;
 import io.digitalstate.stix.coo.types.WindowsPeSectionObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.validation.contraints.allowedparents.AllowedParents;
+import io.digitalstate.stix.validation.contraints.coo.allowedparents.AllowedParents;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;

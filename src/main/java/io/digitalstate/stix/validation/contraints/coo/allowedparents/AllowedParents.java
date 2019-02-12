@@ -1,4 +1,4 @@
-package io.digitalstate.stix.validation.contraints.allowedparents;
+package io.digitalstate.stix.validation.contraints.coo.allowedparents;
 
 import io.digitalstate.stix.coo.CyberObservableObject;
 

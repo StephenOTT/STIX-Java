@@ -2,7 +2,7 @@ package io.digitalstate.stix.validation.contraints.coo.validateextensions;
 
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.extension.CyberObservableExtension;
-import io.digitalstate.stix.validation.contraints.allowedparents.AllowedParents;
+import io.digitalstate.stix.validation.contraints.coo.allowedparents.AllowedParents;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
