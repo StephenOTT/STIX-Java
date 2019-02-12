@@ -9,14 +9,14 @@ trait StixMockDataGenerator {
 
     MockNeat mock = MockNeat.threadLocal()
 
-    KillChainPhase generateKillChainPhase(){
+    KillChainPhase mockKillChainPhase(){
         return KillChainPhase.builder()
             .killChainName(mock.words().accumulate(mock.ints().range(1,5).get(), "-").get())
             .phaseName(mock.words().accumulate(mock.ints().range(1,5).get(), " ").get())
             .build()
     }
 
-    ExternalReference generateExternalReference(){
+    ExternalReference mockExternalReference(){
         ExternalReference.Builder builder = ExternalReference.builder()
             .sourceName(mock.words().get())
 
@@ -51,7 +51,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    AttackPattern generateAttackPattern(){
+    AttackPattern mockAttackPattern(){
         AttackPattern.Builder builder =  AttackPattern.builder()
                 .name(mock.words().accumulate(mock.ints().range(1,5).get(), " ").get())
 
@@ -60,15 +60,15 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()){
-            builder.addKillChainPhase(generateKillChainPhase())
+            builder.addKillChainPhase(mockKillChainPhase())
         }
 
         if (mock.bools().probability(50).get()){
-            builder.addKillChainPhase(generateKillChainPhase())
+            builder.addKillChainPhase(mockKillChainPhase())
         }
 
         if (mock.bools().probability(50).get()){
-            builder.addKillChainPhases(generateKillChainPhase(), generateKillChainPhase())
+            builder.addKillChainPhases(mockKillChainPhase(), mockKillChainPhase())
         }
 
         if (mock.bools().probability(50).get()){
@@ -81,7 +81,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()){
             mock.ints().range(0,10).get().each {
-                builder.addExternalReferences(generateExternalReference())
+                builder.addExternalReferences(mockExternalReference())
             }
         }
 
