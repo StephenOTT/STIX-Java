@@ -1,11 +1,14 @@
 package stix.sdo
 
+import io.digitalstate.stix.coo.objects.Artifact
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
 import io.digitalstate.stix.sdo.objects.CourseOfAction
 import io.digitalstate.stix.sdo.objects.Identity
 import io.digitalstate.stix.sdo.objects.Indicator
 import io.digitalstate.stix.sdo.objects.IntrusionSet
+import io.digitalstate.stix.sdo.objects.Malware
+import io.digitalstate.stix.sdo.objects.ObservedData
 import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.vocabularies.AttackMotivations
@@ -13,6 +16,7 @@ import io.digitalstate.stix.vocabularies.AttackResourceLevels
 import io.digitalstate.stix.vocabularies.IdentityClasses
 import io.digitalstate.stix.vocabularies.IndicatorLabels
 import io.digitalstate.stix.vocabularies.IndustrySectors
+import io.digitalstate.stix.vocabularies.MalwareLabels
 import net.andreinc.mockneat.MockNeat
 
 import java.time.Instant
@@ -107,19 +111,19 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(20).get()) {
-            builder.putHashe("MD5", mock.hashes().md5().get())
+            builder.putHash("MD5", mock.hashes().md5().get())
         }
 
         if (mock.bools().probability(20).get()) {
-            builder.putHashe("SHA-256", mock.hashes().sha256().get())
+            builder.putHash("SHA-256", mock.hashes().sha256().get())
         }
 
         if (mock.bools().probability(20).get()) {
-            builder.putHashe("SHA-512", mock.hashes().sha512().get())
+            builder.putHash("SHA-512", mock.hashes().sha512().get())
         }
 
         if (mock.bools().probability(20).get()) {
-            builder.putHashe("SHA-1", mock.hashes().sha1().get())
+            builder.putHash("SHA-1", mock.hashes().sha1().get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -427,4 +431,106 @@ trait StixMockDataGenerator {
 
         return builder.build()
     }
+
+    Malware mockMalware() {
+        Malware.Builder builder = Malware.builder()
+
+        List<String> malwareLabels = new MalwareLabels().getAllTerms().toList()
+        Collections.shuffle(malwareLabels)
+        builder.addLabel(malwareLabels.first())
+
+        builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 15).get().times {
+                builder.addKillChainPhase(mockKillChainPhase())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
+
+    ObservedData mockObservedData() {
+        ObservedData.Builder builder = ObservedData.builder()
+
+        builder.firstObserved(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        builder.lastObserved(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+
+        builder.numberObserved(mock.ints().range(1, 999999999).get())
+
+        builder.addObject(mockArtifactCoo())
+
+        //@TODO Replace the below with if statements per COO.  Then for each IF, do a range.get.Times{} to add N artifacts.
+        // worry about the Refs in a later iteration of tests.
+        mock.ints().range(0, 5).get().times {
+            builder.addObject(mockArtifactCoo())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
+
+    // Cyber Observables
+
+    Artifact mockArtifactCoo() {
+        Artifact.Builder builder = Artifact.builder()
+
+        List<String> types = ["application", "audio", "font", "image", "message", "model", "multipart", "text", "video"]
+        Collections.shuffle(types)
+
+        if (mock.bools().probability(50).get()) {
+            builder.mimeType("${types.first()}/some-file-mime-type")
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.payloadBin(mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get())
+        } else {
+            builder.url(mock.urls().get())
+            builder.putHash("SHA-256", mock.hashes().sha256().get())
+
+//            if (mock.bools().probability(33.33).get()) {
+//                builder.putHash("SHA-1", mock.hashes().sha1().get())
+//            }
+//
+//            if (mock.bools().probability(33.33).get()) {
+//                builder.putHash("MD5", mock.hashes().md5().get())
+//            }
+        }
+
+        return builder.build()
+    }
+
 }
