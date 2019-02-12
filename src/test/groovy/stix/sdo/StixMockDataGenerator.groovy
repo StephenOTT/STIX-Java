@@ -80,7 +80,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()){
-            mock.ints().range(0,10).get().each {
+            mock.ints().range(0,10).get().times {
                 builder.addExternalReferences(mockExternalReference())
             }
         }
@@ -89,8 +89,35 @@ trait StixMockDataGenerator {
             builder.revoked(true)
         }
 
-        if (mock.bools().probability(50).get()) {
-            builder.putCustomProperty("x_dog", "cat")
+        if (mock.bools().probability(100).get()) {
+            mock.ints().range(0,20).get().times {
+                String key = "x_" + mock.words().get()
+                switch (mock.ints().range(0,5).get()){
+                    case 0:
+                        builder.putCustomProperty(key, mock.words().get())
+                        break
+                    case 1:
+                        builder.putCustomProperty(key, mock.words().accumulate(mock.ints().range(1,100).get(), " ").get())
+                        break
+                    case 2:
+                        builder.putCustomProperty(key, mock.ints().range(0, 999999).get())
+                        break
+                    case 3:
+                        builder.putCustomProperty(key, mock.doubles().range(0.0, 999999.0).get())
+                        break
+                    case 4:
+                        builder.putCustomProperty(key, mock.bools().probability(50).get())
+                        break
+                    case 5:
+                        HashMap<String,String> map1 = new HashMap<>()
+                        mock.ints().range(1,30).get().times {
+                            map1.put(mock.words().get(), mock.words().accumulate(mock.ints().range(1,10).get(), " ").get())
+                        }
+                        builder.putCustomProperty(key, map1)
+                        break
+                }
+            }
+
         }
 
         //@TODO Created By SDO
