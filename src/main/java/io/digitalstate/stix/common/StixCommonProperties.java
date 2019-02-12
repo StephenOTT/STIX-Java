@@ -7,7 +7,6 @@ import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.GranularMarkingDm;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
 import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.json.converters.dehydrated.DomainObjectOptionalConverter;
 import io.digitalstate.stix.json.converters.dehydrated.MarkingDefinitionSetConverter;
@@ -34,7 +33,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * Base interface used by Immutable STIX Domain Objects
  */
 @Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
-public interface StixCommonProperties extends SdoDefaultValidator, BundleableObject {
+public interface StixCommonProperties extends StixSpecVersion, SdoDefaultValidator, BundleableObject {
 
     /**
      * Dictates if the object is hydrated.
@@ -121,17 +120,6 @@ public interface StixCommonProperties extends SdoDefaultValidator, BundleableObj
         } else {
             this.validateOnlyId();
         }
-    }
-
-    /**
-     * Helper attribute to track the STIX Spec Version that was used for this object.
-     * @return String of STIX Spec Version, example: "2.0"
-     */
-    @NotBlank
-    @JsonIgnore
-    @Value.Lazy
-    default String getSpecVersion(){
-        return StixSpecVersion.SPECVERSION;
     }
 
 }
