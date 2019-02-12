@@ -51,6 +51,8 @@ class ProcessObjectSpec extends Specification {
 
         FileCoo file1 = File.builder().name("mypdf.pdf")
                 .addExtension(pdfFileExtensionExt)
+                .mimeType("audio/some") // Pass
+//                .mimeType("dog/some") // Fail
                 .build()
 
         DirectoryCoo directoryCoo = Directory.builder()
