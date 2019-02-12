@@ -2,10 +2,16 @@ package stix.sdo
 
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
+import io.digitalstate.stix.sdo.objects.CourseOfAction
 import io.digitalstate.stix.sdo.objects.Identity
+import io.digitalstate.stix.sdo.objects.Indicator
+import io.digitalstate.stix.sdo.objects.IntrusionSet
 import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
+import io.digitalstate.stix.vocabularies.AttackMotivations
+import io.digitalstate.stix.vocabularies.AttackResourceLevels
 import io.digitalstate.stix.vocabularies.IdentityClasses
+import io.digitalstate.stix.vocabularies.IndicatorLabels
 import io.digitalstate.stix.vocabularies.IndustrySectors
 import net.andreinc.mockneat.MockNeat
 
@@ -25,10 +31,10 @@ trait StixMockDataGenerator {
      * Generates a random set of single word labels
      * @return
      */
-    Set<String> generateRandomLabels(){
+    Set<String> generateRandomLabels() {
         Set<String> labels = new HashSet<>()
 
-        mock.ints().range(0,20).get().times {
+        mock.ints().range(0, 20).get().times {
             labels.add(mock.words().get())
         }
         return labels
@@ -136,15 +142,9 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.addKillChainPhase(mockKillChainPhase())
-        }
-
-        if (mock.bools().probability(50).get()) {
-            builder.addKillChainPhase(mockKillChainPhase())
-        }
-
-        if (mock.bools().probability(50).get()) {
-            builder.addKillChainPhases(mockKillChainPhase(), mockKillChainPhase())
+            mock.ints().range(0, 15).get().times {
+                builder.addKillChainPhase(mockKillChainPhase())
+            }
         }
 
         if (mock.bools().probability(50).get()) {
@@ -178,15 +178,15 @@ trait StixMockDataGenerator {
      */
     Campaign mockCampaign() {
         Campaign.Builder builder = Campaign.builder()
-                .name(mock.words().accumulate(mock.ints().range(1,5).get(),"-").get())
+                .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
             builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(0,5).get().times {
-                builder.addAliase(mock.words().accumulate(mock.ints().range(1,5).get(),"-").get())
+            mock.ints().range(0, 5).get().times {
+                builder.addAliase(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
             }
         }
 
@@ -200,7 +200,46 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.objective(mock.words().accumulate(mock.ints().range(1,50).get()," ").get())
+            builder.objective(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.addAllLabels(generateRandomLabels())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
+
+    /**
+     * Generate a random Course of Action
+     * @return
+     */
+    CourseOfAction mockCourseOfAction() {
+        CourseOfAction.Builder builder = CourseOfAction.builder()
+                .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addAction(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+            }
         }
 
         if (mock.bools().probability(50).get()) {
@@ -243,7 +282,7 @@ trait StixMockDataGenerator {
         if (mock.bools().probability(50).get()) {
             List<String> industrySectors = new IndustrySectors().getAllTerms().toList()
             Collections.shuffle(industrySectors)
-            mock.ints().range(0, 5).get().times { i->
+            mock.ints().range(0, 5).get().times { i ->
                 builder.addSector(industrySectors.get(i))
             }
         }
@@ -275,6 +314,117 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
+    Indicator mockIndicator() {
+        Indicator.Builder builder = Indicator.builder()
 
+        List<String> indicatorLabels = new IndicatorLabels().getAllTerms().toList()
+        Collections.shuffle(indicatorLabels)
+        builder.addLabel(indicatorLabels.first())
 
+        if (mock.bools().probability(50).get()) {
+            builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+        }
+
+        builder.pattern("SOME PATTERN GOES HERE")
+
+        builder.validFrom(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.validUntil(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 15).get().times {
+                builder.addKillChainPhase(mockKillChainPhase())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
+
+    IntrusionSet mockIntrusionSet() {
+        IntrusionSet.Builder builder = IntrusionSet.builder()
+
+        builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 5).get().times {
+                builder.addAliase(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.firstSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.lastSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 15).get().times {
+                builder.addGoal(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            List<String> attackResourceLevels = new AttackResourceLevels().getAllTerms().toList()
+            Collections.shuffle(attackResourceLevels)
+            builder.resourceLevel(attackResourceLevels.first())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            List<String> attackMotivations = new AttackMotivations().getAllTerms().toList()
+            Collections.shuffle(attackMotivations)
+            builder.primaryMotivation(attackMotivations.first())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            List<String> attackMotivations = new AttackMotivations().getAllTerms().toList()
+            Collections.shuffle(attackMotivations)
+            mock.ints().range(1, 5).get().times { i ->
+                builder.addSecondaryMotivation(attackMotivations.get(i))
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
 }

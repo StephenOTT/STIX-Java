@@ -76,17 +76,15 @@ public interface IntrusionSetSdo extends DomainObject {
     @Redactable
     Set<String> getGoals();
 
-    @Vocab(AttackResourceLevels.class)
     @JsonProperty("resource_level") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("This defines the organizational level at which this Intrusion Set typically works. Open Vocab - attack-resource-level-ov")
     @Redactable
-    Optional<String> getResourceLevel();
+    Optional<@Vocab(AttackResourceLevels.class) String> getResourceLevel();
 
-    @Vocab(AttackMotivations.class)
     @JsonProperty("primary_motivation") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The primary reason, motivation, or purpose behind this Intrusion Set. Open Vocab - attack-motivation-ov")
     @Redactable
-    Optional<String> getPrimaryMotivation();
+    Optional<@Vocab(AttackMotivations.class) String> getPrimaryMotivation();
 
     @NotNull
     @Vocab(AttackMotivations.class)
