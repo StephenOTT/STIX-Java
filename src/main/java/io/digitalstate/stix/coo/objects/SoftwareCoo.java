@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.validation.OptionalPattern;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -45,8 +44,7 @@ public interface SoftwareCoo extends CyberObservableObject {
      */
     @JsonProperty("cpe")
     @JsonPropertyDescription("Specifies the Common Platform Enumeration (CPE) entry for the software, if available.")
-    @OptionalPattern(regexp="^cpe:2\\.3:[aho]")
-    Optional<String> getCpe();
+    Optional<@Pattern(regexp="^cpe:2\\.3:[aho]") String> getCpe();
     
     /**
      * TODO The value of each list member MUST be an ISO 639-2 language code.

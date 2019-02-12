@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.validation.OptionalPattern;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import javax.validation.constraints.Pattern;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
@@ -41,8 +41,8 @@ public interface DirectoryCoo extends CyberObservableObject {
      */
     @JsonProperty("path_enc")
     @JsonPropertyDescription("Specifies the observed encoding for the path.")
-    @OptionalPattern(regexp="^[a-zA-Z0-9/\\.+_:-]{2,250}$")
-    Optional<String> getName();
+    Optional<@Pattern(regexp = "^[a-zA-Z0-9/\\.+_:-]{2,250}$")
+            String> getName();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("created")

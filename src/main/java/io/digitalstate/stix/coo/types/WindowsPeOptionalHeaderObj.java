@@ -3,7 +3,6 @@ package io.digitalstate.stix.coo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.digitalstate.stix.validation.OptionalPattern;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -12,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Map;
 import java.util.Optional;
@@ -41,8 +41,8 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("magic_hex")
     @JsonPropertyDescription("Specifies the unsigned Optional<Integer> that indicates the type of the PE binary.")
-    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> getMagicHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+            String> getMagicHex();
 
     @JsonProperty("major_linker_version")
     @JsonPropertyDescription("Specifies the linker major version number.")
@@ -117,8 +117,8 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("win32_version_value_hex")
     @JsonPropertyDescription("Specifies the reserved win32 version value.")
-    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> getWin32VersionValueHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+            String> getWin32VersionValueHex();
 
     @JsonProperty("size_of_image")
     @JsonPropertyDescription("Specifies the size, in bytes, of the image, including all headers, as the image is loaded in memory.")
@@ -132,18 +132,18 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("checksum_hex")
     @JsonPropertyDescription("Specifies the checksum of the PE binary.")
-    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> getChecksumHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+            String> getChecksumHex();
 
     @JsonProperty("subsystem_hex")
     @JsonPropertyDescription("Specifies the subsystem (e.g., GUI, device driver, etc.) that is required to run this image.")
-    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> getSubsystemHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+            String> getSubsystemHex();
 
     @JsonProperty("dll_characteristics_hex")
     @JsonPropertyDescription("Specifies the flags that characterize the PE binary.")
-    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> getDllCharacteristicsHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+            String> getDllCharacteristicsHex();
 
     @JsonProperty("size_of_stack_reserve")
     @JsonPropertyDescription("Specifies the size of the stack to reserve")
@@ -167,8 +167,8 @@ public interface WindowsPeOptionalHeaderObj {
 
     @JsonProperty("loader_flags_hex")
     @JsonPropertyDescription("Specifies the reserved loader flags.")
-    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> getLoaderFlagsHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+            String> getLoaderFlagsHex();
 
     @JsonProperty("number_of_rva_and_sizes")
     @JsonPropertyDescription("Specifies the number of data-directory entries in the remainder of the optional header.")

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.validation.OptionalPattern;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
@@ -17,6 +16,7 @@ import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.time.Instant;
 import java.util.Map;
@@ -56,18 +56,19 @@ public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("name_enc")
     @JsonPropertyDescription("Specifies the observed encoding for the name of the file.")
-    @OptionalPattern(regexp = "^[a-zA-Z0-9/\\.+_:-]{2,250}$")
-    Optional<String> getNameEnc();
+    Optional<@Pattern(regexp = "^[a-zA-Z0-9/\\.+_:-]{2,250}$")
+            String> getNameEnc();
 
     @JsonProperty("magic_number_hex")
     @JsonPropertyDescription("Specifies the hexadecimal constant ('magic number') associated with a specific file format that corresponds to the file, if applicable.")
-    @OptionalPattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> getMagicNumberHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$")
+            String> getMagicNumberHex();
 
+    //@TODO Convert this to a Vocab Validation
     @JsonProperty("mime_type")
     @JsonPropertyDescription("Specifies the MIME type name specified for the file, e.g., 'application/msword'.")
-    @OptionalPattern(regexp = "^(application|audio|font|image|message|model|multipart|text|video)/[a-zA-Z0-9.+_-]+")
-    Optional<String> getMimeType();
+    Optional<@Pattern(regexp = "^(application|audio|font|image|message|model|multipart|text|video)/[a-zA-Z0-9.+_-]+")
+            String> getMimeType();
 
     @JsonProperty("created")
     @JsonPropertyDescription("Specifies the date/time the file was created.")
