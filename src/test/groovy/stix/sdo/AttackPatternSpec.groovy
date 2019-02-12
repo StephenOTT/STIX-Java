@@ -11,20 +11,22 @@ class AttackPatternSpec extends Specification implements StixMockDataGenerator {
     def "Generate Attack Pattern Data: Run: '#i'"() {
         when: "Generating Attack Pattern Data"
             AttackPattern originalAttackPattern = mockAttackPattern()
+            println "Original Object: ${originalAttackPattern.toString()}"
 
-        then: "Convert attack Pattern to JSON"
+        then: "Convert Attack Pattern to Json"
             String originalJson = originalAttackPattern.toJsonString()
-            println originalJson
+            println "Original Json: ${originalJson}"
 
         then: "Parse Json back into Attack Pattern Object"
             AttackPattern parsedAttackPattern = (AttackPattern)StixParsers.parseObject(originalJson)
+            println "Parsed Object: ${parsedAttackPattern}"
 
         then: "Parsed object should match Original object"
             assert originalAttackPattern == parsedAttackPattern
 
-        then: "Convert Parsed Attack Pattern back to into JSON"
+        then: "Convert Parsed Attack Pattern Object back to into Json"
             String newJson = parsedAttackPattern.toJsonString()
-            println newJson
+            println "New Json: ${newJson}"
 
         then: "New Json should match Original Json"
             assert newJson == originalJson
