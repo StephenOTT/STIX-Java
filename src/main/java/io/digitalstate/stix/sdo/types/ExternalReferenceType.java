@@ -54,7 +54,6 @@ public interface ExternalReferenceType extends GenericValidation, Serializable {
 
     @JsonProperty("hashes") @JsonInclude(NON_EMPTY)
     @JsonPropertyDescription("Specifies a dictionary of hashes for the file.")
-    @Size(min = 1, message = "Must have at least 1 hash value")
     Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
 
     @JsonProperty("external_id") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
