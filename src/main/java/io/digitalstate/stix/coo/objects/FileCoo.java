@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.time.Instant;
@@ -99,6 +100,7 @@ public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("is_encrypted")
     @JsonPropertyDescription("Specifies whether the file is encrypted.")
+    @NotNull
     Optional<Boolean> isEncrypted();
 
     @JsonProperty("encryption_algorithm")

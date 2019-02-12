@@ -49,7 +49,9 @@ class ProcessObjectSpec extends Specification {
         DirectoryCoo dir2 = Directory.builder().path("cat/cat/cat").build()
         DirectoryCoo dir1 = Directory.builder().path("cat/cat").addContainsRef(dir2.getObservableObjectKey()).build()
 
-        FileCoo file1 = File.builder().name("mypdf.pdf").addExtension(pdfFileExtensionExt).build()
+        FileCoo file1 = File.builder().name("mypdf.pdf")
+                .addExtension(pdfFileExtensionExt)
+                .build()
 
         DirectoryCoo directoryCoo = Directory.builder()
                 .path("/123/123/123")

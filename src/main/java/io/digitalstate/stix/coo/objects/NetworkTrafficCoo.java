@@ -51,6 +51,7 @@ public interface NetworkTrafficCoo extends CyberObservableObject {
 
     @JsonProperty("is_active")
     @JsonPropertyDescription("Indicates whether the network traffic is still ongoing.")
+    @NotNull
     Optional<Boolean> isActive();
 
     /*

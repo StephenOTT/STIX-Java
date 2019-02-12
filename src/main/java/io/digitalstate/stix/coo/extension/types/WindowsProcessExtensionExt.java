@@ -12,6 +12,7 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,10 +35,12 @@ public interface WindowsProcessExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("aslr_enabled")
     @JsonPropertyDescription("Specifies whether Address Space Layout Randomization (ASLR) is enabled for the process.")
+    @NotNull
     Optional<Boolean> isAslrEnabled();
 
     @JsonProperty("dep_enabled")
     @JsonPropertyDescription("Specifies whether Data Execution Prevention (DEP) is enabled for the process.")
+    @NotNull
     Optional<Boolean> isDepEnabled();
 
     @JsonProperty("priority")

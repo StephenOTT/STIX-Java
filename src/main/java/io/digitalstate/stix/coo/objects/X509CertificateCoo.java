@@ -15,6 +15,7 @@ import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
@@ -44,6 +45,7 @@ public interface X509CertificateCoo extends CyberObservableObject {
 
     @JsonProperty("is_self_signed")
     @JsonPropertyDescription("Specifies whether the certificate is self-signed, i.e., whether it is signed by the same entity whose identity it certifies.")
+    @NotNull
     Optional<Boolean> isSelfSigned();
 
     @JsonProperty("hashes")

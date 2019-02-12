@@ -48,10 +48,12 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("is_blocking")
     @JsonPropertyDescription("Specifies whether the socket is in blocking mode.")
+    @NotNull
     Optional<Boolean> getBlocking();
 
     @JsonProperty("is_listening")
     @JsonPropertyDescription("Specifies whether the socket is in listening mode.")
+    @NotNull
     Optional<Boolean> getListening();
 
     @JsonProperty("protocol_family")
