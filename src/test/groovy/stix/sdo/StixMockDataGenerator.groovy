@@ -61,7 +61,7 @@ trait StixMockDataGenerator {
         Map<String, Object> customProperties = new HashMap<>()
 
         mock.ints().range(0, 20).get().times {
-            String key = "x_" + mock.words().get()
+            String key = mock.words().prepend("x_").get()
             switch (mock.ints().range(0, 5).get()) {
                 case 0:
                     customProperties.put(key, mock.words().get())
