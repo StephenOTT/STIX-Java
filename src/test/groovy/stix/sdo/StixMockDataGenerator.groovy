@@ -287,15 +287,11 @@ trait StixMockDataGenerator {
             builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
         }
 
-        List<String> identityClasses = new IdentityClasses().getAllTerms().toList()
-        Collections.shuffle(identityClasses)
-        builder.identityClass(identityClasses.first())
+        builder.identityClass(mock.fromStrings(new IdentityClasses().getAllTerms().toList()).get())
 
         if (mock.bools().probability(50).get()) {
-            List<String> industrySectors = new IndustrySectors().getAllTerms().toList()
-            Collections.shuffle(industrySectors)
-            mock.ints().range(0, 5).get().times { i ->
-                builder.addSector(industrySectors.get(i))
+            mock.ints().range(0, 5).get().times {
+                builder.addSector(mock.fromStrings(new IndustrySectors().getAllTerms().toList()).get())
             }
         }
 
@@ -329,9 +325,7 @@ trait StixMockDataGenerator {
     Indicator mockIndicator() {
         Indicator.Builder builder = Indicator.builder()
 
-        List<String> indicatorLabels = new IndicatorLabels().getAllTerms().toList()
-        Collections.shuffle(indicatorLabels)
-        builder.addLabel(indicatorLabels.first())
+        builder.addLabel(mock.fromStrings(new IndicatorLabels().getAllTerms().toList()).get())
 
         if (mock.bools().probability(50).get()) {
             builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
@@ -404,22 +398,16 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            List<String> attackResourceLevels = new AttackResourceLevels().getAllTerms().toList()
-            Collections.shuffle(attackResourceLevels)
-            builder.resourceLevel(attackResourceLevels.first())
+            builder.resourceLevel(mock.fromStrings(new AttackResourceLevels().getAllTerms().toList()).get())
         }
 
         if (mock.bools().probability(50).get()) {
-            List<String> attackMotivations = new AttackMotivations().getAllTerms().toList()
-            Collections.shuffle(attackMotivations)
-            builder.primaryMotivation(attackMotivations.first())
+            builder.primaryMotivation(mock.fromStrings(new AttackMotivations().getAllTerms().toList()).get())
         }
 
         if (mock.bools().probability(50).get()) {
-            List<String> attackMotivations = new AttackMotivations().getAllTerms().toList()
-            Collections.shuffle(attackMotivations)
-            mock.ints().range(1, 5).get().times { i ->
-                builder.addSecondaryMotivation(attackMotivations.get(i))
+            mock.ints().range(1, 5).get().times {
+                builder.addSecondaryMotivation(mock.fromStrings(new AttackMotivations().getAllTerms().toList()).get())
             }
         }
 
@@ -443,9 +431,7 @@ trait StixMockDataGenerator {
     Malware mockMalware() {
         Malware.Builder builder = Malware.builder()
 
-        List<String> malwareLabels = new MalwareLabels().getAllTerms().toList()
-        Collections.shuffle(malwareLabels)
-        builder.addLabel(malwareLabels.first())
+        builder.addLabel(mock.fromStrings(new MalwareLabels().getAllTerms().toList()).get())
 
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
@@ -552,10 +538,9 @@ trait StixMockDataGenerator {
         Artifact.Builder builder = Artifact.builder()
 
         List<String> types = ["application", "audio", "font", "image", "message", "model", "multipart", "text", "video"]
-        Collections.shuffle(types)
 
         if (mock.bools().probability(50).get()) {
-            builder.mimeType("${types.first()}/some-file-mime-type")
+            builder.mimeType("${(mock.fromStrings(types).get())}/some-file-mime-type")
         }
 
         if (mock.bools().probability(50).get()) {
@@ -782,8 +767,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             List<String> types = ["application", "audio", "font", "image", "message", "model", "multipart", "text", "video"]
-            Collections.shuffle(types)
-            builder.mimeType("${types.first()}/some-file-mime-type")
+            builder.mimeType("${(mock.fromStrings(types).get())}/some-file-mime-type")
         }
 
         if (mock.bools().probability(50).get()) {
@@ -806,9 +790,7 @@ trait StixMockDataGenerator {
             builder.isEncrypted(true)
 
             if (mock.bools().probability(50).get()) {
-                List<String> encryptionAlgro = new EncryptionAlgorithms().getAllTerms().toList()
-                Collections.shuffle(encryptionAlgro)
-                builder.encryptionAlgorithm(encryptionAlgro.first())
+                builder.encryptionAlgorithm(mock.fromStrings(new EncryptionAlgorithms().getAllTerms().toList()).get())
             }
 
             if (mock.bools().probability(50).get()) {
