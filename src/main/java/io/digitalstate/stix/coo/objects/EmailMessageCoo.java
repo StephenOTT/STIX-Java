@@ -12,6 +12,7 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Map;
@@ -89,6 +90,7 @@ public interface EmailMessageCoo extends CyberObservableObject {
 
     @JsonProperty("body_multipart")
     @JsonPropertyDescription("Specifies a list of the MIME parts that make up the email body.")
+    @Valid
     Set<MimePartTypeObj> getBodyMultipart();
 
     @JsonProperty("raw_email_ref")
