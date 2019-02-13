@@ -30,7 +30,7 @@ public class CyberObservableSetFieldDeserializer extends StdDeserializer<Set<Cyb
         tree.fieldNames().forEachRemaining(f->{
            ObjectNode node =  (ObjectNode)tree.get(f);
            node.put("observable_object_key", f);
-           System.out.println(node.toString());
+//           System.out.println(node.toString());
             try {
                 CyberObservableObject object = node.traverse(p.getCodec())
                         .readValueAs(CyberObservableObject.class);

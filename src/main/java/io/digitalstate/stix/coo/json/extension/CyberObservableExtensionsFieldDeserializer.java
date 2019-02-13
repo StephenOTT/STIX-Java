@@ -35,7 +35,7 @@ public class CyberObservableExtensionsFieldDeserializer extends StdDeserializer<
                 CyberObservableExtension extension = node.traverse(p.getCodec()).readValueAs(CyberObservableExtension.class);
                 extensions.add(extension);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IllegalStateException("Cannot deserialize COO extension: ", e);
             }
         });
 
