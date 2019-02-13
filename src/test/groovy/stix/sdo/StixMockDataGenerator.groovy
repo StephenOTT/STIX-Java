@@ -2,6 +2,7 @@ package stix.sdo
 
 import io.digitalstate.stix.coo.objects.Artifact
 import io.digitalstate.stix.coo.objects.AutonomousSystem
+import io.digitalstate.stix.coo.objects.Directory
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
 import io.digitalstate.stix.sdo.objects.CourseOfAction
@@ -485,9 +486,15 @@ trait StixMockDataGenerator {
         // worry about the Refs in a later iteration of tests.
         builder.addObject(mockArtifactCoo())
 
-        if (mock.bools().probability(50).get()) {
+        if (mock.bools().probability(10).get()) {
             mock.ints().range(1, 5).get().times {
                 builder.addObject(mockAutonomousSystemCoo())
+            }
+        }
+
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockDirectoryCoo())
             }
         }
 
@@ -554,7 +561,28 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
+    Directory mockDirectoryCoo(){
+        Directory.Builder builder = Directory.builder()
+
+        builder.path(mock.words().accumulate(mock.ints().range(1, 5).get(), "/").get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.pathEnc("csASCII")
         }
+
+        if (mock.bools().probability(50).get()) {
+            builder.created(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.modified(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.accessed(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO Add contains_ref mocking
 
         return builder.build()
     }
