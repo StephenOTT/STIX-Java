@@ -37,6 +37,6 @@ class ObservedDataSpec extends Specification implements StixMockDataGenerator {
             assert newJson == originalJson
 
         where:
-            i << (1..100)
+            i << (1..500) // More tests are run because of the large variation of probabilities and number of combinations
     }
 }
