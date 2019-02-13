@@ -6,6 +6,7 @@ import io.digitalstate.stix.coo.objects.Directory
 import io.digitalstate.stix.coo.objects.DomainName
 import io.digitalstate.stix.coo.objects.EmailAddress
 import io.digitalstate.stix.coo.objects.EmailMessage
+import io.digitalstate.stix.coo.objects.File
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
@@ -19,6 +20,7 @@ import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.vocabularies.AttackMotivations
 import io.digitalstate.stix.vocabularies.AttackResourceLevels
+import io.digitalstate.stix.vocabularies.EncryptionAlgorithms
 import io.digitalstate.stix.vocabularies.IdentityClasses
 import io.digitalstate.stix.vocabularies.IndicatorLabels
 import io.digitalstate.stix.vocabularies.IndustrySectors
@@ -521,6 +523,12 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockFileCoo())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -709,7 +717,7 @@ trait StixMockDataGenerator {
             if (mock.bools().probability(50).get()) {
                 builder.bodyRawRef(mockArtifactCoo().getObservableObjectKey())
             } else {
-                //@TODO MOCK FileCoo
+                builder.bodyRawRef(mockFileCoo().getObservableObjectKey())
             }
         }
 
@@ -720,6 +728,87 @@ trait StixMockDataGenerator {
         if (mock.bools().probability(50).get()) {
             builder.contentDisposition(mock.words().get())
         }
+
+        return builder.build()
+    }
+
+    File mockFileCoo(){
+        File.Builder builder = File.builder()
+
+        //@TODO Add Extensions support for `ntfs-ext, raster-image-ext, pdf-ext, archive-ext, windows-pebinary-ext`
+
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("MD5", mock.hashes().md5().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-256", mock.hashes().sha256().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-512", mock.hashes().sha512().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-1", mock.hashes().sha1().get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.size(mock.longs().range(0, 9999999999999999L).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.nameEnc(mock.words().get())
+        }
+
+        //@TODO hardcoded the hex value until a proper generator can be built.
+        if (mock.bools().probability(50).get()) {
+            builder.magicNumberHex("F9")
+        }
+
+        if (mock.bools().probability(50).get()) {
+            List<String> types = ["application", "audio", "font", "image", "message", "model", "multipart", "text", "video"]
+            Collections.shuffle(types)
+            builder.mimeType("${types.first()}/some-file-mime-type")
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.created(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.modified(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.accessed(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.parentDirectoryRef(mockDirectoryCoo().getObservableObjectKey())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.isEncrypted(true)
+
+            if (mock.bools().probability(50).get()) {
+                List<String> encryptionAlgro = new EncryptionAlgorithms().getAllTerms().toList()
+                Collections.shuffle(encryptionAlgro)
+                builder.encryptionAlgorithm(encryptionAlgro.first())
+            }
+
+            if (mock.bools().probability(50).get()) {
+               builder.decryptionKey(mock.words().accumulate(mock.ints().range(1, 20).get(), "").get())
+            }
+        }
+
+        //@TODO come up with a simple use case that does not cause recursion for the "contains_refs" field
 
         return builder.build()
     }
