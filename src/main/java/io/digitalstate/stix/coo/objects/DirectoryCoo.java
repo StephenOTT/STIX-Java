@@ -42,7 +42,7 @@ public interface DirectoryCoo extends CyberObservableObject {
     @JsonProperty("path_enc")
     @JsonPropertyDescription("Specifies the observed encoding for the path.")
     Optional<@Pattern(regexp = "^[a-zA-Z0-9/\\.+_:-]{2,250}$")
-            String> getName();
+            String> getPathEnc();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("created")
