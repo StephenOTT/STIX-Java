@@ -90,14 +90,6 @@ public interface FileCoo extends CyberObservableObject {
     @JsonPropertyDescription("Specifies the parent directory of the file, as a reference to a Directory Object.")
     Optional<String> getParentDirectoryRef();
 
-    @JsonProperty("contains_refs")
-    @JsonPropertyDescription("Specifies a list of references to other Observable Objects contained within the file.")
-    Set<String> getContainsRefs();
-
-    @JsonProperty("content_ref")
-    @JsonPropertyDescription("Specifies the content of the file, represented as an Artifact Object.")
-    Optional<String> getContentRef();
-
     @JsonProperty("is_encrypted")
     @JsonPropertyDescription("Specifies whether the file is encrypted.")
     @NotNull
@@ -110,5 +102,13 @@ public interface FileCoo extends CyberObservableObject {
     @JsonProperty("decryption_key")
     @JsonPropertyDescription("Specifies the decryption key used to decrypt the archive file.")
     Optional<String> getDecryptionKey();
+
+    @JsonProperty("contains_refs")
+    @JsonPropertyDescription("Specifies a list of references to other Observable Objects contained within the file.")
+    Set<String> getContainsRefs();
+
+    @JsonProperty("content_ref")
+    @JsonPropertyDescription("Specifies the content of the file, represented as an Artifact Object.")
+    Optional<String> getContentRef();
 
 }
