@@ -4,6 +4,7 @@ import io.digitalstate.stix.coo.objects.Artifact
 import io.digitalstate.stix.coo.objects.AutonomousSystem
 import io.digitalstate.stix.coo.objects.Directory
 import io.digitalstate.stix.coo.objects.DomainName
+import io.digitalstate.stix.coo.objects.EmailAddress
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
 import io.digitalstate.stix.sdo.objects.CourseOfAction
@@ -505,6 +506,12 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockEmailAddressCoo())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -600,6 +607,20 @@ trait StixMockDataGenerator {
         builder.value(mock.domains().get())
 
         //@TODO Add resolves_to_refs mocking
+
+        return builder.build()
+    }
+
+    EmailAddress mockEmailAddressCoo(){
+        EmailAddress.Builder builder = EmailAddress.builder()
+
+        builder.value(mock.emails().get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.displayName(mock.names().full(33.33).get())
+        }
+
+        //@TODO Add belongs_to_ref mocking
 
         return builder.build()
     }
