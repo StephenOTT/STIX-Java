@@ -290,7 +290,7 @@ trait StixMockDataGenerator {
         builder.identityClass(mock.fromStrings(new IdentityClasses().getAllTerms().toList()).get())
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(0, 5).get().times {
+            mock.ints().range(1, 5).get().times {
                 builder.addSector(mock.fromStrings(new IndustrySectors().getAllTerms().toList()).get())
             }
         }
