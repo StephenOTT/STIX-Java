@@ -537,10 +537,8 @@ trait StixMockDataGenerator {
     Artifact mockArtifactCoo() {
         Artifact.Builder builder = Artifact.builder()
 
-        List<String> types = ["application", "audio", "font", "image", "message", "model", "multipart", "text", "video"]
-
         if (mock.bools().probability(50).get()) {
-            builder.mimeType("${(mock.fromStrings(types).get())}/some-file-mime-type")
+            builder.mimeType(mock.mimes().get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -655,7 +653,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.contentType(mock.words().get())
+            builder.contentType(mock.mimes().get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -715,7 +713,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.contentType(mock.words().get())
+            builder.contentType(mock.mimes().get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -766,8 +764,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            List<String> types = ["application", "audio", "font", "image", "message", "model", "multipart", "text", "video"]
-            builder.mimeType("${(mock.fromStrings(types).get())}/some-file-mime-type")
+            builder.mimeType(mock.mimes().get())
         }
 
         if (mock.bools().probability(50).get()) {
