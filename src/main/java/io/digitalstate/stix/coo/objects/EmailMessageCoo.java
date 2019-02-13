@@ -90,7 +90,6 @@ public interface EmailMessageCoo extends CyberObservableObject {
 
     @JsonProperty("body_multipart")
     @JsonPropertyDescription("Specifies a list of the MIME parts that make up the email body.")
-    @Valid
     Set<MimePartTypeObj> getBodyMultipart();
 
     @JsonProperty("raw_email_ref")
