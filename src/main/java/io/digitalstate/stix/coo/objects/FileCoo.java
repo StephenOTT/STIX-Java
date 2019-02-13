@@ -44,7 +44,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("hashes")
-    @JsonPropertyDescription("Specifies a dictionary of hashes for the contents of the url or the payload_bin.")
+    @JsonPropertyDescription("Specifies a dictionary of hashes for the contents of the file.")
     Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
 
     @JsonProperty("size")
