@@ -5,6 +5,8 @@ import io.digitalstate.stix.coo.objects.AutonomousSystem
 import io.digitalstate.stix.coo.objects.Directory
 import io.digitalstate.stix.coo.objects.DomainName
 import io.digitalstate.stix.coo.objects.EmailAddress
+import io.digitalstate.stix.coo.objects.EmailMessage
+import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
 import io.digitalstate.stix.sdo.objects.CourseOfAction
@@ -512,6 +514,13 @@ trait StixMockDataGenerator {
             }
         }
 
+        //@TODO Refactor to pass in Email address objects and artifacts
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockEmailMessageCoo())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -621,6 +630,96 @@ trait StixMockDataGenerator {
         }
 
         //@TODO Add belongs_to_ref mocking
+
+        return builder.build()
+    }
+
+    EmailMessage mockEmailMessageCoo(){
+        EmailMessage.Builder builder = EmailMessage.builder()
+
+        if (mock.bools().probability(50).get()) {
+            builder.isMultipart(true)
+            mock.ints().range(1,5).get().times {
+                builder.addBodyMultipart(mockMimePartTypeCooType())
+            }
+        } else {
+            builder.isMultipart(false)
+            builder.body(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.date(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.contentType(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.fromRef(mockEmailAddressCoo().getObservableObjectKey())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.senderRef(mockEmailAddressCoo().getObservableObjectKey())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,10).get().times {
+                builder.addToRef(mockEmailAddressCoo().getObservableObjectKey())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,10).get().times {
+                builder.addCcRef(mockEmailAddressCoo().getObservableObjectKey())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,10).get().times {
+                builder.addBccRef(mockEmailAddressCoo().getObservableObjectKey())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.subject(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,10).get().times {
+                builder.addReceivedLine(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.rawEmailRef(mockArtifactCoo().getObservableObjectKey())
+        }
+
+        return builder.build()
+    }
+
+    MimePartType mockMimePartTypeCooType(){
+        MimePartType.Builder builder = MimePartType.builder()
+
+        if (mock.bools().probability(50).get()) {
+            builder.body(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(50).get()) {
+                builder.bodyRawRef(mockArtifactCoo().getObservableObjectKey())
+            } else {
+                //@TODO MOCK FileCoo
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.contentType(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.contentDisposition(mock.words().get())
+        }
 
         return builder.build()
     }
