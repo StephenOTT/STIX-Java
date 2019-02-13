@@ -18,9 +18,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  *
  */
 @Value.Immutable @Serial.Version(1L)
-@DefaultTypeValue(value = "mime-part-type", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
-@JsonTypeName("mime-part-type")
 @JsonSerialize(as = MimePartType.class) @JsonDeserialize(builder = MimePartType.Builder.class)
 @JsonPropertyOrder({"body", "body_raw_ref", "content_type", "content_disposition"})
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
