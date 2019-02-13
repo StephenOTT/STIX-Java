@@ -33,7 +33,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "received_lines", "additional_header_fields", "body", "body_multipart", "raw_email_ref" })
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @BusinessRule(ifExp = "isMultipart() == true", thenExp = "getBody().isPresent() == false", errorMessage = "Body cannot be used if isMultipart equals true")
-@BusinessRule(ifExp = "isMultipart() == false", thenExp = "getBodyMultipart().isPresent() == false", errorMessage = "Body_Multipart cannot be used if isMultipart equals false")
+@BusinessRule(ifExp = "isMultipart() == false", thenExp = "getBodyMultipart().isEmpty() == true", errorMessage = "Body_Multipart cannot be used if isMultipart equals false")
 public interface EmailMessageCoo extends CyberObservableObject {
 
     @JsonProperty("is_multipart")
