@@ -1,6 +1,7 @@
 package stix.sdo
 
 import io.digitalstate.stix.coo.objects.Artifact
+import io.digitalstate.stix.coo.objects.AutonomousSystem
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
 import io.digitalstate.stix.sdo.objects.CourseOfAction
@@ -482,8 +483,12 @@ trait StixMockDataGenerator {
 
         //@TODO Replace the below with if statements per COO.  Then for each IF, do a range.get.Times{} to add N artifacts.
         // worry about the Refs in a later iteration of tests.
-        mock.ints().range(0, 5).get().times {
-            builder.addObject(mockArtifactCoo())
+        builder.addObject(mockArtifactCoo())
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockAutonomousSystemCoo())
+            }
         }
 
         if (mock.bools().probability(50).get()) {
@@ -521,13 +526,34 @@ trait StixMockDataGenerator {
             builder.url(mock.urls().get())
             builder.putHash("SHA-256", mock.hashes().sha256().get())
 
-//            if (mock.bools().probability(33.33).get()) {
-//                builder.putHash("SHA-1", mock.hashes().sha1().get())
-//            }
-//
-//            if (mock.bools().probability(33.33).get()) {
-//                builder.putHash("MD5", mock.hashes().md5().get())
-//            }
+            if (mock.bools().probability(33.33).get()) {
+                builder.putHash("SHA-1", mock.hashes().sha1().get())
+            }
+
+            if (mock.bools().probability(33.33).get()) {
+                builder.putHash("MD5", mock.hashes().md5().get())
+            }
+        }
+
+        return builder.build()
+    }
+
+    AutonomousSystem mockAutonomousSystemCoo(){
+        AutonomousSystem.Builder builder = AutonomousSystem.builder()
+
+        builder.number(mock.longs().get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.rir(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+        }
+
+        return builder.build()
+    }
+
         }
 
         return builder.build()
