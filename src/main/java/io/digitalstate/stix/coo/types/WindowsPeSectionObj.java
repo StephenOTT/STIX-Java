@@ -3,6 +3,7 @@ package io.digitalstate.stix.coo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -23,13 +24,13 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  *
  */
 @Value.Immutable @Serial.Version(1L)
-@DefaultTypeValue(value = "windows-pe-section-type", groups = {DefaultValuesProcessor.class})
+//@DefaultTypeValue(value = "windows-pe-section-type", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = WindowsPeSection.class) @JsonDeserialize(builder = WindowsPeSection.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "size", "entropy", "hashes" })
-@JsonTypeName("windows-pe-section-type")
-public interface WindowsPeSectionObj {
+//@JsonTypeName("windows-pe-section-type")
+public interface WindowsPeSectionObj extends GenericValidation {
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the section.")

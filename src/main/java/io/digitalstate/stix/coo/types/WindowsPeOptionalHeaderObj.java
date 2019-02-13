@@ -3,6 +3,7 @@ package io.digitalstate.stix.coo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -25,7 +26,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  *
  */
 @Value.Immutable @Serial.Version(1L)
-@DefaultTypeValue(value = "windows-pe-optional-header-type", groups = {DefaultValuesProcessor.class})
+//@DefaultTypeValue(value = "windows-pe-optional-header-type", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = WindowsPeOptionalHeader.class) @JsonDeserialize(builder = WindowsPeOptionalHeader.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
@@ -36,8 +37,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "win32_version_value_hex", "size_of_image", "size_of_headers", "checksum_hex", "subsystem_hex",
         "dll_characteristics_hex", "size_of_stack_reserve", "size_of_stack_commit", "size_of_heap_reserve",
         "size_of_heap_commit", "loader_flags_hex", "number_of_rva_and_sizes", "hashes" })
-@JsonTypeName("windows-pe-optional-header-type")
-public interface WindowsPeOptionalHeaderObj {
+//@JsonTypeName("windows-pe-optional-header-type")
+public interface WindowsPeOptionalHeaderObj extends GenericValidation {
 
     @JsonProperty("magic_hex")
     @JsonPropertyDescription("Specifies the unsigned Optional<Integer> that indicates the type of the PE binary.")

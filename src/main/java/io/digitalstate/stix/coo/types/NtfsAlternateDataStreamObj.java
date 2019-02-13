@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.extension.CyberObservableExtension;
+import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -24,13 +25,13 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  *
  */
 @Value.Immutable @Serial.Version(1L)
-@DefaultTypeValue(value = "alternate-data-stream-type", groups = {DefaultValuesProcessor.class})
+//@DefaultTypeValue(value = "alternate-data-stream-type", groups = {DefaultValuesProcessor.class})
 @Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = NtfsAlternateDataStream.class) @JsonDeserialize(builder = NtfsAlternateDataStream.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "hashes", "size" })
-@JsonTypeName("alternate-data-stream-type")
-public interface NtfsAlternateDataStreamObj extends CyberObservableExtension {
+//@JsonTypeName("alternate-data-stream-type")
+public interface NtfsAlternateDataStreamObj extends GenericValidation {
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the alternate data stream.")

@@ -3,6 +3,7 @@ package io.digitalstate.stix.coo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -23,7 +24,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({"body", "body_raw_ref", "content_type", "content_disposition"})
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @BusinessRule(ifExp = "true", thenExp = "getBody().isPresent() == true || getBodyRawRef().isPresent() == true", errorMessage = "One of body OR body_raw_ref MUST be included.")
-public interface MimePartTypeObj {
+public interface MimePartTypeObj extends GenericValidation {
 
     /**
      * Contents of body MUST be decoded to Unicode.
