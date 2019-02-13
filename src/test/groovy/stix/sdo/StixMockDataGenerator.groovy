@@ -576,7 +576,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    AutonomousSystem mockAutonomousSystemCoo(){
+    AutonomousSystem mockAutonomousSystemCoo() {
         AutonomousSystem.Builder builder = AutonomousSystem.builder()
 
         builder.number(mock.longs().get())
@@ -592,7 +592,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    Directory mockDirectoryCoo(){
+    Directory mockDirectoryCoo() {
         Directory.Builder builder = Directory.builder()
 
         builder.path(mock.words().accumulate(mock.ints().range(1, 5).get(), "/").get())
@@ -613,12 +613,22 @@ trait StixMockDataGenerator {
             builder.accessed(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
         }
 
-        //@TODO Add contains_ref mocking
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                if (mock.bools().probability(50).get()) {
+                    builder.addContainsRef(mockFileCoo().getObservableObjectKey())
+                } else {
+                    //@TODO add support for contains_refs with directories
+                    // This will require that Creating a Directory COO has a param to
+                    // set where other Contains refs are generated so a endless cannot happen.
+                }
+            }
+        }
 
         return builder.build()
     }
 
-    DomainName mockDomainNameCoo(){
+    DomainName mockDomainNameCoo() {
         DomainName.Builder builder = DomainName.builder()
 
         builder.value(mock.domains().get())
@@ -628,7 +638,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    EmailAddress mockEmailAddressCoo(){
+    EmailAddress mockEmailAddressCoo() {
         EmailAddress.Builder builder = EmailAddress.builder()
 
         builder.value(mock.emails().get())
@@ -642,12 +652,12 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    EmailMessage mockEmailMessageCoo(){
+    EmailMessage mockEmailMessageCoo() {
         EmailMessage.Builder builder = EmailMessage.builder()
 
         if (mock.bools().probability(50).get()) {
             builder.isMultipart(true)
-            mock.ints().range(1,5).get().times {
+            mock.ints().range(1, 5).get().times {
                 builder.addBodyMultipart(mockMimePartTypeCooType())
             }
         } else {
@@ -672,19 +682,19 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addToRef(mockEmailAddressCoo().getObservableObjectKey())
             }
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addCcRef(mockEmailAddressCoo().getObservableObjectKey())
             }
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addBccRef(mockEmailAddressCoo().getObservableObjectKey())
             }
         }
@@ -694,7 +704,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addReceivedLine(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
             }
         }
@@ -706,14 +716,12 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    MimePartType mockMimePartTypeCooType(){
+    MimePartType mockMimePartTypeCooType() {
         MimePartType.Builder builder = MimePartType.builder()
 
         if (mock.bools().probability(50).get()) {
             builder.body(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
-        }
-
-        if (mock.bools().probability(50).get()) {
+        } else {
             if (mock.bools().probability(50).get()) {
                 builder.bodyRawRef(mockArtifactCoo().getObservableObjectKey())
             } else {
@@ -732,7 +740,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    File mockFileCoo(){
+    File mockFileCoo() {
         File.Builder builder = File.builder()
 
         //@TODO Add Extensions support for `ntfs-ext, raster-image-ext, pdf-ext, archive-ext, windows-pebinary-ext`
@@ -804,7 +812,7 @@ trait StixMockDataGenerator {
             }
 
             if (mock.bools().probability(50).get()) {
-               builder.decryptionKey(mock.words().accumulate(mock.ints().range(1, 20).get(), "").get())
+                builder.decryptionKey(mock.words().accumulate(mock.ints().range(1, 20).get(), "").get())
             }
         }
 
