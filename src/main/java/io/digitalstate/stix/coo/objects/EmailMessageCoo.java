@@ -80,7 +80,7 @@ public interface EmailMessageCoo extends CyberObservableObject {
 
     @JsonProperty("additional_header_fields")
     @JsonPropertyDescription("Specifies any other header fields (except for date, received_lines, content_type, from_ref, sender_ref, to_refs, cc_refs, bcc_refs, and subject) found in the email message, as a dictionary.")
-    Map<String, Set<String>> getAdditionalHeaderFields();
+    Map<String, String> getAdditionalHeaderFields();
 
     @JsonProperty("raw_email_ref")
     @JsonPropertyDescription("Specifies the raw binary contents of the email message, including both the headers and body, as a reference to an Artifact Object.")
