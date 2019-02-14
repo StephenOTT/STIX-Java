@@ -17,6 +17,7 @@ import io.digitalstate.stix.coo.objects.Software
 import io.digitalstate.stix.coo.objects.Url
 import io.digitalstate.stix.coo.objects.UserAccount
 import io.digitalstate.stix.coo.objects.WindowsRegistryKey
+import io.digitalstate.stix.coo.objects.X509Certificate
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.coo.types.WindowsRegistryValue
 import io.digitalstate.stix.sdo.objects.AttackPattern
@@ -585,6 +586,12 @@ trait StixMockDataGenerator {
         if (mock.bools().probability(10).get()) {
             mock.ints().range(1, 5).get().times {
                 builder.addObject(mockWindowsRegistryKeyCoo())
+            }
+        }
+
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockX509CertificateCoo())
             }
         }
 
@@ -1248,6 +1255,79 @@ trait StixMockDataGenerator {
         if (mock.bools().probability(50).get()) {
             builder.dataType(mock.fromStrings(new WindowsRegistryValueDataTypes().getAllTerms().toList()).get())
         }
+
+        return builder.build()
+    }
+
+    X509Certificate mockX509CertificateCoo() {
+        X509Certificate.Builder builder = X509Certificate.builder()
+
+        if (mock.bools().probability(33).get()) {
+            builder.isSelfSigned(true)
+        } else {
+            builder.isSelfSigned(false)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("MD5", mock.hashes().md5().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-256", mock.hashes().sha256().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-512", mock.hashes().sha512().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-1", mock.hashes().sha1().get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.version("${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}")
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.serialNumber(mock.ints().range(1, 9999999).get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.signatureAlgorithm(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.issuer(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.validityNotBefore(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.validityNotAfter(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.subject(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.subjectPublicKeyAlgorithm(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.subjectPublicKeyModulus(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.subjectPublicKeyExponent(mock.longs().get())
+        }
+
+        //@TODO x509_v3_extensions
 
         return builder.build()
     }
