@@ -52,8 +52,7 @@ public interface SoftwareCoo extends CyberObservableObject {
      */
     @JsonProperty("languages")
     @JsonPropertyDescription("Specifies the languages supported by the software.")
-    @Pattern(regexp="^[a-z]{3}$")
-    Set<String> getLanguages();
+    Set<@Pattern(regexp="^[a-z]{3}$") String> getLanguages();
 
     @JsonProperty("vendor")
     @JsonPropertyDescription("Specifies the name of the vendor of the software.")
