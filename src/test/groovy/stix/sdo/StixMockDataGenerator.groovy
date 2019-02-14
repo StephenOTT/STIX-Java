@@ -10,6 +10,8 @@ import io.digitalstate.stix.coo.objects.File
 import io.digitalstate.stix.coo.objects.Ipv4Address
 import io.digitalstate.stix.coo.objects.Ipv6Address
 import io.digitalstate.stix.coo.objects.MacAddress
+import io.digitalstate.stix.coo.objects.Mutex
+import io.digitalstate.stix.coo.objects.NetworkTraffic
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
@@ -536,6 +538,18 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockMutexCoo())
+            }
+        }
+
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockNetworkTrafficCoo())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -865,6 +879,116 @@ trait StixMockDataGenerator {
         MacAddress.Builder builder = MacAddress.builder()
 
         builder.value(mock.macs().get())
+
+        return builder.build()
+    }
+
+    Mutex mockMutexCoo() {
+        Mutex.Builder builder = Mutex.builder()
+
+        builder.name(mock.words().get())
+
+        return builder.build()
+    }
+
+    NetworkTraffic mockNetworkTrafficCoo() {
+        NetworkTraffic.Builder builder = NetworkTraffic.builder()
+
+        if (mock.bools().probability(50).get()) {
+            builder.start(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.end(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        // 33% true, 33% false, 33% never set / null:
+        if (mock.bools().probability(33).get()) {
+            builder.isActive(true)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isActive(false)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            switch (mock.ints().range(0,3).get()){
+                case 0:
+                    builder.srcRef(mockIpv4AddressCoo().getObservableObjectKey())
+                    break
+                case 1:
+                    builder.srcRef(mockIpv6AddressCoo().getObservableObjectKey())
+                    break
+                case 2:
+                    builder.srcRef(mockMacAddress().getObservableObjectKey())
+                    break
+                case 3:
+                    builder.srcRef(mockDomainNameCoo().getObservableObjectKey())
+                    break
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            switch (mock.ints().range(0,3).get()){
+                case 0:
+                    builder.dstRef(mockIpv4AddressCoo().getObservableObjectKey())
+                    break
+                case 1:
+                    builder.dstRef(mockIpv6AddressCoo().getObservableObjectKey())
+                    break
+                case 2:
+                    builder.dstRef(mockMacAddress().getObservableObjectKey())
+                    break
+                case 3:
+                    builder.dstRef(mockDomainNameCoo().getObservableObjectKey())
+                    break
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.srcPort(mock.ints().range(0, 65535).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.dstPort(mock.ints().range(0, 65535).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                builder.addProtocol(mock.fromStrings("ipv4", "tcp", "http", "udp", "ipv6", "ssl", "https").get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.srcByteCount(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.dstByteCount(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.srcPackets(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,30).get().times {
+                if (mock.bools().probability(50).get()) {
+                    builder.putIpFix(mock.words().get(), mock.words().get())
+                } else {
+                    builder.putIpFix(mock.words().get(), mock.ints().get())
+                }
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.srcPayloadRef(mockArtifactCoo().getObservableObjectKey())
+        }
+
+        //@TODO encapsulates_refs (List)
+
+        //@TODO encapsulated_by_ref
 
         return builder.build()
     }
