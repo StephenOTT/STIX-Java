@@ -573,6 +573,12 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockUserAccount())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -1120,7 +1126,7 @@ trait StixMockDataGenerator {
 
     UserAccount mockUserAccount() {
         UserAccount.Builder builder = UserAccount.builder()
-        
+
         builder.userId(mock.uuids().get())
 
         if (mock.bools().probability(50).get()) {
