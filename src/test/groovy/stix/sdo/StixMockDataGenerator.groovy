@@ -28,6 +28,10 @@ import io.digitalstate.stix.sdo.objects.Indicator
 import io.digitalstate.stix.sdo.objects.IntrusionSet
 import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sdo.objects.ObservedData
+import io.digitalstate.stix.sdo.objects.Report
+import io.digitalstate.stix.sdo.objects.ThreatActor
+import io.digitalstate.stix.sdo.objects.Tool
+import io.digitalstate.stix.sdo.objects.Vulnerability
 import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
 import io.digitalstate.stix.vocabularies.AccountTypes
@@ -38,6 +42,11 @@ import io.digitalstate.stix.vocabularies.IdentityClasses
 import io.digitalstate.stix.vocabularies.IndicatorLabels
 import io.digitalstate.stix.vocabularies.IndustrySectors
 import io.digitalstate.stix.vocabularies.MalwareLabels
+import io.digitalstate.stix.vocabularies.ReportLabels
+import io.digitalstate.stix.vocabularies.ThreatActorLabels
+import io.digitalstate.stix.vocabularies.ThreatActorRoles
+import io.digitalstate.stix.vocabularies.ThreatActorSophistication
+import io.digitalstate.stix.vocabularies.ToolLabels
 import io.digitalstate.stix.vocabularies.WindowsRegistryValueDataTypes
 import net.andreinc.mockneat.MockNeat
 
@@ -60,7 +69,7 @@ trait StixMockDataGenerator {
     Set<String> generateRandomLabels() {
         Set<String> labels = new HashSet<>()
 
-        mock.ints().range(0, 20).get().times {
+        mock.ints().range(1, 20).get().times {
             labels.add(mock.words().get())
         }
         return labels
@@ -827,7 +836,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.size(mock.longs().range(0, 9999999999999999L).get())
+            builder.size(mock.longs().range(0, 999999999).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1006,24 +1015,24 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.srcByteCount(mock.longs().range(0, 999999999999).get())
+            builder.srcByteCount(mock.longs().range(0, 999999999).get())
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.dstByteCount(mock.longs().range(0, 999999999999).get())
+            builder.dstByteCount(mock.longs().range(0, 999999999).get())
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.srcPackets(mock.longs().range(0, 999999999999).get())
+            builder.srcPackets(mock.longs().range(0, 999999999).get())
         }
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1,10).get().times {
-                String key = mock.words().get()
+                String key = mock.uuids().get()
                 if (mock.bools().probability(50).get()) {
                     builder.putIpFix(key, mock.words().get())
                 } else {
-                    builder.putIpFix(key, mock.ints().range(0, 999999999999).get())
+                    builder.putIpFix(key, mock.ints().range(0, 999999999).get())
                 }
             }
         }
@@ -1051,7 +1060,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.pid(mock.longs().range(0,999999999999).get())
+            builder.pid(mock.longs().range(0,999999999).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1068,7 +1077,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 10).get().times {
-                builder.addArgument(mock.words().get())
+                builder.addArgument(mock.uuids().get())
             }
         }
 
@@ -1078,7 +1087,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 20).get().times {
-                builder.putEnvironmentVariable(mock.words().get().capitalize(), mock.words().get())
+                builder.putEnvironmentVariable(mock.uuids().get(), mock.words().get())
             }
         }
 
@@ -1237,7 +1246,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.numberOfSubkeys(mock.longs().range(0, 999999999999).get())
+            builder.numberOfSubkeys(mock.longs().range(0, 999999999).get())
         }
 
         return builder.build()
@@ -1327,7 +1336,238 @@ trait StixMockDataGenerator {
             builder.subjectPublicKeyExponent(mock.longs().get())
         }
 
-        //@TODO x509_v3_extensions
+        //@TODO x509_v3_extensions property
+
+        return builder.build()
+    }
+
+    Report mockReport() {
+        Report.Builder builder = Report.builder()
+
+        mock.ints().range(1, 5).get().times {
+            builder.addLabel(mock.fromStrings(new ReportLabels().getAllTerms().toList()).get())
+        }
+
+        builder.name(mock.words().accumulate(mock.ints().range(1, 8).get(), " ").get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.markovs().size(500).get())
+        }
+
+        builder.published(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+
+        mock.ints().range(1, 50).get().times {
+            switch (mock.ints().range(0, 10).get()) {
+                case 0:
+                    builder.addObjectRef(mockAttackPattern())
+                    break
+                case 1:
+                    builder.addObjectRef(mockCampaign())
+                    break
+                case 2:
+                    builder.addObjectRef(mockCourseOfAction())
+                    break
+                case 3:
+                    builder.addObjectRef(mockIdentity())
+                    break
+                case 4:
+                    builder.addObjectRef(mockIndicator())
+                    break
+                case 5:
+                    builder.addObjectRef(mockIntrusionSet())
+                    break
+                case 6:
+                    builder.addObjectRef(mockMalware())
+                    break
+                case 7:
+                    builder.addObjectRef(mockObservedData())
+                    break
+                case 8:
+                    builder.addObjectRef(mockThreatActor())
+                    break
+                case 9:
+                    builder.addObjectRef(mockTool())
+                    break
+                case 10:
+                    builder.addObjectRef(mockVulnerability())
+                    break
+                //@TODO add future support for references to other Report SDOs
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        return builder.build()
+    }
+
+    ThreatActor mockThreatActor() {
+        ThreatActor.Builder builder = ThreatActor.builder()
+
+        mock.ints().range(1, 5).get().times {
+            builder.addLabel(mock.fromStrings(new ThreatActorLabels().getAllTerms().toList()).get())
+        }
+
+        builder.name(mock.names().get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.markovs().size(500).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addAlias(mock.names().get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addRole(mock.fromStrings(new ThreatActorRoles().getAllTerms().toList()).get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGoal(mock.markovs().size(20).get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sophistication(mock.fromStrings(new ThreatActorSophistication().getAllTerms().toList()).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.resourceLevel(mock.fromStrings(new AttackResourceLevels().getAllTerms().toList()).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.primaryMotivation(mock.fromStrings(new AttackMotivations().getAllTerms().toList()).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addSecondaryMotivation(mock.fromStrings(new AttackMotivations().getAllTerms().toList()).get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addPersonalMotivation(mock.fromStrings(new AttackMotivations().getAllTerms().toList()).get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        return builder.build()
+    }
+
+    Tool mockTool() {
+        Tool.Builder builder = Tool.builder()
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addLabel(mock.fromStrings(new ToolLabels().getAllTerms().toList()).get())
+            }
+        }
+
+        builder.name(mock.words().get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.markovs().size(200).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 15).get().times {
+                builder.addKillChainPhase(mockKillChainPhase())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.toolVersion("${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}")
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        return builder.build()
+    }
+
+    Vulnerability mockVulnerability() {
+        Vulnerability.Builder builder = Vulnerability.builder()
+
+        builder.name(mock.words().get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.markovs().size(400).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.labels(generateRandomLabels())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
 
         return builder.build()
     }
