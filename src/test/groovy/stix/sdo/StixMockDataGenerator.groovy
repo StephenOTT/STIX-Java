@@ -12,6 +12,7 @@ import io.digitalstate.stix.coo.objects.Ipv6Address
 import io.digitalstate.stix.coo.objects.MacAddress
 import io.digitalstate.stix.coo.objects.Mutex
 import io.digitalstate.stix.coo.objects.NetworkTraffic
+import io.digitalstate.stix.coo.objects.Process
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
@@ -550,6 +551,12 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockProcessCoo())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -989,6 +996,70 @@ trait StixMockDataGenerator {
         //@TODO encapsulates_refs (List)
 
         //@TODO encapsulated_by_ref
+
+        return builder.build()
+    }
+
+    Process mockProcessCoo() {
+        Process.Builder builder = Process.builder()
+
+        if (mock.bools().probability(33).get()) {
+            builder.isHidden(true)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isHidden(false)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.pid(mock.longs().range(0,999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.created(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.cwd(mock.words().accumulate(mock.ints().range(1, 5).get(), "/").prepend("/").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                builder.addArgument(mock.words().prepend("-").get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.commandLine("${mock.words().get()} ${mock.words().accumulate(mock.ints().range(1,5).get()).prepend("-").get()}")
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 20).get().times {
+                builder.putEnvironmentVariable(mock.words().get().capitalize(), mock.words().get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                builder.addOpenedConnectionRef(mockNetworkTrafficCoo().getObservableObjectKey())
+            }
+        }
+
+        //@TODO creator_user_ref (User Account)
+
+        if (mock.bools().probability(50).get()) {
+            builder.binaryRef(mockFileCoo().getObservableObjectKey())
+        }
+
+
+        //@TODO parent_ref
+
+        //@TODO child_refs
+
 
         return builder.build()
     }
