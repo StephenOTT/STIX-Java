@@ -41,10 +41,11 @@ public interface SoftwareCoo extends CyberObservableObject {
      *  TODO The value for this property MUST be a CPE v2.3 entry from the official NVD CPE Dictionary.
      *  regex pattern = "^cpe:2\\.3:[aho](?::(?:[a-zA-Z0-9!\"#$%&'()*+,\\\\-_.\/();<=>?@\\[\\]^`{|}~]|\\:)+){10}$"
      *  Is not valid for the @Pattern annotation (invalid escape chars)
+     *  Remove @Pattern(regexp="^cpe:2\\.3:[aho]") until working solution is provided
      */
     @JsonProperty("cpe")
     @JsonPropertyDescription("Specifies the Common Platform Enumeration (CPE) entry for the software, if available.")
-    Optional<@Pattern(regexp="^cpe:2\\.3:[aho]") String> getCpe();
+    Optional<String> getCpe();
     
     /**
      * TODO The value of each list member MUST be an ISO 639-2 language code.
