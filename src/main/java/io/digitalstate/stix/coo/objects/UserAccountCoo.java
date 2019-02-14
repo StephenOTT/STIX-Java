@@ -48,8 +48,7 @@ public interface UserAccountCoo extends CyberObservableObject {
 
     @JsonProperty("account_type")
     @JsonPropertyDescription("Specifies the type of the account. This is an open vocabulary and values SHOULD come from the account-type-ov vocabulary.")
-    @Vocab(AccountTypes.class)
-    Optional<String> getAccountType();
+    Optional<@Vocab(AccountTypes.class) String> getAccountType();
 
     @JsonProperty("display_name")
     @JsonPropertyDescription("Specifies the display name of the account, to be shown in user interfaces, if applicable.")
