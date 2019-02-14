@@ -15,6 +15,7 @@ import io.digitalstate.stix.coo.objects.NetworkTraffic
 import io.digitalstate.stix.coo.objects.Process
 import io.digitalstate.stix.coo.objects.Software
 import io.digitalstate.stix.coo.objects.Url
+import io.digitalstate.stix.coo.objects.UserAccount
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
@@ -26,6 +27,7 @@ import io.digitalstate.stix.sdo.objects.Malware
 import io.digitalstate.stix.sdo.objects.ObservedData
 import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
+import io.digitalstate.stix.vocabularies.AccountTypes
 import io.digitalstate.stix.vocabularies.AttackMotivations
 import io.digitalstate.stix.vocabularies.AttackResourceLevels
 import io.digitalstate.stix.vocabularies.EncryptionAlgorithms
@@ -1063,7 +1065,9 @@ trait StixMockDataGenerator {
             }
         }
 
-        //@TODO creator_user_ref (User Account)
+        if (mock.bools().probability(50).get()) {
+            builder.creatorUserRef(mockUserAccount().getObservableObjectKey())
+        }
 
         if (mock.bools().probability(50).get()) {
             builder.binaryRef(mockFileCoo().getObservableObjectKey())
@@ -1113,5 +1117,83 @@ trait StixMockDataGenerator {
 
         return builder.build()
     }
+
+    UserAccount mockUserAccount() {
+        UserAccount.Builder builder = UserAccount.builder()
+        
+        builder.userId(mock.uuids().get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.accountLogin(mock.names().last().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.accountType(mock.fromStrings(new AccountTypes().getAllTerms().toList()).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.displayName(mock.words().get())
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isServiceAccount(true)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isServiceAccount(false)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isPrivileged(true)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isPrivileged(false)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isCanEscalatePrivs(true)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isCanEscalatePrivs(false)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isDisabled(true)
+        }
+
+        if (mock.bools().probability(33).get()) {
+            builder.isDisabled(false)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.accountCreated(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.accountExpires(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.passwordLastChanged(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.accountFirstLogin(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.accountLastLogin(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        return builder.build()
+    }
+
+
 
 }
