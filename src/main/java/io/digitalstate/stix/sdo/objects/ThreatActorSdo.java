@@ -27,7 +27,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  * 
  */
 @Value.Immutable @Serial.Version(1L)
-@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
+@Value.Style(typeAbstract="*Sdo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true, depluralizeDictionary = {"alias:aliases"})
 @JsonTypeName("threat-actor")
 @DefaultTypeValue(value = "threat-actor", groups = {DefaultValuesProcessor.class})
 @JsonSerialize(as = ThreatActor.class) @JsonDeserialize(builder = ThreatActor.Builder.class)
