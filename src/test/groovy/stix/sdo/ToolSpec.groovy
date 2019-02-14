@@ -2,8 +2,6 @@ package stix.sdo
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import groovy.json.JsonBuilder
-import groovy.json.JsonSlurper
 import io.digitalstate.stix.json.StixParsers
 import io.digitalstate.stix.sdo.objects.Tool
 import org.skyscreamer.jsonassert.JSONAssert
