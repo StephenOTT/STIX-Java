@@ -74,7 +74,7 @@ public interface ProcessCoo extends CyberObservableObject {
 
     @JsonProperty("opened_connection_refs")
     @JsonPropertyDescription("Specifies the list of network connections opened by the process, as a reference to one or more Network Traffic Objects.")
-    Set<String> getGpenedConnectionRefs();
+    Set<String> getOpenedConnectionRefs();
 
     @JsonProperty("creator_user_ref")
     @JsonPropertyDescription("Specifies the user that created the process, as a reference to a User Account Object.")
