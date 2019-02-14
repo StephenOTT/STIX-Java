@@ -13,6 +13,7 @@ import io.digitalstate.stix.coo.objects.MacAddress
 import io.digitalstate.stix.coo.objects.Mutex
 import io.digitalstate.stix.coo.objects.NetworkTraffic
 import io.digitalstate.stix.coo.objects.Process
+import io.digitalstate.stix.coo.objects.Software
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
@@ -557,6 +558,12 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockSoftwareCoo())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -1060,6 +1067,34 @@ trait StixMockDataGenerator {
 
         //@TODO child_refs
 
+
+        return builder.build()
+    }
+
+    Software mockSoftwareCoo() {
+        Software.Builder builder = Software.builder()
+
+        builder.name(mock.words().get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.cpe("cpe:2.3:${mock.words().get()}")
+        }
+
+        //@TODO add better language dictionary support
+        if (mock.bools().probability(50).get()) {
+            builder.addLanguage("en")
+            if (mock.bools().probability(50).get()) {
+                builder.addLanguage("fr")
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.vendor(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.version("${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}")
+        }
 
         return builder.build()
     }
