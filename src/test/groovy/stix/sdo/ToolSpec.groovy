@@ -1,13 +1,20 @@
 package stix.sdo
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import io.digitalstate.stix.json.StixParsers
 import io.digitalstate.stix.sdo.objects.Tool
+import org.skyscreamer.jsonassert.JSONAssert
+import org.skyscreamer.jsonassert.JSONCompareMode
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class ToolSpec extends Specification implements StixMockDataGenerator {
+
+    @Shared ObjectMapper mapper = new ObjectMapper()
 
     @Unroll
     def "Generate Tool Data: Run: '#i'"() {
@@ -16,8 +23,8 @@ class ToolSpec extends Specification implements StixMockDataGenerator {
             println "Original Object: ${originalTool.toString()}"
 
         then: "Convert Tool to Json"
-            def originalJson = new JsonSlurper().parseText(originalTool.toJsonString())
-            String originalJsonString = new JsonBuilder(originalJson).toString()
+            JsonNode originalJson = mapper.readTree(originalTool.toJsonString())
+            String originalJsonString = mapper.writeValueAsString(originalJson)
             println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Tool Object"
@@ -29,12 +36,12 @@ class ToolSpec extends Specification implements StixMockDataGenerator {
 //            assert originalAttackPattern == parsedAttackPattern
 
         then: "Convert Parsed Tool back to into Json"
-            def newJson =  new JsonSlurper().parseText(parsedTool.toJsonString())
-            String newJsonString = new JsonBuilder(newJson).toString()
+            JsonNode newJson =  mapper.readTree(parsedTool.toJsonString())
+            String newJsonString = mapper.writeValueAsString(newJson)
             println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
-            assert newJson == originalJson
+            JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)
 
         where:
             i << (1..100) // More tests are run because of the large variation of probabilities and number of combinations
