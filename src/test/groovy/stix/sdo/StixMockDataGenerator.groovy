@@ -1011,11 +1011,12 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,30).get().times {
+            mock.ints().range(1,10).get().times {
+                String key = mock.words().get()
                 if (mock.bools().probability(50).get()) {
-                    builder.putIpFix(mock.words().get(), mock.words().get())
+                    builder.putIpFix(key, mock.words().get())
                 } else {
-                    builder.putIpFix(mock.words().get(), mock.ints().get())
+                    builder.putIpFix(key, mock.ints().range(0, 999999999999).get())
                 }
             }
         }
@@ -1060,12 +1061,12 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 10).get().times {
-                builder.addArgument(mock.words().prepend("-").get())
+                builder.addArgument(mock.words().get())
             }
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.commandLine("${mock.words().get()} ${mock.words().accumulate(mock.ints().range(1,5).get()).prepend("-").get()}")
+            builder.commandLine("${mock.words().get()} ${mock.words().accumulate(mock.ints().range(1,5).get(), " ").get()}")
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1108,9 +1109,9 @@ trait StixMockDataGenerator {
 
         //@TODO add better language dictionary support
         if (mock.bools().probability(50).get()) {
-            builder.addLanguage("en")
+            builder.addLanguage("eng")
             if (mock.bools().probability(50).get()) {
-                builder.addLanguage("fr")
+                builder.addLanguage("fre")
             }
         }
 
@@ -1212,7 +1213,7 @@ trait StixMockDataGenerator {
     WindowsRegistryKey mockWindowsRegistryKeyCoo() {
         WindowsRegistryKey.Builder builder = WindowsRegistryKey.builder()
 
-        builder.key("${mock.words().get()}_${mock.fromStrings("HKEY_LOCAL_MACHINE","hkey_local_machine","HKEY_CURRENT_USER","hkey_current_user","HKEY_CLASSES_ROOT","hkey_classes_root","HKEY_CURRENT_CONFIG","hkey_current_config","HKEY_PERFORMANCE_DATA","hkey_performance_data","HKEY_USERS","hkey_users","HKEY_DYN_DATA")}")
+        builder.key(mock.fromStrings("HKEY_LOCAL_MACHINE","hkey_local_machine","HKEY_CURRENT_USER","hkey_current_user","HKEY_CLASSES_ROOT","hkey_classes_root","HKEY_CURRENT_CONFIG","hkey_current_config","HKEY_PERFORMANCE_DATA","hkey_performance_data","HKEY_USERS","hkey_users","HKEY_DYN_DATA").get())
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1,10).get().times {
