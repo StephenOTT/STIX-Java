@@ -77,23 +77,21 @@ public interface ThreatActorSdo extends DomainObject {
     Set<@Size(min = 1) String> getGoals();
 
     @NotNull
-    @Vocab(ThreatActorSophistication.class)
     @JsonProperty("sophistication") @JsonInclude(NON_EMPTY)
     @JsonPropertyDescription("The skill, specific knowledge, special training, or expertise a Threat Actor must have to perform the attack. Open Vocab - threat-actor-sophistication-ov")
     @Redactable
-    Set<String> getSophistication();
+    Optional<@Vocab(ThreatActorSophistication.class) String> getSophistication();
 
-    @Vocab(AttackResourceLevels.class)
     @JsonProperty("resource_level") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("This defines the organizational level at which this Threat Actor typically works. Open Vocab - attack-resource-level-ov")
     @Redactable
-    Optional<String> getResourceLevel();
+    Optional<@Vocab(AttackResourceLevels.class) String> getResourceLevel();
 
-    @Vocab(AttackMotivations.class)
+
     @JsonProperty("primary_motivation") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The primary reason, motivation, or purpose behind this Threat Actor. Open Vocab - attack-motivation-ov")
     @Redactable
-    Optional<String> getPrimaryMotivation();
+    Optional<@Vocab(AttackMotivations.class) String> getPrimaryMotivation();
 
     @NotNull
     @Vocab(AttackMotivations.class)
