@@ -14,6 +14,7 @@ import io.digitalstate.stix.coo.objects.Mutex
 import io.digitalstate.stix.coo.objects.NetworkTraffic
 import io.digitalstate.stix.coo.objects.Process
 import io.digitalstate.stix.coo.objects.Software
+import io.digitalstate.stix.coo.objects.Url
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
@@ -564,6 +565,12 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockUrl())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -1095,6 +1102,14 @@ trait StixMockDataGenerator {
         if (mock.bools().probability(50).get()) {
             builder.version("${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}")
         }
+
+        return builder.build()
+    }
+
+    Url mockUrl() {
+        Url.Builder builder = Url.builder()
+
+        builder.value(mock.urls().get())
 
         return builder.build()
     }
