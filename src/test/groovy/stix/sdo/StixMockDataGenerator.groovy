@@ -16,7 +16,9 @@ import io.digitalstate.stix.coo.objects.Process
 import io.digitalstate.stix.coo.objects.Software
 import io.digitalstate.stix.coo.objects.Url
 import io.digitalstate.stix.coo.objects.UserAccount
+import io.digitalstate.stix.coo.objects.WindowsRegistryKey
 import io.digitalstate.stix.coo.types.MimePartType
+import io.digitalstate.stix.coo.types.WindowsRegistryValue
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
 import io.digitalstate.stix.sdo.objects.CourseOfAction
@@ -35,6 +37,7 @@ import io.digitalstate.stix.vocabularies.IdentityClasses
 import io.digitalstate.stix.vocabularies.IndicatorLabels
 import io.digitalstate.stix.vocabularies.IndustrySectors
 import io.digitalstate.stix.vocabularies.MalwareLabels
+import io.digitalstate.stix.vocabularies.WindowsRegistryValueDataTypes
 import net.andreinc.mockneat.MockNeat
 
 import java.time.Instant
@@ -576,6 +579,12 @@ trait StixMockDataGenerator {
         if (mock.bools().probability(10).get()) {
             mock.ints().range(1, 5).get().times {
                 builder.addObject(mockUserAccount())
+            }
+        }
+
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockWindowsRegistryKeyCoo())
             }
         }
 
@@ -1200,6 +1209,46 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
+    WindowsRegistryKey mockWindowsRegistryKeyCoo() {
+        WindowsRegistryKey.Builder builder = WindowsRegistryKey.builder()
 
+        builder.key("${mock.words().get()}_${mock.fromStrings("HKEY_LOCAL_MACHINE","hkey_local_machine","HKEY_CURRENT_USER","hkey_current_user","HKEY_CLASSES_ROOT","hkey_classes_root","HKEY_CURRENT_CONFIG","hkey_current_config","HKEY_PERFORMANCE_DATA","hkey_performance_data","HKEY_USERS","hkey_users","HKEY_DYN_DATA")}")
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,10).get().times {
+                builder.addValue(mockWindowsRegistryValue())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.modified(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.creatorUserRef(mockUserAccount().getObservableObjectKey())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.numberOfSubkeys(mock.longs().range(0, 999999999999).get())
+        }
+
+        return builder.build()
+    }
+
+    WindowsRegistryValue mockWindowsRegistryValue() {
+        WindowsRegistryValue.Builder builder = WindowsRegistryValue.builder()
+
+        builder.name(mock.words().get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.data(mock.words().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.dataType(mock.fromStrings(new WindowsRegistryValueDataTypes().getAllTerms().toList()).get())
+        }
+
+        return builder.build()
+    }
 
 }
