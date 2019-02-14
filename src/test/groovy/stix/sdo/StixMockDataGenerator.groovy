@@ -9,6 +9,7 @@ import io.digitalstate.stix.coo.objects.EmailMessage
 import io.digitalstate.stix.coo.objects.File
 import io.digitalstate.stix.coo.objects.Ipv4Address
 import io.digitalstate.stix.coo.objects.Ipv6Address
+import io.digitalstate.stix.coo.objects.MacAddress
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
@@ -529,6 +530,12 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockMacAddress())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -819,7 +826,11 @@ trait StixMockDataGenerator {
 
         builder.value(mock.ipv4s().get())
 
-        //@TODO Add resolves_to_refs support for MAC address
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,10).get().times {
+                builder.addResolvesToRef(mockMacAddress().getObservableObjectKey())
+            }
+        }
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1,10).get().times {
@@ -835,13 +846,25 @@ trait StixMockDataGenerator {
 
         builder.value(mock.iPv6s().get())
 
-        //@TODO Add resolves_to_refs support for MAC address
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,10).get().times {
+                builder.addResolvesToRef(mockMacAddress().getObservableObjectKey())
+            }
+        }
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1,10).get().times {
                 builder.addBelongsToRef(mockAutonomousSystemCoo().getObservableObjectKey())
             }
         }
+
+        return builder.build()
+    }
+
+    MacAddress mockMacAddress() {
+        MacAddress.Builder builder = MacAddress.builder()
+
+        builder.value(mock.macs().get())
 
         return builder.build()
     }
