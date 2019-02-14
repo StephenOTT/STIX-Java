@@ -7,6 +7,7 @@ import io.digitalstate.stix.coo.objects.DomainName
 import io.digitalstate.stix.coo.objects.EmailAddress
 import io.digitalstate.stix.coo.objects.EmailMessage
 import io.digitalstate.stix.coo.objects.File
+import io.digitalstate.stix.coo.objects.Ipv4Address
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.Campaign
@@ -515,6 +516,12 @@ trait StixMockDataGenerator {
             }
         }
 
+        if (mock.bools().probability(10).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObject(mockIpv4AddressCoo())
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(0, 10).get().times {
                 builder.addExternalReferences(mockExternalReference())
@@ -796,6 +803,22 @@ trait StixMockDataGenerator {
         }
 
         //@TODO come up with a simple use case that does not cause recursion for the "contains_refs" field
+
+        return builder.build()
+    }
+
+    Ipv4Address mockIpv4AddressCoo() {
+        Ipv4Address.Builder builder = Ipv4Address.builder()
+
+        builder.value(mock.ipv4s().get())
+
+        //@TODO Add resolves_to_refs support for MAC address
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1,10).get().times {
+                builder.addBelongsToRef(mockAutonomousSystemCoo().getObservableObjectKey())
+            }
+        }
 
         return builder.build()
     }
