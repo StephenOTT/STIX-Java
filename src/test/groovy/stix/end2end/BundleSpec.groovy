@@ -4,11 +4,12 @@ import java.time.Instant
 
 import org.junit.Rule
 import org.junit.rules.TestName
+import org.skyscreamer.jsonassert.JSONAssert
+import org.skyscreamer.jsonassert.JSONCompareMode
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 
-import groovy.json.JsonBuilder
-import groovy.json.JsonSlurper
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.bundle.BundleObject
 import io.digitalstate.stix.bundle.BundleableObject
@@ -136,7 +137,7 @@ class BundleSpec extends Specification {
         assert mapper.readTree(bundle.toJsonString()) == mapper.readTree(attackJson)
     }
 	
-	//@IgnoreRest
+	@IgnoreRest
 	def "parse apt1 threat report Bundle"(){
 		
 		when:"setup file access to threat report"
@@ -148,8 +149,8 @@ class BundleSpec extends Specification {
 		//println "Original Bundle: ${originalBundle.toString()}"
 
 		then: "Convert Bundle to Json"
-			def originalJson = new JsonSlurper().parseText(originalBundle.toJsonString())
-			String originalJsonString = new JsonBuilder(originalJson).toString()
+            JsonNode originalJson = mapper.readTree(originalBundle.toJsonString())
+            String originalJsonString = mapper.writeValueAsString(originalJson)
 			println "OriginalJson: ${originalJsonString}"
 			
 		then: "Parse json back into bundle"
@@ -158,15 +159,13 @@ class BundleSpec extends Specification {
 			//println "Parsed bundle: ${bundle.toString()}"
 		
 		then: "Convert parsed bundle back into json"
-			def newJson =  new JsonSlurper().parseText(bundle.toJsonString())
-			String newJsonString = new JsonBuilder(newJson).toString()
+            JsonNode newJson =  mapper.readTree(bundle.toJsonString())
+            String newJsonString = mapper.writeValueAsString(newJson)
 			println "New Json: ${newJsonString}"
 
 
 		and: "the original bundle json matches the parsed object that was converted back to json"
-			// well. they are the same, but there is a difference in the order of the object
-			// refs for the report object when it writes out the json string
-		    assert newJson != originalJson
+            JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)
 	}
 
     def "Generate a Bundle"(){
