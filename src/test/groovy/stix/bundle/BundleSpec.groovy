@@ -10,7 +10,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.sdo.StixMockDataGenerator
+import stix.StixMockDataGenerator
 
 class BundleSpec extends Specification implements StixMockDataGenerator {
 

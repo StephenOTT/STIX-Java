@@ -9,6 +9,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
+import stix.StixMockDataGenerator
 
 class CampaignSpec extends Specification implements StixMockDataGenerator {
 

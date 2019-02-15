@@ -1,4 +1,4 @@
-package stix.sdo
+package stix
 
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.coo.objects.*
