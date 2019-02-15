@@ -70,13 +70,11 @@ public interface NetworkTrafficCoo extends CyberObservableObject {
 
     @JsonProperty("src_port")
     @JsonPropertyDescription("Specifies the source port used in the network traffic, as an integer. The port value MUST be in the range of 0 - 65535.")
-    @Range(min = 0, max = 65535 )
-    Optional<Long> getSrcPort();
+    Optional<@Range(min = 0, max = 65535 ) Integer> getSrcPort();
 
     @JsonProperty("dst_port")
     @JsonPropertyDescription("Specifies the destination port used in the network traffic, as an integer. The port value MUST be in the range of 0 - 65535.")
-    @Range(min = 0, max = 65535)
-    Optional<Long> getDstPort();
+    Optional<@Range(min = 0, max = 65535) Integer> getDstPort();
 
     /*
      * Specifies the protocols observed in the network traffic, along with their
@@ -133,7 +131,7 @@ public interface NetworkTrafficCoo extends CyberObservableObject {
      */
     @JsonProperty("encapsulates_refs")
     @JsonPropertyDescription("Links to other network-traffic objects encapsulated by a network-traffic.")
-    List<String> getEncapsulatesRefs();
+    Set<String> getEncapsulatesRefs();
 
     /*
      * Must be of type network-traffic

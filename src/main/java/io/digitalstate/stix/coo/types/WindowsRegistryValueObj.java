@@ -40,7 +40,6 @@ public interface WindowsRegistryValueObj extends GenericValidation {
 
     @JsonProperty("data_type")
     @JsonPropertyDescription("Specifies the registry (REG_*) data type used in the registry value.")
-    @Vocab(WindowsRegistryValueDataTypes.class)
-    Optional<String> getDataType();
+    Optional<@Vocab(WindowsRegistryValueDataTypes.class) String> getDataType();
 
 }

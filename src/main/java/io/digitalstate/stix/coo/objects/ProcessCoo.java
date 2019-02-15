@@ -35,7 +35,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "type", "extensions", "is_hidden", "pid", "name", "created", "cwd", "arguments", "command_line",
         "environment_variables", "opened_connection_refs", "creator_user_ref", "binary_ref", "parent_ref",
         "child_refs" })
-@BusinessRule(ifExp = "true", thenExp = "getExtensions().isEmpty() == false || isHidden().isPresent() == true || getPid().isPresent() == true || getName().isPresent() == true || getCreated().isPresent() == true || getCwd().isPresent() == true || getArguments().isEmpty() == false || getCommandLine().isPresent() == true ||getEnvironmentVariables().isPresent() == true || getGpenedConnectionRefs().isPresent() == true || getCreatorUserRef().isPresent() == true || getBinaryRef().isPresent() == true || getParentRef().isPresent() == true || getChildRefs().isPresent() == true", errorMessage = "A Process Object MUST contain at least one property (other than type) from this object (or one of its extensions).")
+@BusinessRule(ifExp = "true", thenExp = "getExtensions().isEmpty() == false || isHidden().isPresent() == true || getPid().isPresent() == true || getName().isPresent() == true || getCreated().isPresent() == true || getCwd().isPresent() == true || getArguments().isEmpty() == false || getCommandLine().isPresent() == true || getEnvironmentVariables().isEmpty() == false || getOpenedConnectionRefs().isEmpty() == false || getCreatorUserRef().isPresent() == true || getBinaryRef().isPresent() == true || getParentRef().isPresent() == true || getChildRefs().isEmpty == false", errorMessage = "A Process Object MUST contain at least one property (other than type) from this object (or one of its extensions).")
 public interface ProcessCoo extends CyberObservableObject {
 
     @JsonProperty("is_hidden")
@@ -74,7 +74,7 @@ public interface ProcessCoo extends CyberObservableObject {
 
     @JsonProperty("opened_connection_refs")
     @JsonPropertyDescription("Specifies the list of network connections opened by the process, as a reference to one or more Network Traffic Objects.")
-    Set<String> getGpenedConnectionRefs();
+    Set<String> getOpenedConnectionRefs();
 
     @JsonProperty("creator_user_ref")
     @JsonPropertyDescription("Specifies the user that created the process, as a reference to a User Account Object.")

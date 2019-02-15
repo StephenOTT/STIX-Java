@@ -46,10 +46,10 @@ public interface ReportSdo extends DomainObject {
 
     @Override
     @NotNull
-    @Vocab(ReportLabels.class)
     @JsonPropertyDescription("This field is an Open Vocabulary that specifies the primary subject of this report. The suggested values for this field are in report-label-ov.")
     @Redactable(useMask = true)
-    Set<@Length(min = 1) String> getLabels();
+    @Size(min = 1)
+    Set<@Vocab(ReportLabels.class) String> getLabels();
 
     @NotBlank
     @JsonProperty("name")
