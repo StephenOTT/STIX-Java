@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.validation.GenericValidation;
@@ -34,7 +35,7 @@ import java.util.Set;
 @Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = Bundle.class) @JsonDeserialize(builder = Bundle.Builder.class)
 @JsonPropertyOrder({"type", "id", "spec_version", "objects"})
-public interface BundleObject extends GenericValidation, Serializable {
+public interface BundleObject extends GenericValidation, Serializable, StixCustomProperties {
 
     @NotBlank
     @JsonProperty("type")
@@ -67,6 +68,7 @@ public interface BundleObject extends GenericValidation, Serializable {
     default String toJsonString() {
         JsonNode response = StixParsers.getJsonMapper(true).valueToTree(this);
         ObjectNode responseNode = (ObjectNode) response;
+        //@TODO Refactor as this is causing custom properties to come before the Objects prop:
         responseNode.putArray("objects");
         ArrayNode objects = (ArrayNode) response.get("objects");
 
