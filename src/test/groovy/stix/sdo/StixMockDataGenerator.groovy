@@ -1,5 +1,6 @@
 package stix.sdo
 
+import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.coo.objects.*
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.coo.types.WindowsRegistryValue
@@ -1526,6 +1527,56 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             builder.createdByRef(mockIdentity())
+        }
+
+        return builder.build()
+    }
+
+    Bundle mockBundle() {
+        Bundle.Builder builder = Bundle.builder()
+
+        mock.ints().range(1, 100).get().times {
+            switch (mock.ints().range(0, 10).get()) {
+                case 0:
+                    builder.addObject(mockAttackPattern())
+                    break
+                case 1:
+                    builder.addObject(mockCampaign())
+                    break
+                case 2:
+                    builder.addObject(mockCourseOfAction())
+                    break
+                case 3:
+                    builder.addObject(mockIdentity())
+                    break
+                case 4:
+                    builder.addObject(mockIndicator())
+                    break
+                case 5:
+                    builder.addObject(mockIntrusionSet())
+                    break
+                case 6:
+                    builder.addObject(mockMalware())
+                    break
+                case 7:
+                    builder.addObject(mockObservedData())
+                    break
+                case 8:
+                    builder.addObject(mockThreatActor())
+                    break
+                case 9:
+                    builder.addObject(mockTool())
+                    break
+                case 10:
+                    builder.addObject(mockVulnerability())
+                    break
+            //@TODO Add support for SROs
+            //@TODO Add support for Data Markings
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
         }
 
         return builder.build()
