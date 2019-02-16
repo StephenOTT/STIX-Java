@@ -20,8 +20,8 @@ import javax.validation.constraints.NotNull;
 /**
  * <p>Builder Required Fields:</p>
  * <ol>
- *     <li>{@link MarkingDefinition#definitionType} - (A helper is in-place for this field that will pre-populate the value based on the specific Marking Object, which makes this field essentially optional).</li>
- *     <li>{@link MarkingDefinition#definition}  - the Marking Object.  Two objects are currently supported: {@link Tlp} and {@link Statement}.</li>
+ *     <li>{@link MarkingDefinition#getDefinitionType()} - (A helper is in-place for this field that will pre-populate the value based on the specific Marking Object, which makes this field essentially optional).</li>
+ *     <li>{@link MarkingDefinition#getDefinition()}  - the Marking Object.  Two objects are currently supported: {@link Tlp} and {@link Statement}.</li>
  * </ol>
  */
 @Value.Immutable @Serial.Version(1L)
