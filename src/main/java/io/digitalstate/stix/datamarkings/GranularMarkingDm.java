@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.json.converters.dehydrated.MarkingDefinitionConverter;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.validation.SdoDefaultValidator;
@@ -21,7 +22,7 @@ import java.util.Set;
 @Value.Style(typeAbstract="*Dm", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, depluralize = true)
 @JsonSerialize(as = GranularMarking.class) @JsonDeserialize(builder = GranularMarking.Builder.class)
 @Redactable
-public interface GranularMarkingDm extends SdoDefaultValidator, Serializable {
+public interface GranularMarkingDm extends StixCustomProperties, SdoDefaultValidator, Serializable {
 
     @NotNull
     @JsonProperty("marking_ref")
