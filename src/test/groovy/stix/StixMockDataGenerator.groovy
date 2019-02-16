@@ -4,6 +4,10 @@ import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.coo.objects.*
 import io.digitalstate.stix.coo.types.MimePartType
 import io.digitalstate.stix.coo.types.WindowsRegistryValue
+import io.digitalstate.stix.datamarkings.GranularMarking
+import io.digitalstate.stix.datamarkings.MarkingDefinition
+import io.digitalstate.stix.datamarkings.Statement
+import io.digitalstate.stix.datamarkings.Tlp
 import io.digitalstate.stix.sdo.objects.*
 import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
@@ -50,7 +54,7 @@ trait StixMockDataGenerator {
                     customProperties.put(key, mock.words().get())
                     break
                 case 1:
-                    customProperties.put(key, mock.words().accumulate(mock.ints().range(1, 100).get(), " ").get())
+                    customProperties.put(key, mock.markovs().size(mock.ints().range(1,100).get()).get())
                     break
                 case 2:
                     customProperties.put(key, mock.ints().range(0, 999999).get())
@@ -94,7 +98,7 @@ trait StixMockDataGenerator {
                 .sourceName(mock.words().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
+            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -133,7 +137,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+            builder.description(mock.markovs().size(mock.ints().range(1,200).get()).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -164,6 +168,18 @@ trait StixMockDataGenerator {
             builder.createdByRef(mockIdentity())
         }
 
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -176,7 +192,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+            builder.description(mock.markovs().size(mock.ints().range(1,50).get()).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -195,7 +211,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.objective(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
+            builder.objective(mock.markovs().size(mock.ints().range(1,50).get()).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -216,6 +232,22 @@ trait StixMockDataGenerator {
             builder.customProperties(generateCustomProperties())
         }
 
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -228,7 +260,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -255,6 +287,22 @@ trait StixMockDataGenerator {
             builder.customProperties(generateCustomProperties())
         }
 
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -267,7 +315,7 @@ trait StixMockDataGenerator {
                 .name(mock.names().full(33.33).get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
         }
 
         builder.identityClass(mock.fromStrings(new IdentityClasses().getAllTerms().toList()).get())
@@ -300,6 +348,18 @@ trait StixMockDataGenerator {
             builder.customProperties(generateCustomProperties())
         }
 
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         //Note does not test against .createdByRef(<IdentitySDO>) to prevent possible recursion
 
         return builder.build()
@@ -315,7 +375,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
         }
 
         builder.pattern("SOME PATTERN GOES HERE")
@@ -347,6 +407,22 @@ trait StixMockDataGenerator {
             builder.customProperties(generateCustomProperties())
         }
 
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -356,7 +432,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -408,6 +484,22 @@ trait StixMockDataGenerator {
             builder.customProperties(generateCustomProperties())
         }
 
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -419,7 +511,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
+            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -440,6 +532,22 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             builder.customProperties(generateCustomProperties())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
         }
 
         return builder.build()
@@ -578,6 +686,22 @@ trait StixMockDataGenerator {
             builder.customProperties(generateCustomProperties())
         }
 
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -694,7 +818,7 @@ trait StixMockDataGenerator {
             }
         } else {
             builder.isMultipart(false)
-            builder.body(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
+            builder.body(mock.markovs().size(mock.ints().range(1,100).get()).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -737,7 +861,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 10).get().times {
-                builder.addReceivedLine(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
+                builder.addReceivedLine(mock.markovs().size(mock.ints().range(1,100).get()).get())
             }
         }
 
@@ -752,7 +876,7 @@ trait StixMockDataGenerator {
         MimePartType.Builder builder = MimePartType.builder()
 
         if (mock.bools().probability(50).get()) {
-            builder.body(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
+            builder.body(mock.markovs().size(mock.ints().range(1,100).get()).get())
         } else {
             if (mock.bools().probability(50).get()) {
                 builder.bodyRawRef(mockArtifactCoo().getObservableObjectKey())
@@ -1317,7 +1441,7 @@ trait StixMockDataGenerator {
         builder.published(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
 
         mock.ints().range(1, 50).get().times {
-            switch (mock.ints().range(0, 10).get()) {
+            switch (mock.ints().range(0, 11).get()) {
                 case 0:
                     builder.addObjectRef(mockAttackPattern())
                     break
@@ -1351,6 +1475,9 @@ trait StixMockDataGenerator {
                 case 10:
                     builder.addObjectRef(mockVulnerability())
                     break
+                case 11:
+                    builder.addObjectRef(mockMarkingDefinitionObject())
+                    break
                 //@TODO add future support for references to other Report SDOs
             }
         }
@@ -1371,6 +1498,18 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             builder.createdByRef(mockIdentity())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
         }
 
         return builder.build()
@@ -1449,6 +1588,18 @@ trait StixMockDataGenerator {
             builder.createdByRef(mockIdentity())
         }
 
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -1495,6 +1646,18 @@ trait StixMockDataGenerator {
             builder.createdByRef(mockIdentity())
         }
 
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -1529,6 +1692,18 @@ trait StixMockDataGenerator {
             builder.createdByRef(mockIdentity())
         }
 
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinitionObject())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarkingObject())
+            }
+        }
+
         return builder.build()
     }
 
@@ -1536,7 +1711,7 @@ trait StixMockDataGenerator {
         Bundle.Builder builder = Bundle.builder()
 
         mock.ints().range(1, 100).get().times {
-            switch (mock.ints().range(0, 10).get()) {
+            switch (mock.ints().range(0, 11).get()) {
                 case 0:
                     builder.addObject(mockAttackPattern())
                     break
@@ -1570,9 +1745,75 @@ trait StixMockDataGenerator {
                 case 10:
                     builder.addObject(mockVulnerability())
                     break
+                case 11:
+                    builder.addObjectRef(mockMarkingDefinitionObject())
+                    break
             //@TODO Add support for SROs
             //@TODO Add support for Data Markings
             }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
+
+    MarkingDefinition mockMarkingDefinitionObject(){
+        MarkingDefinition.Builder builder = MarkingDefinition.builder()
+
+        String type = mock.fromStrings("tlp", "statement").get()
+
+        builder.definitionType(type)
+
+        switch (type){
+            case "tlp":
+                builder.definition(mockTlpMakingObject())
+                break
+            case "statement":
+                builder.definition(mockStatementMarkingObject())
+                break
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        builder.build()
+    }
+
+    Statement mockStatementMarkingObject(){
+        Statement.Builder builder = Statement.builder()
+
+        builder.statement(mock.markovs().size(10).get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
+
+    Tlp mockTlpMakingObject(){
+        Tlp.Builder builder = Tlp.builder()
+
+        builder.tlp(mock.fromStrings(new TlpLevels().getAllTerms().toList()).get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        return builder.build()
+    }
+
+    GranularMarking mockGranularMarkingObject(){
+        GranularMarking.Builder builder = GranularMarking.builder()
+
+        builder.markingRef(mockMarkingDefinitionObject())
+
+        mock.ints().range(1,10).get().times {
+            builder.addSelector(mock.words().get())
         }
 
         if (mock.bools().probability(50).get()) {
