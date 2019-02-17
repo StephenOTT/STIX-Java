@@ -13,7 +13,7 @@ import io.digitalstate.stix.validation.contraints.relationship.RelationshipLimit
 import io.digitalstate.stix.validation.contraints.relationship.RelationshipTypeLimit;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.RelationshipTypes;
+import io.digitalstate.stix.vocabulary.vocabularies.RelationshipTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 

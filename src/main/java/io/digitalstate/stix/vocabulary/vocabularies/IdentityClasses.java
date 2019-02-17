@@ -1,6 +1,7 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,15 +9,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class AttackMotivations implements StixVocabulary {
+public class IdentityClasses implements StixVocabulary {
 
-    @JsonProperty("attack_motivations_vocabulary")
+    @JsonProperty("identity_classes_vocabulary")
     private Set<String> terms = new HashSet<>(Arrays.asList(
-            "accidental", "coercion", "dominance",
-            "ideology", "notoriety", "organizational-gain",
-            "personal-gain", "personal-satisfaction", "revenge",
-            "unpredictable"));
+            "individual", "group", "organization",
+            "class", "unknown"));
 
+    //
+    // Getters and Setters
+    //
 
     @Override
     public Set<String> getAllTerms() {
@@ -28,5 +30,4 @@ public class AttackMotivations implements StixVocabulary {
         return Stream.concat(getAllTerms().stream(), Arrays.stream(terms))
                 .collect(Collectors.toCollection(HashSet::new));
     }
-
 }

@@ -11,7 +11,21 @@ import io.digitalstate.stix.datamarkings.Tlp
 import io.digitalstate.stix.sdo.objects.*
 import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
-import io.digitalstate.stix.vocabularies.*
+import io.digitalstate.stix.vocabularies.vocabularies.AccountTypes
+import io.digitalstate.stix.vocabularies.vocabularies.AttackMotivations
+import io.digitalstate.stix.vocabularies.vocabularies.AttackResourceLevels
+import io.digitalstate.stix.vocabularies.vocabularies.EncryptionAlgorithms
+import io.digitalstate.stix.vocabularies.vocabularies.IdentityClasses
+import io.digitalstate.stix.vocabularies.vocabularies.IndicatorLabels
+import io.digitalstate.stix.vocabularies.vocabularies.IndustrySectors
+import io.digitalstate.stix.vocabularies.vocabularies.MalwareLabels
+import io.digitalstate.stix.vocabularies.vocabularies.ReportLabels
+import io.digitalstate.stix.vocabularies.vocabularies.ThreatActorLabels
+import io.digitalstate.stix.vocabularies.vocabularies.ThreatActorRoles
+import io.digitalstate.stix.vocabularies.vocabularies.ThreatActorSophistication
+import io.digitalstate.stix.vocabularies.vocabularies.TlpLevels
+import io.digitalstate.stix.vocabularies.vocabularies.ToolLabels
+import io.digitalstate.stix.vocabularies.vocabularies.WindowsRegistryValueDataTypes
 import net.andreinc.mockneat.MockNeat
 
 import java.time.Instant

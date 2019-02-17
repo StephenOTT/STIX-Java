@@ -1,6 +1,7 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,18 +9,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class NetworkSocketProtocolFamilies implements StixVocabulary {
+public class HashingAlgorithms implements StixVocabulary {
 
-    @JsonProperty("network-socket-protocol-family-enum")
+    @JsonProperty("hashing_algorithms_vocabulary")
     private Set<String> terms = new HashSet<>(Arrays.asList(
-            "PF_INET", "PF_AX25", "PF_IPX", "PF_INET_6",
-            "PF_APPLETALK", "PF_NETROM", "PF_BRIDGE", "PF_ATMPVC",
-            "PF_X25", "PF_ROSE", "PF_DECNET", "PF_NETBEUI",
-            "PF_SECURITY", "PF_KEY", "PF_NETLINK", "PF_ROUTE",
-            "PF_PACKET", "PF_ASH", "PF_ECONET", "PF_ATMSVC",
-            "PF_SNA", "PF_IRDA", "PF_PPPOX", "PF_WANPIPE",
-            "PF_BLUETOOTH"
-    ));
+            "MD5", "MD6", "RIPEMD-160", "SHA-1",
+            "SHA-224", "SHA-256", "SHA-384", "SHA-512",
+            "SHA3-224", "SHA3-256", "SHA3-384", "SHA3-512",
+            "SSDEEP", "WHIRLPOOL"));
+
 
     @Override
     public Set<String> getAllTerms() {

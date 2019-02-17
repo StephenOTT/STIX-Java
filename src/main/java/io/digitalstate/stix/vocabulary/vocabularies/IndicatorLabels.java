@@ -1,6 +1,7 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,20 +9,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class MalwareLabels implements StixVocabulary {
+public class IndicatorLabels implements StixVocabulary {
 
-    @JsonProperty("malware_labels_vocabulary")
+    @JsonProperty("indicator_labels_vocabulary")
     private Set<String> terms = new HashSet<>(Arrays.asList(
-            "adware", "backdoor", "bot",
-            "ddos", "dropper", "exploit-kit",
-            "keylogger", "ransomware", "remote-access-trojan",
-            "resource-exploitation", "rogue-security-software", "rootkit",
-            "screen-capture", "spyware", "trojan",
-            "virus", "worm"));
+            "anomalous-activity", "anonymization", "benign",
+            "compromised", "malicious-activity", "attribution"));
 
-    //
-    // Getters and Setters
-    //
 
     @Override
     public Set<String> getAllTerms() {

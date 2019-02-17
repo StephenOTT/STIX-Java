@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
-import io.digitalstate.stix.vocabularies.TlpLevels;
+import io.digitalstate.stix.vocabulary.vocabularies.TlpLevels;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 

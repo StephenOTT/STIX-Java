@@ -1,6 +1,7 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import java.util.Arrays;
 import java.util.HashSet;

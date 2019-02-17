@@ -1,4 +1,4 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,13 +8,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class WindowsServiceStartTypes implements StixVocabulary {
+public class ReportLabels implements StixVocabulary {
 
-    @JsonProperty("windows-service-start-type-enum")
+    @JsonProperty("report_labels_vocabulary")
     private Set<String> terms = new HashSet<>(Arrays.asList(
-            "SERVICE_AUTO_START", "SERVICE_BOOT_START", "SERVICE_DEMAND_START",
-            "SERVICE_DISABLED", "SERVICE_SYSTEM_ALERT"
-    ));
+            "threat-report", "attack-pattern", "campaign",
+            "identity", "indicator", "malware",
+            "observed-data", "threat-actor", "tool",
+            "vulnerability"));
+
+    //
+    // Getters and Setters
+    //
 
     @Override
     public Set<String> getAllTerms() {
@@ -26,5 +31,4 @@ public class WindowsServiceStartTypes implements StixVocabulary {
         return Stream.concat(getAllTerms().stream(), Arrays.stream(terms))
                 .collect(Collectors.toCollection(HashSet::new));
     }
-
 }

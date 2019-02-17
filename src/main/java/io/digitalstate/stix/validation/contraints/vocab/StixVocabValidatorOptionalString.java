@@ -1,7 +1,7 @@
 package io.digitalstate.stix.validation.contraints.vocab;
 
 import com.google.common.collect.Sets;
-import io.digitalstate.stix.vocabularies.StixVocabulary;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.validation.GenericValidation;
-import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
-import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.WindowsRegistryValueDataTypes;
+import io.digitalstate.stix.vocabulary.vocabularies.WindowsRegistryValueDataTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 

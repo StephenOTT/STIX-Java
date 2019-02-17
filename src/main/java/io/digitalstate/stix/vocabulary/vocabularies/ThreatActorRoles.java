@@ -1,6 +1,7 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,12 +9,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class AttackResourceLevels implements StixVocabulary {
+public class ThreatActorRoles implements StixVocabulary {
 
-    @JsonProperty("attack_resource_levels_vocabulary")
+    @JsonProperty("threat_actor_roles_vocabulary")
     private Set<String> terms = new HashSet<>(Arrays.asList(
-            "individual", "club", "content",
-            "team", "organization", "government"));
+            "agent", "director", "independent",
+            "infrastructure-architect", "infrastructure-operator", "malware-author",
+            "sponsor"));
 
     //
     // Getters and Setters

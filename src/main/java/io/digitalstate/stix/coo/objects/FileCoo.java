@@ -10,8 +10,8 @@ import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeVa
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.EncryptionAlgorithms;
-import io.digitalstate.stix.vocabularies.HashingAlgorithms;
+import io.digitalstate.stix.vocabulary.vocabularies.EncryptionAlgorithms;
+import io.digitalstate.stix.vocabulary.vocabularies.HashingAlgorithms;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;

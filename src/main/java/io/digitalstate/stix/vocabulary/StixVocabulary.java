@@ -1,4 +1,4 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary;
 
 import java.util.Set;
 

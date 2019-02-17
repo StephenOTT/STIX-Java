@@ -9,8 +9,8 @@ import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.AttackMotivations;
-import io.digitalstate.stix.vocabularies.AttackResourceLevels;
+import io.digitalstate.stix.vocabulary.vocabularies.AttackMotivations;
+import io.digitalstate.stix.vocabulary.vocabularies.AttackResourceLevels;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 

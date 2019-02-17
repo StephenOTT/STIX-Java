@@ -1,6 +1,7 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,13 +9,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class WindowsServiceStatuses implements StixVocabulary {
+public class NetworkSocketAddressFamilies implements StixVocabulary {
 
-    @JsonProperty("windows-service-status-enum")
+    @JsonProperty("network-socket-address-family-enum")
     private Set<String> terms = new HashSet<>(Arrays.asList(
-            "SERVICE_CONTINUE_PENDING", "SERVICE_PAUSE_PENDING", "SERVICE_PAUSED",
-            "SERVICE_RUNNING", "SERVICE_START_PENDING", "SERVICE_STOP_PENDING",
-            "SERVICE_STOPPED"
+            "AF_UNSPEC", "AF_INET", "AF_IPX", "AF_APPLETALK",
+            "AF_NETBIOS", "AF_INET_6", "AF_IRDA", "AF_BTH"
     ));
 
     @Override

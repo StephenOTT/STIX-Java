@@ -1,6 +1,7 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,13 +9,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class IndicatorLabels implements StixVocabulary {
+public class WindowsServiceStatuses implements StixVocabulary {
 
-    @JsonProperty("indicator_labels_vocabulary")
+    @JsonProperty("windows-service-status-enum")
     private Set<String> terms = new HashSet<>(Arrays.asList(
-            "anomalous-activity", "anonymization", "benign",
-            "compromised", "malicious-activity", "attribution"));
-
+            "SERVICE_CONTINUE_PENDING", "SERVICE_PAUSE_PENDING", "SERVICE_PAUSED",
+            "SERVICE_RUNNING", "SERVICE_START_PENDING", "SERVICE_STOP_PENDING",
+            "SERVICE_STOPPED"
+    ));
 
     @Override
     public Set<String> getAllTerms() {
@@ -26,4 +28,5 @@ public class IndicatorLabels implements StixVocabulary {
         return Stream.concat(getAllTerms().stream(), Arrays.stream(terms))
                 .collect(Collectors.toCollection(HashSet::new));
     }
+
 }

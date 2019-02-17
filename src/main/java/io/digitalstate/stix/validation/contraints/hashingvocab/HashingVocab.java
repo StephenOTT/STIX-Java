@@ -1,6 +1,6 @@
 package io.digitalstate.stix.validation.contraints.hashingvocab;
 
-import io.digitalstate.stix.vocabularies.StixVocabulary;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

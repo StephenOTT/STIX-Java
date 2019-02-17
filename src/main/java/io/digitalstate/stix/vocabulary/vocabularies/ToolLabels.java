@@ -1,6 +1,7 @@
-package io.digitalstate.stix.vocabularies;
+package io.digitalstate.stix.vocabulary.vocabularies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.digitalstate.stix.vocabulary.StixVocabulary;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,11 +9,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TlpLevels implements StixVocabulary {
+public class ToolLabels implements StixVocabulary {
 
-    @JsonProperty("tlp_levels_vocabulary")
+    @JsonProperty("tool_labels_vocabulary")
     private Set<String> terms = new HashSet<>(Arrays.asList(
-            "white", "green", "amber", "red"));
+            "denial-of-service", "exploitation", "information-gathering",
+            "network-capture", "credential-exploitation", "remote-access",
+            "vulnerability-scanning"));
 
     //
     // Getters and Setters

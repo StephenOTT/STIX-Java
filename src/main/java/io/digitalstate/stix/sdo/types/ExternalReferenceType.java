@@ -8,13 +8,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
-import io.digitalstate.stix.vocabularies.HashingAlgorithms;
+import io.digitalstate.stix.vocabulary.vocabularies.HashingAlgorithms;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
