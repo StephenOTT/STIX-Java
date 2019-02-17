@@ -54,7 +54,7 @@ trait StixMockDataGenerator {
                     customProperties.put(key, mock.words().get())
                     break
                 case 1:
-                    customProperties.put(key, mock.markovs().size(mock.ints().range(1,100).get()).get())
+                    customProperties.put(key, mock.words().accumulate(mock.ints().range(1,100).get(), " ").get())
                     break
                 case 2:
                     customProperties.put(key, mock.ints().range(0, 999999).get())
@@ -98,7 +98,7 @@ trait StixMockDataGenerator {
                 .sourceName(mock.words().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,100).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -137,7 +137,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(mock.ints().range(1,200).get()).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -192,7 +192,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(mock.ints().range(1,50).get()).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -211,7 +211,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.objective(mock.markovs().size(mock.ints().range(1,50).get()).get())
+            builder.objective(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -260,7 +260,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -315,7 +315,7 @@ trait StixMockDataGenerator {
                 .name(mock.names().full(33.33).get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         builder.identityClass(mock.fromStrings(new IdentityClasses().getAllTerms().toList()).get())
@@ -375,7 +375,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         builder.pattern("SOME PATTERN GOES HERE")
@@ -432,7 +432,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -511,7 +511,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(mock.ints().range(1,100).get()).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -818,7 +818,7 @@ trait StixMockDataGenerator {
             }
         } else {
             builder.isMultipart(false)
-            builder.body(mock.markovs().size(mock.ints().range(1,100).get()).get())
+            builder.body(mock.words().accumulate(mock.ints().range(1,100).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -861,7 +861,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 10).get().times {
-                builder.addReceivedLine(mock.markovs().size(mock.ints().range(1,100).get()).get())
+                builder.addReceivedLine(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
             }
         }
 
@@ -876,7 +876,7 @@ trait StixMockDataGenerator {
         MimePartType.Builder builder = MimePartType.builder()
 
         if (mock.bools().probability(50).get()) {
-            builder.body(mock.markovs().size(mock.ints().range(1,100).get()).get())
+            builder.body(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         } else {
             if (mock.bools().probability(50).get()) {
                 builder.bodyRawRef(mockArtifactCoo().getObservableObjectKey())
@@ -1435,7 +1435,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().accumulate(mock.ints().range(1, 8).get(), " ").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(500).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         builder.published(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
@@ -1525,7 +1525,7 @@ trait StixMockDataGenerator {
         builder.name(mock.names().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(500).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1542,7 +1542,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 5).get().times {
-                builder.addGoal(mock.markovs().size(20).get())
+                builder.addGoal(mock.words().accumulate(mock.ints().range(1,10).get(), " ").get())
             }
         }
 
@@ -1615,7 +1615,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(200).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1667,7 +1667,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.markovs().size(400).get())
+            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1786,7 +1786,7 @@ trait StixMockDataGenerator {
     Statement mockStatementMarkingObject(){
         Statement.Builder builder = Statement.builder()
 
-        builder.statement(mock.markovs().size(10).get())
+        builder.statement(mock.words().accumulate(mock.ints().range(1,30).get(), " ").get())
 
         if (mock.bools().probability(50).get()) {
             builder.customProperties(generateCustomProperties())
