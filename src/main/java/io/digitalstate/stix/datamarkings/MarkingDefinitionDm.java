@@ -2,6 +2,7 @@ package io.digitalstate.stix.datamarkings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -43,6 +44,7 @@ public interface MarkingDefinitionDm extends StixCommonProperties, StixCustomPro
 
     @NotNull
     @JsonProperty("definition")
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "definition_type", include = JsonTypeInfo.As.EXTERNAL_PROPERTY)
     StixMarkingObject getDefinition();
 
 }
