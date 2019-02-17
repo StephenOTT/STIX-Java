@@ -8,9 +8,12 @@ import io.digitalstate.stix.datamarkings.GranularMarking
 import io.digitalstate.stix.datamarkings.MarkingDefinition
 import io.digitalstate.stix.datamarkings.Statement
 import io.digitalstate.stix.datamarkings.Tlp
+import io.digitalstate.stix.sdo.DomainObject
 import io.digitalstate.stix.sdo.objects.*
 import io.digitalstate.stix.sdo.types.ExternalReference
 import io.digitalstate.stix.sdo.types.KillChainPhase
+import io.digitalstate.stix.sro.objects.Relationship
+import io.digitalstate.stix.sro.objects.Sighting
 import io.digitalstate.stix.vocabulary.vocabularies.AccountTypes
 import io.digitalstate.stix.vocabulary.vocabularies.AttackMotivations
 import io.digitalstate.stix.vocabulary.vocabularies.AttackResourceLevels
@@ -68,7 +71,7 @@ trait StixMockDataGenerator {
                     customProperties.put(key, mock.words().get())
                     break
                 case 1:
-                    customProperties.put(key, mock.words().accumulate(mock.ints().range(1,100).get(), " ").get())
+                    customProperties.put(key, mock.words().accumulate(mock.ints().range(1, 100).get(), " ").get())
                     break
                 case 2:
                     customProperties.put(key, mock.ints().range(0, 999999).get())
@@ -112,7 +115,7 @@ trait StixMockDataGenerator {
                 .sourceName(mock.words().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,100).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 100).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -151,7 +154,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -206,7 +209,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -225,7 +228,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.objective(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.objective(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -274,7 +277,7 @@ trait StixMockDataGenerator {
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -329,7 +332,7 @@ trait StixMockDataGenerator {
                 .name(mock.names().full(33.33).get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         builder.identityClass(mock.fromStrings(new IdentityClasses().getAllTerms().toList()).get())
@@ -389,7 +392,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         builder.pattern("SOME PATTERN GOES HERE")
@@ -446,7 +449,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -525,7 +528,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -832,7 +835,7 @@ trait StixMockDataGenerator {
             }
         } else {
             builder.isMultipart(false)
-            builder.body(mock.words().accumulate(mock.ints().range(1,100).get(), " ").get())
+            builder.body(mock.words().accumulate(mock.ints().range(1, 100).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -875,7 +878,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 10).get().times {
-                builder.addReceivedLine(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+                builder.addReceivedLine(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
             }
         }
 
@@ -890,7 +893,7 @@ trait StixMockDataGenerator {
         MimePartType.Builder builder = MimePartType.builder()
 
         if (mock.bools().probability(50).get()) {
-            builder.body(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.body(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         } else {
             if (mock.bools().probability(50).get()) {
                 builder.bodyRawRef(mockArtifactCoo().getObservableObjectKey())
@@ -993,13 +996,13 @@ trait StixMockDataGenerator {
         builder.value(mock.ipv4s().get())
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addResolvesToRef(mockMacAddress().getObservableObjectKey())
             }
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addBelongsToRef(mockAutonomousSystemCoo().getObservableObjectKey())
             }
         }
@@ -1013,13 +1016,13 @@ trait StixMockDataGenerator {
         builder.value(mock.iPv6s().get())
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addResolvesToRef(mockMacAddress().getObservableObjectKey())
             }
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addBelongsToRef(mockAutonomousSystemCoo().getObservableObjectKey())
             }
         }
@@ -1065,7 +1068,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            switch (mock.ints().range(0,3).get()){
+            switch (mock.ints().range(0, 3).get()) {
                 case 0:
                     builder.srcRef(mockIpv4AddressCoo().getObservableObjectKey())
                     break
@@ -1082,7 +1085,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            switch (mock.ints().range(0,3).get()){
+            switch (mock.ints().range(0, 3).get()) {
                 case 0:
                     builder.dstRef(mockIpv4AddressCoo().getObservableObjectKey())
                     break
@@ -1125,7 +1128,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 String key = mock.uuids().get()
                 if (mock.bools().probability(50).get()) {
                     builder.putIpFix(key, mock.words().get())
@@ -1158,7 +1161,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.pid(mock.longs().range(0,999999999).get())
+            builder.pid(mock.longs().range(0, 999999999).get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1180,7 +1183,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.commandLine("${mock.words().get()} ${mock.words().accumulate(mock.ints().range(1,5).get(), " ").get()}")
+            builder.commandLine("${mock.words().get()} ${mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get()}")
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1234,7 +1237,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.version("${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}")
+            builder.version("${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}")
         }
 
         return builder.build()
@@ -1327,10 +1330,10 @@ trait StixMockDataGenerator {
     WindowsRegistryKey mockWindowsRegistryKeyCoo() {
         WindowsRegistryKey.Builder builder = WindowsRegistryKey.builder()
 
-        builder.key(mock.fromStrings("HKEY_LOCAL_MACHINE","hkey_local_machine","HKEY_CURRENT_USER","hkey_current_user","HKEY_CLASSES_ROOT","hkey_classes_root","HKEY_CURRENT_CONFIG","hkey_current_config","HKEY_PERFORMANCE_DATA","hkey_performance_data","HKEY_USERS","hkey_users","HKEY_DYN_DATA").get())
+        builder.key(mock.fromStrings("HKEY_LOCAL_MACHINE", "hkey_local_machine", "HKEY_CURRENT_USER", "hkey_current_user", "HKEY_CLASSES_ROOT", "hkey_classes_root", "HKEY_CURRENT_CONFIG", "hkey_current_config", "HKEY_PERFORMANCE_DATA", "hkey_performance_data", "HKEY_USERS", "hkey_users", "HKEY_DYN_DATA").get())
 
         if (mock.bools().probability(50).get()) {
-            mock.ints().range(1,10).get().times {
+            mock.ints().range(1, 10).get().times {
                 builder.addValue(mockWindowsRegistryValue())
             }
         }
@@ -1394,7 +1397,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.version("${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}")
+            builder.version("${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}")
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1449,50 +1452,55 @@ trait StixMockDataGenerator {
         builder.name(mock.words().accumulate(mock.ints().range(1, 8).get(), " ").get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         builder.published(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
 
         mock.ints().range(1, 50).get().times {
-            switch (mock.ints().range(0, 11).get()) {
-                case 0:
+            switch (mock.ints().range(1, 14).get()) {
+                case 1:
                     builder.addObjectRef(mockAttackPattern())
                     break
-                case 1:
+                case 2:
                     builder.addObjectRef(mockCampaign())
                     break
-                case 2:
+                case 3:
                     builder.addObjectRef(mockCourseOfAction())
                     break
-                case 3:
+                case 4:
                     builder.addObjectRef(mockIdentity())
                     break
-                case 4:
+                case 5:
                     builder.addObjectRef(mockIndicator())
                     break
-                case 5:
+                case 6:
                     builder.addObjectRef(mockIntrusionSet())
                     break
-                case 6:
+                case 7:
                     builder.addObjectRef(mockMalware())
                     break
-                case 7:
+                case 8:
                     builder.addObjectRef(mockObservedData())
                     break
-                case 8:
+                case 9:
                     builder.addObjectRef(mockThreatActor())
                     break
-                case 9:
+                case 10:
                     builder.addObjectRef(mockTool())
                     break
-                case 10:
+                case 11:
                     builder.addObjectRef(mockVulnerability())
                     break
-                case 11:
+                case 12:
                     builder.addObjectRef(mockMarkingDefinition())
                     break
-                //@TODO add future support for references to other Report SDOs
+                case 13:
+                    builder.addObjectRef(mockRelationship())
+                    break
+                case 14:
+                    builder.addObjectRef(mockSighting())
+                    break
             }
         }
 
@@ -1539,7 +1547,7 @@ trait StixMockDataGenerator {
         builder.name(mock.names().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1556,7 +1564,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 5).get().times {
-                builder.addGoal(mock.words().accumulate(mock.ints().range(1,10).get(), " ").get())
+                builder.addGoal(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
             }
         }
 
@@ -1629,7 +1637,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1639,7 +1647,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.toolVersion("${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}.${mock.ints().range(0,5).get()}")
+            builder.toolVersion("${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}")
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1681,7 +1689,7 @@ trait StixMockDataGenerator {
         builder.name(mock.words().get())
 
         if (mock.bools().probability(50).get()) {
-            builder.description(mock.words().accumulate(mock.ints().range(1,50).get(), " ").get())
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1725,45 +1733,49 @@ trait StixMockDataGenerator {
         Bundle.Builder builder = Bundle.builder()
 
         mock.ints().range(1, 100).get().times {
-            switch (mock.ints().range(0, 11).get()) {
-                case 0:
+            switch (mock.ints().range(1, 14).get()) {
+                case 1:
                     builder.addObject(mockAttackPattern())
                     break
-                case 1:
+                case 2:
                     builder.addObject(mockCampaign())
                     break
-                case 2:
+                case 3:
                     builder.addObject(mockCourseOfAction())
                     break
-                case 3:
+                case 4:
                     builder.addObject(mockIdentity())
                     break
-                case 4:
+                case 5:
                     builder.addObject(mockIndicator())
                     break
-                case 5:
+                case 6:
                     builder.addObject(mockIntrusionSet())
                     break
-                case 6:
+                case 7:
                     builder.addObject(mockMalware())
                     break
-                case 7:
+                case 8:
                     builder.addObject(mockObservedData())
                     break
-                case 8:
+                case 9:
                     builder.addObject(mockThreatActor())
                     break
-                case 9:
+                case 10:
                     builder.addObject(mockTool())
                     break
-                case 10:
+                case 11:
                     builder.addObject(mockVulnerability())
                     break
-                case 11:
-                    builder.addObjectRef(mockMarkingDefinition())
+                case 12:
+                    builder.addObject(mockMarkingDefinition())
                     break
-            //@TODO Add support for SROs
-            //@TODO Add support for Data Markings
+                case 13:
+                    builder.addObject(mockRelationship())
+                    break
+                case 14:
+                    builder.addObject(mockSighting())
+                    break
             }
         }
 
@@ -1774,14 +1786,14 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    MarkingDefinition mockMarkingDefinition(){
+    MarkingDefinition mockMarkingDefinition() {
         MarkingDefinition.Builder builder = MarkingDefinition.builder()
 
         String type = mock.fromStrings("tlp", "statement").get()
 
         builder.definitionType(type)
 
-        switch (type){
+        switch (type) {
             case "tlp":
                 builder.definition(mockTlpMakingObject())
                 break
@@ -1797,10 +1809,10 @@ trait StixMockDataGenerator {
         builder.build()
     }
 
-    Statement mockStatementMarkingObject(){
+    Statement mockStatementMarkingObject() {
         Statement.Builder builder = Statement.builder()
 
-        builder.statement(mock.words().accumulate(mock.ints().range(1,30).get(), " ").get())
+        builder.statement(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get())
 
         if (mock.bools().probability(50).get()) {
             builder.customProperties(generateCustomProperties())
@@ -1809,7 +1821,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    Tlp mockTlpMakingObject(){
+    Tlp mockTlpMakingObject() {
         Tlp.Builder builder = Tlp.builder()
 
         builder.tlp(mock.fromStrings(new TlpLevels().getAllTerms().toList()).get())
@@ -1821,12 +1833,12 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    GranularMarking mockGranularMarking(){
+    GranularMarking mockGranularMarking() {
         GranularMarking.Builder builder = GranularMarking.builder()
 
         builder.markingRef(mockMarkingDefinition())
 
-        mock.ints().range(1,10).get().times {
+        mock.ints().range(1, 10).get().times {
             builder.addSelector(mock.words().get())
         }
 
@@ -1835,6 +1847,380 @@ trait StixMockDataGenerator {
         }
 
         return builder.build()
+    }
+
+    Relationship mockRelationship() {
+        Relationship.Builder builder = Relationship.builder()
+
+        switch (mock.ints().range(1, 11).get()) {
+            case 1:
+                builder.sourceRef(mockAttackPattern())
+
+                switch (mock.ints().range(1, 2).get()) {
+                    case 1:
+                        builder.relationshipType("targets")
+                        if (mock.bools().probability(50).get()) {
+                            builder.targetRef(mockIdentity())
+                        } else {
+                            builder.targetRef(mockVulnerability())
+                        }
+                        break
+                    case 2:
+                        builder.relationshipType("uses")
+                        if (mock.bools().probability(50).get()) {
+                            builder.targetRef(mockMalware())
+                        } else {
+                            builder.targetRef(mockTool())
+                        }
+                        break
+                }
+
+                break
+
+            case 2:
+                builder.sourceRef(mockCampaign())
+
+                switch (mock.ints().range(1, 3).get()) {
+                    case 1:
+                        builder.relationshipType("attributed-to")
+                        if (mock.bools().probability(50).get()) {
+                            builder.targetRef(mockIntrusionSet())
+                        } else {
+                            builder.targetRef(mockThreatActor())
+                        }
+                        break
+                    case 2:
+                        builder.relationshipType("targets")
+                        if (mock.bools().probability(50).get()) {
+                            builder.targetRef(mockIdentity())
+                        } else {
+                            builder.targetRef(mockVulnerability())
+                        }
+                        break
+                    case 3:
+                        builder.relationshipType("uses")
+                        switch (mock.ints().range(1, 3).get()) {
+                            case 1:
+                                builder.targetRef(mockAttackPattern())
+                                break
+                            case 2:
+                                builder.targetRef(mockMalware())
+                                break
+                            case 3:
+                                builder.targetRef(mockTool())
+                                break
+                        }
+                        break
+                }
+                break
+
+            case 3:
+                builder.sourceRef(mockCourseOfAction())
+                builder.relationshipType("mitigates")
+
+                switch (mock.ints().range(1, 4).get()) {
+                    case 1:
+                        builder.targetRef(mockAttackPattern())
+                        break
+                    case 2:
+                        builder.targetRef(mockMalware())
+                        break
+                    case 3:
+                        builder.targetRef(mockTool())
+                        break
+                    case 4:
+                        builder.targetRef(mockVulnerability())
+                        break
+                }
+                break
+
+            case 4:
+                builder.sourceRef(mockIndicator())
+                builder.relationshipType("indicates")
+
+                switch (mock.ints().range(1, 6).get()) {
+                    case 1:
+                        builder.targetRef(mockAttackPattern())
+                        break
+                    case 2:
+                        builder.targetRef(mockCampaign())
+                        break
+                    case 3:
+                        builder.targetRef(mockIntrusionSet())
+                        break
+                    case 4:
+                        builder.targetRef(mockMalware())
+                        break
+                    case 5:
+                        builder.targetRef(mockThreatActor())
+                        break
+                    case 6:
+                        builder.targetRef(mockTool())
+                        break
+                }
+                break
+
+            case 5:
+                builder.sourceRef(mockIntrusionSet())
+
+                switch (mock.ints().range(1, 3).get()) {
+                    case 1:
+                        builder.relationshipType("attributed-to")
+                        builder.targetRef(mockThreatActor())
+                        break
+                    case 2:
+                        builder.relationshipType("targets")
+                        if (mock.bools().probability(50).get()) {
+                            builder.targetRef(mockIdentity())
+                        } else {
+                            builder.targetRef(mockVulnerability())
+                        }
+                        break
+                    case 3:
+                        builder.relationshipType("uses")
+                        switch (mock.ints().range(1, 3).get()) {
+                            case 1:
+                                builder.targetRef(mockAttackPattern())
+                                break
+                            case 2:
+                                builder.targetRef(mockMalware())
+                                break
+                            case 3:
+                                builder.targetRef(mockTool())
+                                break
+                        }
+                        break
+                }
+                break
+
+            case 6:
+                builder.sourceRef(mockMalware())
+
+                switch (mock.ints().range(1, 3).get()) {
+                    case 1:
+                        builder.relationshipType("targets")
+                        if (mock.bools().probability(50).get()) {
+                            builder.targetRef(mockIdentity())
+                        } else {
+                            builder.targetRef(mockVulnerability())
+                        }
+                        break
+                    case 2:
+                        builder.relationshipType("uses")
+                        builder.targetRef(mockTool())
+                        break
+                    case 3:
+                        builder.relationshipType("variant-of")
+                        builder.targetRef(mockMalware())
+                        break
+                }
+                break
+
+            case 7:
+                builder.sourceRef(mockThreatActor())
+
+                switch (mock.ints().range(1, 4).get()) {
+                    case 1:
+                        builder.relationshipType("attributed-to")
+                        builder.targetRef(mockIdentity())
+                        break
+                    case 2:
+                        builder.relationshipType("impersonates")
+                        builder.targetRef(mockIdentity())
+                        break
+                    case 3:
+                        builder.relationshipType("targets")
+                        if (mock.bools().probability(50).get()) {
+                            builder.targetRef(mockIdentity())
+                        } else {
+                            builder.targetRef(mockVulnerability())
+                        }
+                        break
+                    case 4:
+                        builder.relationshipType("uses")
+                        switch (mock.ints().range(1, 3).get()) {
+                            case 1:
+                                builder.targetRef(mockAttackPattern())
+                                break
+                            case 2:
+                                builder.targetRef(mockMalware())
+                                break
+                            case 3:
+                                builder.targetRef(mockTool())
+                                break
+                        }
+                        break
+                }
+                break
+            case 8:
+                builder.sourceRef(mockTool())
+
+                builder.relationshipType("targets")
+                switch (mock.ints().range(1, 2).get()) {
+                    case 1:
+                        builder.targetRef(mockIdentity())
+                        break
+                    case 2:
+                        builder.targetRef(mockVulnerability())
+                        break
+                }
+                break
+
+            case 9:
+                DomainObject object = mockRandomDomainObject()
+
+                builder.sourceRef(object)
+
+                builder.relationshipType("derived-from")
+
+                builder.targetRef(mockRandomDomainObject(object.getType()))
+
+                break
+
+            case 10:
+                DomainObject object = mockRandomDomainObject()
+
+                builder.sourceRef(object)
+
+                builder.relationshipType("duplicate-of")
+
+                builder.targetRef(mockRandomDomainObject(object.getType()))
+
+                break
+
+            case 11:
+                DomainObject object = mockRandomDomainObject()
+
+                builder.sourceRef(object)
+
+                builder.relationshipType("related-to")
+
+                builder.targetRef(mockRandomDomainObject())
+
+                break
+        }
+
+        // Extra details
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.labels(generateRandomLabels())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(0, 10).get().times {
+                builder.addExternalReferences(mockExternalReference())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.revoked(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.customProperties(generateCustomProperties())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.createdByRef(mockIdentity())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addObjectMarkingRef(mockMarkingDefinition())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGranularMarking(mockGranularMarking())
+            }
+        }
+
+        return builder.build()
+    }
+
+    Sighting mockSighting(){
+        Sighting.Builder builder = Sighting.builder()
+
+        if (mock.bools().probability(50).get()) {
+            builder.firstSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        if (mock.bools().probability(50).get()) {
+            builder.lastSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.count(mock.ints().range(0, 999999999).get())
+        }
+
+        builder.sightingOfRef(mockRandomDomainObject())
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 30).get().times {
+                builder.addObservedDataRef(mockObservedData())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 30).get().times {
+                builder.addWhereSightedRef(mockIdentity())
+            }
+        }
+
+        if (mock.bools().probability(20).get()) {
+            builder.isSummary(true)
+        }
+
+        return builder.build()
+    }
+
+    DomainObject mockRandomDomainObject(String manualType) {
+
+        String[] types = ["attack-pattern", "campaign",
+                          "course-of-action", "identity",
+                          "indicator", "intrusion-set",
+                          "malware", "observed-data",
+                          "threat-actor", "tool",
+                          "vulnerability"]
+
+        if (manualType == null){
+            manualType = mock.fromStrings(types).get()
+        } else {
+            if (!types.contains(manualType)){
+                throw new IllegalArgumentException("invalid manualType")
+            }
+        }
+
+        switch (manualType) {
+            case "attack-pattern":
+                return mockAttackPattern()
+            case "campaign":
+                return mockCampaign()
+            case "course-of-action":
+                return mockCourseOfAction()
+            case "identity":
+                return mockIdentity()
+            case "indicator":
+                return mockIndicator()
+            case "intrusion-set":
+                return mockIntrusionSet()
+            case "malware":
+                return mockMalware()
+            case "observed-data":
+                return mockObservedData()
+            case "threat-actor":
+                return mockThreatActor()
+            case "tool":
+                return mockTool()
+            case "vulnerability":
+                return mockVulnerability()
+        }
     }
 
 }

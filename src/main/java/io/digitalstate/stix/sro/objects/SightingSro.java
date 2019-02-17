@@ -32,6 +32,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Value.Immutable @Serial.Version(1L)
 @Value.Style(typeAbstract="*Sro", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @DefaultTypeValue(value = "sighting", groups = {DefaultValuesProcessor.class})
+@JsonTypeName("sighting")
 @JsonSerialize(as = Sighting.class) @JsonDeserialize(builder = Sighting.Builder.class)
 @JsonPropertyOrder({"type", "id", "created_by_ref", "created",
         "modified", "revoked", "labels", "external_references",
@@ -55,9 +56,8 @@ public interface SightingSro extends RelationshipObject {
 
     @JsonProperty("count") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("This is an integer between 0 and 999,999,999 inclusive and represents the number of times the object was sighted.")
-    @Range(min = 0, max = 999999999)
     @Redactable
-    Optional<Integer> getCount();
+    Optional<@Range(min = 0, max = 999999999) Integer> getCount();
 
     @JsonProperty("sighting_of_ref")
     @JsonPropertyDescription("An ID reference to the object that has been sighted.")
@@ -71,7 +71,7 @@ public interface SightingSro extends RelationshipObject {
 	@JsonPropertyDescription("A list of ID references to the Observed Data objects that contain the raw cyber data for this Sighting.")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DomainObjectConverter.class)
+    @JsonDeserialize(contentConverter = DomainObjectConverter.class)
     @Redactable
     Set<ObservedDataSdo> getObservedDataRefs();
 
@@ -79,7 +79,7 @@ public interface SightingSro extends RelationshipObject {
 	@JsonPropertyDescription("The ID of the Victim Target objects of the entities that saw the sighting.")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
-    @JsonDeserialize(converter = DomainObjectConverter.class)
+    @JsonDeserialize(contentConverter = DomainObjectConverter.class)
     @Redactable
     Set<IdentitySdo> getWhereSightedRefs();
 
@@ -87,7 +87,8 @@ public interface SightingSro extends RelationshipObject {
     @JsonProperty("summary") @JsonInclude(NON_EMPTY)
     @JsonPropertyDescription("The summary property indicates whether the Sighting should be considered summary data.")
     @Redactable
-    default boolean getSummary(){
+    @Value.Default
+    default boolean isSummary(){
         return false;
     }
 

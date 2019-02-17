@@ -39,6 +39,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "object_marking_refs", "granular_markings", "relationship_type", "description",
         "source_ref", "target_ref"})
 @Redactable
+//@TODO Refactor RelationshipTypeLimit and RelationshipLimit as they are partially redundant
 @RelationshipTypeLimit(source = AttackPatternSdo.class, relationshipTypes = {"targets", "uses"})
 @RelationshipTypeLimit(source = CampaignSdo.class, relationshipTypes = {"attributed-to", "targets", "uses"})
 @RelationshipTypeLimit(source = CourseOfActionSdo.class, relationshipTypes = {"mitigates"})
