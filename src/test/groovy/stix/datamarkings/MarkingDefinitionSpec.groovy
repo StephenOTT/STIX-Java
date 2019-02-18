@@ -1,89 +1,48 @@
 package stix.datamarkings
 
-import io.digitalstate.stix.bundle.Bundle
-import io.digitalstate.stix.datamarkings.GranularMarking
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.digitalstate.stix.datamarkings.MarkingDefinition
-import io.digitalstate.stix.datamarkings.Tlp
-import io.digitalstate.stix.sdo.objects.AttackPattern
-import io.digitalstate.stix.sdo.objects.Identity
+import io.digitalstate.stix.json.StixParsers
+import org.skyscreamer.jsonassert.JSONAssert
+import org.skyscreamer.jsonassert.JSONCompareMode
+import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Unroll
+import stix.StixMockDataGenerator
 
-import javax.validation.ConstraintViolationException
+class MarkingDefinitionSpec extends Specification implements StixMockDataGenerator {
 
-class MarkingDefinitionSpec extends Specification {
+    @Shared ObjectMapper mapper = new ObjectMapper()
 
-    def "definition_type and marking object constraint with valid values"(String tlpValue) {
+    @Unroll
+    def "Generate Marking Definition Data: Run: '#i'"() {
+        when: "Generating Marking Definition Data"
+            MarkingDefinition originalMarkingDefinition = mockMarkingDefinition()
+            println "Original Object: ${originalMarkingDefinition.toString()}"
 
-        when:
-        Tlp tlp = Tlp.builder().tlp(tlpValue).build()
-        MarkingDefinition markingDefinition = MarkingDefinition.builder()
-                .definition(tlp)
-                .build()
+        then: "Convert Marking Definition to Json"
+            JsonNode originalJson = mapper.readTree(originalMarkingDefinition.toJsonString())
+            String originalJsonString = mapper.writeValueAsString(originalJson)
+            println "Original Json: ${originalJsonString}"
 
-        then:
-        assert markingDefinition.getDefinitionType() == "tlp"
-        assert markingDefinition.getDefinition() instanceof Tlp
-        assert ((Tlp) markingDefinition.getDefinition()).tlp == tlpValue
+        then: "Parse Json back into Marking Definition Object"
+            MarkingDefinition parsedMarkingDefinition = (MarkingDefinition)StixParsers.parseObject(originalJsonString)
+            println "Parsed Object: ${parsedMarkingDefinition}"
 
-        where:
-        tlpValue | _
-        "white"  | _
-        "green"  | _
-        "amber"  | _
-        "red"    | _
-    }
+        //@TODO needs to be setup to handle dehydrated object comparison
+//        then: "Parsed object should match Original object"
+//            assert originalMarkingDefinition == parsedMarkingDefinition
 
+        then: "Convert Parsed Marking Definition Object back to into Json"
+            JsonNode newJson =  mapper.readTree(parsedMarkingDefinition.toJsonString())
+            String newJsonString = mapper.writeValueAsString(newJson)
+            println "New Json: ${newJsonString}"
 
-    def "definition_type and marking object constraint with Invalid values"(String tlpValue) {
-
-        when:
-        Tlp tlp = Tlp.builder().tlp(tlpValue).build()
-        MarkingDefinition markingDefinition = MarkingDefinition.builder()
-                .definition(tlp)
-                .build()
-
-        then:
-        thrown(ConstraintViolationException)
+        then: "New Json should match Original Json"
+            JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)
 
         where:
-        tlpValue        | _
-        "off-white"     | _
-        "winter-green"  | _
-        "yellow"        | _
-        "fire"          | _
+            i << (1..100)
     }
-
-    def "mark Test 1"(){
-
-        when:
-        Tlp tlp = Tlp.builder().tlp("red").build()
-        MarkingDefinition markingDefinition = MarkingDefinition.builder()
-                .definition(tlp)
-                .definitionType("tlp")
-                .build()
-
-        GranularMarking granularMarking = GranularMarking.builder()
-                .markingRef(markingDefinition)
-                .addSelectors("granular_markings", "created_by_ref")
-                .addSelectors("created")
-                .build()
-
-        AttackPattern attackPattern = AttackPattern.builder()
-                .name("some Attack Pattern")
-                .addGranularMarkings(granularMarking)
-                .createdByRef(Identity.builder()
-                    .name("some Identity")
-                    .identityClass("individual")
-                    .build())
-                .build()
-
-        Bundle bundle = Bundle.builder()
-            .addObjects(attackPattern).build()
-
-        then:
-        println attackPattern.toJsonString()
-        println bundle.toJsonString()
-
-    }
-
 }

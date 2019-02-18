@@ -10,12 +10,11 @@ import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.HashingAlgorithms;
+import io.digitalstate.stix.vocabulary.vocabularies.HashingAlgorithms;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +29,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "x509-certificate", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
+@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true, depluralizeDictionary = {"hash:hashes"})
 @JsonTypeName("x509-certificate")
 @JsonSerialize(as = X509Certificate.class) @JsonDeserialize(builder = X509Certificate.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
@@ -45,7 +44,6 @@ public interface X509CertificateCoo extends CyberObservableObject {
 
     @JsonProperty("is_self_signed")
     @JsonPropertyDescription("Specifies whether the certificate is self-signed, i.e., whether it is signed by the same entity whose identity it certifies.")
-    @NotNull
     Optional<Boolean> isSelfSigned();
 
     @JsonProperty("hashes")

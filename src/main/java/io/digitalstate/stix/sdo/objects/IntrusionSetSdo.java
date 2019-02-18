@@ -9,8 +9,8 @@ import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.AttackMotivations;
-import io.digitalstate.stix.vocabularies.AttackResourceLevels;
+import io.digitalstate.stix.vocabulary.vocabularies.AttackMotivations;
+import io.digitalstate.stix.vocabulary.vocabularies.AttackResourceLevels;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -43,18 +43,18 @@ public interface IntrusionSetSdo extends DomainObject {
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("The name used to identify the Intrusion Set.")
+    @JsonPropertyDescription("The name used to identify the Intrusion Set.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Provides more context and details about the Intrusion Set object.")
+    @JsonPropertyDescription("Provides more context and details about the Intrusion Set object.")
     @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("aliases") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("Alternative names used to identify this Intrusion Set.")
+    @JsonPropertyDescription("Alternative names used to identify this Intrusion Set.")
     @Redactable
     Set<String> getAliases();
 
@@ -72,21 +72,19 @@ public interface IntrusionSetSdo extends DomainObject {
 
     @NotNull
     @JsonProperty("goals") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("The high level goals of this Intrusion Set, namely, what are they trying to do.")
+    @JsonPropertyDescription("The high level goals of this Intrusion Set, namely, what are they trying to do.")
     @Redactable
     Set<String> getGoals();
 
-    @Vocab(AttackResourceLevels.class)
     @JsonProperty("resource_level") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("This defines the organizational level at which this Intrusion Set typically works. Open Vocab - attack-resource-level-ov")
     @Redactable
-    Optional<String> getResourceLevel();
+    Optional<@Vocab(AttackResourceLevels.class) String> getResourceLevel();
 
-    @Vocab(AttackMotivations.class)
     @JsonProperty("primary_motivation") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The primary reason, motivation, or purpose behind this Intrusion Set. Open Vocab - attack-motivation-ov")
     @Redactable
-    Optional<String> getPrimaryMotivation();
+    Optional<@Vocab(AttackMotivations.class) String> getPrimaryMotivation();
 
     @NotNull
     @Vocab(AttackMotivations.class)

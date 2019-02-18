@@ -13,6 +13,8 @@ import io.digitalstate.stix.coo.extension.types.*;
 import io.digitalstate.stix.coo.objects.Process;
 import io.digitalstate.stix.coo.objects.*;
 import io.digitalstate.stix.datamarkings.MarkingDefinition;
+import io.digitalstate.stix.datamarkings.Statement;
+import io.digitalstate.stix.datamarkings.Tlp;
 import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.objects.Relationship;
 import io.digitalstate.stix.sro.objects.Sighting;
@@ -54,7 +56,7 @@ public class StixParsers {
 
         Class<?>[] sroClasses = { Relationship.class, Sighting.class};
 
-        Class<?>[] dataMarkingClasses = { MarkingDefinition.class};
+        Class<?>[] dataMarkingClasses = { MarkingDefinition.class, Statement.class, Tlp.class};
 
         Class<?>[] bundleClasses = { Bundle.class};
 

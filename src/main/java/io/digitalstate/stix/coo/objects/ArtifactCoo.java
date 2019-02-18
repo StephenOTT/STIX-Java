@@ -8,7 +8,7 @@ import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.HashingAlgorithms;
+import io.digitalstate.stix.vocabulary.vocabularies.HashingAlgorithms;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
@@ -27,7 +27,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "artifact", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
+@Value.Style(typeAbstract="*Coo", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true, depluralizeDictionary = {"hash:hashes"})
 @JsonTypeName("artifact")
 @JsonSerialize(as = Artifact.class) @JsonDeserialize(builder = Artifact.Builder.class)
 @JsonPropertyOrder({"type", "extensions", "mime_type", "payload_bin", "url", "hashes"})
@@ -47,8 +47,9 @@ public interface ArtifactCoo extends CyberObservableObject {
 
     @JsonProperty("payload_bin")
     @JsonPropertyDescription("Specifies the binary data contained in the artifact as a base64-encoded string.")
-    Optional<@Pattern(regexp = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
-            String> getPayloadBin();
+    //Removed the @pattern from within the optional until it is clear on the usage and expectation.
+        //@Pattern(regexp = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
+    Optional<String> getPayloadBin();
 
     /**
      * url-regex

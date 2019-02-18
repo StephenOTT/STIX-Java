@@ -49,9 +49,7 @@ public interface WindowsRegistryKeyCoo extends CyberObservableObject {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     Optional<Instant> getModified();
 
-    /*
-     * TODO Must be of type user-account
-     */
+    //@TODO Must be of type user-account
     @JsonProperty("creator_user_ref")
     @JsonPropertyDescription("Specifies a reference to a user account, represented as a User Account Object, that created the registry key.")
     Optional<String> getCreatorUserRef();

@@ -2,6 +2,7 @@ package io.digitalstate.stix.datamarkings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -20,8 +21,8 @@ import javax.validation.constraints.NotNull;
 /**
  * <p>Builder Required Fields:</p>
  * <ol>
- *     <li>{@link MarkingDefinition#definitionType} - (A helper is in-place for this field that will pre-populate the value based on the specific Marking Object, which makes this field essentially optional).</li>
- *     <li>{@link MarkingDefinition#definition}  - the Marking Object.  Two objects are currently supported: {@link Tlp} and {@link Statement}.</li>
+ *     <li>{@link MarkingDefinition#getDefinitionType()} - (A helper is in-place for this field that will pre-populate the value based on the specific Marking Object, which makes this field essentially optional).</li>
+ *     <li>{@link MarkingDefinition#getDefinition()}  - the Marking Object.  Two objects are currently supported: {@link Tlp} and {@link Statement}.</li>
  * </ol>
  */
 @Value.Immutable @Serial.Version(1L)
@@ -43,6 +44,7 @@ public interface MarkingDefinitionDm extends StixCommonProperties, StixCustomPro
 
     @NotNull
     @JsonProperty("definition")
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "definition_type", include = JsonTypeInfo.As.EXTERNAL_PROPERTY)
     StixMarkingObject getDefinition();
 
 }

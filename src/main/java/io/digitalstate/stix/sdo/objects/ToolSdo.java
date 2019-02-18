@@ -9,7 +9,7 @@ import io.digitalstate.stix.sdo.types.KillChainPhaseType;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.ToolLabels;
+import io.digitalstate.stix.vocabulary.vocabularies.ToolLabels;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
@@ -44,29 +44,29 @@ public interface ToolSdo extends DomainObject {
     @Override
     @NotNull
     @Vocab(ToolLabels.class)
-	@JsonPropertyDescription("The kind(s) of tool(s) being described. Open Vocab - tool-label-ov")
+    @JsonPropertyDescription("The kind(s) of tool(s) being described. Open Vocab - tool-label-ov")
     @Redactable(useMask = true)
     Set<@Length(min = 1) String> getLabels();
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("The name used to identify the Tool.")
+    @JsonPropertyDescription("The name used to identify the Tool.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("Provides more context and details about the Tool object.")
+    @JsonPropertyDescription("Provides more context and details about the Tool object.")
     @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("The list of kill chain phases for which this Tool instance can be used.")
+    @JsonPropertyDescription("The list of kill chain phases for which this Tool instance can be used.")
     @Redactable
     Set<KillChainPhaseType> getKillChainPhases();
 
     @JsonProperty("tool_version") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("The version identifier associated with the tool.")
+    @JsonPropertyDescription("The version identifier associated with the tool.")
     @Redactable
     Optional<String> getToolVersion();
 

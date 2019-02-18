@@ -40,28 +40,28 @@ public interface ObservedDataSdo extends DomainObject {
 
     @NotNull
     @JsonProperty("first_observed")
-	@JsonPropertyDescription("The beginning of the time window that the data was observed during.")
+    @JsonPropertyDescription("The beginning of the time window that the data was observed during.")
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable(useMask = true)
     Instant getFirstObserved();
 
     @NotNull
     @JsonProperty("last_observed")
-	@JsonPropertyDescription("The end of the time window that the data was observed during.")
+    @JsonPropertyDescription("The end of the time window that the data was observed during.")
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @Redactable(useMask = true)
     Instant getLastObserved();
 
     @NotNull @Positive
     @JsonProperty("number_observed")
-	@JsonPropertyDescription("The number of times the data represented in the objects property was observed. This MUST be an integer between 1 and 999,999,999 inclusive.")
+    @JsonPropertyDescription("The number of times the data represented in the objects property was observed. This MUST be an integer between 1 and 999,999,999 inclusive.")
     @Redactable(useMask = true)
     @Range(min = 1, max = 999999999)
     Integer getNumberObserved();
 
     @NotNull @Size(min = 1, message = "At least one Cyber Observable Reference must be provided")
     @JsonProperty("objects")
-	@JsonPropertyDescription("A dictionary of Cyber Observable Objects that describes the single 'fact' that was observed.")
+    @JsonPropertyDescription("A dictionary of Cyber Observable Objects that describes the single 'fact' that was observed.")
     @Redactable(useMask = true)
     @JsonSerialize(using = CyberObservableSetFieldSerializer.class)
     @JsonDeserialize(using = CyberObservableSetFieldDeserializer.class)

@@ -37,18 +37,20 @@ public interface CourseOfActionSdo extends DomainObject {
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("The name used to identify the Course of Action.")
+    @JsonPropertyDescription("The name used to identify the Course of Action.")
     @Redactable(useMask = true)
     String getName();
 
-    @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("A description that provides more details and context about the Course of Action, potentially including its purpose and its key characteristics.")
+    @JsonProperty("description")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("A description that provides more details and context about the Course of Action, potentially including its purpose and its key characteristics.")
     @Redactable
     Optional<String> getDescription();
 
     @NotNull
     @JsonProperty("action")
-	@JsonPropertyDescription("RESERVED – To capture structured/automated courses of action.")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("RESERVED – To capture structured/automated courses of action.")
     @Redactable(useMask = true)
     Set<String> getAction();
 

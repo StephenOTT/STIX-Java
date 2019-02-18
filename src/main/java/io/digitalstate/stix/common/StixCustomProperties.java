@@ -5,15 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import io.digitalstate.stix.validation.contraints.startswith.StartsWith;
 import org.hibernate.validator.constraints.Length;
-import org.immutables.value.Value;
 
 import java.util.Map;
 
 /**
  * Stix Custom Properties
  */
-
-@Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
 public interface StixCustomProperties {
 
     /**

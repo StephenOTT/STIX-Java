@@ -11,7 +11,7 @@ import io.digitalstate.stix.sdo.types.KillChainPhaseType;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.IndicatorLabels;
+import io.digitalstate.stix.vocabulary.vocabularies.IndicatorLabels;
 import org.hibernate.validator.constraints.Length;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
@@ -47,23 +47,23 @@ public interface IndicatorSdo extends DomainObject {
     @Override
     @NotNull @Size(min = 1)
     @Vocab(IndicatorLabels.class)
-	@JsonPropertyDescription("This field is an Open Vocabulary that specifies the type of indicator. Open vocab - indicator-label-ov")
+    @JsonPropertyDescription("This field is an Open Vocabulary that specifies the type of indicator. Open vocab - indicator-label-ov")
     @Redactable(useMask = true)
     Set<@Length(min = 1) String> getLabels();
 
     @JsonProperty("name") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("The name used to identify the Indicator.")
+    @JsonPropertyDescription("The name used to identify the Indicator.")
     @Redactable
     Optional<String> getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("A description that provides more details and context about this Indicator, potentially including its purpose and its key characteristics.")
+    @JsonPropertyDescription("A description that provides more details and context about this Indicator, potentially including its purpose and its key characteristics.")
     @Redactable
     Optional<String> getDescription();
 
     @NotBlank
     @JsonProperty("pattern")
-	@JsonPropertyDescription("The detection pattern for this indicator. The default language is STIX Patterning.")
+    @JsonPropertyDescription("The detection pattern for this indicator. The default language is STIX Patterning.")
     @Redactable(useMask = true)
     String getPattern();
 
@@ -83,7 +83,7 @@ public interface IndicatorSdo extends DomainObject {
 
     @NotNull
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("The list of kill chain phases for which this attack pattern is used.")
+    @JsonPropertyDescription("The list of kill chain phases for which this attack pattern is used.")
     @Redactable
     Set<KillChainPhaseType> getKillChainPhases();
 

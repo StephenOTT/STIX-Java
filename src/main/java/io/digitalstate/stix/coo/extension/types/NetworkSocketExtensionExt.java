@@ -9,9 +9,9 @@ import io.digitalstate.stix.validation.contraints.coo.allowedparents.AllowedPare
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.NetworkSocketAddressFamilies;
-import io.digitalstate.stix.vocabularies.NetworkSocketProtocolFamilies;
-import io.digitalstate.stix.vocabularies.NetworkSocketTypes;
+import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketAddressFamilies;
+import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketProtocolFamilies;
+import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 

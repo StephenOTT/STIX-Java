@@ -11,8 +11,7 @@ import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.ReportLabels;
-import org.hibernate.validator.constraints.Length;
+import io.digitalstate.stix.vocabulary.vocabularies.ReportLabels;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -46,19 +45,19 @@ public interface ReportSdo extends DomainObject {
 
     @Override
     @NotNull
-    @Vocab(ReportLabels.class)
-	@JsonPropertyDescription("This field is an Open Vocabulary that specifies the primary subject of this report. The suggested values for this field are in report-label-ov.")
+    @JsonPropertyDescription("This field is an Open Vocabulary that specifies the primary subject of this report. The suggested values for this field are in report-label-ov.")
     @Redactable(useMask = true)
-    Set<@Length(min = 1) String> getLabels();
+    @Size(min = 1)
+    Set<@Vocab(ReportLabels.class) String> getLabels();
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("A description that provides more details and context about Report.")
+    @JsonPropertyDescription("A description that provides more details and context about Report.")
     @Redactable(useMask = true)
     String getName();
 
     @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("A description that provides more details and context about Report.")
+    @JsonPropertyDescription("A description that provides more details and context about Report.")
     @Redactable
     Optional<String> getDescription();
 
@@ -71,7 +70,7 @@ public interface ReportSdo extends DomainObject {
 
     @NotNull @Size(min = 1, message = "Must have at least one Report object reference")
     @JsonProperty("object_refs")
-	@JsonPropertyDescription("Specifies the STIX Objects that are referred to by this Report.")
+    @JsonPropertyDescription("Specifies the STIX Objects that are referred to by this Report.")
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonDeserialize( converter = BundleableObjectSetConverter.class)

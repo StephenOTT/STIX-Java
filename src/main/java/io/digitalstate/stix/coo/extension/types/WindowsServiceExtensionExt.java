@@ -9,9 +9,9 @@ import io.digitalstate.stix.validation.contraints.coo.allowedparents.AllowedPare
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.WindowsServiceStartTypes;
-import io.digitalstate.stix.vocabularies.WindowsServiceStatuses;
-import io.digitalstate.stix.vocabularies.WindowsServiceTypes;
+import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceStartTypes;
+import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceStatuses;
+import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 

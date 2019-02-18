@@ -39,35 +39,39 @@ public interface CampaignSdo extends DomainObject {
 
     @NotBlank
     @JsonProperty("name")
-	@JsonPropertyDescription("The name used to identify the Campaign.")
+    @JsonPropertyDescription("The name used to identify the Campaign.")
     @Redactable(useMask = true)
     String getName();
 
-    @JsonProperty("description") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("A description that provides more details and context about the Campaign, potentially including its purpose and its key characteristics.")
+    @JsonProperty("description")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("A description that provides more details and context about the Campaign, potentially including its purpose and its key characteristics.")
     @Redactable
     Optional<String> getDescription();
 
     @NotNull
-    @JsonProperty("aliases") @JsonInclude(NON_EMPTY)
-	@JsonPropertyDescription("Alternative names used to identify this campaign.")
+    @JsonProperty("aliases")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("Alternative names used to identify this campaign.")
     @Redactable
     Set<String> getAliases();
 
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-    @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("The time that this Campaign was first seen.")
+    @JsonProperty("first_seen")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
+    @JsonPropertyDescription("The time that this Campaign was first seen.")
     @Redactable
     Optional<Instant> getFirstSeen();
 
+    //@TODO add support to ensure that Last Seen is AFTER the First Seen value
     @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("The time that this Campaign was last seen.")
+    @JsonPropertyDescription("The time that this Campaign was last seen.")
     @Redactable
     Optional<Instant> getLastSeen();
 
     @JsonProperty("objective") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
-	@JsonPropertyDescription("This field defines the Campaign’s primary goal, objective, desired outcome, or intended effect.")
+    @JsonPropertyDescription("This field defines the Campaign’s primary goal, objective, desired outcome, or intended effect.")
     @Redactable
     Optional<String> getObjective();
 

@@ -8,7 +8,7 @@ import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
-import io.digitalstate.stix.vocabularies.AccountTypes;
+import io.digitalstate.stix.vocabulary.vocabularies.AccountTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
@@ -48,8 +48,7 @@ public interface UserAccountCoo extends CyberObservableObject {
 
     @JsonProperty("account_type")
     @JsonPropertyDescription("Specifies the type of the account. This is an open vocabulary and values SHOULD come from the account-type-ov vocabulary.")
-    @Vocab(AccountTypes.class)
-    Optional<String> getAccountType();
+    Optional<@Vocab(AccountTypes.class) String> getAccountType();
 
     @JsonProperty("display_name")
     @JsonPropertyDescription("Specifies the display name of the account, to be shown in user interfaces, if applicable.")
