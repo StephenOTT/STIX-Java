@@ -43,6 +43,6 @@ class ReportSpec extends Specification implements StixMockDataGenerator {
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)
 
         where:
-            i << (1..100) // More tests are run because of the large variation of probabilities and number of combinations
+            i << (1..500) // More tests are run because of the large variation of probabilities and number of combinations
     }
 }
