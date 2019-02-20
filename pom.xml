@@ -5,7 +5,7 @@
 
     <groupId>io.digitalstate.stix</groupId>
     <artifactId>stix</artifactId>
-    <version>v0.6</version>
+    <version>v0.6.1</version>
     <packaging>jar</packaging>
 
     <name>STIX 2</name>
@@ -64,7 +64,6 @@
             <artifactId>json-path</artifactId>
             <version>2.4.0</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -125,6 +124,7 @@
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <version>2.4.15</version>
+            <scope>test</scope>
         </dependency>
         <dependency> <!-- enables mocking of classes (in addition to interfaces) -->
             <groupId>net.bytebuddy</groupId>
@@ -174,7 +174,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>compile</goal>
+                            <!--<goal>compile</goal>-->
                             <goal>compileTests</goal>
                         </goals>
                     </execution>
