@@ -1154,9 +1154,7 @@ trait StixMockDataGenerator {
 
         if (mock.bools().probability(33).get()) {
             builder.isHidden(true)
-        }
-
-        if (mock.bools().probability(33).get()) {
+        } else {
             builder.isHidden(false)
         }
 
