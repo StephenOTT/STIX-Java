@@ -19,16 +19,16 @@ class IntrusionSetSpec extends Specification implements StixMockDataGenerator {
     def "Generate Intrusion Set Data: Run: '#i'"() {
         when: "Generating Intrusion Set Data"
             IntrusionSet originalIntrusionSet = mockIntrusionSet()
-            println "Original Object: ${originalIntrusionSet.toString()}"
+//            println "Original Object: ${originalIntrusionSet.toString()}"
 
         then: "Convert Intrusion Set to Json"
             JsonNode originalJson = mapper.readTree(originalIntrusionSet.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Intrusion Set Object"
             IntrusionSet parsedIntrusionSet = (IntrusionSet)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedIntrusionSet}"
+//            println "Parsed Object: ${parsedIntrusionSet}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class IntrusionSetSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Intrusion Set back to into Json"
             JsonNode newJson =  mapper.readTree(parsedIntrusionSet.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

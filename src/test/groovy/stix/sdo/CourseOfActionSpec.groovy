@@ -19,16 +19,16 @@ class CourseOfActionSpec extends Specification implements StixMockDataGenerator 
     def "Generate Course of Action Data: Run: '#i'"() {
         when: "Generating Identity Data"
             CourseOfAction originalCourseOfAction = mockCourseOfAction()
-            println "Original Object: ${originalCourseOfAction.toString()}"
+//            println "Original Object: ${originalCourseOfAction.toString()}"
 
         then: "Convert Course of Action to Json"
             JsonNode originalJson = mapper.readTree(originalCourseOfAction.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Course of Action Object"
             CourseOfAction parsedCourseOfAction = (CourseOfAction)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedCourseOfAction}"
+//            println "Parsed Object: ${parsedCourseOfAction}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class CourseOfActionSpec extends Specification implements StixMockDataGenerator 
         then: "Convert Parsed Identity Object back to into Json"
             JsonNode newJson =  mapper.readTree(parsedCourseOfAction.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

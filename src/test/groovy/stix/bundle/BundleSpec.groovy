@@ -20,16 +20,16 @@ class BundleSpec extends Specification implements StixMockDataGenerator {
     def "Generate Bundle Data: Run: '#i'"() {
         when: "Generating Bundle Data"
         Bundle originalBundle = mockBundle()
-            println "Original Object: ${originalBundle.toString()}"
+//            println "Original Object: ${originalBundle.toString()}"
 
         then: "Convert Bundle to Json"
             JsonNode originalJson = mapper.readTree(originalBundle.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Bundle Object"
             BundleObject parsedBundle = StixParsers.parseBundle(originalJsonString)
-            println "Parsed Object: ${parsedBundle}"
+//            println "Parsed Object: ${parsedBundle}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -38,7 +38,7 @@ class BundleSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Bundle back to into Json"
             JsonNode newJson =  mapper.readTree(parsedBundle.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

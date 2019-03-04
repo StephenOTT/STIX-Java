@@ -19,16 +19,16 @@ class IndicatorSpec extends Specification implements StixMockDataGenerator {
     def "Generate Indicator Data: Run: '#i'"() {
         when: "Generating Indicator Data"
             Indicator originalIndicator = mockIndicator()
-            println "Original Object: ${originalIndicator.toString()}"
+//            println "Original Object: ${originalIndicator.toString()}"
 
         then: "Convert Indicator to Json"
             JsonNode originalJson = mapper.readTree(originalIndicator.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Indicator Object"
             Indicator parsedIndicator = (Indicator)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedIndicator}"
+//            println "Parsed Object: ${parsedIndicator}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class IndicatorSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Indicator back to into Json"
             JsonNode newJson =  mapper.readTree(parsedIndicator.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

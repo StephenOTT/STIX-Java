@@ -20,16 +20,16 @@ class SightingSpec extends Specification implements StixMockDataGenerator {
     def "Generate Sighting SRO Data: Run: '#i'"() {
         when: "Generating Sighting SRO Data"
         Sighting originalSighting = mockSighting()
-            println "Original Object: ${originalSighting.toString()}"
+//            println "Original Object: ${originalSighting.toString()}"
 
         then: "Convert Sighting to Json"
             JsonNode originalJson = mapper.readTree(originalSighting.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Sighting Object"
             Sighting parsedSighting = (Sighting)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedSighting}"
+//            println "Parsed Object: ${parsedSighting}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -38,7 +38,7 @@ class SightingSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Sighting Object back to into Json"
             JsonNode newJson =  mapper.readTree(parsedSighting.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

@@ -19,16 +19,16 @@ class AttackPatternSpec extends Specification implements StixMockDataGenerator {
     def "Generate Attack Pattern Data: Run: '#i'"() {
         when: "Generating Attack Pattern Data"
             AttackPattern originalAttackPattern = mockAttackPattern()
-            println "Original Object: ${originalAttackPattern.toString()}"
+//            println "Original Object: ${originalAttackPattern.toString()}"
 
         then: "Convert Attack Pattern to Json"
             JsonNode originalJson = mapper.readTree(originalAttackPattern.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Attack Pattern Object"
             AttackPattern parsedAttackPattern = (AttackPattern)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedAttackPattern}"
+//            println "Parsed Object: ${parsedAttackPattern}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class AttackPatternSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Attack Pattern Object back to into Json"
             JsonNode newJson =  mapper.readTree(parsedAttackPattern.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

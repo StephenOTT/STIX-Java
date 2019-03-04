@@ -19,16 +19,16 @@ class ObservedDataSpec extends Specification implements StixMockDataGenerator {
     def "Generate Observed-Data Data: Run: '#i'"() {
         when: "Generating Observed-Data Data"
             ObservedData originalObservedData = mockObservedData()
-            println "Original Object: ${originalObservedData.toString()}"
+//            println "Original Object: ${originalObservedData.toString()}"
 
         then: "Convert Observed-Data to Json"
             JsonNode originalJson = mapper.readTree(originalObservedData.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Observed-Data Object"
             ObservedData parsedObservedData = (ObservedData)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedObservedData}"
+//            println "Parsed Object: ${parsedObservedData}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class ObservedDataSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Observed-Data back to into Json"
             JsonNode newJson =  mapper.readTree(parsedObservedData.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

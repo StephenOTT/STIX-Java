@@ -19,16 +19,16 @@ class ThreatActorSpec extends Specification implements StixMockDataGenerator {
     def "Generate Threat Actor Data: Run: '#i'"() {
         when: "Generating Threat Actor Data"
         ThreatActor originalThreatActor = mockThreatActor()
-            println "Original Object: ${originalThreatActor.toString()}"
+//            println "Original Object: ${originalThreatActor.toString()}"
 
         then: "Convert Threat Actor to Json"
             JsonNode originalJson = mapper.readTree(originalThreatActor.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Threat Actor Object"
             ThreatActor parsedThreatActor = (ThreatActor)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedThreatActor}"
+//            println "Parsed Object: ${parsedThreatActor}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class ThreatActorSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Threat Actor back to into Json"
             JsonNode newJson =  mapper.readTree(parsedThreatActor.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)
