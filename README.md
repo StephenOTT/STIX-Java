@@ -1,5 +1,7 @@
 # STIX 2.x Java library
 
+[![Build Status](https://travis-ci.org/StephenOTT/STIX-Java.svg?branch=master)](https://travis-ci.org/StephenOTT/STIX-Java)
+
 The library aims to provide a flexible full implementation of [STIX 2.x](https://oasis-open.github.io/cti-documentation/resources#stix-20-specification).  
 This means that a default implementation is provided that meets the STIX JSON specification and the core objects 
 and properties are provided in such a way as you can easily override and extend any implementation detail to meet your 
