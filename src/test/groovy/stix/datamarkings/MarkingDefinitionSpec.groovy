@@ -19,16 +19,16 @@ class MarkingDefinitionSpec extends Specification implements StixMockDataGenerat
     def "Generate Marking Definition Data: Run: '#i'"() {
         when: "Generating Marking Definition Data"
             MarkingDefinition originalMarkingDefinition = mockMarkingDefinition()
-            println "Original Object: ${originalMarkingDefinition.toString()}"
+//            println "Original Object: ${originalMarkingDefinition.toString()}"
 
         then: "Convert Marking Definition to Json"
             JsonNode originalJson = mapper.readTree(originalMarkingDefinition.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Marking Definition Object"
             MarkingDefinition parsedMarkingDefinition = (MarkingDefinition)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedMarkingDefinition}"
+//            println "Parsed Object: ${parsedMarkingDefinition}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class MarkingDefinitionSpec extends Specification implements StixMockDataGenerat
         then: "Convert Parsed Marking Definition Object back to into Json"
             JsonNode newJson =  mapper.readTree(parsedMarkingDefinition.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

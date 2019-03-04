@@ -19,16 +19,16 @@ class RelationshipSpec extends Specification implements StixMockDataGenerator {
     def "Generate Relationship SRO Data: Run: '#i'"() {
         when: "Generating Relationship SRO Data"
         Relationship originalRelationship = mockRelationship()
-            println "Original Object: ${originalRelationship.toString()}"
+//            println "Original Object: ${originalRelationship.toString()}"
 
         then: "Convert Relationship to Json"
             JsonNode originalJson = mapper.readTree(originalRelationship.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Relationship Object"
             Relationship parsedRelationship = (Relationship)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedRelationship}"
+//            println "Parsed Object: ${parsedRelationship}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class RelationshipSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Relationship Object back to into Json"
             JsonNode newJson =  mapper.readTree(parsedRelationship.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)

@@ -19,16 +19,16 @@ class ToolSpec extends Specification implements StixMockDataGenerator {
     def "Generate Tool Data: Run: '#i'"() {
         when: "Generating Tool Data"
         Tool originalTool = mockTool()
-            println "Original Object: ${originalTool.toString()}"
+//            println "Original Object: ${originalTool.toString()}"
 
         then: "Convert Tool to Json"
             JsonNode originalJson = mapper.readTree(originalTool.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-            println "Original Json: ${originalJsonString}"
+//            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Tool Object"
             Tool parsedTool = (Tool)StixParsers.parseObject(originalJsonString)
-            println "Parsed Object: ${parsedTool}"
+//            println "Parsed Object: ${parsedTool}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
 //        then: "Parsed object should match Original object"
@@ -37,7 +37,7 @@ class ToolSpec extends Specification implements StixMockDataGenerator {
         then: "Convert Parsed Tool back to into Json"
             JsonNode newJson =  mapper.readTree(parsedTool.toJsonString())
             String newJsonString = mapper.writeValueAsString(newJson)
-            println "New Json: ${newJsonString}"
+//            println "New Json: ${newJsonString}"
 
         then: "New Json should match Original Json"
             JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)
