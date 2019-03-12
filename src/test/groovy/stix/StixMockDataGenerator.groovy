@@ -1,8 +1,23 @@
 package stix
 
 import io.digitalstate.stix.bundle.Bundle
+import io.digitalstate.stix.coo.extension.types.ArchiveFileExtension
+import io.digitalstate.stix.coo.extension.types.HttpRequestExtension
+import io.digitalstate.stix.coo.extension.types.IcmpExtension
+import io.digitalstate.stix.coo.extension.types.NetworkSocketExtension
+import io.digitalstate.stix.coo.extension.types.NtfsFileExtenstion
+import io.digitalstate.stix.coo.extension.types.PdfFileExtension
+import io.digitalstate.stix.coo.extension.types.RasterImageFileExtension
+import io.digitalstate.stix.coo.extension.types.TcpExtension
+import io.digitalstate.stix.coo.extension.types.UnixAccountExtension
+import io.digitalstate.stix.coo.extension.types.WindowsPeBinaryFileExtension
+import io.digitalstate.stix.coo.extension.types.WindowsProcessExtension
+import io.digitalstate.stix.coo.extension.types.WindowsServiceExtension
 import io.digitalstate.stix.coo.objects.*
 import io.digitalstate.stix.coo.types.MimePartType
+import io.digitalstate.stix.coo.types.NtfsAlternateDataStream
+import io.digitalstate.stix.coo.types.WindowsPeOptionalHeader
+import io.digitalstate.stix.coo.types.WindowsPeSection
 import io.digitalstate.stix.coo.types.WindowsRegistryValue
 import io.digitalstate.stix.datamarkings.GranularMarking
 import io.digitalstate.stix.datamarkings.MarkingDefinition
@@ -22,13 +37,20 @@ import io.digitalstate.stix.vocabulary.vocabularies.IdentityClasses
 import io.digitalstate.stix.vocabulary.vocabularies.IndicatorLabels
 import io.digitalstate.stix.vocabulary.vocabularies.IndustrySectors
 import io.digitalstate.stix.vocabulary.vocabularies.MalwareLabels
+import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketAddressFamilies
+import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketProtocolFamilies
+import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketTypes
 import io.digitalstate.stix.vocabulary.vocabularies.ReportLabels
 import io.digitalstate.stix.vocabulary.vocabularies.ThreatActorLabels
 import io.digitalstate.stix.vocabulary.vocabularies.ThreatActorRoles
 import io.digitalstate.stix.vocabulary.vocabularies.ThreatActorSophistication
 import io.digitalstate.stix.vocabulary.vocabularies.TlpLevels
 import io.digitalstate.stix.vocabulary.vocabularies.ToolLabels
+import io.digitalstate.stix.vocabulary.vocabularies.WindowsPeBinaryTypes
 import io.digitalstate.stix.vocabulary.vocabularies.WindowsRegistryValueDataTypes
+import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceStartTypes
+import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceStatuses
+import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceTypes
 import net.andreinc.mockneat.MockNeat
 
 import java.time.Instant
@@ -916,7 +938,37 @@ trait StixMockDataGenerator {
     File mockFileCoo() {
         File.Builder builder = File.builder()
 
-        //@TODO Add Extensions support for `ntfs-ext, raster-image-ext, pdf-ext, archive-ext, windows-pebinary-ext`
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockNtfsFileExtensionCooExt())
+                }
+            }
+
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockRasterImageFileExtensionCooExt())
+                }
+            }
+
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockPdfFileExtensionCooExt())
+                }
+            }
+
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockArchiveFileExtensionCooExt())
+                }
+            }
+
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockWindowsPeBinaryFileExtensionCooExt())
+                }
+            }
+        }
 
         if (mock.bools().probability(50).get()) {
             if (mock.bools().probability(20).get()) {
@@ -1050,6 +1102,34 @@ trait StixMockDataGenerator {
         NetworkTraffic.Builder builder = NetworkTraffic.builder()
 
         if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockHttpRequestExtensionCooExt())
+                }
+            }
+
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockTcpExtensionCooExt())
+                }
+            }
+
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockIcmpExtensionCooExt())
+                }
+            }
+
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockNetworkSocketExtensionCooExt())
+                }
+            }
+        }
+
+
+
+        if (mock.bools().probability(50).get()) {
             builder.start(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
         }
 
@@ -1152,6 +1232,20 @@ trait StixMockDataGenerator {
     Process mockProcessCoo() {
         Process.Builder builder = Process.builder()
 
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockWindowsProcessExtensionCooExt())
+                }
+            }
+
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockWindowsServiceExtensionCooExt())
+                }
+            }
+        }
+
         if (mock.bools().probability(33).get()) {
             builder.isHidden(true)
         } else {
@@ -1251,6 +1345,14 @@ trait StixMockDataGenerator {
 
     UserAccount mockUserAccount() {
         UserAccount.Builder builder = UserAccount.builder()
+
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(50).get()) {
+                mock.ints().range(1, 5).get().times {
+                    builder.addExtension(mockUnixAccountExtensionCooExt())
+                }
+            }
+        }
 
         builder.userId(mock.uuids().get())
 
@@ -2141,7 +2243,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    Sighting mockSighting(){
+    Sighting mockSighting() {
         Sighting.Builder builder = Sighting.builder()
 
         if (mock.bools().probability(50).get()) {
@@ -2187,10 +2289,10 @@ trait StixMockDataGenerator {
                           "threat-actor", "tool",
                           "vulnerability"]
 
-        if (manualType == null){
+        if (manualType == null) {
             manualType = mock.fromStrings(types).get()
         } else {
-            if (!types.contains(manualType)){
+            if (!types.contains(manualType)) {
                 throw new IllegalArgumentException("invalid manualType")
             }
         }
@@ -2219,6 +2321,554 @@ trait StixMockDataGenerator {
             case "vulnerability":
                 return mockVulnerability()
         }
+    }
+
+    ArchiveFileExtension mockArchiveFileExtensionCooExt() {
+        ArchiveFileExtension.Builder builder = ArchiveFileExtension.builder()
+
+        if (mock.bools().probability(33).get()) {
+            mock.ints().range(1, 2).get().times {
+                builder.addContainsRef(mockFileCoo().getObservableObjectKey())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.version("${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}")
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.comment(mock.words().accumulate(mock.ints().range(1, 20).get(), " ").get())
+        }
+
+        return builder.build()
+    }
+
+    HttpRequestExtension mockHttpRequestExtensionCooExt() {
+        HttpRequestExtension.Builder builder = HttpRequestExtension.builder()
+
+        builder.requestMethod(mock.fromStrings("GET", "PUT", "POST", "PATCH", "DELETE").get())
+
+        builder.requestValue(mock.words().accumulate(mock.ints().range(1, 30).get(), " ").get().toString())
+
+        builder.requestVersion(mock.fromStrings("1.0", "1.1", "2.0").get())
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                String key = mock.words().accumulate(mock.ints().range(2, 3).get(), "").get()
+                String value = mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get()
+                builder.putRequestHeader(key, value)
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.messageBodyLength(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.messageBodyDataRef(mockArtifactCoo().getObservableObjectKey())
+        }
+
+        return builder.build()
+    }
+
+    IcmpExtension mockIcmpExtensionCooExt() {
+        IcmpExtension.Builder builder = IcmpExtension.builder()
+
+        builder.icmpCodeHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+
+        builder.ocmpTypeHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+
+        return builder.build()
+    }
+
+
+    NetworkSocketExtension mockNetworkSocketExtensionCooExt() {
+        NetworkSocketExtension.Builder builder = NetworkSocketExtension.builder()
+
+        builder.addressFamily(mock.fromStrings(new NetworkSocketAddressFamilies().getAllTerms().toList()).get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.blocking(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.listening(true)
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.protocolFamily(mock.fromStrings(new NetworkSocketProtocolFamilies().getAllTerms().toList()).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                String key = mock.words().accumulate(mock.ints().range(2, 3).get(), "").get()
+                String value = mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get()
+                builder.putOption("SO_${key}", value)
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.socketType(mock.fromStrings(new NetworkSocketTypes().getAllTerms().toList()).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.socketDescriptor(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.socketHandle(mock.longs().range(0, 999999999999).get())
+        }
+
+        return builder.build()
+    }
+
+    NtfsFileExtenstion mockNtfsFileExtensionCooExt() {
+        NtfsFileExtenstion.Builder builder = NtfsFileExtenstion.builder()
+
+        if (mock.bools().probability(50).get()) {
+            builder.sid(mock.words().get())
+        } else {
+            if (mock.bools().probability(50).get()) {
+                builder.sid(mock.words().get())
+            }
+            mock.ints().range(1, 5).get().times {
+                builder.addAlternateDataStream(mockNtfsAlternateDataStreamCooExtObj())
+            }
+        }
+        return builder.build()
+    }
+
+    NtfsAlternateDataStream mockNtfsAlternateDataStreamCooExtObj() {
+        NtfsAlternateDataStream.Builder builder = NtfsAlternateDataStream.builder()
+
+        builder.name(mock.words().get())
+
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("MD5", mock.hashes().md5().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-256", mock.hashes().sha256().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-512", mock.hashes().sha512().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-1", mock.hashes().sha1().get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.size(mock.longs().range(0, 999999999999).get())
+        }
+
+        return builder.build()
+    }
+
+    PdfFileExtension mockPdfFileExtensionCooExt() {
+        PdfFileExtension.Builder builder = PdfFileExtension.builder()
+
+        if (mock.bools().probability(50).get()) {
+            builder.version("${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}.${mock.ints().range(0, 5).get()}")
+        }
+
+        builder.isOptimized(mock.bools().probability(50).get())
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                String key = mock.words().accumulate(mock.ints().range(2, 3).get(), "").get()
+                String value = mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get()
+                builder.putDocumentInfoDict(key, value)
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.pdfId0(mock.words().accumulate(mock.ints().range(1, 2).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.pdfId1(mock.words().accumulate(mock.ints().range(1, 2).get(), "-").get())
+        }
+
+        return builder.build()
+    }
+
+    RasterImageFileExtension mockRasterImageFileExtensionCooExt() {
+        RasterImageFileExtension.Builder builder = RasterImageFileExtension.builder()
+
+        builder.imageHeight(mock.longs().range(0, 999999999999).get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.imageWidth(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.bitsPerPixel(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.imageCompressionAlgorithm(mock.words().accumulate(mock.ints().range(1, 2).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                String key = mock.words().accumulate(mock.ints().range(2, 3).get(), "-").get()
+                String value = mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get()
+                builder.putExifTag(key, value)
+            }
+        }
+
+        return builder.build()
+    }
+
+    TcpExtension mockTcpExtensionCooExt() {
+        TcpExtension.Builder builder = TcpExtension.builder()
+
+        builder.srcFlagsHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+
+        builder.dstFlagsHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+
+        return builder.build()
+    }
+
+    UnixAccountExtension mockUnixAccountExtensionCooExt() {
+        UnixAccountExtension.Builder builder = UnixAccountExtension.builder()
+
+        builder.gid(mock.longs().range(0, 999999999999).get())
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addGroup(mock.words().get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.homeDir("./${mock.words().accumulate(mock.ints().range(1, 5).get(), "/").get()}")
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.shell("${mock.words().get()} ${mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get()}")
+        }
+
+        return builder.build()
+    }
+
+    WindowsPeBinaryFileExtension mockWindowsPeBinaryFileExtensionCooExt() {
+        WindowsPeBinaryFileExtension.Builder builder = WindowsPeBinaryFileExtension.builder()
+
+        builder.peType(mock.fromStrings(new WindowsPeBinaryTypes().getAllTerms().toList()).get())
+
+        if (mock.bools().probability(50).get()) {
+            builder.imphash(mock.hashes().md5().get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.machineHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.numberOfSections(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.timeDateStamp(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.pointerToSymbolTableHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.numberOfSymbols(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfOptionalHeader(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.characteristicsHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(20).get()) {
+                builder.putFileHeaderHash("MD5", mock.hashes().md5().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putFileHeaderHash("SHA-256", mock.hashes().sha256().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putFileHeaderHash("SHA-512", mock.hashes().sha512().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putFileHeaderHash("SHA-1", mock.hashes().sha1().get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.optionalHeader(mockWindowsPeOptionalHeaderCooExtObj())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addSection(mockWindowsPeSectionCooExtObj())
+            }
+        }
+
+        return builder.build()
+    }
+
+    WindowsPeOptionalHeader mockWindowsPeOptionalHeaderCooExtObj() {
+        WindowsPeOptionalHeader.Builder builder = WindowsPeOptionalHeader.builder()
+
+        builder.magicHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+
+        if (mock.bools().probability(50).get()) {
+            builder.majorLinkerVersion(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.minorLinkerVersion(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfCode(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfInitializedData(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.addressOfEntryPoint(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.baseOfCode(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.baseOfData(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.imageBase(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sectionAlignment(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.fileAlignment(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.majorOsVersion(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.minorOsVersion(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.majorImageVersion(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.minorImageVersion(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.majorSubsystemVersion(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.minorSubsystemVersion(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.win32VersionValueHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfImage(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfHeaders(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.checksumHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.subsystemHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.dllCharacteristicsHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfStackReserve(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfStackCommit(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfHeapReserve(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.sizeOfHeapCommit(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.loaderFlagsHex(mock.chars().hex().get().toString() + mock.chars().hex().get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.numberOfRvaAndSizes(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("MD5", mock.hashes().md5().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-256", mock.hashes().sha256().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-512", mock.hashes().sha512().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-1", mock.hashes().sha1().get())
+            }
+        }
+
+        return builder.build()
+    }
+
+    WindowsPeSection mockWindowsPeSectionCooExtObj() {
+        WindowsPeSection.Builder builder = WindowsPeSection.builder()
+
+        if (mock.bools().probability(50).get()) {
+            builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.size(mock.longs().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.entropy(mock.floats().range(0, 999999999999).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("MD5", mock.hashes().md5().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-256", mock.hashes().sha256().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-512", mock.hashes().sha512().get())
+            }
+
+            if (mock.bools().probability(20).get()) {
+                builder.putHash("SHA-1", mock.hashes().sha1().get())
+            }
+        }
+
+        return builder.build()
+    }
+
+    WindowsProcessExtension mockWindowsProcessExtensionCooExt() {
+        WindowsProcessExtension.Builder builder = WindowsProcessExtension.builder()
+
+        if (mock.bools().probability(50).get()) {
+            builder.isAslrEnabled(true)
+        } else {
+            builder.isAslrEnabled(false)
+            builder.isDepEnabled(mock.bools().probability(50).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.priority(mock.words().accumulate(mock.ints().range(1, 3).get(), "_").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.ownerSid(mock.ints().range(1, 999999).get().toString())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.windowTitle(mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                String key = mock.words().accumulate(mock.ints().range(2, 3).get(), "-").get()
+                String value = mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get()
+                builder.putStartupInfo(key, value)
+            }
+        }
+
+        return builder.build()
+    }
+
+    WindowsServiceExtension mockWindowsServiceExtensionCooExt() {
+        WindowsServiceExtension.Builder builder = WindowsServiceExtension.builder()
+
+        builder.serviceName(mock.words().accumulate(mock.ints().range(1, 3).get(), "-").get())
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 5).get().times {
+                builder.addDescription(mock.words().accumulate(mock.ints().range(1, 10).get(), " ").get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.displayName(mock.words().accumulate(mock.ints().range(1, 2).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.groupName(mock.words().accumulate(mock.ints().range(1, 2).get(), "-").get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.serviceStartType(mock.fromStrings(new WindowsServiceStartTypes().getAllTerms().toList()).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            mock.ints().range(1, 10).get().times {
+                builder.addServiceDllRef(mock.words().accumulate(mock.ints().range(1, 3).get(), "-").get())
+            }
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.serviceType(mock.fromStrings(new WindowsServiceTypes().getAllTerms().toList()).get())
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.serviceStatus(mock.fromStrings(new WindowsServiceStatuses().getAllTerms().toList()).get())
+        }
+
+        return builder.build()
     }
 
 }
