@@ -5,7 +5,7 @@
 
     <groupId>io.digitalstate.stix</groupId>
     <artifactId>stix</artifactId>
-    <version>v0.6.2</version>
+    <version>v0.7.0</version>
     <packaging>jar</packaging>
 
     <name>STIX 2</name>
