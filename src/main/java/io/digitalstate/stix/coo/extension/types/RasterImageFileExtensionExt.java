@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.coo.objects.FileCoo;
+import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.coo.allowedparents.AllowedParents;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -30,6 +31,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "image_height", "image_width", "bits_per_pixel", "image_compression_algorithm", "exif_tags" })
 @JsonTypeName("raster-image-ext")
 @AllowedParents({FileCoo.class})
+@BusinessRule(ifExp = "true", thenExp = "getImageHeight().isPresent() == true || getImageWidth().isPresent() == true || getBitsPerPixel().isPresent() == false || getImageCompressionAlgorithm().isPresent() == true || getExifTags().isEmpty() == true", errorMessage = "At least 1 field must be used in Raster Image File Extension.")
 public interface RasterImageFileExtensionExt extends CyberObservableExtension {
 
     //@TODO Spec is missing direction about limits: Value likely needs to be MUST be positive
@@ -52,7 +54,6 @@ public interface RasterImageFileExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("exif_tags")
     @JsonPropertyDescription("Specifies the set of EXIF tags found in the image file, as a dictionary. Each key/value pair in the dictionary represents the name/value of a single EXIF tag.")
-    @Valid
     Map<String,Object> getExifTags();
 
 }

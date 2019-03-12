@@ -15,6 +15,7 @@ import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceTypes;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.Set;
@@ -41,7 +42,7 @@ public interface WindowsServiceExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("service_name")
     @JsonPropertyDescription("Specifies the name of the service.")
-    @NotNull
+    @NotBlank
     String getServiceName();
 
     @JsonProperty("descriptions")
@@ -58,8 +59,7 @@ public interface WindowsServiceExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("start_type")
     @JsonPropertyDescription("Specifies the start options defined for the service. windows-service-start-enum")
-    @Vocab(WindowsServiceStartTypes.class)
-    Optional<String> getServiceStartType();
+    Optional<@Vocab(WindowsServiceStartTypes.class) String> getServiceStartType();
 
     @JsonProperty("service_dll_refs")
     @JsonPropertyDescription("Specifies the DLLs loaded by the service, as a reference to one or more File Objects.")
@@ -67,12 +67,10 @@ public interface WindowsServiceExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("service_type")
     @JsonPropertyDescription("Specifies the type of the service. windows-service-enum")
-    @Vocab(WindowsServiceTypes.class)
-    Optional<String> getServiceType();
+    Optional<@Vocab(WindowsServiceTypes.class) String> getServiceType();
 
     @JsonProperty("service_status")
     @JsonPropertyDescription("Specifies the current status of the service. windows-service-status-enum")
-    @Vocab(WindowsServiceStatuses.class)
-    Optional<String> getServiceStatus();
+    Optional<@Vocab(WindowsServiceStatuses.class) String> getServiceStatus();
 
 }

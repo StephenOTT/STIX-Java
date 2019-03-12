@@ -58,22 +58,20 @@ public interface NetworkSocketExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("protocol_family")
     @JsonPropertyDescription("Specifies the protocol family (PF_*) that the socket is configured for.")
-    @Vocab(NetworkSocketProtocolFamilies.class)
-    Optional<String> getProtocolFamily();
+    Optional<@Vocab(NetworkSocketProtocolFamilies.class) String> getProtocolFamily();
 
+    //@TODO Should this enforce SO_* ?
     @JsonProperty("options")
     @JsonPropertyDescription("Specifies any options (SO_*) that may be used by the socket, as a dictionary.")
     Map<String,String> getOptions();
 
     @JsonProperty("socket_type")
     @JsonPropertyDescription("Specifies the type of the socket.")
-    @Vocab(NetworkSocketTypes.class)
-    Optional<String> getSocketType();
+    Optional<@Vocab(NetworkSocketTypes.class) String> getSocketType();
 
     @JsonProperty("socket_descriptor")
     @JsonPropertyDescription("Specifies the socket file descriptor value associated with the socket, as a non-negative integer.")
-    @PositiveOrZero
-    Optional<Long> getSocketDescriptor();
+    Optional<@PositiveOrZero Long> getSocketDescriptor();
 
     @JsonProperty("socket_handle")
     @JsonPropertyDescription("Specifies the handle or inode value associated with the socket.")

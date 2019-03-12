@@ -23,7 +23,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 //@DefaultTypeValue(value = "alternate-data-stream-type", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
+@Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true, depluralizeDictionary = {"hash:hashes"})
 @JsonSerialize(as = NtfsAlternateDataStream.class) @JsonDeserialize(builder = NtfsAlternateDataStream.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "hashes", "size" })
@@ -41,7 +41,6 @@ public interface NtfsAlternateDataStreamObj extends GenericValidation {
 
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the alternate data stream, in bytes, as a non-negative integer.")
-    @PositiveOrZero
-    Optional<Long> getSize();
+    Optional<@PositiveOrZero Long> getSize();
 
 }

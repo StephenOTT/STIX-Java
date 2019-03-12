@@ -32,7 +32,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({ "gid", "groups", "home_dir", "shell" })
 @JsonTypeName("unix-account-ext")
 @AllowedParents({UserAccountCoo.class})
-@BusinessRule(ifExp = "true", thenExp = "getGid().isPresent() == true || getGroups().isEmpty() == false || getHomeDir().isPresent() == true || getShell().isPresent() == true")
+@BusinessRule(ifExp = "true", thenExp = "getGid().isPresent() == true || getGroups().isEmpty() == false || getHomeDir().isPresent() == true || getShell().isPresent() == true", errorMessage = "At least one field must be provided for Unix Account Extension")
 public interface UnixAccountExtensionExt extends CyberObservableExtension {
 
     @JsonProperty("gid")

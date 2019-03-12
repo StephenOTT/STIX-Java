@@ -33,6 +33,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @BusinessRule(ifExp = "isAslrEnabled().orElse(false) == true || isDepEnabled().orElse(false) == true", thenExp = "isDepEnabled().orElse(false) == false || isAslrEnabled().orElse(false) == false", errorMessage = "Dep and ASLR cannot both be enabled")
 public interface WindowsProcessExtensionExt extends CyberObservableExtension {
 
+    //@TODO Add business rule for having at least 1 property
+
     @JsonProperty("aslr_enabled")
     @JsonPropertyDescription("Specifies whether Address Space Layout Randomization (ASLR) is enabled for the process.")
     @NotNull

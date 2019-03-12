@@ -23,12 +23,15 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 //@DefaultTypeValue(value = "windows-pe-section-type", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
+@Value.Style(typeAbstract="*Obj", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true, depluralizeDictionary = {"hash:hashes"})
 @JsonSerialize(as = WindowsPeSection.class) @JsonDeserialize(builder = WindowsPeSection.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "size", "entropy", "hashes" })
 //@JsonTypeName("windows-pe-section-type")
 public interface WindowsPeSectionObj extends GenericValidation {
+
+    //@TODO Check and then add issue to GITHUB about missing spec docs about min required fields
+    //@TODO Add business rule with check for at least 1 required field.
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the section.")
@@ -37,8 +40,7 @@ public interface WindowsPeSectionObj extends GenericValidation {
 
     @JsonProperty("size")
     @JsonPropertyDescription("Specifies the size of the section, in bytes.")
-    @PositiveOrZero
-    Optional<Integer> getSize();
+    Optional<@PositiveOrZero Long> getSize();
 
     @JsonProperty("entropy")
     @JsonPropertyDescription("Specifies the calculated entropy for the section, as calculated using the Shannon algorithm.")

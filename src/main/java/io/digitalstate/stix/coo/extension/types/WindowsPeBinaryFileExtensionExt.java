@@ -36,7 +36,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
  */
 @Value.Immutable @Serial.Version(1L)
 @DefaultTypeValue(value = "windows-pebinary-ext", groups = {DefaultValuesProcessor.class})
-@Value.Style(typeAbstract="*Ext", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, passAnnotations = {AllowedParents.class}, depluralize = true)
+@Value.Style(typeAbstract="*Ext", typeImmutable="*", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, passAnnotations = {AllowedParents.class}, depluralize = true, depluralizeDictionary = {"hash:hashes"})
 @JsonSerialize(as = WindowsPeBinaryFileExtension.class) @JsonDeserialize(builder = WindowsPeBinaryFileExtension.Builder.class)
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "pe_type", "imphash", "machine_hex", "number_of_sections", "time_date_stamp",
@@ -50,55 +50,51 @@ public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtensio
     @JsonPropertyDescription("Specifies the type of the PE binary. Open Vocabulary - windows-pebinary-type-ov")
     @NotNull
     @Vocab(WindowsPeBinaryTypes.class)
-    String peType();
+    String getPeType();
 
     @JsonProperty("imphash")
     @JsonPropertyDescription("Specifies the special import hash, or 'imphash', calculated for the PE Binary based on its imported libraries and functions.")
-    Optional<String> imphash();
+    Optional<String> getImphash();
 
     @JsonProperty("machine_hex")
     @JsonPropertyDescription("Specifies the type of target machine.")
-    @Pattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> machineHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$") String> getMachineHex();
 
     @JsonProperty("number_of_sections")
     @JsonPropertyDescription("Specifies the number of sections in the PE binary, as a non-negative integer.")
-    Optional<Long> numberOfSections();
+    Optional<Long> getNumberOfSections();
 
     @JsonProperty("time_date_stamp")
     @JsonPropertyDescription("Specifies the time when the PE binary was created. The timestamp value MUST BE precise to the second.")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
-    Optional<Instant> timeDateStamp();
+    Optional<Instant> getTimeDateStamp();
 
     @JsonProperty("pointer_to_symbol_table_hex")
     @JsonPropertyDescription("Specifies the file offset of the COFF symbol table.")
-    @Pattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> pointerToSymbolTableHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$") String> getPointerToSymbolTableHex();
 
     @JsonProperty("number_of_symbols")
     @JsonPropertyDescription("Specifies the number of entries in the symbol table of the PE binary, as a non-negative integer.")
-    Optional<Long> numberOfSymbols();
+    Optional<Long> getNumberOfSymbols();
 
     @JsonProperty("size_of_optional_header")
     @JsonPropertyDescription("Specifies the size of the optional header of the PE binary.")
-    @PositiveOrZero
-    Optional<Long> sizeOfOptionalHeader();
+    Optional<@PositiveOrZero Long> getSizeOfOptionalHeader();
 
     @JsonProperty("characteristics_hex")
     @JsonPropertyDescription("Specifies the flags that indicate the file\u2019s characteristics.")
-    @Pattern(regexp = "^([a-fA-F0-9]{2})+$")
-    Optional<String> characteristicsHex();
+    Optional<@Pattern(regexp = "^([a-fA-F0-9]{2})+$") String> getCharacteristicsHex();
 
     @JsonProperty("file_header_hashes")
     @JsonPropertyDescription("Specifies any hashes that were computed for the file header.")
-    Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getHashes();
+    Map<@Length(min = 3, max = 256) @HashingVocab(HashingAlgorithms.class) String, String> getFileHeaderHashes();
 
     @JsonProperty("optional_header")
     @JsonPropertyDescription("Specifies the PE optional header of the PE binary.")
-    Optional<WindowsPeOptionalHeaderObj> optionalHeader();
+    Optional<WindowsPeOptionalHeaderObj> getOptionalHeader();
 
     @JsonProperty("sections")
     @JsonPropertyDescription("Specifies metadata about the sections in the PE file.")
-    Set<WindowsPeSectionObj> sections();
+    Set<WindowsPeSectionObj> getSections();
 
 }
