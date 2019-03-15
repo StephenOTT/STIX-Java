@@ -19,14 +19,16 @@ import io.digitalstate.stix.sdo.objects.*;
 import io.digitalstate.stix.sro.objects.Relationship;
 import io.digitalstate.stix.sro.objects.Sighting;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.io.IOException;
 
 public class StixParsers {
 
     private static ObjectMapper jsonMapper = new ObjectMapper().registerModule(new ParameterNamesModule())
-                                                                .registerModule(new Jdk8Module())
-                                                                .registerModule(new JavaTimeModule())
-                                                                .registerModule(new GuavaModule());
+            .registerModule(new Jdk8Module())
+            .registerModule(new JavaTimeModule())
+            .registerModule(new GuavaModule());
 
     public static ObjectMapper getJsonMapper() {
         return jsonMapper;
@@ -34,7 +36,7 @@ public class StixParsers {
 
     public static ObjectMapper getJsonMapper(boolean withSubTypeMappings, NamedType... additionalNamedTypes) {
         //@TODO Add config to only serialize/deserialize that have @JsonProperty() annotation
-        if (withSubTypeMappings){
+        if (withSubTypeMappings) {
             return registerBundleMapperSubTypes(additionalNamedTypes);
         } else {
             return jsonMapper;
@@ -43,33 +45,33 @@ public class StixParsers {
 
     /**
      * Override for setting a custom configured ObjectMapper
+     *
      * @param objectMapper
      */
     public static void setJsonMapper(ObjectMapper objectMapper) {
         jsonMapper = objectMapper;
     }
 
-    public static ObjectMapper registerBundleMapperSubTypes(NamedType... additionalNamedTypes){
-        Class<?>[] sdoClasses = { AttackPattern.class, Campaign.class, CourseOfAction.class,
+    public static ObjectMapper registerBundleMapperSubTypes(NamedType... additionalNamedTypes) {
+        Class<?>[] sdoClasses = {AttackPattern.class, Campaign.class, CourseOfAction.class,
                 Identity.class, Indicator.class, IntrusionSet.class, Malware.class, ObservedData.class,
                 Report.class, ThreatActor.class, Tool.class, Vulnerability.class};
 
-        Class<?>[] sroClasses = { Relationship.class, Sighting.class};
+        Class<?>[] sroClasses = {Relationship.class, Sighting.class};
 
-        Class<?>[] dataMarkingClasses = { MarkingDefinition.class, Statement.class, Tlp.class};
+        Class<?>[] dataMarkingClasses = {MarkingDefinition.class, Statement.class, Tlp.class};
 
-        Class<?>[] bundleClasses = { Bundle.class};
+        Class<?>[] bundleClasses = {Bundle.class};
 
-        Class<?>[] cyberObservableClasses = { Artifact.class, AutonomousSystem.class, Directory.class,
+        Class<?>[] cyberObservableClasses = {Artifact.class, AutonomousSystem.class, Directory.class,
                 DomainName.class, EmailAddress.class, EmailMessage.class, File.class, Ipv4Address.class, Ipv6Address.class,
                 MacAddress.class, Mutex.class, NetworkTraffic.class, Process.class, Software.class, Url.class,
                 UserAccount.class, WindowsRegistryKey.class, X509Certificate.class};
 
-        Class<?>[] cyberObservableExtensionClasses = { ArchiveFileExtension.class, HttpRequestExtension.class, IcmpExtension.class,
+        Class<?>[] cyberObservableExtensionClasses = {ArchiveFileExtension.class, HttpRequestExtension.class, IcmpExtension.class,
                 NetworkSocketExtension.class, NtfsFileExtenstion.class, PdfFileExtension.class, RasterImageFileExtension.class,
                 TcpExtension.class, UnixAccountExtension.class, WindowsPeBinaryFileExtension.class, WindowsProcessExtension.class,
                 WindowsServiceExtension.class};
-
 
 
         jsonMapper.registerSubtypes(sdoClasses);
@@ -84,11 +86,19 @@ public class StixParsers {
     }
 
 
-    public static BundleObject parseBundle (String bundleJsonString) throws IOException {
+    public static BundleObject parseBundle(String bundleJsonString) throws IOException {
         return getJsonMapper(true).readValue(bundleJsonString, BundleObject.class);
     }
 
-    public static BundleableObject parseObject (String objectJsonString) throws IOException {
-        return getJsonMapper(true).readValue(objectJsonString, BundleableObject.class);
+    public static BundleableObject parseObject(String objectJsonString) throws IOException {
+        try {
+            return getJsonMapper(true).readValue(objectJsonString, BundleableObject.class);
+        } catch (IOException ex) {
+            if (ValidationException.class.isAssignableFrom(ex.getCause().getClass())) {
+                throw new StixParserValidationException((ValidationException) ex.getCause());
+            } else {
+                throw ex;
+            }
+        }
     }
 }
