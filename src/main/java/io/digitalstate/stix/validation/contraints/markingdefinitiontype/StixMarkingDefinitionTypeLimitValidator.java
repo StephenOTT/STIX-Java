@@ -26,6 +26,7 @@ public class StixMarkingDefinitionTypeLimitValidator implements ConstraintValida
             // Throws error is the definition property is null.
             // This is semi duplication of the notNull annotation on the attribute
             if (markingDefinitionDm.getDefinition() == null) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Definition attribute of a Marking Definition cannot be null";
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 return false;
@@ -39,12 +40,14 @@ public class StixMarkingDefinitionTypeLimitValidator implements ConstraintValida
                         typeField.set(markingDefinitionDm, markingDefinitionType);
 
                     } catch (NoSuchFieldException e) {
+                        cxt.disableDefaultConstraintViolation();
                         String violationMessage = "Cant find Field: 'definitionType' for: " + markingObject;
                         cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                         e.printStackTrace();
                         return false;
 
                     } catch (IllegalAccessException e) {
+                        cxt.disableDefaultConstraintViolation();
                         String violationMessage = "Illegal Access Exception for: 'definitionType' for: " + markingObject;
                         cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                         e.printStackTrace();
@@ -59,6 +62,7 @@ public class StixMarkingDefinitionTypeLimitValidator implements ConstraintValida
                 if (markingDefinitionDm.getDefinitionType().equals(markingDefinitionType)) {
                     return true;
                 } else {
+                    cxt.disableDefaultConstraintViolation();
                     String violationMessage = "Marking Definition Type is incorrect for Marking Object";
                     cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                     return false;

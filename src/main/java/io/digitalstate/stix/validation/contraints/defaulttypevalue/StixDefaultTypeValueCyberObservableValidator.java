@@ -28,12 +28,14 @@ public class StixDefaultTypeValueCyberObservableValidator implements ConstraintV
                 typeField.setAccessible(true);
                 typeField.set(cyberObservableObject, defaultTypeValue);
             } catch (NoSuchFieldException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Cant find Field: 'type' for: " + cyberObservableObject.getClass();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
                 return false;
 
             } catch (IllegalAccessException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Illegal Access Exception for: 'type' for: " + cyberObservableObject.getClass();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
@@ -43,6 +45,7 @@ public class StixDefaultTypeValueCyberObservableValidator implements ConstraintV
             if (cyberObservableObject.getType().equals(defaultTypeValue)){
                 return true;
             } else{
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Field 'type' must have value of " + defaultTypeValue + "for class " + cyberObservableObject.getClass().getCanonicalName();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 return false;

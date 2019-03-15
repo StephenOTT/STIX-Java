@@ -30,6 +30,7 @@ public class StixHashingVocabValidatorString implements ConstraintValidator<Hash
                 if (!evalContains) {
                     Sets.SetView<String> difference = Sets.difference(new HashSet<>(Arrays.asList(vocab)), vocabTerms);
 
+                    cxt.disableDefaultConstraintViolation();
                     String violationMessage = "Item: " + difference.toString() + " is not found in class " + vocabulary.getCanonicalName();
                     cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                     return false;
@@ -38,12 +39,14 @@ public class StixHashingVocabValidatorString implements ConstraintValidator<Hash
                 }
 
             } catch (InstantiationException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "InstantiationException from " + vocabulary.getSimpleName();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
                 return false;
 
             } catch (IllegalAccessException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "IllegalAccessException from " + vocabulary.getSimpleName();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();

@@ -30,6 +30,7 @@ public class StixValidateParentCooValidator implements ConstraintValidator<Valid
 //                            System.out.println("Class is assignable from Allowed-Parents interface list");
                             return true;
                         } else {
+                            cxt.disableDefaultConstraintViolation();
                             String violationMessage = "Class attempting to use extension is not part of allowedParents interface list found on the Extension.  Calling Cyber Observable Class: " +
                                     ext.getClass().getCanonicalName() + " and Extension only supports interfaces: " + Arrays.toString(values);
                             cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();

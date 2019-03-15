@@ -30,12 +30,14 @@ public class StixDefaultTypeValueBundleableValidator implements ConstraintValida
                 typeField.setAccessible(true);
                 typeField.set(bundleableObject, defaultTypeValue);
             } catch (NoSuchFieldException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Cant find Field: 'type' for: " + bundleableObject.getClass();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
                 return false;
 
             } catch (IllegalAccessException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Illegal Access Exception for: 'type' for: " + bundleableObject.getClass();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
@@ -45,6 +47,7 @@ public class StixDefaultTypeValueBundleableValidator implements ConstraintValida
             if (bundleableObject.getType().equals(defaultTypeValue)){
                 return true;
             } else{
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Field 'type' must have value of " + defaultTypeValue + "for class " + bundleableObject.getClass().getCanonicalName();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 return false;
@@ -61,12 +64,14 @@ public class StixDefaultTypeValueBundleableValidator implements ConstraintValida
                 idField.set(bundleableObject, idValue);
 
             } catch (IllegalAccessException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Illegal Access Exception for: 'id' for: " + bundleableObject.getClass();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
                 return false;
 
             } catch (NoSuchFieldException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Cant find Field: 'id' for: " + bundleableObject.getClass();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
@@ -75,6 +80,7 @@ public class StixDefaultTypeValueBundleableValidator implements ConstraintValida
         } else {
             boolean idStartsWithType = id.startsWith(defaultTypeValue + "--");
             if (!idStartsWithType){
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Id does not start with the proper type value(Looking for '" + defaultTypeValue + "--' : provided 'id' value was: " + id;
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 return false;

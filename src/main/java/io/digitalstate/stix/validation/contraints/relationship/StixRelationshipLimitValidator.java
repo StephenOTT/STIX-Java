@@ -30,6 +30,7 @@ public class StixRelationshipLimitValidator implements ConstraintValidator<Relat
         if (object.getRelationshipType().equals(relationshipType)){
             if (classEquality){
                 if (!object.getSourceRef().getClass().equals(object.getTargetRef().getClass())){
+                    cxt.disableDefaultConstraintViolation();
                     String violationMessage = "Class Equality mismatch: Source: " +
                             source.getCanonicalName() + " does not match Target: " + object.getTargetRef().getClass().getCanonicalName();
                     cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
@@ -47,6 +48,7 @@ public class StixRelationshipLimitValidator implements ConstraintValidator<Relat
                     return true;
 
                 }else {
+                    cxt.disableDefaultConstraintViolation();
                     String targetClasses = Arrays.stream(target).map(Class::getCanonicalName).collect(Collectors.toList()).toString();
                     String violationMessage = "Source/Target/RelationshipType Mismatch: Source: " +
                             source.getCanonicalName() + " with Relationship-Type '" + relationshipType +

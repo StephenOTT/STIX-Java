@@ -29,12 +29,14 @@ public class StixDefaultTypeValueCyberObservableExtensionValidator implements Co
                 typeField.setAccessible(true);
                 typeField.set(cyberObservableExtension, defaultTypeValue);
             } catch (NoSuchFieldException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Cant find Field: 'type' for: " + cyberObservableExtension.getClass();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
                 return false;
 
             } catch (IllegalAccessException e) {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Illegal Access Exception for: 'type' for: " + cyberObservableExtension.getClass();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 e.printStackTrace();
@@ -44,6 +46,7 @@ public class StixDefaultTypeValueCyberObservableExtensionValidator implements Co
             if (cyberObservableExtension.getType().equals(defaultTypeValue)){
                 return true;
             } else{
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Field 'type' must have value of " + defaultTypeValue + "for class " + cyberObservableExtension.getClass().getCanonicalName();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 return false;

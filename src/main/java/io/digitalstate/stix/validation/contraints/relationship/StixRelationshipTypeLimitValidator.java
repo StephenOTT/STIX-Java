@@ -34,6 +34,7 @@ public class StixRelationshipTypeLimitValidator implements ConstraintValidator<R
             } else if (enforceCommonRelationshipTypes && commonTypesList.contains(relationshipSro.getRelationshipType())){
                 return true;
             }else {
+                cxt.disableDefaultConstraintViolation();
                 String violationMessage = "Relationship Type: '" + relationshipSro.getRelationshipType() +
                         "' is not supported with class " + relationshipSro.getClass().getCanonicalName();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();

@@ -56,6 +56,7 @@ public class StixValidateBusinessRuleValidator implements ConstraintValidator<Bu
 
             } else {
                 String violationMessage = errorMessage;
+                cxt.disableDefaultConstraintViolation();
                 cxt.buildConstraintViolationWithTemplate(violationMessage).addConstraintViolation();
                 return false;
             }
