@@ -39,7 +39,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "subject_public_key_exponent", "x509_v3_extensions"
 })
 //@TODO refactor BusinessRule annotation with custom emthod that looks up every field and does a check if there is a value
-@BusinessRule(ifExp = "true", thenExp = "isSelfSigned().isPresent() == true || getHashes().isEmpty() == false || getVersion().isPresent() == true || getSerialNumber().isPresent() == true || getSignatureAlgorithm().isPresent() == true || getIssuer().isPresent() == true || getValidityNotBefore().isPresent() == true || getValidityNotAfter().isPresent() == true || getSubject().isPresent() == true || getSubjectPublicKeyAlgorithm().isPresent() == true || getSubjectPublicKeyModulus().isPresent() == true || getSubjectPublicKeyExponent().isPresent() == true || getX509V3Extensions().isPresent() == true")
+@BusinessRule(ifExp = "true", thenExp = "isSelfSigned().isPresent() == true || getHashes().isEmpty() == false || getVersion().isPresent() == true || getSerialNumber().isPresent() == true || getSignatureAlgorithm().isPresent() == true || getIssuer().isPresent() == true || getValidityNotBefore().isPresent() == true || getValidityNotAfter().isPresent() == true || getSubject().isPresent() == true || getSubjectPublicKeyAlgorithm().isPresent() == true || getSubjectPublicKeyModulus().isPresent() == true || getSubjectPublicKeyExponent().isPresent() == true || getX509V3Extensions().isPresent() == true", errorMessage = "At least 1 property must be provided")
 public interface X509CertificateCoo extends CyberObservableObject {
 
     @JsonProperty("is_self_signed")
