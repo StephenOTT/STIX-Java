@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.vocabulary.vocabularies.HashingAlgorithms;
@@ -36,7 +37,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
     "hashes",
     "external_id"
 })
-public interface ExternalReferenceType extends GenericValidation, Serializable {
+public interface ExternalReferenceType extends GenericValidation, StixCustomProperties, Serializable {
 
     @NotBlank
     @JsonProperty("source_name")

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.validation.GenericValidation;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
@@ -25,7 +26,7 @@ import java.io.Serializable;
     "kill_chain_name",
     "phase_name"
 })
-public interface KillChainPhaseType extends GenericValidation, Serializable {
+public interface KillChainPhaseType extends GenericValidation, StixCustomProperties, Serializable {
 
     @NotBlank
     @JsonProperty("kill_chain_name")
