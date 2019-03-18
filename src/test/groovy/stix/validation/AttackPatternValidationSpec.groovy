@@ -81,14 +81,14 @@ class AttackPatternValidationSpec extends Specification {
             StixParsers.parseObject(json)
         } catch (StixParserValidationException ex) {
             assert ex.getConstraintValidations().size() == 1
-            //            ex.getConstraintValidations().each { x ->
-            //                println "------"
-            //                println "Type: ${x.getRootBean().getClass().getSimpleName()}"
-            //                println "Message: ${x.getMessage()}"
-            //                println "path: ${x.getPropertyPath()}"
-            //                println "invalid_value: ${x.getInvalidValue().toString()}"
-            //                println "------"
-            //            }
+//            ex.getConstraintValidations().each { x ->
+//                println "------"
+//                println "Type: ${x.getRootBean().getClass().getSimpleName()}"
+//                println "Message: ${x.getMessage()}"
+//                println "path: ${x.getPropertyPath()}"
+//                println "invalid_value: ${x.getInvalidValue().toString()}"
+//                println "------"
+//            }
         }
     }
 
