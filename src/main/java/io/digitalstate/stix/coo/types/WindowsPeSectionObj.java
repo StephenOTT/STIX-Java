@@ -13,6 +13,7 @@ import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "size", "entropy", "hashes" })
 //@JsonTypeName("windows-pe-section-type")
-public interface WindowsPeSectionObj extends GenericValidation, StixCustomProperties {
+public interface WindowsPeSectionObj extends GenericValidation, StixCustomProperties, Serializable {
 
     //@TODO Check and then add issue to GITHUB about missing spec docs about min required fields
     //@TODO Add business rule with check for at least 1 required field.

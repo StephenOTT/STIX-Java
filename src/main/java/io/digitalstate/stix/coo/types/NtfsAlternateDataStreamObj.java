@@ -13,6 +13,7 @@ import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "hashes", "size" })
 //@JsonTypeName("alternate-data-stream-type")
-public interface NtfsAlternateDataStreamObj extends GenericValidation, StixCustomProperties {
+public interface NtfsAlternateDataStreamObj extends GenericValidation, StixCustomProperties, Serializable {
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the alternate data stream.")

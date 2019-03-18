@@ -11,6 +11,7 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
@@ -25,7 +26,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonPropertyOrder({"body", "body_raw_ref", "content_type", "content_disposition"})
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @BusinessRule(ifExp = "true", thenExp = "getBody().isPresent() == true || getBodyRawRef().isPresent() == true", errorMessage = "One of body OR body_raw_ref MUST be included.")
-public interface MimePartTypeObj extends GenericValidation, StixCustomProperties {
+public interface MimePartTypeObj extends GenericValidation, StixCustomProperties, Serializable {
 
     /**
      * Contents of body MUST be decoded to Unicode.

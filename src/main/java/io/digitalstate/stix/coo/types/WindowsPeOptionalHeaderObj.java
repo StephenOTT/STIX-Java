@@ -14,6 +14,7 @@ import org.immutables.value.Value;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "size_of_heap_commit", "loader_flags_hex", "number_of_rva_and_sizes", "hashes" })
 //@JsonTypeName("windows-pe-optional-header-type")
 @BusinessRule(ifExp = "true", thenExp = "getMagicHex().isPresent() == true || getMajorLinkerVersion().isPresent() == true || getMinorLinkerVersion().isPresent() == true || getSizeOfCode().isPresent() == true || getSizeOfInitializedData().isPresent() == true || getSizeOfUninitializedData().isPresent() == true || getAddressOfEntryPoint().isPresent() == true || getBaseOfCode().isPresent() == true || getBaseOfData().isPresent() == true || getImageBase().isPresent() == true || getSectionAlignment().isPresent() == true || getFileAlignment().isPresent() == true || getMajorOsVersion().isPresent() == true || getMinorOsVersion().isPresent() == true || getMajorImageVersion().isPresent() == true || getMinorImageVersion().isPresent() == true || getMajorSubsystemVersion().isPresent() == true || getMinorSubsystemVersion().isPresent() == true || getWin32VersionValueHex().isPresent() == true || getSizeOfImage().isPresent() == true || getSizeOfHeaders().isPresent() == true || getChecksumHex().isPresent() == true || getSubsystemHex().isPresent() == true || getDllCharacteristicsHex().isPresent() == true || getSizeOfStackReserve().isPresent() == true || getSizeOfStackCommit().isPresent() == true || getSizeOfHeapReserve().isPresent() == true || getSizeOfHeapCommit().isPresent() == true || getLoaderFlagsHex().isPresent() == true || getNumberOfRvaAndSizes().isPresent() == true || getHashes().isEmpty() == true", errorMessage = "At least 1 field must be used in Windows Pe Extension Optional Header Object.")
-public interface WindowsPeOptionalHeaderObj extends GenericValidation, StixCustomProperties {
+public interface WindowsPeOptionalHeaderObj extends GenericValidation, StixCustomProperties, Serializable {
 //@TODO Add GITHUB issue that says the requirement for atleast 1 field to be present
 
     @JsonProperty("magic_hex")

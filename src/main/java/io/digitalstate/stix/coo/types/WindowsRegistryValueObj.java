@@ -11,6 +11,7 @@ import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Optional;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
@@ -26,7 +27,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "data", "data_type" })
 //@JsonTypeName("windows-registry-value-type")
-public interface WindowsRegistryValueObj extends GenericValidation, StixCustomProperties {
+public interface WindowsRegistryValueObj extends GenericValidation, StixCustomProperties, Serializable {
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the registry value. For specifying the default value in a registry key, an empty string MUST be used.")
