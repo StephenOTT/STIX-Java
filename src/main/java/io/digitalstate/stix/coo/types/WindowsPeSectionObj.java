@@ -3,6 +3,7 @@ package io.digitalstate.stix.coo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
 import io.digitalstate.stix.vocabulary.vocabularies.HashingAlgorithms;
@@ -28,7 +29,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "size", "entropy", "hashes" })
 //@JsonTypeName("windows-pe-section-type")
-public interface WindowsPeSectionObj extends GenericValidation {
+public interface WindowsPeSectionObj extends GenericValidation, StixCustomProperties {
 
     //@TODO Check and then add issue to GITHUB about missing spec docs about min required fields
     //@TODO Add business rule with check for at least 1 required field.

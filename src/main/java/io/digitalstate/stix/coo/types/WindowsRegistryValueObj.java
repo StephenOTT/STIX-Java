@@ -3,6 +3,7 @@ package io.digitalstate.stix.coo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.vocabulary.vocabularies.WindowsRegistryValueDataTypes;
@@ -25,7 +26,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
 @JsonPropertyOrder({ "name", "data", "data_type" })
 //@JsonTypeName("windows-registry-value-type")
-public interface WindowsRegistryValueObj extends GenericValidation {
+public interface WindowsRegistryValueObj extends GenericValidation, StixCustomProperties {
 
     @JsonProperty("name")
     @JsonPropertyDescription("Specifies the name of the registry value. For specifying the default value in a registry key, an empty string MUST be used.")

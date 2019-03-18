@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.common.StixCommonProperties;
 import io.digitalstate.stix.common.StixCustomProperties;
+import io.digitalstate.stix.datamarkings.objects.StatementMarkingObject;
+import io.digitalstate.stix.datamarkings.objects.TlpMarkingObject;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.markingdefinitiontype.MarkingDefinitionTypeLimit;

@@ -3,6 +3,7 @@ package io.digitalstate.stix.coo.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.helpers.StixDataFormats;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
@@ -36,7 +37,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
         "policy_mappings" })
 //@JsonTypeName("x509-v3-extensions-type")
 @BusinessRule(ifExp = "true", thenExp = "getBasicConstraints().isPresent() == true || getNameConstraints().isPresent() == true || getPolicyConstraints().isPresent() == true || getKeyUsage().isPresent() == true || getExtendedKeyUsage().isPresent() == true || getSubjectKeyIdentifier().isPresent() == true || getAuthorityKeyIdentifier().isPresent() == true || getSubjectAlternativeName().isPresent() == true || getIssuerAlternativeName().isPresent() == true || getSubjectDirectoryAttributes().isPresent() == true || getCrlDistributionPoints().isPresent() == true || getInhibitAnyPolicy().isPresent() == true || getPrivateKeyUsagePeriodNotBefore().isPresent() == true || getPrivateKeyUsagePeriodNotAfter().isPresent() == true || getCertificatePolicies().isPresent() == true || getPolicyMappings().isPresent() == true", errorMessage = "At least 1 property must be provided")
-public interface X509v3ExtensionsObj extends GenericValidation {
+public interface X509v3ExtensionsObj extends GenericValidation, StixCustomProperties {
 
     @JsonProperty("basic_constraints")
     @JsonPropertyDescription("Specifies a multi-valued extension which indicates whether a certificate is a CA certificate.")
