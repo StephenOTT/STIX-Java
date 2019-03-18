@@ -86,11 +86,19 @@ public class StixParsers {
     }
 
 
-    public static BundleObject parseBundle(String bundleJsonString) throws IOException {
-        return getJsonMapper(true).readValue(bundleJsonString, BundleObject.class);
+    public static BundleObject parseBundle(String bundleJsonString) throws IOException, StixParserValidationException {
+       try {
+           return getJsonMapper(true).readValue(bundleJsonString, BundleObject.class);
+       } catch (IOException ex) {
+        if (ValidationException.class.isAssignableFrom(ex.getCause().getClass())) {
+            throw new StixParserValidationException((ValidationException) ex.getCause());
+        } else {
+            throw ex;
+        }
+    }
     }
 
-    public static BundleableObject parseObject(String objectJsonString) throws IOException {
+    public static BundleableObject parseObject(String objectJsonString) throws IOException, StixParserValidationException {
         try {
             return getJsonMapper(true).readValue(objectJsonString, BundleableObject.class);
         } catch (IOException ex) {
