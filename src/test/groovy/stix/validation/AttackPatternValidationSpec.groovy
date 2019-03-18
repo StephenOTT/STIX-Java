@@ -75,21 +75,21 @@ class AttackPatternValidationSpec extends Specification {
               "xx_gats": "respondent persistently trephining anodizes washiest untimely jibe"
             }
                     '''
+
+        then: "Should have 1 error"
         try {
             StixParsers.parseObject(json)
         } catch (StixParserValidationException ex) {
-            ex.getConstraintValidations().each { x ->
-                println "------"
-                println "Type: ${x.getRootBean().getClass().getSimpleName()}"
-                println "Message: ${x.getMessage()}"
-                println "path: ${x.getPropertyPath()}"
-                println "invalid_value: ${x.getInvalidValue().toString()}"
-                println "------"
-            }
+            assert ex.getConstraintValidations().size() == 1
+            //            ex.getConstraintValidations().each { x ->
+            //                println "------"
+            //                println "Type: ${x.getRootBean().getClass().getSimpleName()}"
+            //                println "Message: ${x.getMessage()}"
+            //                println "path: ${x.getPropertyPath()}"
+            //                println "invalid_value: ${x.getInvalidValue().toString()}"
+            //                println "------"
+            //            }
         }
-
-    then : "Should have 1 error"
-    println "DONE"
-}
+    }
 
 }
