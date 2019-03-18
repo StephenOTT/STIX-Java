@@ -21,8 +21,8 @@ import io.digitalstate.stix.coo.types.WindowsPeSection
 import io.digitalstate.stix.coo.types.WindowsRegistryValue
 import io.digitalstate.stix.datamarkings.GranularMarking
 import io.digitalstate.stix.datamarkings.MarkingDefinition
-import io.digitalstate.stix.datamarkings.Statement
-import io.digitalstate.stix.datamarkings.Tlp
+import io.digitalstate.stix.datamarkings.objects.Statement
+import io.digitalstate.stix.datamarkings.objects.Tlp
 import io.digitalstate.stix.sdo.DomainObject
 import io.digitalstate.stix.sdo.objects.*
 import io.digitalstate.stix.sdo.types.ExternalReference
