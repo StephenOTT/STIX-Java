@@ -1,9 +1,10 @@
-package io.digitalstate.stix.datamarkings;
+package io.digitalstate.stix.datamarkings.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.datamarkings.StixMarkingObject;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.validation.GenericValidation;
 import org.hibernate.validator.constraints.Length;
