@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixOptionalDateDeserializer;
+import io.digitalstate.stix.json.StixOptionalDateSerializer;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.hibernate.validator.constraints.Range;
@@ -41,12 +43,12 @@ public interface NetworkTrafficCoo extends CyberObservableObject {
 
     @JsonProperty("start")
     @JsonPropertyDescription("Specifies the date/time the network traffic was initiated, if known.")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     Optional<Instant> getStart();
 
     @JsonProperty("end")
     @JsonPropertyDescription("Specifies the date/time the network traffic ended, if known.")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     Optional<Instant> getEnd();
 
     @JsonProperty("is_active")

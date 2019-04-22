@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixOptionalDateDeserializer;
+import io.digitalstate.stix.json.StixOptionalDateSerializer;
 import io.digitalstate.stix.validation.GenericValidation;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
@@ -90,12 +92,12 @@ public interface X509v3ExtensionsObj extends GenericValidation, StixCustomProper
 
     @JsonProperty("private_key_usage_period_not_before")
     @JsonPropertyDescription("Specifies the date on which the validity period begins for the key, if it is different from the validity period of the certificate.")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     Optional<Instant> getPrivateKeyUsagePeriodNotBefore();
 
     @JsonProperty("private_key_usage_period_not_after")
     @JsonPropertyDescription("Specifies the date on which the validity period ends for the key, if it is different from the validity period of the certificate.")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     Optional<Instant> getPrivateKeyUsagePeriodNotAfter();
 
     @JsonProperty("certificate_policies")

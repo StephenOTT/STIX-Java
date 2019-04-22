@@ -7,6 +7,8 @@ import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.json.observables.CyberObservableSetFieldDeserializer;
 import io.digitalstate.stix.coo.json.observables.CyberObservableSetFieldSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixDateDeserializer;
+import io.digitalstate.stix.json.StixDateSerializer;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
@@ -41,14 +43,14 @@ public interface ObservedDataSdo extends DomainObject {
     @NotNull
     @JsonProperty("first_observed")
     @JsonPropertyDescription("The beginning of the time window that the data was observed during.")
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixDateSerializer.class) @JsonDeserialize(using = StixDateDeserializer.class)
     @Redactable(useMask = true)
     Instant getFirstObserved();
 
     @NotNull
     @JsonProperty("last_observed")
     @JsonPropertyDescription("The end of the time window that the data was observed during.")
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixDateSerializer.class) @JsonDeserialize(using = StixDateDeserializer.class)
     @Redactable(useMask = true)
     Instant getLastObserved();
 

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixDateDeserializer;
+import io.digitalstate.stix.json.StixDateSerializer;
 import io.digitalstate.stix.json.converters.dehydrated.BundleableObjectSetConverter;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
@@ -64,7 +66,7 @@ public interface ReportSdo extends DomainObject {
     @NotNull
     @JsonProperty("published")
     @JsonPropertyDescription("The date that this report object was officially published by the creator of this report.")
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixDateSerializer.class) @JsonDeserialize(using = StixDateDeserializer.class)
     @Redactable(useMask = true)
     Instant getPublished();
 

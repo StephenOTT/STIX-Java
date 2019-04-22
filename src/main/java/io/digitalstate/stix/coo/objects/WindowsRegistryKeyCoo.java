@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.types.WindowsRegistryValueObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixOptionalDateDeserializer;
+import io.digitalstate.stix.json.StixOptionalDateSerializer;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -46,7 +48,7 @@ public interface WindowsRegistryKeyCoo extends CyberObservableObject {
 
     @JsonProperty("modified")
     @JsonPropertyDescription("Specifies the last date/time that the registry key was modified.")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     Optional<Instant> getModified();
 
     //@TODO Must be of type user-account

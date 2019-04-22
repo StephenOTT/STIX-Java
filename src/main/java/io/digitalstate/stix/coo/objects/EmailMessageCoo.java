@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.types.MimePartTypeObj;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixOptionalDateDeserializer;
+import io.digitalstate.stix.json.StixOptionalDateSerializer;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -42,7 +44,7 @@ public interface EmailMessageCoo extends CyberObservableObject {
     @NotNull
     boolean isMultipart();
 
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     @JsonProperty("date")
     @JsonPropertyDescription("Specifies the date/time that the email message was sent.")
     Optional<Instant> getDate();

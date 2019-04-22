@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixOptionalDateDeserializer;
+import io.digitalstate.stix.json.StixOptionalDateSerializer;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -44,17 +46,17 @@ public interface DirectoryCoo extends CyberObservableObject {
     Optional<@Pattern(regexp = "^[a-zA-Z0-9/\\.+_:-]{2,250}$")
             String> getPathEnc();
 
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     @JsonProperty("created")
     @JsonPropertyDescription("Specifies the date/time the directory was created.")
     Optional<Instant> getCreated();
 
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     @JsonProperty("modified")
     @JsonPropertyDescription("Specifies the date/time the directory was last written to/modified.")
     Optional<Instant> getModified();
 
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     @JsonProperty("accessed")
     @JsonPropertyDescription("Specifies the date/time the directory was last accessed.")
     Optional<Instant> getAccessed();

@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixDateDeserializer;
+import io.digitalstate.stix.json.StixDateSerializer;
+import io.digitalstate.stix.json.StixOptionalDateDeserializer;
+import io.digitalstate.stix.json.StixOptionalDateSerializer;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.types.KillChainPhaseType;
@@ -70,14 +74,13 @@ public interface IndicatorSdo extends DomainObject {
     @NotNull
     @JsonProperty("valid_from")
     @JsonPropertyDescription("The time from which this indicator should be considered valuable intelligence.")
-    @JsonSerialize(using = InstantSerializer.class)
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixDateSerializer.class) @JsonDeserialize(using = StixDateDeserializer.class)
     @Redactable(useMask = true)
     Instant getValidFrom();
 
     @JsonProperty("valid_until") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The time at which this indicator should no longer be considered valuable intelligence.")
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
     @Redactable
     Optional<Instant> getValidUntil();
 
