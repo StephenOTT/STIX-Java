@@ -7,6 +7,8 @@ import io.digitalstate.stix.bundle.BundleObject
 import io.digitalstate.stix.json.StixParsers
 import org.skyscreamer.jsonassert.JSONAssert
 import org.skyscreamer.jsonassert.JSONCompareMode
+
+import spock.lang.IgnoreRest
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -46,4 +48,21 @@ class BundleSpec extends Specification implements StixMockDataGenerator {
         where:
             i << (1..100) // More tests are run because of the large variation of probabilities and number of combinations
     }
+	
+	@IgnoreRest
+	def "parse Indicator Bundle"(){
+		
+		when:"setup file access to bundle"
+
+		String bundleJson = getClass()
+                .getResource("/stix/baseline/json/sdo/indicator/indicators.json").getText("UTF-8")
+
+		then: "Parse json into bundle"
+		Bundle bundle = (Bundle)StixParsers.parseBundle(bundleJson)
+		println bundle.inspect()
+		println bundle.toJsonString()
+
+		and: "the original bundle json matches the parsed object that was converted back to json"
+		assert mapper.readTree(bundle.toJsonString()) == mapper.readTree(bundleJson)
+	}
 }

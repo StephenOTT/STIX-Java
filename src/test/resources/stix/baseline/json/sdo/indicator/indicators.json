@@ -1,0 +1,43 @@
+{
+	"type": "bundle",
+	"id": "bundle--6fab341c-36c5-4a7f-be29-0a6e3b85e7b0",
+	"spec_version": "2.0",
+	"objects": [
+		{
+			"type": "indicator",
+			"id": "indicator--59ccb738-921a-4941-8ab2-33da522bd4e1", 
+			"created": "2019-04-08T22:59:50.0Z",
+			"modified": "2019-04-08T22:59:50.00Z",
+		     "labels": [
+		       "malicious-activity"
+		     ],
+			"name": "128.0.0.1",
+			"pattern": "[ipv4-addr:value = '128.0.0.1']", 
+			"valid_from": "2019-04-08T22:59:50.000Z"
+		},
+		{
+			"type": "indicator",
+			"id": "indicator--350db038-43ef-4445-a79e-1c33fbe7b279", 
+			"created": "2019-04-08T22:59:50.1234Z",
+			"modified": "2019-04-08T22:59:50.1234Z",
+		    "labels": [
+		      "malicious-activity"
+		    ],
+			"name": "192.168.74.1",
+			"pattern": "[ipv4-addr:value = '192.168.74.1']", 
+			"valid_from": "2019-04-08T22:59:50.543Z"
+		},
+		{
+			"type": "indicator",
+			"id": "indicator--a8be7bfe-a9bc-417f-b52b-95edec5c03d6", 
+			"created": "2019-04-08T22:59:50.123400000Z",
+		    "labels": [
+		      "malicious-activity"
+		    ],
+			"modified": "2019-04-08T22:59:50.Z",
+			"name": "10.0.1.12",
+			"pattern": "[ipv4-addr:value = '10.0.1.12']", 
+			"valid_from": "2019-04-08T22:59:50.Z"		
+		}
+	]
+}
