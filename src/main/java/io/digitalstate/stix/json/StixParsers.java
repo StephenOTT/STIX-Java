@@ -11,6 +11,7 @@ import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.coo.extension.types.*;
 import io.digitalstate.stix.coo.objects.*;
+import io.digitalstate.stix.coo.objects.Process;
 import io.digitalstate.stix.datamarkings.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.objects.Statement;
 import io.digitalstate.stix.datamarkings.objects.Tlp;
@@ -20,7 +21,6 @@ import io.digitalstate.stix.sro.objects.Sighting;
 
 import javax.validation.ValidationException;
 import java.io.IOException;
-import java.lang.Process;
 
 public class StixParsers {
 
