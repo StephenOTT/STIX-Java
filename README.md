@@ -35,9 +35,9 @@ STIX-Java will support this and store the extra precision.
 
 General rules to understand:
 
-1. By default, timestamps generated natively by the STIX-Java library will be be with 3 digits of sub-second prevision (millisecond precision).
-1. Sub-second precision of from 0 to 9 digits (9 digits its nano second precision: `hh:mm:ss.999999999`) is supported.  This means you can omit sub-seconds if you choose.
-1. use the static `StixDataFormats.getStixDateTimeFormatter()` method for retrieving the STIX formatter, whenever you want to manually handle dates.
+1. By default, timestamps generated natively by the STIX-Java library will be be with 3 digits of sub-second precision (millisecond precision).
+1. Sub-second precision from 0 to 9 digits (9 digits its nano second precision: `hh:mm:ss.999999999`) is supported.  This means you can omit sub-seconds if you choose.
+1. The StixInstant.class supports a `toString()` method that will generate a STIX Spec Date with the original precision preserved
 1. Json parsing of JSON strings will support all of the above rules. 
 
 
