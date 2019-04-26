@@ -19,12 +19,12 @@ class CampaignSpec extends Specification implements StixMockDataGenerator {
     def "Generate Campaign Data: Run: '#i'"() {
         when: "Generating Campaign Data"
             Campaign originalCampaign = mockCampaign()
-//            println "Original Object: ${originalCampaign.toString()}"
+            println "Original Object: ${originalCampaign.toString()}"
 
         then: "Convert Campaign to Json"
             JsonNode originalJson = mapper.readTree(originalCampaign.toJsonString())
             String originalJsonString = mapper.writeValueAsString(originalJson)
-//            println "Original Json: ${originalJsonString}"
+            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Campaign Object"
             Campaign parsedCampaign = (Campaign)StixParsers.parseObject(originalJsonString)

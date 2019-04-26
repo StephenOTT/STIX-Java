@@ -10,7 +10,6 @@ import io.digitalstate.stix.bundle.Bundle;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.coo.extension.types.*;
-import io.digitalstate.stix.coo.objects.Process;
 import io.digitalstate.stix.coo.objects.*;
 import io.digitalstate.stix.datamarkings.MarkingDefinition;
 import io.digitalstate.stix.datamarkings.objects.Statement;
@@ -21,6 +20,7 @@ import io.digitalstate.stix.sro.objects.Sighting;
 
 import javax.validation.ValidationException;
 import java.io.IOException;
+import java.lang.Process;
 
 public class StixParsers {
 
@@ -84,7 +84,6 @@ public class StixParsers {
         return jsonMapper;
     }
 
-
     public static BundleObject parseBundle(String bundleJsonString) throws IOException, StixParserValidationException {
        try {
            return getJsonMapper(true).readValue(bundleJsonString, BundleObject.class);
@@ -108,4 +107,9 @@ public class StixParsers {
             }
         }
     }
+
+//    public static SimpleModule generateStixInstantModule(){
+//        SimpleModule module = new SimpleModule();
+//        module.
+//    }
 }

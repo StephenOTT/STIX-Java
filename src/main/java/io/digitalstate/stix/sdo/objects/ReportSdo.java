@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.bundle.BundleableObject;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.json.StixDateDeserializer;
-import io.digitalstate.stix.json.StixDateSerializer;
+import io.digitalstate.stix.common.StixInstant;
+import io.digitalstate.stix.json.StixInstantDeserializer;
+import io.digitalstate.stix.json.StixInstantSerializer;
 import io.digitalstate.stix.json.converters.dehydrated.BundleableObjectSetConverter;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
@@ -66,9 +66,9 @@ public interface ReportSdo extends DomainObject {
     @NotNull
     @JsonProperty("published")
     @JsonPropertyDescription("The date that this report object was officially published by the creator of this report.")
-    @JsonSerialize(using = StixDateSerializer.class) @JsonDeserialize(using = StixDateDeserializer.class)
+    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @Redactable(useMask = true)
-    Instant getPublished();
+    StixInstant getPublished();
 
     @NotNull @Size(min = 1, message = "Must have at least one Report object reference")
     @JsonProperty("object_refs")

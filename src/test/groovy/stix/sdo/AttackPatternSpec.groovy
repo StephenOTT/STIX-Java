@@ -11,10 +11,6 @@ import spock.lang.Specification
 import spock.lang.Unroll
 import stix.StixMockDataGenerator
 
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
-import java.time.temporal.ChronoField
-
 class AttackPatternSpec extends Specification implements StixMockDataGenerator {
 
     @Shared ObjectMapper mapper = new ObjectMapper()

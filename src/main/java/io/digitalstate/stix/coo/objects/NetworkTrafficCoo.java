@@ -3,10 +3,10 @@ package io.digitalstate.stix.coo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.json.StixOptionalDateDeserializer;
-import io.digitalstate.stix.json.StixOptionalDateSerializer;
+import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
+import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.hibernate.validator.constraints.Range;
@@ -15,7 +15,6 @@ import org.immutables.value.Value;
 
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -43,13 +42,13 @@ public interface NetworkTrafficCoo extends CyberObservableObject {
 
     @JsonProperty("start")
     @JsonPropertyDescription("Specifies the date/time the network traffic was initiated, if known.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
-    Optional<Instant> getStart();
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
+    Optional<StixInstant> getStart();
 
     @JsonProperty("end")
     @JsonPropertyDescription("Specifies the date/time the network traffic ended, if known.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
-    Optional<Instant> getEnd();
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
+    Optional<StixInstant> getEnd();
 
     @JsonProperty("is_active")
     @JsonPropertyDescription("Indicates whether the network traffic is still ongoing.")

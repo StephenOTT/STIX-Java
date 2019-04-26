@@ -3,10 +3,10 @@ package io.digitalstate.stix.coo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.json.StixOptionalDateDeserializer;
-import io.digitalstate.stix.json.StixOptionalDateSerializer;
+import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
+import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -56,8 +56,8 @@ public interface ProcessCoo extends CyberObservableObject {
 
     @JsonProperty("created")
     @JsonPropertyDescription("Specifies the date/time at which the process was created.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
-    Optional<Instant> getCreated();
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
+    Optional<StixInstant> getCreated();
 
     @JsonProperty("cwd")
     @JsonPropertyDescription("Specifies the current working directory of the process.")

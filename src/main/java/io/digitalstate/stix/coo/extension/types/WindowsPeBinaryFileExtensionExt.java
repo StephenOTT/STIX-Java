@@ -3,13 +3,13 @@ package io.digitalstate.stix.coo.extension.types;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.coo.objects.FileCoo;
 import io.digitalstate.stix.coo.types.WindowsPeOptionalHeaderObj;
 import io.digitalstate.stix.coo.types.WindowsPeSectionObj;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.json.StixOptionalDateDeserializer;
-import io.digitalstate.stix.json.StixOptionalDateSerializer;
+import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
+import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.coo.allowedparents.AllowedParents;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
@@ -68,8 +68,8 @@ public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtensio
 
     @JsonProperty("time_date_stamp")
     @JsonPropertyDescription("Specifies the time when the PE binary was created. The timestamp value MUST BE precise to the second.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
-    Optional<Instant> getTimeDateStamp();
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
+    Optional<StixInstant> getTimeDateStamp();
 
     @JsonProperty("pointer_to_symbol_table_hex")
     @JsonPropertyDescription("Specifies the file offset of the COFF symbol table.")

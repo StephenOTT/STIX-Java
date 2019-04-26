@@ -3,11 +3,11 @@ package io.digitalstate.stix.coo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.types.WindowsRegistryValueObj;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.json.StixOptionalDateDeserializer;
-import io.digitalstate.stix.json.StixOptionalDateSerializer;
+import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
+import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -48,8 +48,8 @@ public interface WindowsRegistryKeyCoo extends CyberObservableObject {
 
     @JsonProperty("modified")
     @JsonPropertyDescription("Specifies the last date/time that the registry key was modified.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
-    Optional<Instant> getModified();
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
+    Optional<StixInstant> getModified();
 
     //@TODO Must be of type user-account
     @JsonProperty("creator_user_ref")

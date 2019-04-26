@@ -3,12 +3,11 @@ package io.digitalstate.stix.sdo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.json.StixDateDeserializer;
-import io.digitalstate.stix.json.StixDateSerializer;
-import io.digitalstate.stix.json.StixOptionalDateDeserializer;
-import io.digitalstate.stix.json.StixOptionalDateSerializer;
+import io.digitalstate.stix.common.StixInstant;
+import io.digitalstate.stix.json.StixInstantDeserializer;
+import io.digitalstate.stix.json.StixInstantSerializer;
+import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
+import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sdo.types.KillChainPhaseType;
@@ -74,15 +73,15 @@ public interface IndicatorSdo extends DomainObject {
     @NotNull
     @JsonProperty("valid_from")
     @JsonPropertyDescription("The time from which this indicator should be considered valuable intelligence.")
-    @JsonSerialize(using = StixDateSerializer.class) @JsonDeserialize(using = StixDateDeserializer.class)
+    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @Redactable(useMask = true)
-    Instant getValidFrom();
+    StixInstant getValidFrom();
 
     @JsonProperty("valid_until") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The time at which this indicator should no longer be considered valuable intelligence.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     @Redactable
-    Optional<Instant> getValidUntil();
+    Optional<StixInstant> getValidUntil();
 
     @NotNull
     @JsonProperty("kill_chain_phases") @JsonInclude(NON_EMPTY)

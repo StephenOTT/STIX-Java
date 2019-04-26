@@ -3,10 +3,10 @@ package io.digitalstate.stix.coo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.helpers.StixDataFormats;
-import io.digitalstate.stix.json.StixOptionalDateDeserializer;
-import io.digitalstate.stix.json.StixOptionalDateSerializer;
+import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
+import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
@@ -75,18 +75,18 @@ public interface FileCoo extends CyberObservableObject {
 
     @JsonProperty("created")
     @JsonPropertyDescription("Specifies the date/time the file was created.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
-    Optional<Instant> getCreated();
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
+    Optional<StixInstant> getCreated();
 
     @JsonProperty("modified")
     @JsonPropertyDescription("Specifies the date/time the file was last written to/modified.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
-    Optional<Instant> getModified();
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
+    Optional<StixInstant> getModified();
 
     @JsonProperty("accessed")
     @JsonPropertyDescription("Specifies the date/time the file was last accessed.")
-    @JsonSerialize(using = StixOptionalDateSerializer.class) @JsonDeserialize(using = StixOptionalDateDeserializer.class)
-    Optional<Instant> getAccessed();
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
+    Optional<StixInstant> getAccessed();
 
     @JsonProperty("parent_directory_ref")
     @JsonPropertyDescription("Specifies the parent directory of the file, as a reference to a Directory Object.")
