@@ -3,8 +3,10 @@ package io.digitalstate.stix.coo.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
+import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
@@ -44,20 +46,20 @@ public interface DirectoryCoo extends CyberObservableObject {
     Optional<@Pattern(regexp = "^[a-zA-Z0-9/\\.+_:-]{2,250}$")
             String> getPathEnc();
 
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     @JsonProperty("created")
     @JsonPropertyDescription("Specifies the date/time the directory was created.")
-    Optional<Instant> getCreated();
+    Optional<StixInstant> getCreated();
 
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     @JsonProperty("modified")
     @JsonPropertyDescription("Specifies the date/time the directory was last written to/modified.")
-    Optional<Instant> getModified();
+    Optional<StixInstant> getModified();
 
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     @JsonProperty("accessed")
     @JsonPropertyDescription("Specifies the date/time the directory was last accessed.")
-    Optional<Instant> getAccessed();
+    Optional<StixInstant> getAccessed();
 
     //@TODO add proper support for contains refs.  Must be Set of File or Directory types
     @JsonProperty("contains_refs")

@@ -12,7 +12,6 @@ import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value;
 
-import javax.validation.Valid;
 import java.util.Map;
 import java.util.Optional;
 

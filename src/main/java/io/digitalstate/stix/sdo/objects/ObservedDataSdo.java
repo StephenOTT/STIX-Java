@@ -1,12 +1,17 @@
 package io.digitalstate.stix.sdo.objects;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.json.observables.CyberObservableSetFieldDeserializer;
 import io.digitalstate.stix.coo.json.observables.CyberObservableSetFieldSerializer;
-import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixInstantDeserializer;
+import io.digitalstate.stix.json.StixInstantSerializer;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
@@ -41,16 +46,16 @@ public interface ObservedDataSdo extends DomainObject {
     @NotNull
     @JsonProperty("first_observed")
     @JsonPropertyDescription("The beginning of the time window that the data was observed during.")
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @Redactable(useMask = true)
-    Instant getFirstObserved();
+    StixInstant getFirstObserved();
 
     @NotNull
     @JsonProperty("last_observed")
     @JsonPropertyDescription("The end of the time window that the data was observed during.")
-    @JsonFormat(pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @Redactable(useMask = true)
-    Instant getLastObserved();
+    StixInstant getLastObserved();
 
     @NotNull @Positive
     @JsonProperty("number_observed")

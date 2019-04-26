@@ -3,10 +3,12 @@ package io.digitalstate.stix.common;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.GranularMarkingDm;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
-import io.digitalstate.stix.helpers.StixDataFormats;
+import io.digitalstate.stix.json.StixInstantDeserializer;
+import io.digitalstate.stix.json.StixInstantSerializer;
 import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.json.converters.dehydrated.DomainObjectOptionalConverter;
 import io.digitalstate.stix.json.converters.dehydrated.MarkingDefinitionSetConverter;
@@ -23,7 +25,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
-import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 
@@ -70,13 +71,13 @@ public interface StixCommonProperties extends StixSpecVersion, SdoDefaultValidat
     Optional<IdentitySdo> getCreatedByRef();
 
     @NotNull
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = StixDataFormats.TIMESTAMP_PATTERN, timezone = "UTC")
+    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @JsonProperty("created")
     @JsonPropertyDescription("The created property represents the time at which the first version of this object was created. The timstamp value MUST be precise to the nearest millisecond.")
     @Value.Default
     @Redactable(useMask = true)
-    default Instant getCreated(){
-        return Instant.now();
+    default StixInstant getCreated(){
+        return new StixInstant();
     }
 
     @NotNull

@@ -1,56 +1,19 @@
 package stix
 
 import io.digitalstate.stix.bundle.Bundle
-import io.digitalstate.stix.coo.extension.types.ArchiveFileExtension
-import io.digitalstate.stix.coo.extension.types.HttpRequestExtension
-import io.digitalstate.stix.coo.extension.types.IcmpExtension
-import io.digitalstate.stix.coo.extension.types.NetworkSocketExtension
-import io.digitalstate.stix.coo.extension.types.NtfsFileExtenstion
-import io.digitalstate.stix.coo.extension.types.PdfFileExtension
-import io.digitalstate.stix.coo.extension.types.RasterImageFileExtension
-import io.digitalstate.stix.coo.extension.types.TcpExtension
-import io.digitalstate.stix.coo.extension.types.UnixAccountExtension
-import io.digitalstate.stix.coo.extension.types.WindowsPeBinaryFileExtension
-import io.digitalstate.stix.coo.extension.types.WindowsProcessExtension
-import io.digitalstate.stix.coo.extension.types.WindowsServiceExtension
+import io.digitalstate.stix.common.StixInstant
+import io.digitalstate.stix.coo.extension.types.*
 import io.digitalstate.stix.coo.objects.*
-import io.digitalstate.stix.coo.types.MimePartType
-import io.digitalstate.stix.coo.types.NtfsAlternateDataStream
-import io.digitalstate.stix.coo.types.WindowsPeOptionalHeader
-import io.digitalstate.stix.coo.types.WindowsPeSection
-import io.digitalstate.stix.coo.types.WindowsRegistryValue
+import io.digitalstate.stix.coo.types.*
 import io.digitalstate.stix.datamarkings.GranularMarking
 import io.digitalstate.stix.datamarkings.MarkingDefinition
 import io.digitalstate.stix.datamarkings.objects.Statement
 import io.digitalstate.stix.datamarkings.objects.Tlp
 import io.digitalstate.stix.sdo.DomainObject
 import io.digitalstate.stix.sdo.objects.*
-import io.digitalstate.stix.sdo.types.ExternalReference
-import io.digitalstate.stix.sdo.types.KillChainPhase
-import io.digitalstate.stix.sro.objects.Relationship
-import io.digitalstate.stix.sro.objects.Sighting
-import io.digitalstate.stix.vocabulary.vocabularies.AccountTypes
-import io.digitalstate.stix.vocabulary.vocabularies.AttackMotivations
-import io.digitalstate.stix.vocabulary.vocabularies.AttackResourceLevels
-import io.digitalstate.stix.vocabulary.vocabularies.EncryptionAlgorithms
-import io.digitalstate.stix.vocabulary.vocabularies.IdentityClasses
-import io.digitalstate.stix.vocabulary.vocabularies.IndicatorLabels
-import io.digitalstate.stix.vocabulary.vocabularies.IndustrySectors
-import io.digitalstate.stix.vocabulary.vocabularies.MalwareLabels
-import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketAddressFamilies
-import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketProtocolFamilies
-import io.digitalstate.stix.vocabulary.vocabularies.NetworkSocketTypes
-import io.digitalstate.stix.vocabulary.vocabularies.ReportLabels
-import io.digitalstate.stix.vocabulary.vocabularies.ThreatActorLabels
-import io.digitalstate.stix.vocabulary.vocabularies.ThreatActorRoles
-import io.digitalstate.stix.vocabulary.vocabularies.ThreatActorSophistication
-import io.digitalstate.stix.vocabulary.vocabularies.TlpLevels
-import io.digitalstate.stix.vocabulary.vocabularies.ToolLabels
-import io.digitalstate.stix.vocabulary.vocabularies.WindowsPeBinaryTypes
-import io.digitalstate.stix.vocabulary.vocabularies.WindowsRegistryValueDataTypes
-import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceStartTypes
-import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceStatuses
-import io.digitalstate.stix.vocabulary.vocabularies.WindowsServiceTypes
+import io.digitalstate.stix.sdo.types.*
+import io.digitalstate.stix.sro.objects.*
+import io.digitalstate.stix.vocabulary.vocabularies.*
 import net.andreinc.mockneat.MockNeat
 
 import java.time.Instant
@@ -241,12 +204,12 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.firstSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.firstSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.lastSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.lastSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -419,11 +382,11 @@ trait StixMockDataGenerator {
 
         builder.pattern("SOME PATTERN GOES HERE")
 
-        builder.validFrom(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        builder.validFrom(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.validUntil(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.validUntil(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -481,12 +444,12 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.firstSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.firstSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.lastSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.lastSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -595,10 +558,10 @@ trait StixMockDataGenerator {
     ObservedData mockObservedData() {
         ObservedData.Builder builder = ObservedData.builder()
 
-        builder.firstObserved(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        builder.firstObserved(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
-        builder.lastObserved(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        builder.lastObserved(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
 
         builder.numberObserved(mock.ints().range(1, 999999999).get())
 
@@ -797,15 +760,15 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.created(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.created(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.modified(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.modified(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.accessed(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.accessed(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -861,7 +824,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.date(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.date(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1010,15 +973,15 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.created(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.created(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.modified(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.modified(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.accessed(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.accessed(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1130,12 +1093,12 @@ trait StixMockDataGenerator {
 
 
         if (mock.bools().probability(50).get()) {
-            builder.start(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.start(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.end(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.end(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         // 33% true, 33% false, 33% never set / null:
@@ -1261,7 +1224,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.created(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.created(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1401,27 +1364,27 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.accountCreated(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.accountCreated(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.accountExpires(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.accountExpires(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.passwordLastChanged(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.passwordLastChanged(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.accountFirstLogin(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.accountFirstLogin(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.accountLastLogin(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.accountLastLogin(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         return builder.build()
@@ -1439,7 +1402,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.modified(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.modified(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1513,12 +1476,12 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.validityNotBefore(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.validityNotBefore(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.validityNotAfter(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.validityNotAfter(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1555,7 +1518,7 @@ trait StixMockDataGenerator {
             builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
-        builder.published(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+        builder.published(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
 
         mock.ints().range(1, 50).get().times {
             switch (mock.ints().range(1, 14).get()) {
@@ -2247,12 +2210,12 @@ trait StixMockDataGenerator {
         Sighting.Builder builder = Sighting.builder()
 
         if (mock.bools().probability(50).get()) {
-            builder.firstSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.firstSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.lastSeen(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.lastSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -2574,7 +2537,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.timeDateStamp(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC)))
+            builder.timeDateStamp(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
         }
 
         if (mock.bools().probability(50).get()) {

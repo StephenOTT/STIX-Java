@@ -3,7 +3,6 @@ package stix.sro
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.digitalstate.stix.json.StixParsers
-import io.digitalstate.stix.sro.objects.Relationship
 import io.digitalstate.stix.sro.objects.Sighting
 import org.skyscreamer.jsonassert.JSONAssert
 import org.skyscreamer.jsonassert.JSONCompareMode
