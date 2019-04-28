@@ -641,6 +641,7 @@ trait StixMockDataGenerator {
 
         builder.lastObserved(new StixInstant(generateRandomDate(firstObserved, Instant.now())))
 
+
         builder.numberObserved(mock.ints().range(1, 999999999).get())
 
         builder.addObject(mockArtifactCoo())
