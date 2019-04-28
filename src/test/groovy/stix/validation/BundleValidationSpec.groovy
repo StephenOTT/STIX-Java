@@ -189,15 +189,15 @@ class BundleValidationSpec extends Specification {
             StixParsers.parseBundle(json)
         } catch (StixParserValidationException ex) {
             assert ex.getConstraintValidations().size() == 2
-            ex.getConstraintValidations().each { x ->
-                println "------"
-                println "Type: ${x.getRootBean().getClass().getSimpleName()}"
-                println "Object Id: ${x.getRootBean().asType(BundleableObject).getId()}"
-                println "Message: ${x.getMessage()}"
-                println "path: ${x.getPropertyPath()}"
-                println "invalid_value: ${x.getInvalidValue().toString()}"
-                println "------"
-            }
+//            ex.getConstraintValidations().each { x ->
+//                println "------"
+//                println "Type: ${x.getRootBean().getClass().getSimpleName()}"
+//                println "Object Id: ${x.getRootBean().asType(BundleableObject).getId()}"
+//                println "Message: ${x.getMessage()}"
+//                println "path: ${x.getPropertyPath()}"
+//                println "invalid_value: ${x.getInvalidValue().toString()}"
+//                println "------"
+//            }
         }
     }
 
