@@ -17,12 +17,23 @@ import io.digitalstate.stix.vocabulary.vocabularies.*
 import net.andreinc.mockneat.MockNeat
 
 import java.time.Instant
-import java.time.ZoneOffset
+import java.time.LocalDate
+import java.util.concurrent.ThreadLocalRandom
 
 trait StixMockDataGenerator {
 
     // MockNeat object
     MockNeat mock = MockNeat.threadLocal()
+
+
+    Instant commonLowerDate = Instant.ofEpochMilli(LocalDate.of(2000, 1, 1).toEpochDay())
+
+    Instant generateRandomDate(Instant lower, Instant upper){
+        return Instant.ofEpochMilli(ThreadLocalRandom.current()
+                .longs(lower.toEpochMilli(), upper.toEpochMilli())
+                .findAny()
+                .getAsLong())
+    }
 
     //
     // Mocks and Generators:
@@ -138,6 +149,17 @@ trait StixMockDataGenerator {
         AttackPattern.Builder builder = AttackPattern.builder()
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), " ").get())
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        builder.created(new StixInstant(objectCreated))
+
+        if (mock.bools().probability(50).get()) {
+            builder.modified(new StixInstant(generateRandomDate(commonLowerDate, objectCreated)))
+        }
+
+        if (mock.bools().probability(50).get()) {
+            builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
+        }
+
         if (mock.bools().probability(50).get()) {
             builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
@@ -193,6 +215,14 @@ trait StixMockDataGenerator {
         Campaign.Builder builder = Campaign.builder()
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
@@ -203,13 +233,13 @@ trait StixMockDataGenerator {
             }
         }
 
+        Instant firstSeen = generateRandomDate(commonLowerDate, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.firstSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.firstSeen(new StixInstant(firstSeen))
         }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.lastSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.lastSeen(new StixInstant(generateRandomDate(firstSeen, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -260,6 +290,14 @@ trait StixMockDataGenerator {
     CourseOfAction mockCourseOfAction() {
         CourseOfAction.Builder builder = CourseOfAction.builder()
                 .name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
+
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
 
         if (mock.bools().probability(50).get()) {
             builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
@@ -316,6 +354,14 @@ trait StixMockDataGenerator {
         Identity.Builder builder = Identity.builder()
                 .name(mock.names().full(33.33).get())
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
@@ -370,6 +416,14 @@ trait StixMockDataGenerator {
     Indicator mockIndicator() {
         Indicator.Builder builder = Indicator.builder()
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
+
         builder.addLabel(mock.fromStrings(new IndicatorLabels().getAllTerms().toList()).get())
 
         if (mock.bools().probability(50).get()) {
@@ -382,11 +436,11 @@ trait StixMockDataGenerator {
 
         builder.pattern("SOME PATTERN GOES HERE")
 
-        builder.validFrom(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+        Instant validFrom = generateRandomDate(commonLowerDate, Instant.now())
+        builder.validFrom(new StixInstant(validFrom))
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.validUntil(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.validUntil(new StixInstant(generateRandomDate(validFrom, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -431,6 +485,14 @@ trait StixMockDataGenerator {
     IntrusionSet mockIntrusionSet() {
         IntrusionSet.Builder builder = IntrusionSet.builder()
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
+
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
 
         if (mock.bools().probability(50).get()) {
@@ -443,13 +505,13 @@ trait StixMockDataGenerator {
             }
         }
 
+        Instant firstSeen = generateRandomDate(commonLowerDate, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.firstSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.firstSeen(new StixInstant(firstSeen))
         }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.lastSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.lastSeen(new StixInstant(generateRandomDate(firstSeen, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -508,6 +570,14 @@ trait StixMockDataGenerator {
     Malware mockMalware() {
         Malware.Builder builder = Malware.builder()
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
+
         builder.addLabel(mock.fromStrings(new MalwareLabels().getAllTerms().toList()).get())
 
         builder.name(mock.words().accumulate(mock.ints().range(1, 5).get(), "-").get())
@@ -558,10 +628,18 @@ trait StixMockDataGenerator {
     ObservedData mockObservedData() {
         ObservedData.Builder builder = ObservedData.builder()
 
-        builder.firstObserved(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
-        builder.lastObserved(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+        Instant firstObserved = generateRandomDate(commonLowerDate, Instant.now())
+        builder.firstObserved(new StixInstant(firstObserved))
+
+        builder.lastObserved(new StixInstant(generateRandomDate(firstObserved, Instant.now())))
 
         builder.numberObserved(mock.ints().range(1, 999999999).get())
 
@@ -759,16 +837,18 @@ trait StixMockDataGenerator {
             builder.pathEnc("csASCII")
         }
 
+        Instant created = generateRandomDate(commonLowerDate, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.created(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.created(new StixInstant(created))
+        }
+
+        Instant modified = generateRandomDate(created, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.modified(new StixInstant(modified))
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.modified(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
-        }
-
-        if (mock.bools().probability(50).get()) {
-            builder.accessed(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.accessed(new StixInstant(generateRandomDate(created, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -824,7 +904,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.date(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.date(new StixInstant(generateRandomDate(commonLowerDate, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -972,16 +1052,17 @@ trait StixMockDataGenerator {
             builder.mimeType(mock.mimes().get())
         }
 
+        Instant created = generateRandomDate(commonLowerDate, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.created(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.created(new StixInstant(created))
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.modified(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.modified(new StixInstant(generateRandomDate(created, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.accessed(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.accessed(new StixInstant(generateRandomDate(created, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1090,15 +1171,13 @@ trait StixMockDataGenerator {
             }
         }
 
-
-
+        Instant start = generateRandomDate(commonLowerDate, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.start(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.start(new StixInstant(start))
         }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.end(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.end(new StixInstant(generateRandomDate(start, Instant.now())))
         }
 
         // 33% true, 33% false, 33% never set / null:
@@ -1224,7 +1303,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.created(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.created(new StixInstant(generateRandomDate(commonLowerDate, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1363,28 +1442,26 @@ trait StixMockDataGenerator {
             builder.isDisabled(false)
         }
 
+        Instant accountCreated = generateRandomDate(commonLowerDate, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.accountCreated(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.accountCreated(new StixInstant(accountCreated))
         }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.accountExpires(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.accountExpires(new StixInstant(generateRandomDate(accountCreated, Instant.now().plusMillis(1000000))))
         }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.passwordLastChanged(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.passwordLastChanged(new StixInstant(generateRandomDate(accountCreated, Instant.now())))
         }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
+        Instant firstLogin = generateRandomDate(accountCreated, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.accountFirstLogin(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.accountFirstLogin(new StixInstant(firstLogin))
         }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.accountLastLogin(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.accountLastLogin(new StixInstant(generateRandomDate(firstLogin, Instant.now())))
         }
 
         return builder.build()
@@ -1402,7 +1479,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.modified(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.modified(new StixInstant(generateRandomDate(commonLowerDate, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1475,13 +1552,13 @@ trait StixMockDataGenerator {
             builder.issuer(mock.words().get())
         }
 
+        Instant validityNotBefore = generateRandomDate(commonLowerDate, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.validityNotBefore(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.validityNotBefore(new StixInstant(validityNotBefore))
         }
 
-        //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.validityNotAfter(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.validityNotAfter(new StixInstant(generateRandomDate(validityNotBefore, Instant.now().plusMillis(1000000))))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1508,6 +1585,14 @@ trait StixMockDataGenerator {
     Report mockReport() {
         Report.Builder builder = Report.builder()
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
+
         mock.ints().range(1, 5).get().times {
             builder.addLabel(mock.fromStrings(new ReportLabels().getAllTerms().toList()).get())
         }
@@ -1518,7 +1603,7 @@ trait StixMockDataGenerator {
             builder.description(mock.words().accumulate(mock.ints().range(1, 50).get(), " ").get())
         }
 
-        builder.published(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+        builder.published(new StixInstant(generateRandomDate(commonLowerDate, Instant.now())))
 
         mock.ints().range(1, 50).get().times {
             switch (mock.ints().range(1, 14).get()) {
@@ -1602,6 +1687,14 @@ trait StixMockDataGenerator {
 
     ThreatActor mockThreatActor() {
         ThreatActor.Builder builder = ThreatActor.builder()
+
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
 
         mock.ints().range(1, 5).get().times {
             builder.addLabel(mock.fromStrings(new ThreatActorLabels().getAllTerms().toList()).get())
@@ -1691,6 +1784,14 @@ trait StixMockDataGenerator {
     Tool mockTool() {
         Tool.Builder builder = Tool.builder()
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
+
         if (mock.bools().probability(50).get()) {
             mock.ints().range(1, 5).get().times {
                 builder.addLabel(mock.fromStrings(new ToolLabels().getAllTerms().toList()).get())
@@ -1748,6 +1849,14 @@ trait StixMockDataGenerator {
 
     Vulnerability mockVulnerability() {
         Vulnerability.Builder builder = Vulnerability.builder()
+
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
 
         builder.name(mock.words().get())
 
@@ -1852,6 +1961,11 @@ trait StixMockDataGenerator {
     MarkingDefinition mockMarkingDefinition() {
         MarkingDefinition.Builder builder = MarkingDefinition.builder()
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+        }
+
         String type = mock.fromStrings("tlp", "statement").get()
 
         builder.definitionType(type)
@@ -1914,6 +2028,14 @@ trait StixMockDataGenerator {
 
     Relationship mockRelationship() {
         Relationship.Builder builder = Relationship.builder()
+
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
 
         switch (mock.ints().range(1, 11).get()) {
             case 1:
@@ -2209,13 +2331,22 @@ trait StixMockDataGenerator {
     Sighting mockSighting() {
         Sighting.Builder builder = Sighting.builder()
 
+        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
         if (mock.bools().probability(50).get()) {
-            builder.firstSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.created(new StixInstant(objectCreated))
+            if (mock.bools().probability(50).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+            }
+        }
+
+        Instant firstSeen = generateRandomDate(commonLowerDate, Instant.now())
+        if (mock.bools().probability(50).get()) {
+            builder.firstSeen(new StixInstant(firstSeen))
         }
 
         //@TODO This data will fail tests in the future as it create dates that are BEFORE the firstSeen.  Not currently enforced
         if (mock.bools().probability(50).get()) {
-            builder.lastSeen(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.lastSeen(new StixInstant(generateRandomDate(firstSeen, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -2537,7 +2668,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.timeDateStamp(new StixInstant(Instant.from(mock.localDates().get().atStartOfDay().toInstant(ZoneOffset.UTC))))
+            builder.timeDateStamp(new StixInstant(generateRandomDate(commonLowerDate, Instant.now())))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -2833,5 +2964,4 @@ trait StixMockDataGenerator {
 
         return builder.build()
     }
-
 }
