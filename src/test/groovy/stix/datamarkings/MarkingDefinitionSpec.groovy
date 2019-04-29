@@ -9,16 +9,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.StixMockDataGenerator
+import faker.StixMockDataGenerator
 
-class MarkingDefinitionSpec extends Specification implements StixMockDataGenerator {
+class MarkingDefinitionSpec extends Specification{
 
     @Shared ObjectMapper mapper = new ObjectMapper()
+    @Shared StixMockDataGenerator stixMockDataGenerator = new StixMockDataGenerator()
 
     @Unroll
     def "Generate Marking Definition Data: Run: '#i'"() {
         when: "Generating Marking Definition Data"
-            MarkingDefinition originalMarkingDefinition = mockMarkingDefinition()
+            MarkingDefinition originalMarkingDefinition = stixMockDataGenerator.mockMarkingDefinition()
 //            println "Original Object: ${originalMarkingDefinition.toString()}"
 
         then: "Convert Marking Definition to Json"

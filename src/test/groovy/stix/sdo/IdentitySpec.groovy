@@ -9,16 +9,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.StixMockDataGenerator
+import faker.StixMockDataGenerator
 
-class IdentitySpec extends Specification implements StixMockDataGenerator {
+class IdentitySpec extends Specification {
 
     @Shared ObjectMapper mapper = new ObjectMapper()
+    @Shared StixMockDataGenerator stixMockDataGenerator = new StixMockDataGenerator()
 
     @Unroll
     def "Generate Identity Data: Run: '#i'"() {
         when: "Generating Identity Data"
-            Identity originalIdentity = mockIdentity()
+            Identity originalIdentity = stixMockDataGenerator.mockIdentity()
 //            println "Original Object: ${originalIdentity.toString()}"
 
         then: "Convert Identity to Json"

@@ -9,16 +9,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.StixMockDataGenerator
+import faker.StixMockDataGenerator
 
-class ReportSpec extends Specification implements StixMockDataGenerator {
+class ReportSpec extends Specification {
 
     @Shared ObjectMapper mapper = new ObjectMapper()
+    @Shared StixMockDataGenerator stixMockDataGenerator = new StixMockDataGenerator()
 
     @Unroll
     def "Generate Report Data: Run: '#i'"() {
         when: "Generating Report Data"
-        Report originalReport = mockReport()
+        Report originalReport = stixMockDataGenerator.mockReport()
 //            println "Original Object: ${originalReport.toString()}"
 
         then: "Convert Report to Json"

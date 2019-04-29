@@ -9,16 +9,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.StixMockDataGenerator
+import faker.StixMockDataGenerator
 
-class CourseOfActionSpec extends Specification implements StixMockDataGenerator {
+class CourseOfActionSpec extends Specification {
 
     @Shared ObjectMapper mapper = new ObjectMapper()
+    @Shared StixMockDataGenerator stixMockDataGenerator = new StixMockDataGenerator()
 
     @Unroll
     def "Generate Course of Action Data: Run: '#i'"() {
         when: "Generating Identity Data"
-            CourseOfAction originalCourseOfAction = mockCourseOfAction()
+            CourseOfAction originalCourseOfAction = stixMockDataGenerator.mockCourseOfAction()
 //            println "Original Object: ${originalCourseOfAction.toString()}"
 
         then: "Convert Course of Action to Json"

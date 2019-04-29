@@ -3,9 +3,8 @@ package stix.stixinstant
 import io.digitalstate.stix.json.StixParsers
 import io.digitalstate.stix.sdo.objects.Campaign
 import spock.lang.Specification
-import stix.StixMockDataGenerator
 
-class StixInstantSpec extends Specification implements StixMockDataGenerator {
+class StixInstantSpec extends Specification {
 
     def "time test to ensure Instant Precisions are maintained"(){
         when:

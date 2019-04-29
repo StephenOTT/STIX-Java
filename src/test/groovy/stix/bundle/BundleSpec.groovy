@@ -10,16 +10,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.StixMockDataGenerator
+import faker.StixMockDataGenerator
 
-class BundleSpec extends Specification implements StixMockDataGenerator {
+class BundleSpec extends Specification {
 
     @Shared ObjectMapper mapper = new ObjectMapper()
+    @Shared StixMockDataGenerator stixMockDataGenerator = new StixMockDataGenerator()
 
     @Unroll
     def "Generate Bundle Data: Run: '#i'"() {
         when: "Generating Bundle Data"
-        Bundle originalBundle = mockBundle()
+        Bundle originalBundle = stixMockDataGenerator.mockBundle()
 //            println "Original Object: ${originalBundle.toString()}"
 
         then: "Convert Bundle to Json"

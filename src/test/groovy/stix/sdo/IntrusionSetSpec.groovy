@@ -9,16 +9,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.StixMockDataGenerator
+import faker.StixMockDataGenerator
 
-class IntrusionSetSpec extends Specification implements StixMockDataGenerator {
+class IntrusionSetSpec extends Specification {
 
     @Shared ObjectMapper mapper = new ObjectMapper()
+    @Shared StixMockDataGenerator stixMockDataGenerator = new StixMockDataGenerator()
 
     @Unroll
     def "Generate Intrusion Set Data: Run: '#i'"() {
         when: "Generating Intrusion Set Data"
-            IntrusionSet originalIntrusionSet = mockIntrusionSet()
+            IntrusionSet originalIntrusionSet = stixMockDataGenerator.mockIntrusionSet()
 //            println "Original Object: ${originalIntrusionSet.toString()}"
 
         then: "Convert Intrusion Set to Json"

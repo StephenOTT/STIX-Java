@@ -1,5 +1,6 @@
-package stix
+package faker
 
+import faker.configs.ObservedDataGeneratorConfig
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.common.StixInstant
 import io.digitalstate.stix.coo.extension.types.*
@@ -20,7 +21,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.util.concurrent.ThreadLocalRandom
 
-trait StixMockDataGenerator {
+public class StixMockDataGenerator {
 
     // MockNeat object
     MockNeat mock = MockNeat.threadLocal()
@@ -625,160 +626,161 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    ObservedData mockObservedData() {
+    ObservedData mockObservedData(ObservedDataGeneratorConfig config = new ObservedDataGeneratorConfig()) {
         ObservedData.Builder builder = ObservedData.builder()
 
-        Instant objectCreated = generateRandomDate(commonLowerDate, Instant.now())
-        if (mock.bools().probability(50).get()) {
-            builder.created(new StixInstant(objectCreated))
-            if (mock.bools().probability(50).get()) {
-                builder.modified(new StixInstant(generateRandomDate(objectCreated, Instant.now())))
+        Instant objectCreated = generateRandomDate(config.propCreatedLowerDate, config.propCreatedUpperDate)
+        if (mock.bools().probability(config.propCreatedProbability).get()) {
+            builder.created(new StixInstant(objectCreated, config.propCreatedDateSubsecondPrecision))
+            if (mock.bools().probability(config.propModifiedProbability).get()) {
+                builder.modified(new StixInstant(generateRandomDate(objectCreated, config.propModifiedUpperDate), config.propModifiedSubsecondPrecision))
             }
         }
 
-        Instant firstObserved = generateRandomDate(commonLowerDate, Instant.now())
-        builder.firstObserved(new StixInstant(firstObserved))
+        Instant firstObserved = generateRandomDate(config.propFirstObservedLowerDate, config.propFirstObservedUpperDate)
+        builder.firstObserved(new StixInstant(firstObserved, config.propFirstObservedSubsecondPrecision))
 
-        builder.lastObserved(new StixInstant(generateRandomDate(firstObserved, Instant.now())))
+        builder.lastObserved(new StixInstant(generateRandomDate(firstObserved, config.propLastObservedUpperDate), config.propLastObservedSubsecondPrecision))
+
+        builder.numberObserved(mock.ints().range(config.propNumberObservedLowerCount, config.propNumberObservedUpperCount).get())
 
 
-        builder.numberObserved(mock.ints().range(1, 999999999).get())
+        if (mock.bools().probability(config.artifactCoo.occurrence_probability).get()) {
+            mock.ints().range(config.artifactCoo.occurs_count_lower, config.artifactCoo.occurs_count_upper).get().times {
+                builder.addObject(mockArtifactCoo())
+            }
+        }
 
-        builder.addObject(mockArtifactCoo())
-
-        //@TODO Replace the below with if statements per COO.  Then for each IF, do a range.get.Times{} to add N artifacts.
-        // worry about the Refs in a later iteration of tests.
-        builder.addObject(mockArtifactCoo())
-
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.autonomousSystemCoo.occurrence_probability).get()) {
+            mock.ints().range(config.autonomousSystemCoo.occurs_count_lower, config.autonomousSystemCoo.occurs_count_upper).get().times {
                 builder.addObject(mockAutonomousSystemCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.directoryCoo.occurrence_probability).get()) {
+            mock.ints().range(config.directoryCoo.occurs_count_lower, config.directoryCoo.occurs_count_upper).get().times {
                 builder.addObject(mockDirectoryCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.domainNameCoo.occurrence_probability).get()) {
+            mock.ints().range(config.domainNameCoo.occurs_count_lower, config.domainNameCoo.occurs_count_upper).get().times {
                 builder.addObject(mockDomainNameCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.emailAddressCoo.occurrence_probability).get()) {
+            mock.ints().range(config.emailAddressCoo.occurs_count_lower, config.emailAddressCoo.occurs_count_upper).get().times {
                 builder.addObject(mockEmailAddressCoo())
             }
         }
 
         //@TODO Refactor to pass in Email address objects and artifacts
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.emailMessageCoo.occurrence_probability).get()) {
+            mock.ints().range(config.emailMessageCoo.occurs_count_lower, config.emailMessageCoo.occurs_count_upper).get().times {
                 builder.addObject(mockEmailMessageCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.fileCoo.occurrence_probability).get()) {
+            mock.ints().range(config.fileCoo.occurs_count_lower, config.fileCoo.occurs_count_upper).get().times {
                 builder.addObject(mockFileCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.ipv4AddressCoo.occurrence_probability).get()) {
+            mock.ints().range(config.ipv4AddressCoo.occurs_count_lower, config.ipv4AddressCoo.occurs_count_upper).get().times {
                 builder.addObject(mockIpv4AddressCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.ipv6AddressCoo.occurrence_probability).get()) {
+            mock.ints().range(config.ipv6AddressCoo.occurs_count_lower, config.ipv6AddressCoo.occurs_count_upper).get().times {
                 builder.addObject(mockIpv6AddressCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.macAddressCoo.occurrence_probability).get()) {
+            mock.ints().range(config.macAddressCoo.occurs_count_lower, config.macAddressCoo.occurs_count_upper).get().times {
                 builder.addObject(mockMacAddress())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.mutexCoo.occurrence_probability).get()) {
+            mock.ints().range(config.mutexCoo.occurs_count_lower, config.mutexCoo.occurs_count_upper).get().times {
                 builder.addObject(mockMutexCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.networkTrafficCoo.occurrence_probability).get()) {
+            mock.ints().range(config.networkTrafficCoo.occurs_count_lower, config.networkTrafficCoo.occurs_count_upper).get().times {
                 builder.addObject(mockNetworkTrafficCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.processCoo.occurrence_probability).get()) {
+            mock.ints().range(config.processCoo.occurs_count_lower, config.processCoo.occurs_count_upper).get().times {
                 builder.addObject(mockProcessCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.softwareCoo.occurrence_probability).get()) {
+            mock.ints().range(config.softwareCoo.occurs_count_lower, config.softwareCoo.occurs_count_upper).get().times {
                 builder.addObject(mockSoftwareCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
-                builder.addObject(mockUrl())
+        if (mock.bools().probability(config.urlCoo.occurrence_probability).get()) {
+            mock.ints().range(config.urlCoo.occurs_count_lower, config.urlCoo.occurs_count_upper).get().times {
+                builder.addObject(mockUrlCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
-                builder.addObject(mockUserAccount())
+        if (mock.bools().probability(config.userAccountCoo.occurrence_probability).get()) {
+            mock.ints().range(config.userAccountCoo.occurs_count_lower, config.userAccountCoo.occurs_count_upper).get().times {
+                builder.addObject(mockUserAccountCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.windowsRegisteryKeyCoo.occurrence_probability).get()) {
+            mock.ints().range(config.windowsRegisteryKeyCoo.occurs_count_lower, config.windowsRegisteryKeyCoo.occurs_count_upper).get().times {
                 builder.addObject(mockWindowsRegistryKeyCoo())
             }
         }
 
-        if (mock.bools().probability(10).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.x509CertificateCoo.occurrence_probability).get()) {
+            mock.ints().range(config.x509CertificateCoo.occurs_count_lower, config.x509CertificateCoo.occurs_count_upper).get().times {
                 builder.addObject(mockX509CertificateCoo())
             }
         }
 
-        if (mock.bools().probability(50).get()) {
-            mock.ints().range(0, 10).get().times {
+
+        if (mock.bools().probability(config.externalReferences.occurrence_probability).get()) {
+            mock.ints().range(config.externalReferences.occurs_count_lower, config.externalReferences.occurs_count_upper).get().times {
                 builder.addExternalReferences(mockExternalReference())
             }
         }
 
-        if (mock.bools().probability(50).get()) {
+        if (mock.bools().probability(config.propRevokedProbability).get()) {
             builder.revoked(true)
         }
 
-        if (mock.bools().probability(50).get()) {
+        if (mock.bools().probability(config.propCustomPropsProbability).get()) {
             builder.customProperties(generateCustomProperties())
         }
 
-        if (mock.bools().probability(50).get()) {
+        if (mock.bools().probability(config.propCreatedByRefProbability).get()) {
             builder.createdByRef(mockIdentity())
         }
 
-        if (mock.bools().probability(50).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.objectMarkings.occurrence_probability).get()) {
+            mock.ints().range(config.objectMarkings.occurs_count_lower, config.objectMarkings.occurs_count_upper).get().times {
                 builder.addObjectMarkingRef(mockMarkingDefinition())
             }
         }
 
-        if (mock.bools().probability(50).get()) {
-            mock.ints().range(1, 5).get().times {
+        if (mock.bools().probability(config.granuarMarkings.occurrence_probability).get()) {
+            mock.ints().range(config.granuarMarkings.occurs_count_lower, config.granuarMarkings.occurs_count_upper).get().times {
                 builder.addGranularMarking(mockGranularMarking())
             }
         }
@@ -1334,7 +1336,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.creatorUserRef(mockUserAccount().getObservableObjectKey())
+            builder.creatorUserRef(mockUserAccountCoo().getObservableObjectKey())
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1378,7 +1380,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    Url mockUrl() {
+    Url mockUrlCoo() {
         Url.Builder builder = Url.builder()
 
         builder.value(mock.urls().get())
@@ -1386,7 +1388,7 @@ trait StixMockDataGenerator {
         return builder.build()
     }
 
-    UserAccount mockUserAccount() {
+    UserAccount mockUserAccountCoo() {
         UserAccount.Builder builder = UserAccount.builder()
 
         if (mock.bools().probability(50).get()) {
@@ -1484,7 +1486,7 @@ trait StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.creatorUserRef(mockUserAccount().getObservableObjectKey())
+            builder.creatorUserRef(mockUserAccountCoo().getObservableObjectKey())
         }
 
         if (mock.bools().probability(50).get()) {

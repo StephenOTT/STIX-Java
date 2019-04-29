@@ -9,16 +9,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.StixMockDataGenerator
+import faker.StixMockDataGenerator
 
-class ToolSpec extends Specification implements StixMockDataGenerator {
+class ToolSpec extends Specification {
 
     @Shared ObjectMapper mapper = new ObjectMapper()
+    @Shared StixMockDataGenerator stixMockDataGenerator = new StixMockDataGenerator()
 
     @Unroll
     def "Generate Tool Data: Run: '#i'"() {
         when: "Generating Tool Data"
-        Tool originalTool = mockTool()
+        Tool originalTool = stixMockDataGenerator.mockTool()
 //            println "Original Object: ${originalTool.toString()}"
 
         then: "Convert Tool to Json"

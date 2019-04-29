@@ -1,6 +1,5 @@
 package stix.validation
 
-import io.digitalstate.stix.bundle.BundleableObject
 import io.digitalstate.stix.json.StixParserValidationException
 import io.digitalstate.stix.json.StixParsers
 import spock.lang.Specification

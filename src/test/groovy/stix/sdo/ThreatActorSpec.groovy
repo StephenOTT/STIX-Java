@@ -9,16 +9,17 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import stix.StixMockDataGenerator
+import faker.StixMockDataGenerator
 
-class ThreatActorSpec extends Specification implements StixMockDataGenerator {
+class ThreatActorSpec extends Specification {
 
     @Shared ObjectMapper mapper = new ObjectMapper()
+    @Shared StixMockDataGenerator stixMockDataGenerator = new StixMockDataGenerator()
 
     @Unroll
     def "Generate Threat Actor Data: Run: '#i'"() {
         when: "Generating Threat Actor Data"
-        ThreatActor originalThreatActor = mockThreatActor()
+        ThreatActor originalThreatActor = stixMockDataGenerator.mockThreatActor()
 //            println "Original Object: ${originalThreatActor.toString()}"
 
         then: "Convert Threat Actor to Json"
