@@ -34,5 +34,4 @@ class StixInstantSpec extends Specification {
         assert campaignCreated3DigitsWithTrailingZerosSubSec.getCreated().toString() == "2019-04-26T21:14:11.111000000Z"
         assert campaignCreated3DigitsWithTrailingZerosSubSec.getCreated().getInstant().toString() == "2019-04-26T21:14:11.111Z"
     }
-
 }

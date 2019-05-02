@@ -27,9 +27,9 @@ import java.time.LocalDate
 
 class ObservedDataGeneratorConfig {
 
-    Instant DEFAULT_LOWER_DATE = Instant.ofEpochMilli(LocalDate.of(2000, 1, 1).toEpochDay())
-    Instant DEFAULT_UPPER_DATE = Instant.now()
-    int DEFAULT_DATE_SUBSECOND_PRECISION = 3
+    private Instant DEFAULT_LOWER_DATE = Instant.ofEpochMilli(LocalDate.of(2000, 1, 1).toEpochDay())
+    private Instant DEFAULT_UPPER_DATE = Instant.now()
+    private int DEFAULT_DATE_SUBSECOND_PRECISION = 3
 
     int propCreatedProbability = 50
     Instant propCreatedLowerDate = DEFAULT_LOWER_DATE
@@ -37,7 +37,6 @@ class ObservedDataGeneratorConfig {
     int propCreatedDateSubsecondPrecision = DEFAULT_DATE_SUBSECOND_PRECISION
 
     int propModifiedProbability = 50
-    Instant propModifiedLowerDate = propCreatedUpperDate
     Instant propModifiedUpperDate = DEFAULT_UPPER_DATE
     int propModifiedSubsecondPrecision = DEFAULT_DATE_SUBSECOND_PRECISION
 
@@ -79,8 +78,10 @@ class ObservedDataGeneratorConfig {
 
     ObservedData_ExternalReferencesConfig externalReferences = new ObservedData_ExternalReferencesConfig()
 
-    ObservedData_GranularMarkingConfig granuarMarkings = new ObservedData_GranularMarkingConfig()
+    ObservedData_GranularMarkingConfig granularMarkings = new ObservedData_GranularMarkingConfig()
 
     ObservedData_ObjectMarkingsConfig objectMarkings = new ObservedData_ObjectMarkingsConfig()
+
+    int labelsOccurrenceProbability = 30
 
 }

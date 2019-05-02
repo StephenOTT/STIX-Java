@@ -779,10 +779,14 @@ public class StixMockDataGenerator {
             }
         }
 
-        if (mock.bools().probability(config.granuarMarkings.occurrence_probability).get()) {
-            mock.ints().range(config.granuarMarkings.occurs_count_lower, config.granuarMarkings.occurs_count_upper).get().times {
+        if (mock.bools().probability(config.granularMarkings.occurrence_probability).get()) {
+            mock.ints().range(config.granularMarkings.occurs_count_lower, config.granularMarkings.occurs_count_upper).get().times {
                 builder.addGranularMarking(mockGranularMarking())
             }
+        }
+
+        if (mock.bools().probability(config.labelsOccurrenceProbability).get()) {
+            builder.labels(generateRandomLabels())
         }
 
         return builder.build()
