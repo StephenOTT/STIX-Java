@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.common.StixInstant;
-import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
-import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
@@ -62,13 +60,11 @@ public interface IntrusionSetSdo extends DomainObject {
 
     @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The time that this Intrusion Set was first seen.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     @Redactable
     Optional<StixInstant> getFirstSeen();
 
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The time that this Intrusion Set was last seen.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     @Redactable
     Optional<StixInstant> getLastSeen();
 

@@ -66,7 +66,6 @@ public interface ReportSdo extends DomainObject {
     @NotNull
     @JsonProperty("published")
     @JsonPropertyDescription("The date that this report object was officially published by the creator of this report.")
-    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @Redactable(useMask = true)
     StixInstant getPublished();
 

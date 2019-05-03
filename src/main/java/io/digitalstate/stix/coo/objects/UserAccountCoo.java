@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.CyberObservableObject;
-import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
-import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.vocab.Vocab;
 import io.digitalstate.stix.validation.groups.DefaultValuesProcessor;
@@ -78,27 +76,22 @@ public interface UserAccountCoo extends CyberObservableObject {
 
     @JsonProperty("account_created")
     @JsonPropertyDescription("Specifies when the account was created.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     Optional<StixInstant> getAccountCreated();
 
     @JsonProperty("account_expires")
     @JsonPropertyDescription("Specifies the expiration date of the account.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     Optional<StixInstant> getAccountExpires();
 
     @JsonProperty("password_last_changed")
     @JsonPropertyDescription("Specifies when the account password was last changed.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     Optional<StixInstant> getPasswordLastChanged();
 
     @JsonProperty("account_first_login")
     @JsonPropertyDescription("Specifies when the account was first accessed.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     Optional<StixInstant> getAccountFirstLogin();
 
     @JsonProperty("account_last_login")
     @JsonPropertyDescription("Specifies when the account was last accessed.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     Optional<StixInstant> getAccountLastLogin();
 
 }

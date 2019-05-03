@@ -21,7 +21,6 @@ public interface StixModified {
     @NotNull
     @JsonProperty("modified")
     @JsonPropertyDescription("The modified property represents the time that this particular version of the object was created. The timstamp value MUST be precise to the nearest millisecond.")
-    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @Value.Default
     @Redactable
     default StixInstant getModified(){

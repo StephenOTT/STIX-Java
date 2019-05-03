@@ -3,12 +3,9 @@ package io.digitalstate.stix.common;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.bundle.BundleableObject;
 import io.digitalstate.stix.datamarkings.GranularMarkingDm;
 import io.digitalstate.stix.datamarkings.MarkingDefinitionDm;
-import io.digitalstate.stix.json.StixInstantDeserializer;
-import io.digitalstate.stix.json.StixInstantSerializer;
 import io.digitalstate.stix.json.StixParsers;
 import io.digitalstate.stix.json.converters.dehydrated.DomainObjectOptionalConverter;
 import io.digitalstate.stix.json.converters.dehydrated.MarkingDefinitionSetConverter;
@@ -71,7 +68,6 @@ public interface StixCommonProperties extends StixSpecVersion, SdoDefaultValidat
     Optional<IdentitySdo> getCreatedByRef();
 
     @NotNull
-    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @JsonProperty("created")
     @JsonPropertyDescription("The created property represents the time at which the first version of this object was created. The timstamp value MUST be precise to the nearest millisecond.")
     @Value.Default

@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.CyberObservableObject;
 import io.digitalstate.stix.coo.types.X509v3ExtensionsObj;
-import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
-import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.businessrule.BusinessRule;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
@@ -70,12 +68,10 @@ public interface X509CertificateCoo extends CyberObservableObject {
 
     @JsonProperty("validity_not_before")
     @JsonPropertyDescription("Specifies the date on which the certificate validity period begins.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     Optional<StixInstant> getValidityNotBefore();
 
     @JsonProperty("validity_not_after")
     @JsonPropertyDescription("Specifies the date on which the certificate validity period ends.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     Optional<StixInstant> getValidityNotAfter();
 
     @JsonProperty("subject")

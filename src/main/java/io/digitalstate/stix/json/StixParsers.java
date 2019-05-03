@@ -23,6 +23,7 @@ import io.digitalstate.stix.sro.objects.Sighting;
 
 import javax.validation.ValidationException;
 import java.io.IOException;
+import java.util.Optional;
 
 public class StixParsers {
 
@@ -43,6 +44,7 @@ public class StixParsers {
     public static ObjectMapper getJsonMapper(boolean withSubTypeMappings, NamedType... additionalNamedTypes) {
         //@TODO Add config to only serialize/deserialize that have @JsonProperty() annotation
         if (withSubTypeMappings) {
+            jsonMapper.registerModule(generateStixInstantModule());
             return registerBundleMapperSubTypes(jsonMapper, additionalNamedTypes);
         } else {
             return jsonMapper;

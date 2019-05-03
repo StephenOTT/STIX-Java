@@ -46,14 +46,12 @@ public interface ObservedDataSdo extends DomainObject {
     @NotNull
     @JsonProperty("first_observed")
     @JsonPropertyDescription("The beginning of the time window that the data was observed during.")
-    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @Redactable(useMask = true)
     StixInstant getFirstObserved();
 
     @NotNull
     @JsonProperty("last_observed")
     @JsonPropertyDescription("The end of the time window that the data was observed during.")
-    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @Redactable(useMask = true)
     StixInstant getLastObserved();
 

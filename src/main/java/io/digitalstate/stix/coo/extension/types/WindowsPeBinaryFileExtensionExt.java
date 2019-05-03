@@ -8,8 +8,6 @@ import io.digitalstate.stix.coo.extension.CyberObservableExtension;
 import io.digitalstate.stix.coo.objects.FileCoo;
 import io.digitalstate.stix.coo.types.WindowsPeOptionalHeaderObj;
 import io.digitalstate.stix.coo.types.WindowsPeSectionObj;
-import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
-import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.validation.contraints.coo.allowedparents.AllowedParents;
 import io.digitalstate.stix.validation.contraints.defaulttypevalue.DefaultTypeValue;
 import io.digitalstate.stix.validation.contraints.hashingvocab.HashingVocab;
@@ -68,7 +66,6 @@ public interface WindowsPeBinaryFileExtensionExt extends CyberObservableExtensio
 
     @JsonProperty("time_date_stamp")
     @JsonPropertyDescription("Specifies the time when the PE binary was created. The timestamp value MUST BE precise to the second.")
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     Optional<StixInstant> getTimeDateStamp();
 
     @JsonProperty("pointer_to_symbol_table_hex")

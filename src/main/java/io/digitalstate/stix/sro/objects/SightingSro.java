@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.digitalstate.stix.common.StixInstant;
-import io.digitalstate.stix.json.StixOptionalInstantDeserializer;
-import io.digitalstate.stix.json.StixOptionalInstantSerializer;
 import io.digitalstate.stix.json.converters.dehydrated.DomainObjectConverter;
 import io.digitalstate.stix.redaction.Redactable;
 import io.digitalstate.stix.sdo.DomainObject;
@@ -44,13 +42,11 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Redactable
 public interface SightingSro extends RelationshipObject {
 
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     @JsonProperty("first_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The beginning of the time window during which the SDO referenced by the sighting_of_ref property was sighted.")
     @Redactable
     Optional<StixInstant> getFirstSeen();
 
-    @JsonSerialize(using = StixOptionalInstantSerializer.class) @JsonDeserialize(using = StixOptionalInstantDeserializer.class)
     @JsonProperty("last_seen") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The end of the time window during which the SDO referenced by the sighting_of_ref property was sighted.")
     @Redactable

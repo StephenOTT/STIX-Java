@@ -233,7 +233,6 @@ class SomeClass {
     Optional<IdentitySdo> getCreatedByRef();
     
     @NotNull
-    @JsonSerialize(using = StixInstantSerializer.class) @JsonDeserialize(using = StixInstantDeserializer.class)
     @JsonProperty("created")
     @Value.Default
     @Redactable(useMask = true)
