@@ -2,6 +2,7 @@ package io.digitalstate.stix.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import io.digitalstate.stix.bundle.Bundle;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.bundle.BundleableObject;
+import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.extension.types.*;
 import io.digitalstate.stix.coo.objects.*;
 import io.digitalstate.stix.coo.objects.Process;
@@ -24,19 +26,24 @@ import java.io.IOException;
 
 public class StixParsers {
 
-    private static ObjectMapper jsonMapper = new ObjectMapper().registerModule(new ParameterNamesModule())
-            .registerModule(new Jdk8Module())
-            .registerModule(new JavaTimeModule())
-            .registerModule(new GuavaModule());
+    private static ObjectMapper jsonMapper = generateJsonMapperBase();
 
-    public static ObjectMapper getJsonMapper() {
-        return jsonMapper;
+    /**
+     * Generates a Base Object Mapper with some generic modules.
+     * @return
+     */
+    public static ObjectMapper generateJsonMapperBase() {
+        return new ObjectMapper()
+                .registerModule(new ParameterNamesModule())
+                .registerModule(new Jdk8Module())
+                .registerModule(new JavaTimeModule())
+                .registerModule(new GuavaModule());
     }
 
     public static ObjectMapper getJsonMapper(boolean withSubTypeMappings, NamedType... additionalNamedTypes) {
         //@TODO Add config to only serialize/deserialize that have @JsonProperty() annotation
         if (withSubTypeMappings) {
-            return registerBundleMapperSubTypes(additionalNamedTypes);
+            return registerBundleMapperSubTypes(jsonMapper, additionalNamedTypes);
         } else {
             return jsonMapper;
         }
@@ -51,7 +58,7 @@ public class StixParsers {
         jsonMapper = objectMapper;
     }
 
-    public static ObjectMapper registerBundleMapperSubTypes(NamedType... additionalNamedTypes) {
+    public static ObjectMapper registerBundleMapperSubTypes(ObjectMapper objectMapper, NamedType... additionalNamedTypes) {
         Class<?>[] sdoClasses = {AttackPattern.class, Campaign.class, CourseOfAction.class,
                 Identity.class, Indicator.class, IntrusionSet.class, Malware.class, ObservedData.class,
                 Report.class, ThreatActor.class, Tool.class, Vulnerability.class};
@@ -108,8 +115,10 @@ public class StixParsers {
         }
     }
 
-//    public static SimpleModule generateStixInstantModule(){
-//        SimpleModule module = new SimpleModule();
-//        module.
-//    }
+    public static SimpleModule generateStixInstantModule(){
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(StixInstant.class, new StixInstantSerializer());
+        module.addDeserializer(StixInstant.class, new StixInstantDeserializer());
+        return module;
+    }
 }
