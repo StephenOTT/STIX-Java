@@ -69,6 +69,11 @@ public class StixInstant {
                 .format(this.instant);
     }
 
+    public String toString(int subSecondPrecision) {
+        return StixDataFormats.getWriterStixDateTimeFormatter(subSecondPrecision)
+                .format(this.instant);
+    }
+
     public static StixInstant parse(String dateString){
         Instant instant = Instant.from(StixDataFormats.getReaderStixDateTimeFormatter().parse(dateString));
         int subSecondCount = getSubSecondDigitCount(dateString);
