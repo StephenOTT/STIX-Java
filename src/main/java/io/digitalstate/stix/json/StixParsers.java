@@ -23,11 +23,14 @@ import io.digitalstate.stix.sro.objects.Sighting;
 
 import javax.validation.ValidationException;
 import java.io.IOException;
-import java.util.Optional;
 
 public class StixParsers {
 
-    private static ObjectMapper jsonMapper = generateJsonMapperBase();
+    private static ObjectMapper jsonMapper = new ObjectMapper()
+            .registerModule(new ParameterNamesModule())
+            .registerModule(new Jdk8Module())
+            .registerModule(new JavaTimeModule())
+            .registerModule(new GuavaModule());
 
     /**
      * Generates a Base Object Mapper with some generic modules.
@@ -41,11 +44,11 @@ public class StixParsers {
                 .registerModule(new GuavaModule());
     }
 
-    public static ObjectMapper getJsonMapper(boolean withSubTypeMappings, NamedType... additionalNamedTypes) {
+    public static ObjectMapper getJsonMapper(boolean withSubTypeMappings) {
         //@TODO Add config to only serialize/deserialize that have @JsonProperty() annotation
         if (withSubTypeMappings) {
             jsonMapper.registerModule(generateStixInstantModule());
-            return registerBundleMapperSubTypes(jsonMapper, additionalNamedTypes);
+            return registerBundleMapperSubTypes(jsonMapper);
         } else {
             return jsonMapper;
         }
