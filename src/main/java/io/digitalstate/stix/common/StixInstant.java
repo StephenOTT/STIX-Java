@@ -21,6 +21,7 @@ public class StixInstant {
 
     /**
      * Generates a Instant.now()
+     * Defaults to 3 digits of sub second precision (milliseconds)
      */
     public StixInstant() {
         Instant now = Instant.now();
@@ -30,6 +31,9 @@ public class StixInstant {
 
     public StixInstant(Instant instant, int subSecondPrecision) {
         Objects.requireNonNull(instant);
+        if (subSecondPrecision < 0 || subSecondPrecision > 9){
+            throw new IllegalStateException("Subsecond precision must be between 0 and 9");
+        }
 
         this.instant = instant;
         this.originalSubSecondPrecisionDigitCount = subSecondPrecision;
