@@ -85,15 +85,15 @@ public class StixParsers {
                 WindowsServiceExtension.class};
 
 
-        jsonMapper.registerSubtypes(sdoClasses);
-        jsonMapper.registerSubtypes(sroClasses);
-        jsonMapper.registerSubtypes(dataMarkingClasses);
-        jsonMapper.registerSubtypes(bundleClasses);
-        jsonMapper.registerSubtypes(cyberObservableClasses);
-        jsonMapper.registerSubtypes(cyberObservableExtensionClasses);
-        jsonMapper.registerSubtypes(additionalNamedTypes);
+        objectMapper.registerSubtypes(sdoClasses);
+        objectMapper.registerSubtypes(sroClasses);
+        objectMapper.registerSubtypes(dataMarkingClasses);
+        objectMapper.registerSubtypes(bundleClasses);
+        objectMapper.registerSubtypes(cyberObservableClasses);
+        objectMapper.registerSubtypes(cyberObservableExtensionClasses);
+        objectMapper.registerSubtypes(additionalNamedTypes);
 
-        return jsonMapper;
+        return objectMapper;
     }
 
     public static BundleObject parseBundle(String bundleJsonString) throws IOException, StixParserValidationException {
