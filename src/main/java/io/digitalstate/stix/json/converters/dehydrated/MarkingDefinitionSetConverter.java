@@ -22,7 +22,7 @@ public class MarkingDefinitionSetConverter extends StdConverter<Set<String>, Set
             String[] parsedValue = v.split("--");
 
             if (parsedValue.length == 2) {
-                ObjectMapper mapper = StixParsers.getJsonMapper(true);
+                ObjectMapper mapper = StixParsers.getJsonMapper();
                 ObjectNode node = mapper.createObjectNode();
 
                 node.put("type", parsedValue[0]);

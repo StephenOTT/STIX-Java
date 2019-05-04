@@ -66,7 +66,7 @@ public interface BundleObject extends GenericValidation, Serializable, StixCusto
     @JsonIgnore
     @Value.Lazy
     default String toJsonString() {
-        JsonNode response = StixParsers.getJsonMapper(true).valueToTree(this);
+        JsonNode response = StixParsers.getJsonMapper().valueToTree(this);
         ObjectNode responseNode = (ObjectNode) response;
         //@TODO Refactor as this is causing custom properties to come before the Objects prop:
         responseNode.putArray("objects");
@@ -76,7 +76,7 @@ public interface BundleObject extends GenericValidation, Serializable, StixCusto
             String redactedJson = o.toJsonString();
             try {
                 //@TODO refactor so the double JSON parsing does not need to happen
-                JsonNode redactedJsonNode = StixParsers.getJsonMapper(true).readTree(redactedJson);
+                JsonNode redactedJsonNode = StixParsers.getJsonMapper().readTree(redactedJson);
                 ObjectNode redactedObjectNode = (ObjectNode) redactedJsonNode;
                 if (!redactedObjectNode.isNull() && redactedObjectNode.size() > 0) {
                     objects.add(redactedObjectNode);
@@ -87,7 +87,7 @@ public interface BundleObject extends GenericValidation, Serializable, StixCusto
         });
 
         try {
-            return StixParsers.getJsonMapper(true).writeValueAsString(response);
+            return StixParsers.getJsonMapper().writeValueAsString(response);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("Failed to Parse Bundle JSON");
         }

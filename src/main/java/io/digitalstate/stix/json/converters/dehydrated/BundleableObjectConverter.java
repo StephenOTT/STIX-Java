@@ -17,7 +17,7 @@ public class BundleableObjectConverter extends StdConverter<String, BundleableOb
             String[] parsedValue = value.split("--");
 
             if (parsedValue.length == 2){
-                ObjectMapper mapper = StixParsers.getJsonMapper(true);
+                ObjectMapper mapper = StixParsers.getJsonMapper();
                 ObjectNode node = mapper.createObjectNode();
 
                 node.put("type", parsedValue[0]);

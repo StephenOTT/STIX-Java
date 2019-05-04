@@ -1,7 +1,6 @@
 package io.digitalstate.stix.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -24,13 +23,18 @@ import io.digitalstate.stix.sro.objects.Sighting;
 import javax.validation.ValidationException;
 import java.io.IOException;
 
+/**
+ * Default JSON Mapper is configured with JsonMapperBase configs + StixSubTypesModule + StixInstantModule
+ */
 public class StixParsers {
 
     private static ObjectMapper jsonMapper = new ObjectMapper()
             .registerModule(new ParameterNamesModule())
             .registerModule(new Jdk8Module())
             .registerModule(new JavaTimeModule())
-            .registerModule(new GuavaModule());
+            .registerModule(new GuavaModule())
+            .registerModule(generateStixSubTypesModule())
+            .registerModule(generateStixInstantModule());
 
     /**
      * Generates a Base Object Mapper with some generic modules.
@@ -44,14 +48,8 @@ public class StixParsers {
                 .registerModule(new GuavaModule());
     }
 
-    public static ObjectMapper getJsonMapper(boolean withSubTypeMappings) {
-        //@TODO Add config to only serialize/deserialize that have @JsonProperty() annotation
-        if (withSubTypeMappings) {
-            jsonMapper.registerModule(generateStixInstantModule());
-            return registerBundleMapperSubTypes(jsonMapper);
-        } else {
-            return jsonMapper;
-        }
+    public static ObjectMapper getJsonMapper() {
+        return jsonMapper;
     }
 
     /**
@@ -63,7 +61,13 @@ public class StixParsers {
         jsonMapper = objectMapper;
     }
 
-    public static ObjectMapper registerBundleMapperSubTypes(ObjectMapper objectMapper, NamedType... additionalNamedTypes) {
+    /**
+     * Generate a Jackson module for all STIX objects (SDOs, SROs, Markings, bundle, observables, and observable extensions)
+     * @return
+     */
+    public static SimpleModule generateStixSubTypesModule() {
+        SimpleModule module = new SimpleModule();
+
         Class<?>[] sdoClasses = {AttackPattern.class, Campaign.class, CourseOfAction.class,
                 Identity.class, Indicator.class, IntrusionSet.class, Malware.class, ObservedData.class,
                 Report.class, ThreatActor.class, Tool.class, Vulnerability.class};
@@ -84,21 +88,27 @@ public class StixParsers {
                 TcpExtension.class, UnixAccountExtension.class, WindowsPeBinaryFileExtension.class, WindowsProcessExtension.class,
                 WindowsServiceExtension.class};
 
+        module.registerSubtypes(sdoClasses);
+        module.registerSubtypes(sroClasses);
+        module.registerSubtypes(dataMarkingClasses);
+        module.registerSubtypes(bundleClasses);
+        module.registerSubtypes(cyberObservableClasses);
+        module.registerSubtypes(cyberObservableExtensionClasses);
 
-        objectMapper.registerSubtypes(sdoClasses);
-        objectMapper.registerSubtypes(sroClasses);
-        objectMapper.registerSubtypes(dataMarkingClasses);
-        objectMapper.registerSubtypes(bundleClasses);
-        objectMapper.registerSubtypes(cyberObservableClasses);
-        objectMapper.registerSubtypes(cyberObservableExtensionClasses);
-        objectMapper.registerSubtypes(additionalNamedTypes);
-
-        return objectMapper;
+        return module;
     }
+
+    public static SimpleModule generateStixInstantModule(){
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(StixInstant.class, new StixInstantSerializer());
+        module.addDeserializer(StixInstant.class, new StixInstantDeserializer());
+        return module;
+    }
+
 
     public static BundleObject parseBundle(String bundleJsonString) throws IOException, StixParserValidationException {
        try {
-           return getJsonMapper(true).readValue(bundleJsonString, BundleObject.class);
+           return getJsonMapper().readValue(bundleJsonString, BundleObject.class);
        } catch (IOException ex) {
         if (ValidationException.class.isAssignableFrom(ex.getCause().getClass())) {
             throw new StixParserValidationException((ValidationException) ex.getCause());
@@ -110,7 +120,7 @@ public class StixParsers {
 
     public static BundleableObject parseObject(String objectJsonString) throws IOException, StixParserValidationException {
         try {
-            return getJsonMapper(true).readValue(objectJsonString, BundleableObject.class);
+            return getJsonMapper().readValue(objectJsonString, BundleableObject.class);
         } catch (IOException ex) {
             if (ValidationException.class.isAssignableFrom(ex.getCause().getClass())) {
                 throw new StixParserValidationException((ValidationException) ex.getCause());
@@ -118,12 +128,5 @@ public class StixParsers {
                 throw ex;
             }
         }
-    }
-
-    public static SimpleModule generateStixInstantModule(){
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(StixInstant.class, new StixInstantSerializer());
-        module.addDeserializer(StixInstant.class, new StixInstantDeserializer());
-        return module;
     }
 }

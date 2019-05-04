@@ -102,7 +102,7 @@ public interface StixCommonProperties extends StixSpecVersion, SdoDefaultValidat
     @Value.Auxiliary
     default String toJsonString() {
         try {
-            String jsonString = StixParsers.getJsonMapper(true).writeValueAsString(this);
+            String jsonString = StixParsers.getJsonMapper().writeValueAsString(this);
 //            return BundleableObjectRedactionProcessor.processObject(this, jsonString, new HashSet<>(Arrays.asList()));
             return jsonString;
         } catch (JsonProcessingException e) {
