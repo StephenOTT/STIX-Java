@@ -39,7 +39,7 @@ public interface EmailMessageCoo extends CyberObservableObject {
     @JsonProperty("is_multipart")
     @JsonPropertyDescription("Indicates whether the email body contains multiple MIME parts.")
     @NotNull
-    boolean isMultipart();
+    Boolean isMultipart();
 
     @JsonProperty("date")
     @JsonPropertyDescription("Specifies the date/time that the email message was sent.")
