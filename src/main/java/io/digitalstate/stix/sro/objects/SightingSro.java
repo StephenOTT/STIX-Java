@@ -3,6 +3,7 @@ package io.digitalstate.stix.sro.objects;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.digitalstate.stix.common.StixBoolean;
 import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.json.converters.dehydrated.DomainObjectConverter;
 import io.digitalstate.stix.redaction.Redactable;
@@ -82,12 +83,13 @@ public interface SightingSro extends RelationshipObject {
     Set<IdentitySdo> getWhereSightedRefs();
 
     @NotNull
-    @JsonProperty("summary") @JsonInclude(NON_EMPTY)
+    @JsonProperty("summary")
+    @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The summary property indicates whether the Sighting should be considered summary data.")
     @Redactable
     @Value.Default
-    default boolean isSummary(){
-        return false;
+    default StixBoolean isSummary(){
+        return new StixBoolean();
     }
 
 }

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import io.digitalstate.stix.bundle.Bundle;
 import io.digitalstate.stix.bundle.BundleObject;
 import io.digitalstate.stix.bundle.BundleableObject;
+import io.digitalstate.stix.common.StixBoolean;
 import io.digitalstate.stix.common.StixInstant;
 import io.digitalstate.stix.coo.extension.types.*;
 import io.digitalstate.stix.coo.objects.*;
@@ -34,7 +35,8 @@ public class StixParsers {
             .registerModule(new JavaTimeModule())
             .registerModule(new GuavaModule())
             .registerModule(generateStixSubTypesModule())
-            .registerModule(generateStixInstantModule());
+            .registerModule(generateStixInstantModule())
+            .registerModule(generateStixBooleanModule());
 
     /**
      * Generates a Base Object Mapper with some generic modules.
@@ -105,6 +107,12 @@ public class StixParsers {
         return module;
     }
 
+    public static SimpleModule generateStixBooleanModule(){
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(StixBoolean.class, new StixBooleanSerializer());
+        module.addDeserializer(StixBoolean.class, new StixBooleanDeserializer());
+        return module;
+    }
 
     public static BundleObject parseBundle(String bundleJsonString) throws IOException, StixParserValidationException {
        try {
