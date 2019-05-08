@@ -2,6 +2,7 @@ package faker
 
 import faker.configs.ObservedDataGeneratorConfig
 import io.digitalstate.stix.bundle.Bundle
+import io.digitalstate.stix.common.StixBoolean
 import io.digitalstate.stix.common.StixInstant
 import io.digitalstate.stix.coo.extension.types.*
 import io.digitalstate.stix.coo.objects.*
@@ -182,7 +183,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -258,7 +259,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -321,7 +322,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -390,7 +391,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -457,7 +458,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -542,7 +543,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -600,7 +601,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -762,7 +763,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(config.propRevokedProbability).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(config.propCustomPropsProbability).get()) {
@@ -1666,7 +1667,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1762,7 +1763,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1828,7 +1829,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -1882,7 +1883,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -2309,7 +2310,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(50).get()) {
-            builder.revoked(true)
+            builder.revoked(new StixBoolean(true))
         }
 
         if (mock.bools().probability(50).get()) {
@@ -2375,7 +2376,7 @@ public class StixMockDataGenerator {
         }
 
         if (mock.bools().probability(20).get()) {
-            builder.isSummary(true)
+            builder.isSummary(new StixBoolean(true))
         }
 
         return builder.build()
