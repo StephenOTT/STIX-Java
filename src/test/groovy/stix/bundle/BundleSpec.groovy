@@ -47,4 +47,19 @@ class BundleSpec extends Specification {
         where:
             i << (1..100) // More tests are run because of the large variation of probabilities and number of combinations
     }
+
+    def "Parse Indicator Bundle"(){
+
+        when:"setup file access to bundle"
+
+        String bundleJson = getClass()
+                .getResource("/stix/baseline/json/sdo/indicator/indicators.json").getText("UTF-8")
+
+        then: "Parse json into bundle"
+        Bundle bundle = (Bundle)StixParsers.parseBundle(bundleJson)
+//        println bundle.toJsonString()
+
+        and: "the original bundle json matches the parsed object that was converted back to json"
+        assert mapper.readTree(bundle.toJsonString()) == mapper.readTree(bundleJson)
+    }
 }
