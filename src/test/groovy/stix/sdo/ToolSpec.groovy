@@ -29,6 +29,7 @@ class ToolSpec extends Specification {
 
         then: "Parse Json back into Tool Object"
             Tool parsedTool = (Tool)StixParsers.parseObject(originalJsonString)
+            Tool parsedToolGeneric = StixParsers.parse(originalJsonString, Tool.class)
 //            println "Parsed Object: ${parsedTool}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

@@ -29,6 +29,7 @@ class CampaignSpec extends Specification {
 
         then: "Parse Json back into Campaign Object"
             Campaign parsedCampaign = (Campaign)StixParsers.parseObject(originalJsonString)
+            Campaign parsedCampaignGeneric = StixParsers.parse(originalJsonString, Campaign.class)
 //            println "Parsed Object: ${parsedCampaign}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

@@ -29,6 +29,7 @@ class MarkingDefinitionSpec extends Specification{
 
         then: "Parse Json back into Marking Definition Object"
             MarkingDefinition parsedMarkingDefinition = (MarkingDefinition)StixParsers.parseObject(originalJsonString)
+            MarkingDefinition parsedMarkingDefinitionGeneric = StixParsers.parse(originalJsonString, MarkingDefinition.class)
 //            println "Parsed Object: ${parsedMarkingDefinition}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

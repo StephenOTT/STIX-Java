@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.digitalstate.stix.common.Stix;
 import io.digitalstate.stix.common.StixCustomProperties;
 import io.digitalstate.stix.helpers.StixSpecVersion;
 import io.digitalstate.stix.json.StixParsers;
@@ -35,7 +36,7 @@ import java.util.Set;
 @Value.Style(typeImmutable = "Bundle", validationMethod = Value.Style.ValidationMethod.NONE, additionalJsonAnnotations = {JsonTypeName.class}, depluralize = true)
 @JsonSerialize(as = Bundle.class) @JsonDeserialize(builder = Bundle.Builder.class)
 @JsonPropertyOrder({"type", "id", "spec_version", "objects"})
-public interface BundleObject extends GenericValidation, Serializable, StixCustomProperties {
+public interface BundleObject extends GenericValidation, Serializable, StixCustomProperties, Stix {
 
     @NotBlank
     @JsonProperty("type")

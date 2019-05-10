@@ -29,6 +29,7 @@ class IdentitySpec extends Specification {
 
         then: "Parse Json back into Attack Pattern Object"
             Identity parsedIdentity = (Identity)StixParsers.parseObject(originalJsonString)
+            Identity parsedIdentityGeneric = StixParsers.parse(originalJsonString, Identity.class)
 //            println "Parsed Object: ${parsedIdentity}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

@@ -29,6 +29,7 @@ class RelationshipSpec extends Specification {
 
         then: "Parse Json back into Relationship Object"
             Relationship parsedRelationship = (Relationship)StixParsers.parseObject(originalJsonString)
+            Relationship parsedRelationshipGeneric = StixParsers.parse(originalJsonString, Relationship.class)
 //            println "Parsed Object: ${parsedRelationship}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

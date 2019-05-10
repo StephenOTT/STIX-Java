@@ -29,6 +29,7 @@ class ObservedDataSpec extends Specification {
 
         then: "Parse Json back into Observed-Data Object"
             ObservedData parsedObservedData = (ObservedData)StixParsers.parseObject(originalJsonString)
+            ObservedData parsedObservedDataGeneric = StixParsers.parse(originalJsonString, ObservedData.class)
 //            println "Parsed Object: ${parsedObservedData}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

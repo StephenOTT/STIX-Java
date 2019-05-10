@@ -29,6 +29,7 @@ class ThreatActorSpec extends Specification {
 
         then: "Parse Json back into Threat Actor Object"
             ThreatActor parsedThreatActor = (ThreatActor)StixParsers.parseObject(originalJsonString)
+            ThreatActor parsedThreatActorGeneric = StixParsers.parse(originalJsonString, ThreatActor.class)
 //            println "Parsed Object: ${parsedThreatActor}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

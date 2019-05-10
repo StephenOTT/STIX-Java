@@ -29,6 +29,7 @@ class ReportSpec extends Specification {
 
         then: "Parse Json back into Report Object"
             Report parsedReport = (Report)StixParsers.parseObject(originalJsonString)
+            Report parsedReportGeneric = StixParsers.parse(originalJsonString, Report.class)
 //            println "Parsed Object: ${parsedReport}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

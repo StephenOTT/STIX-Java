@@ -29,6 +29,7 @@ class SightingSpec extends Specification {
 
         then: "Parse Json back into Sighting Object"
             Sighting parsedSighting = (Sighting)StixParsers.parseObject(originalJsonString)
+            Sighting parsedSightingGeneric = StixParsers.parse(originalJsonString, Sighting.class)
 //            println "Parsed Object: ${parsedSighting}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

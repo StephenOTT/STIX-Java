@@ -29,6 +29,7 @@ class AttackPatternSpec extends Specification {
 
         then: "Parse Json back into Attack Pattern Object"
             AttackPattern parsedAttackPattern = (AttackPattern)StixParsers.parseObject(originalJsonString)
+            AttackPattern parsedAttackPatternGeneric = StixParsers.parse(originalJsonString, AttackPattern.class)
 //            println "Parsed Object: ${parsedAttackPattern}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

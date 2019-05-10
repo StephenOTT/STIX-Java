@@ -29,6 +29,7 @@ class IndicatorSpec extends Specification {
 
         then: "Parse Json back into Indicator Object"
             Indicator parsedIndicator = (Indicator)StixParsers.parseObject(originalJsonString)
+            Indicator parsedIndicatorGeneric = StixParsers.parse(originalJsonString, Indicator.class)
 //            println "Parsed Object: ${parsedIndicator}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

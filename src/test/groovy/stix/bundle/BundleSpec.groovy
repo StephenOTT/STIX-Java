@@ -29,7 +29,8 @@ class BundleSpec extends Specification {
 //            println "Original Json: ${originalJsonString}"
 
         then: "Parse Json back into Bundle Object"
-            BundleObject parsedBundle = StixParsers.parseBundle(originalJsonString)
+            Bundle parsedBundle = (Bundle)StixParsers.parseBundle(originalJsonString)
+            Bundle parsedBundleGeneric = StixParsers.parse(originalJsonString, Bundle.class)
 //            println "Parsed Object: ${parsedBundle}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

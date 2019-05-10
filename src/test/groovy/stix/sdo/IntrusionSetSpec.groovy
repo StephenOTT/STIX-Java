@@ -29,6 +29,7 @@ class IntrusionSetSpec extends Specification {
 
         then: "Parse Json back into Intrusion Set Object"
             IntrusionSet parsedIntrusionSet = (IntrusionSet)StixParsers.parseObject(originalJsonString)
+            IntrusionSet parsedIntrusionSetGeneric = StixParsers.parse(originalJsonString, IntrusionSet.class)
 //            println "Parsed Object: ${parsedIntrusionSet}"
 
         //@TODO needs to be setup to handle dehydrated object comparison

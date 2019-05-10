@@ -29,6 +29,7 @@ class CourseOfActionSpec extends Specification {
 
         then: "Parse Json back into Course of Action Object"
             CourseOfAction parsedCourseOfAction = (CourseOfAction)StixParsers.parseObject(originalJsonString)
+            CourseOfAction parsedCourseOfActionGeneric = StixParsers.parse(originalJsonString, CourseOfAction.class)
 //            println "Parsed Object: ${parsedCourseOfAction}"
 
         //@TODO needs to be setup to handle dehydrated object comparison
