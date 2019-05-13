@@ -11,6 +11,7 @@ import io.digitalstate.stix.datamarkings.GranularMarking
 import io.digitalstate.stix.datamarkings.MarkingDefinition
 import io.digitalstate.stix.datamarkings.objects.Statement
 import io.digitalstate.stix.datamarkings.objects.Tlp
+import io.digitalstate.stix.datamarkings.objects.Tlps
 import io.digitalstate.stix.sdo.DomainObject
 import io.digitalstate.stix.sdo.objects.*
 import io.digitalstate.stix.sdo.types.*
@@ -1980,7 +1981,10 @@ public class StixMockDataGenerator {
 
         switch (type) {
             case "tlp":
-                builder.definition(mockTlpMakingObject())
+                // builder.definition(mockTlpMakingObject())
+                // If we generate a TLP, we will just use the STIX Spec TLPs to match the spec.
+                // You can uncomment the previous builder line if you want to go back to random TLP creation
+                return mockTlpMakingDef()
                 break
             case "statement":
                 builder.definition(mockStatementMarkingObject())
@@ -2016,6 +2020,27 @@ public class StixMockDataGenerator {
         }
 
         return builder.build()
+    }
+
+    /**
+     * Generates a TLP Marking Definition based on the STIX Spec default TLP values
+     * @return MarkingDefinition for random TLP from the STIX Spec.
+     */
+    MarkingDefinition mockTlpMakingDef() {
+        String tlpValue = mock.fromStrings(new TlpLevels().getAllTerms().toList()).get()
+
+        switch (tlpValue){
+            case "white":
+                return Tlps.TLP_WHITE
+            case "green":
+                return Tlps.TLP_GREEN
+            case "amber":
+                return Tlps.TLP_AMBER
+            case "red":
+                return Tlps.TLP_RED
+            default:
+                throw new IllegalArgumentException("TLP Value is not valid")
+        }
     }
 
     GranularMarking mockGranularMarking() {
