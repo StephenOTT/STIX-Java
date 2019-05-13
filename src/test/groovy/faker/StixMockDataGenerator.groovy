@@ -1987,8 +1987,10 @@ public class StixMockDataGenerator {
                 break
         }
 
-        if (mock.bools().probability(50).get()) {
-            builder.customProperties(generateCustomProperties())
+        if (type != "tlp") {
+            if (mock.bools().probability(50).get()) {
+                builder.customProperties(generateCustomProperties())
+            }
         }
 
         builder.build()
