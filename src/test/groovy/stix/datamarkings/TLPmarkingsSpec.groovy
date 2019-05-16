@@ -9,6 +9,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 
+import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.common.StixInstant
 import io.digitalstate.stix.datamarkings.MarkingDefinition
 import io.digitalstate.stix.datamarkings.objects.Tlps
@@ -85,6 +86,36 @@ class TLPmarkingsSpec extends Specification {
 //            assert originalMarkingDefinition == parsedMarkingDefinition
 
 		then: "Convert Parsed Marking Definition Object back to into Json"
+			JsonNode newJson =  mapper.readTree(parsed.toJsonString())
+			String newJsonString = mapper.writeValueAsString(newJson)
+			println "New Json: ${newJsonString}"
+
+		then: "New Json should match Original Json"
+			JSONAssert.assertEquals(originalJsonString, newJsonString, JSONCompareMode.NON_EXTENSIBLE)
+	
+	}
+	
+	def "bundle with statement and tlp"() {
+		when:"setup file access to bundle"
+		
+			String bundleJson = getClass()
+					.getResource("/stix/baseline/json/sdo/markings/datamarkings.json").getText("UTF-8")
+		
+		then: "Parse json into bundle"
+			Bundle bundle = (Bundle)StixParsers.parseBundle(bundleJson)
+			println bundle.inspect()
+			println bundle.toJsonString()
+			
+		then: "Convert Bundle to Json"
+			JsonNode originalJson = mapper.readTree(bundle.toJsonString())
+			String originalJsonString = mapper.writeValueAsString(originalJson)
+			println "Original Json: ${originalJsonString}"
+
+		then: "Parse Json back into Bundle Object"
+			Bundle parsed = StixParsers.parseBundle(originalJsonString)
+			println "Parsed Object: ${parsed}"
+
+		then: "Convert Parsed Bundlen Object back to into Json"
 			JsonNode newJson =  mapper.readTree(parsed.toJsonString())
 			String newJsonString = mapper.writeValueAsString(newJson)
 			println "New Json: ${newJsonString}"
