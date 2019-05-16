@@ -118,7 +118,7 @@ public class StixParsers {
        try {
            return getJsonMapper().readValue(bundleJsonString, BundleObject.class);
        } catch (IOException ex) {
-        if (ValidationException.class.isAssignableFrom(ex.getCause().getClass())) {
+        if (ex.getCause() != null && ValidationException.class.isAssignableFrom(ex.getCause().getClass())) {
             throw new StixParserValidationException((ValidationException) ex.getCause());
         } else {
             throw ex;
@@ -130,7 +130,7 @@ public class StixParsers {
         try {
             return getJsonMapper().readValue(objectJsonString, BundleableObject.class);
         } catch (IOException ex) {
-            if (ValidationException.class.isAssignableFrom(ex.getCause().getClass())) {
+            if (ex.getCause() != null && ValidationException.class.isAssignableFrom(ex.getCause().getClass())) {
                 throw new StixParserValidationException((ValidationException) ex.getCause());
             } else {
                 throw ex;
