@@ -269,6 +269,136 @@ Future Improvements:
 1. Config for Throwing errors when redactions cannot be processed
 1. Config for Ignoring errors when redactions cannot be process 
 
+
+# STIX Graph Support / Network Graph
+
+This feature is currently a active work in progress, and is subject to change.
+
+This library provides the ability to generate cytoscape.js compliant json that can be imported into a cytoscape instance, and visualized.
+
+![stix-graph-example1](./docs/images/stix-graph-example1.png)
+
+The above image shows a web-app that consumes a STIX Bundle, passes it to the STIX-Java libary through a HTTP-request, 
+and the request returns the Cytoscape compliant json for Network graph rendering. 
+
+## Example json output
+
+This library will consume a STIX Bundle, and convert it into Cytoscape.js nodes/edges json, such as:
+
+
+```json
+[
+  {
+    "data": {
+      "id": "attack-pattern--0948c6e2-c260-4f18-8ce9-323bcfa3917f",
+      "type": "attack-pattern",
+      "stix": {
+        "type": "attack-pattern",
+        "id": "attack-pattern--0948c6e2-c260-4f18-8ce9-323bcfa3917f",
+        "created": "2019-06-03T22:56:39.199Z",
+        "modified": "2019-06-03T22:56:39.199Z",
+        "name": "attk2"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "relationship--2e6e8aee-a71c-4bdd-84ae-4dd9dba7d3e7",
+      "type": "relationship",
+      "source": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
+      "target": "attack-pattern--0948c6e2-c260-4f18-8ce9-323bcfa3917f",
+      "stix": {
+        "type": "relationship",
+        "id": "relationship--2e6e8aee-a71c-4bdd-84ae-4dd9dba7d3e7",
+        "created": "2019-06-03T22:56:39.251Z",
+        "modified": "2019-06-03T22:56:39.251Z",
+        "relationship_type": "related-to",
+        "source_ref": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
+        "target_ref": "attack-pattern--0948c6e2-c260-4f18-8ce9-323bcfa3917f"
+      },
+      "label": "related-to",
+      "relationship_type": "related-to"
+    }
+  },
+  {
+    "data": {
+      "id": "observed-data--71b2883d-c757-4ecb-b426-3933e95bb2ec",
+      "type": "observed-data",
+      "stix": {
+        "type": "observed-data",
+        "id": "observed-data--71b2883d-c757-4ecb-b426-3933e95bb2ec",
+        "created": "2019-06-03T22:56:39.568Z",
+        "modified": "2019-06-03T22:56:39.568Z",
+        "first_observed": "2019-06-03T22:56:39.558Z",
+        "last_observed": "2019-06-03T22:56:39.561Z",
+        "number_observed": 2,
+        "objects": {
+          "f8bce32c-a93d-4a79-b026-ecb1aac3df54": {
+            "type": "domain-name",
+            "value": "http://google.com"
+          }
+        }
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "sighting--94b71aa6-6987-418b-b16c-30aa8616e02b",
+      "type": "sighting",
+      "stix": {
+        "type": "sighting",
+        "id": "sighting--94b71aa6-6987-418b-b16c-30aa8616e02b",
+        "created": "2019-06-03T22:56:39.798Z",
+        "modified": "2019-06-03T22:56:39.798Z",
+        "first_seen": "2019-06-03T22:56:39.771Z",
+        "last_seen": "2019-06-03T22:56:39.784Z",
+        "count": 1,
+        "sighting_of_ref": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
+        "observed_data_refs": [
+          "observed-data--71b2883d-c757-4ecb-b426-3933e95bb2ec"
+        ]
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "ref-5edc079a-c7d0-4093-8b5d-1b172d9e3a24",
+      "type": "ref",
+      "source": "sighting--94b71aa6-6987-418b-b16c-30aa8616e02b",
+      "target": "observed-data--71b2883d-c757-4ecb-b426-3933e95bb2ec",
+      "label": "observed-data",
+      "ref_type": "observed_data"
+    }
+  },
+  {
+    "data": {
+      "id": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
+      "type": "attack-pattern",
+      "stix": {
+        "id": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
+        "type": "attack-pattern",
+        "created": "2019-06-03T22:56:38.587Z",
+        "modified": "2019-06-03T22:56:38.587Z",
+        "name": "attk1"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "ref-d7c742d1-c974-4f45-9c95-c7b6d849ea16",
+      "type": "ref",
+      "source": "sighting--94b71aa6-6987-418b-b16c-30aa8616e02b",
+      "target": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
+      "label": "sighting-of",
+      "ref_type": "sighting_of_ref"
+    }
+  }
+]
+```
+
+
+
+
 # Charon Data Flow
 
 ![Charon data flow](./docs/Diagrams/Generic-Data-Flow.png)
