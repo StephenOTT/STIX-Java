@@ -38,6 +38,7 @@ build-reports/
 
 # Eclipse
 .classpath
+.factorypath
 .project
 .settings/
  
