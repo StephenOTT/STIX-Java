@@ -87,7 +87,6 @@ public interface ThreatActorSdo extends DomainObject {
     @Redactable
     Optional<@Vocab(AttackResourceLevels.class) String> getResourceLevel();
 
-
     @JsonProperty("primary_motivation") @JsonInclude(value = NON_EMPTY, content= NON_EMPTY)
     @JsonPropertyDescription("The primary reason, motivation, or purpose behind this Threat Actor. Open Vocab - attack-motivation-ov")
     @Redactable
