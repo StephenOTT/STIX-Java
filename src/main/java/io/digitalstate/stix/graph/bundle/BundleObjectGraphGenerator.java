@@ -1,10 +1,8 @@
-package io.digitalstate.stix.graph;
+package io.digitalstate.stix.graph.bundle;
 
 import io.digitalstate.stix.bundle.BundleObject;
-import io.digitalstate.stix.bundle.BundleableObject;
+import io.digitalstate.stix.graph.GraphGenerator;
 import io.digitalstate.stix.graph.elements.GraphElement;
-import io.digitalstate.stix.sdo.DomainObject;
-import io.digitalstate.stix.sro.objects.RelationshipSro;
 
 import java.util.HashSet;
 import java.util.Set;

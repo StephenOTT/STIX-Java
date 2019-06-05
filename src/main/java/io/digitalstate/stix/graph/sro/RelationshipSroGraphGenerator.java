@@ -1,5 +1,6 @@
-package io.digitalstate.stix.graph;
+package io.digitalstate.stix.graph.sro;
 
+import io.digitalstate.stix.graph.GraphGenerator;
 import io.digitalstate.stix.graph.elements.Edge;
 import io.digitalstate.stix.graph.elements.GraphElement;
 import io.digitalstate.stix.sro.objects.RelationshipSro;

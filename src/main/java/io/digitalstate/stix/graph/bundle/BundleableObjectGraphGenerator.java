@@ -1,6 +1,10 @@
-package io.digitalstate.stix.graph;
+package io.digitalstate.stix.graph.bundle;
 
 import io.digitalstate.stix.bundle.BundleableObject;
+import io.digitalstate.stix.graph.sdo.DomainObjectGraphGenerator;
+import io.digitalstate.stix.graph.GraphGenerator;
+import io.digitalstate.stix.graph.sro.RelationshipSroGraphGenerator;
+import io.digitalstate.stix.graph.sro.SightingSroGraphGenerator;
 import io.digitalstate.stix.graph.elements.GraphElement;
 import io.digitalstate.stix.sdo.DomainObject;
 import io.digitalstate.stix.sro.objects.RelationshipSro;

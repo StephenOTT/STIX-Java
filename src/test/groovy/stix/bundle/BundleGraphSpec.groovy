@@ -3,6 +3,7 @@ package stix.bundle
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.common.StixInstant
 import io.digitalstate.stix.coo.objects.DomainName
+import io.digitalstate.stix.coo.objects.Ipv4Address
 import io.digitalstate.stix.graph.StixGraphGenerator
 import io.digitalstate.stix.sdo.objects.AttackPattern
 import io.digitalstate.stix.sdo.objects.ObservedData
@@ -26,8 +27,15 @@ class BundleGraphSpec extends Specification {
         DomainName domainName1 = DomainName.builder()
                 .value("http://google.com")
                 .build()
+        Ipv4Address ip1 = Ipv4Address.builder().value("10.10.10.10").build()
+        Ipv4Address ip2 = Ipv4Address.builder().value("10.10.10.11").build()
+        Ipv4Address ip3 = Ipv4Address.builder().value("10.10.10.12").build()
+        Ipv4Address ip4 = Ipv4Address.builder().value("10.10.10.13").build()
+        Ipv4Address ip5 = Ipv4Address.builder().value("10.10.10.14").build()
+        Ipv4Address ip6 = Ipv4Address.builder().value("10.10.10.15").build()
+
         ObservedData observedData1 = ObservedData.builder()
-                .addObjects(domainName1)
+                .addObjects(domainName1, ip1, ip2, ip3, ip4, ip5, ip6)
                 .firstObserved(new StixInstant())
                 .lastObserved(new StixInstant())
                 .numberObserved(2)

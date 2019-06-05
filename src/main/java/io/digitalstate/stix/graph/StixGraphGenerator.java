@@ -3,6 +3,7 @@ package io.digitalstate.stix.graph;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.digitalstate.stix.bundle.BundleObject;
+import io.digitalstate.stix.graph.bundle.BundleObjectGraphGenerator;
 import io.digitalstate.stix.graph.elements.GraphElement;
 import io.digitalstate.stix.json.StixParsers;
 

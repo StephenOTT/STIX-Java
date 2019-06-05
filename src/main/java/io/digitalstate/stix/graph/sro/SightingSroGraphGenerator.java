@@ -1,5 +1,6 @@
-package io.digitalstate.stix.graph;
+package io.digitalstate.stix.graph.sro;
 
+import io.digitalstate.stix.graph.GraphGenerator;
 import io.digitalstate.stix.graph.elements.Edge;
 import io.digitalstate.stix.graph.elements.GraphElement;
 import io.digitalstate.stix.graph.elements.Node;
@@ -11,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class SightingSroGraphGenerator implements GraphGenerator{
+public class SightingSroGraphGenerator implements GraphGenerator {
 
     private SightingSro object;
 
