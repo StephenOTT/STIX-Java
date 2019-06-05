@@ -224,7 +224,7 @@ The internal implementation is configured as follows:
 
 ```java
 class SomeClass {
-...
+//...
     @JsonProperty("created_by_ref") @JsonInclude(value = NON_EMPTY, content = NON_EMPTY)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
@@ -244,7 +244,7 @@ class SomeClass {
     @JsonProperty("granular_markings") @JsonInclude(NON_EMPTY)
     @Redactable
     Set<GranularMarkingDm> getGranularMarkings();
-...
+//...
 }
 ```
 
@@ -285,36 +285,159 @@ and the request returns the Cytoscape compliant json for Network graph rendering
 
 This library will consume a STIX Bundle, and convert it into Cytoscape.js nodes/edges json, such as:
 
+Output was generated from the [BundleGraphSpec](./src/test/groovy/stix/bundle/BundleGraphSpec.groovy)
 
 ```json
 [
   {
     "data": {
-      "id": "attack-pattern--0948c6e2-c260-4f18-8ce9-323bcfa3917f",
+      "id": "ref-89093428-585b-4754-8a6d-8cb0e6ca0a60",
+      "type": "ref",
+      "source": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
+      "target": "7ac69a4d-a984-4c19-a54b-13e3dd1d80e8--60cddb5b-9ea2-4855-82b7-f54eca297214",
+      "label": "ipv4-addr",
+      "ref_type": "cyber_observable"
+    }
+  },
+  {
+    "data": {
+      "id": "ref-8dca6278-645f-4737-9a56-f56c8cbb44a2",
+      "type": "ref",
+      "source": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
+      "target": "95a14320-0d63-4d97-9173-1994c2ed7b77--a3456ae7-cddb-45de-b366-d5b56b0c3ee0",
+      "label": "ipv4-addr",
+      "ref_type": "cyber_observable"
+    }
+  },
+  {
+    "data": {
+      "id": "ref-a076819b-1e6e-4d3d-822c-96f215444f23",
+      "type": "ref",
+      "source": "sighting--16103a5c-22e9-46ec-91bc-0ae521c60206",
+      "target": "attack-pattern--4acfe66e-587f-42e4-8daa-4d9da233f7c9",
+      "label": "sighting-of",
+      "ref_type": "sighting_of_ref"
+    }
+  },
+  {
+    "data": {
+      "id": "ref-2f53e5f1-9897-45cd-a1ca-12671419a021",
+      "type": "ref",
+      "source": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
+      "target": "1366d1a7-ffef-4155-af4e-18cef6517502--c427ea06-8615-49ed-9701-d9e7c04c7aea",
+      "label": "ipv4-addr",
+      "ref_type": "cyber_observable"
+    }
+  },
+  {
+    "data": {
+      "id": "c0bedd31-6d9f-48b7-afe5-762c13da69a3--8bbe16e2-8128-4cde-973f-15ac7d32aaa2",
+      "type": "coo-domain-name",
+      "stix": {
+        "type": "domain-name",
+        "value": "http://google.com"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "ref-3901a3de-a38a-4bea-b784-3a08caef4c5f",
+      "type": "ref",
+      "source": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
+      "target": "f8647fdf-9011-4f7b-a240-462a20c1a29d--5f13f5fd-19f8-4e04-a53a-fd03dd54a1a2",
+      "label": "ipv4-addr",
+      "ref_type": "cyber_observable"
+    }
+  },
+  {
+    "data": {
+      "id": "attack-pattern--cd482a80-3e47-4eed-9542-bbcf69da9405",
       "type": "attack-pattern",
       "stix": {
         "type": "attack-pattern",
-        "id": "attack-pattern--0948c6e2-c260-4f18-8ce9-323bcfa3917f",
-        "created": "2019-06-03T22:56:39.199Z",
-        "modified": "2019-06-03T22:56:39.199Z",
+        "id": "attack-pattern--cd482a80-3e47-4eed-9542-bbcf69da9405",
+        "created": "2019-06-05T22:49:29.813Z",
+        "modified": "2019-06-05T22:49:29.813Z",
         "name": "attk2"
       }
     }
   },
   {
     "data": {
-      "id": "relationship--2e6e8aee-a71c-4bdd-84ae-4dd9dba7d3e7",
+      "id": "sighting--16103a5c-22e9-46ec-91bc-0ae521c60206",
+      "type": "sighting",
+      "stix": {
+        "type": "sighting",
+        "id": "sighting--16103a5c-22e9-46ec-91bc-0ae521c60206",
+        "created": "2019-06-05T22:49:30.798Z",
+        "modified": "2019-06-05T22:49:30.798Z",
+        "first_seen": "2019-06-05T22:49:30.76Z",
+        "last_seen": "2019-06-05T22:49:30.788Z",
+        "count": 1,
+        "sighting_of_ref": "attack-pattern--4acfe66e-587f-42e4-8daa-4d9da233f7c9",
+        "observed_data_refs": [
+          "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4"
+        ]
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "1366d1a7-ffef-4155-af4e-18cef6517502--c427ea06-8615-49ed-9701-d9e7c04c7aea",
+      "type": "coo-ipv4-addr",
+      "stix": {
+        "type": "ipv4-addr",
+        "value": "10.10.10.14"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "ref-6b0818cf-9edf-4073-ade4-827df72de27a",
+      "type": "ref",
+      "source": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
+      "target": "c31c8cbf-7bd3-4865-8e89-7bbe1962d9af--34337862-99fd-46e0-a8c3-3fc7a774114e",
+      "label": "ipv4-addr",
+      "ref_type": "cyber_observable"
+    }
+  },
+  {
+    "data": {
+      "id": "f8647fdf-9011-4f7b-a240-462a20c1a29d--5f13f5fd-19f8-4e04-a53a-fd03dd54a1a2",
+      "type": "coo-ipv4-addr",
+      "stix": {
+        "type": "ipv4-addr",
+        "value": "10.10.10.15"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "attack-pattern--4acfe66e-587f-42e4-8daa-4d9da233f7c9",
+      "type": "attack-pattern",
+      "stix": {
+        "id": "attack-pattern--4acfe66e-587f-42e4-8daa-4d9da233f7c9",
+        "type": "attack-pattern",
+        "created": "2019-06-05T22:49:28.455Z",
+        "modified": "2019-06-05T22:49:28.455Z",
+        "name": "attk1"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "relationship--70fca22d-4385-4194-a093-3a7cdb1a2a85",
       "type": "relationship",
-      "source": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
-      "target": "attack-pattern--0948c6e2-c260-4f18-8ce9-323bcfa3917f",
+      "source": "attack-pattern--4acfe66e-587f-42e4-8daa-4d9da233f7c9",
+      "target": "attack-pattern--cd482a80-3e47-4eed-9542-bbcf69da9405",
       "stix": {
         "type": "relationship",
-        "id": "relationship--2e6e8aee-a71c-4bdd-84ae-4dd9dba7d3e7",
-        "created": "2019-06-03T22:56:39.251Z",
-        "modified": "2019-06-03T22:56:39.251Z",
+        "id": "relationship--70fca22d-4385-4194-a093-3a7cdb1a2a85",
+        "created": "2019-06-05T22:49:29.897Z",
+        "modified": "2019-06-05T22:49:29.897Z",
         "relationship_type": "related-to",
-        "source_ref": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
-        "target_ref": "attack-pattern--0948c6e2-c260-4f18-8ce9-323bcfa3917f"
+        "source_ref": "attack-pattern--4acfe66e-587f-42e4-8daa-4d9da233f7c9",
+        "target_ref": "attack-pattern--cd482a80-3e47-4eed-9542-bbcf69da9405"
       },
       "label": "related-to",
       "relationship_type": "related-to"
@@ -322,20 +445,54 @@ This library will consume a STIX Bundle, and convert it into Cytoscape.js nodes/
   },
   {
     "data": {
-      "id": "observed-data--71b2883d-c757-4ecb-b426-3933e95bb2ec",
+      "id": "95a14320-0d63-4d97-9173-1994c2ed7b77--a3456ae7-cddb-45de-b366-d5b56b0c3ee0",
+      "type": "coo-ipv4-addr",
+      "stix": {
+        "type": "ipv4-addr",
+        "value": "10.10.10.11"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
       "type": "observed-data",
       "stix": {
+        "id": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
         "type": "observed-data",
-        "id": "observed-data--71b2883d-c757-4ecb-b426-3933e95bb2ec",
-        "created": "2019-06-03T22:56:39.568Z",
-        "modified": "2019-06-03T22:56:39.568Z",
-        "first_observed": "2019-06-03T22:56:39.558Z",
-        "last_observed": "2019-06-03T22:56:39.561Z",
+        "created": "2019-06-05T22:49:30.479Z",
+        "modified": "2019-06-05T22:49:30.479Z",
+        "first_observed": "2019-06-05T22:49:30.47Z",
+        "last_observed": "2019-06-05T22:49:30.472Z",
         "number_observed": 2,
         "objects": {
-          "f8bce32c-a93d-4a79-b026-ecb1aac3df54": {
+          "c0bedd31-6d9f-48b7-afe5-762c13da69a3": {
             "type": "domain-name",
             "value": "http://google.com"
+          },
+          "7ac69a4d-a984-4c19-a54b-13e3dd1d80e8": {
+            "type": "ipv4-addr",
+            "value": "10.10.10.10"
+          },
+          "95a14320-0d63-4d97-9173-1994c2ed7b77": {
+            "type": "ipv4-addr",
+            "value": "10.10.10.11"
+          },
+          "c31c8cbf-7bd3-4865-8e89-7bbe1962d9af": {
+            "type": "ipv4-addr",
+            "value": "10.10.10.12"
+          },
+          "59d133cc-d29c-4056-aeeb-6791842c0b75": {
+            "type": "ipv4-addr",
+            "value": "10.10.10.13"
+          },
+          "1366d1a7-ffef-4155-af4e-18cef6517502": {
+            "type": "ipv4-addr",
+            "value": "10.10.10.14"
+          },
+          "f8647fdf-9011-4f7b-a240-462a20c1a29d": {
+            "type": "ipv4-addr",
+            "value": "10.10.10.15"
           }
         }
       }
@@ -343,54 +500,62 @@ This library will consume a STIX Bundle, and convert it into Cytoscape.js nodes/
   },
   {
     "data": {
-      "id": "sighting--94b71aa6-6987-418b-b16c-30aa8616e02b",
-      "type": "sighting",
+      "id": "59d133cc-d29c-4056-aeeb-6791842c0b75--c1efba8b-7ef4-4b12-a768-4b1d99d82eb7",
+      "type": "coo-ipv4-addr",
       "stix": {
-        "type": "sighting",
-        "id": "sighting--94b71aa6-6987-418b-b16c-30aa8616e02b",
-        "created": "2019-06-03T22:56:39.798Z",
-        "modified": "2019-06-03T22:56:39.798Z",
-        "first_seen": "2019-06-03T22:56:39.771Z",
-        "last_seen": "2019-06-03T22:56:39.784Z",
-        "count": 1,
-        "sighting_of_ref": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
-        "observed_data_refs": [
-          "observed-data--71b2883d-c757-4ecb-b426-3933e95bb2ec"
-        ]
+        "type": "ipv4-addr",
+        "value": "10.10.10.13"
       }
     }
   },
   {
     "data": {
-      "id": "ref-5edc079a-c7d0-4093-8b5d-1b172d9e3a24",
+      "id": "ref-029c8857-f9e0-49c6-bdaf-d3391acfbd61",
       "type": "ref",
-      "source": "sighting--94b71aa6-6987-418b-b16c-30aa8616e02b",
-      "target": "observed-data--71b2883d-c757-4ecb-b426-3933e95bb2ec",
+      "source": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
+      "target": "59d133cc-d29c-4056-aeeb-6791842c0b75--c1efba8b-7ef4-4b12-a768-4b1d99d82eb7",
+      "label": "ipv4-addr",
+      "ref_type": "cyber_observable"
+    }
+  },
+  {
+    "data": {
+      "id": "7ac69a4d-a984-4c19-a54b-13e3dd1d80e8--60cddb5b-9ea2-4855-82b7-f54eca297214",
+      "type": "coo-ipv4-addr",
+      "stix": {
+        "type": "ipv4-addr",
+        "value": "10.10.10.10"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "c31c8cbf-7bd3-4865-8e89-7bbe1962d9af--34337862-99fd-46e0-a8c3-3fc7a774114e",
+      "type": "coo-ipv4-addr",
+      "stix": {
+        "type": "ipv4-addr",
+        "value": "10.10.10.12"
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "ref-a8cfe6f7-6d73-4e38-9199-0919fd6c3b74",
+      "type": "ref",
+      "source": "sighting--16103a5c-22e9-46ec-91bc-0ae521c60206",
+      "target": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
       "label": "observed-data",
       "ref_type": "observed_data"
     }
   },
   {
     "data": {
-      "id": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
-      "type": "attack-pattern",
-      "stix": {
-        "id": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
-        "type": "attack-pattern",
-        "created": "2019-06-03T22:56:38.587Z",
-        "modified": "2019-06-03T22:56:38.587Z",
-        "name": "attk1"
-      }
-    }
-  },
-  {
-    "data": {
-      "id": "ref-d7c742d1-c974-4f45-9c95-c7b6d849ea16",
+      "id": "ref-0ef21e43-1451-4b0a-8f8e-866e01b91eb0",
       "type": "ref",
-      "source": "sighting--94b71aa6-6987-418b-b16c-30aa8616e02b",
-      "target": "attack-pattern--4f3b5931-239a-4d7f-aaf1-cc4122ce332d",
-      "label": "sighting-of",
-      "ref_type": "sighting_of_ref"
+      "source": "observed-data--14ab5c4d-a696-483d-8792-f5686d61b2b4",
+      "target": "c0bedd31-6d9f-48b7-afe5-762c13da69a3--8bbe16e2-8128-4cde-973f-15ac7d32aaa2",
+      "label": "domain-name",
+      "ref_type": "cyber_observable"
     }
   }
 ]
