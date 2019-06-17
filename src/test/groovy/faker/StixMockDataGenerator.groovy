@@ -2,6 +2,7 @@ package faker
 
 import faker.configs.ObservedDataGeneratorConfig
 import io.digitalstate.stix.bundle.Bundle
+import io.digitalstate.stix.bundle.BundleableObject
 import io.digitalstate.stix.common.StixBoolean
 import io.digitalstate.stix.common.StixInstant
 import io.digitalstate.stix.coo.extension.types.*
@@ -1909,54 +1910,61 @@ public class StixMockDataGenerator {
         return builder.build()
     }
 
-    Bundle mockBundle() {
+    BundleableObject generateRandomBundleableObject(){
+        switch (mock.ints().range(1, 14).get()) {
+            case 1:
+                return mockAttackPattern()
+                break
+            case 2:
+                return mockCampaign()
+                break
+            case 3:
+                return mockCourseOfAction()
+                break
+            case 4:
+                return mockIdentity()
+                break
+            case 5:
+                return mockIndicator()
+                break
+            case 6:
+                return mockIntrusionSet()
+                break
+            case 7:
+                return mockMalware()
+                break
+            case 8:
+                return mockObservedData()
+                break
+            case 9:
+                return mockThreatActor()
+                break
+            case 10:
+                return mockTool()
+                break
+            case 11:
+                return mockVulnerability()
+                break
+            case 12:
+                return mockMarkingDefinition()
+                break
+            case 13:
+                return mockRelationship()
+                break
+            case 14:
+                return mockSighting()
+                break
+            default:
+                throw new IllegalArgumentException("Unknown Bundleable Object was attempted to be generated")
+                break
+        }
+    }
+
+    Bundle mockBundle(int bundleCountLowerValue = 1, int bundleCountUpperValue = 100) {
         Bundle.Builder builder = Bundle.builder()
 
-        mock.ints().range(1, 100).get().times {
-            switch (mock.ints().range(1, 14).get()) {
-                case 1:
-                    builder.addObject(mockAttackPattern())
-                    break
-                case 2:
-                    builder.addObject(mockCampaign())
-                    break
-                case 3:
-                    builder.addObject(mockCourseOfAction())
-                    break
-                case 4:
-                    builder.addObject(mockIdentity())
-                    break
-                case 5:
-                    builder.addObject(mockIndicator())
-                    break
-                case 6:
-                    builder.addObject(mockIntrusionSet())
-                    break
-                case 7:
-                    builder.addObject(mockMalware())
-                    break
-                case 8:
-                    builder.addObject(mockObservedData())
-                    break
-                case 9:
-                    builder.addObject(mockThreatActor())
-                    break
-                case 10:
-                    builder.addObject(mockTool())
-                    break
-                case 11:
-                    builder.addObject(mockVulnerability())
-                    break
-                case 12:
-                    builder.addObject(mockMarkingDefinition())
-                    break
-                case 13:
-                    builder.addObject(mockRelationship())
-                    break
-                case 14:
-                    builder.addObject(mockSighting())
-                    break
-            }
+        mock.ints().range(bundleCountLowerValue, bundleCountUpperValue).get().times {
+           builder.addObject(generateRandomBundleableObject())
         }
 
         if (mock.bools().probability(50).get()) {
