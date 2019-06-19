@@ -2,17 +2,11 @@ package io.digitalstate.stix.custom;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import io.digitalstate.stix.common.*;
 import io.digitalstate.stix.validation.contraints.startswith.StartsWith;
-import io.digitalstate.stix.validation.groups.ValidateIdOnly;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import javax.validation.groups.Default;
 import java.util.Map;
 
 /**
@@ -23,7 +17,7 @@ public interface StixCustomObject extends
         StixCommonProperties,
         StixLabels,
         StixModified,
-        StixRevoked {
+        StixRevoked{
 
     @Override
     @StartsWith("x-")
