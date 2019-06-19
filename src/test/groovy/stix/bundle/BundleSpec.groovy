@@ -2,13 +2,10 @@ package stix.bundle
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.core.TreeNode
-import com.fasterxml.jackson.core.io.SerializedString
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
-import com.fasterxml.jackson.databind.node.ObjectNode
 import io.digitalstate.stix.bundle.Bundle
 import io.digitalstate.stix.bundle.BundleableObject
 import io.digitalstate.stix.json.StixParsers
