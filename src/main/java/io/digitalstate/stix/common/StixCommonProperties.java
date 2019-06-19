@@ -28,7 +28,7 @@ import java.util.Set;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 /**
- * Base interface used by Immutable STIX Domain Objects
+ * Base interface used by Immutable STIX Bundleable Objects
  */
 @Value.Style(validationMethod = Value.Style.ValidationMethod.NONE)
 public interface StixCommonProperties extends StixSpecVersion, SdoDefaultValidator, BundleableObject {

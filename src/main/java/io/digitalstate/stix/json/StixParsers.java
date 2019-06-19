@@ -1,5 +1,7 @@
 package io.digitalstate.stix.json;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
@@ -141,7 +143,7 @@ public class StixParsers {
         }
     }
 
-        public static <T extends Stix> Stix parse(String bundleJsonString, Class<T> stixClass) throws IOException, StixParserValidationException {
+        public static <T extends Stix> T parse(String bundleJsonString, Class<T> stixClass) throws IOException, StixParserValidationException {
         try {
             return getJsonMapper().readValue(bundleJsonString, stixClass);
         } catch (IOException ex) {
