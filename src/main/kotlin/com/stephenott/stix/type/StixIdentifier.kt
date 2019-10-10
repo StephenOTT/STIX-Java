@@ -26,4 +26,8 @@ data class StixIdentifier(
     fun getIdentifier(): String {
         return type.toString() + typeUUIDSpacer + uuid
     }
+
+    override fun toString(): String {
+        return getIdentifier()
+    }
 }

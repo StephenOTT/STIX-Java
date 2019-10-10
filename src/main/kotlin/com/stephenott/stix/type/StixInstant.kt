@@ -1,6 +1,6 @@
 package com.stephenott.stix.type
 
-import com.stephenott.stix.StixDataFormats
+import com.stephenott.stix.common.StixDataFormats
 import java.time.Instant
 import java.util.regex.Pattern
 
