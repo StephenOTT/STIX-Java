@@ -1,7 +1,7 @@
 package com.stephenott.stix.common
 
-import com.stephenott.stix.`object`.StixObject
-import com.stephenott.stix.`object`.sdo.`object`.*
+import com.stephenott.stix.objects.StixObject
+import com.stephenott.stix.objects.core.sdo.objects.*
 import com.stephenott.stix.type.StixType
 import kotlin.reflect.KClass
 

@@ -1,8 +1,8 @@
 package com.stephenott.stix.common
 
-import com.stephenott.stix.`object`.sdo.`object`.*
-import com.stephenott.stix.`object`.sro.`object`.AllowedRelationship
-import com.stephenott.stix.`object`.sro.`object`.RelationshipSro
+import com.stephenott.stix.objects.core.sdo.objects.*
+import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
+import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
 
 object StixObjectRelationshipRegistry {
 

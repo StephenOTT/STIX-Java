@@ -1,7 +1,7 @@
 package com.stephenott.stix
 
-import com.stephenott.stix.`object`.sdo.`object`.AttackPattern
-import com.stephenott.stix.`object`.sro.`object`.Relationship
+import com.stephenott.stix.objects.core.sdo.objects.AttackPattern
+import com.stephenott.stix.objects.core.sro.objects.Relationship
 import com.stephenott.stix.type.RelationshipType
 
 object MainRunner {

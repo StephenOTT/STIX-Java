@@ -50,9 +50,23 @@ interface StixRevoked {
 }
 
 interface StixConfidence {
-    val confidence: StixConfidence
+    val confidence: StixConfidence?
 }
 
 interface StixLang {
-    val lang: StixLang
+    val lang: StixLang?
+}
+
+/**
+ * Only used on SCO
+ */
+interface StixExtensions {
+    val extensions: Extensions
+}
+
+/**
+ * Only used on SCO
+ */
+interface defanged {
+    val defanged: StixBoolean
 }

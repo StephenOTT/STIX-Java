@@ -2,8 +2,8 @@ package com.stephenott.stix.serialization.json
 
 import com.stephenott.stix.StixBundle
 import com.stephenott.stix.StixContent
-import com.stephenott.stix.`object`.sdo.StixDomainObject
-import com.stephenott.stix.`object`.sro.StixRelationshipObject
+import com.stephenott.stix.objects.core.sdo.StixDomainObject
+import com.stephenott.stix.objects.core.sro.StixRelationshipObject
 
 fun StixContent.toJson(){
     TODO("To be implemented")
