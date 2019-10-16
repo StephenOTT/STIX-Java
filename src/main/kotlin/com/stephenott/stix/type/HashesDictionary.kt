@@ -2,7 +2,7 @@ package com.stephenott.stix.type
 
 import com.stephenott.stix.type.vocab.OpenVocab
 
-class HashesDictionary(private val immutableDictionary: HashMap<HashingAlgorithm, String> = hashMapOf()):
+class HashesDictionary(private val immutableDictionary: LinkedHashMap<HashingAlgorithm, String> = linkedMapOf()):
     Map<HashingAlgorithm, String> by immutableDictionary {
 }
 

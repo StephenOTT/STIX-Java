@@ -37,36 +37,36 @@ interface StixSpecVersionProp{
     val specVersion: StixSpecVersion
 }
 
-interface StixLabels {
+interface StixLabelsProp {
     val labels: StixLabels?
 }
 
-interface StixModified {
+interface StixModifiedProp {
     val modified: StixInstant
 }
 
-interface StixRevoked {
+interface StixRevokedProp {
     val revoked: StixBoolean
 }
 
-interface StixConfidence {
+interface StixConfidenceProp {
     val confidence: StixConfidence?
 }
 
-interface StixLang {
+interface StixLangProp {
     val lang: StixLang?
 }
 
 /**
  * Only used on SCO
  */
-interface StixExtensions {
-    val extensions: Extensions
+interface StixExtensionsProp {
+    val extensions: Extensions?
 }
 
 /**
  * Only used on SCO
  */
-interface defanged {
+interface StixDefangedProp {
     val defanged: StixBoolean
 }

@@ -11,8 +11,8 @@ interface StixDomainObject :
     StixObjectMarkingsRefsProp,
     StixGranularMarkingsProp,
     StixSpecVersionProp,
-    StixModified,
-    StixLabels,
-    StixRevoked,
-    StixLang,
-    StixConfidence {}
+    StixModifiedProp,
+    StixLabelsProp,
+    StixRevokedProp,
+    StixLangProp,
+    StixConfidenceProp {}

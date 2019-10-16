@@ -13,8 +13,8 @@ interface LanguageContentObject: StixMetaObject,
     StixObjectMarkingsRefsProp,
     StixGranularMarkingsProp,
     StixSpecVersionProp,
-    StixModified,
-    StixLabels,
-    StixRevoked,
-    StixConfidence {
+    StixModifiedProp,
+    StixLabelsProp,
+    StixRevokedProp,
+    StixConfidenceProp {
 }

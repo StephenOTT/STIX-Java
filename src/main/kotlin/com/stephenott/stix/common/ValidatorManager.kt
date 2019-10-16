@@ -1,7 +1,23 @@
 package com.stephenott.stix.common
 
-interface ValidatorManager<in I, out O> {
-    var isValid: Boolean
+import com.stephenott.stix.objects.StixObject
+import com.stephenott.stix.objects.core.sco.objects.AutonomousSystemSco
+import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
+import com.stephenott.stix.type.StixType
+import kotlin.reflect.KProperty1
 
-    fun validate(data: I ): O
+interface BusinessRulesValidator<in T>{
+    fun objectValidationRules(obj: T)
+}
+
+interface CompanionStixType{
+    val stixType: StixType
+}
+
+interface CompanionIdContributingProperties<T>{
+    val idContributingProperties: List<KProperty1<T, Any?>>
+}
+
+interface CompanionAllowedRelationships{
+    val allowedRelationships: List<AllowedRelationship>
 }

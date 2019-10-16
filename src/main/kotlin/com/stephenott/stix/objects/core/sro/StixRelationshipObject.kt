@@ -11,8 +11,8 @@ interface StixRelationshipObject:
     StixObjectMarkingsRefsProp,
     StixGranularMarkingsProp,
     StixSpecVersionProp,
-    StixModified,
-    StixLabels,
-    StixRevoked {
+    StixModifiedProp,
+    StixLabelsProp,
+    StixRevokedProp {
 
 }

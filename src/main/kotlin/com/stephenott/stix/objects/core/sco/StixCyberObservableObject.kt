@@ -1,15 +1,12 @@
-package com.stephenott.stix.object.sco
+package com.stephenott.stix.objects.core.sco
 
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.StixObject
 
-interface StixCyberObservableObject:
+interface StixCyberObservableObject :
     StixObject,
-    StixCreatedProp,
+    StixSpecVersionProp,
     StixObjectMarkingsRefsProp,
     StixGranularMarkingsProp,
-    StixSpecVersionProp,
-    StixModified
-    StixRevoked {
-
-}
+    StixDefangedProp,
+    StixExtensionsProp {}
