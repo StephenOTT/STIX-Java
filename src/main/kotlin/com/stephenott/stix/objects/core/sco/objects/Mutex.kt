@@ -9,53 +9,48 @@ import com.stephenott.stix.type.StixSpecVersion.Companion.StixVersions
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-interface EmailAddressSco : StixCyberObservableObject {
+interface MutexSco : StixCyberObservableObject {
 
-    val value: String //@TODO add validation
-    val displayName: String? //@TODO add validation
-    val belongsToRef: StixIdentifier?
+    val name: String
 
-    companion object:
+    companion object :
         CompanionStixType,
-        BusinessRulesValidator<EmailAddressSco>,
-        CompanionIdContributingProperties<EmailAddressSco>,
+        BusinessRulesValidator<MutexSco>,
+        CompanionIdContributingProperties<MutexSco>,
         CompanionAllowedRelationships,
         CompanionAllowedExtensions {
 
         override val allowedExtensions: List<KClass<out ScoExtension>> = listOf()
 
-        override val stixType = StixType("email-addr")
+        override val stixType = StixType("mutex")
 
-        override val idContributingProperties: List<KProperty1<EmailAddressSco, Any?>> = listOf(
-            EmailAddressSco::value
+        override val idContributingProperties: List<KProperty1<MutexSco, Any?>> = listOf(
+            MutexSco::name
         )
 
         override val allowedRelationships: List<AllowedRelationship> = listOf(
 
         )
 
-        override fun objectValidationRules(obj: EmailAddressSco) {
-            require(obj.belongsToRef?.type == UserAccountSco.stixType, lazyMessage = {"belongs_to_ref must reference a user-account SCO."})
+        override fun objectValidationRules(obj: MutexSco) {
         }
 
     }
 }
 
-data class EmailAddress(
-    override val value: String,
-    override val displayName: String? = null,
-    override val belongsToRef: StixIdentifier? = null,
-    override val type: StixType = StixType(EmailAddressSco.stixType),
+data class Mutex(
+    override val name: String,
+    override val type: StixType = StixType(MutexSco.stixType),
     override val id: StixIdentifier = StixIdentifier(type),
     override val objectMarkingsRefs: String? = null,
     override val granularMarkings: String? = null,
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
     override val defanged: StixBoolean = StixBoolean()
-) : EmailAddressSco {
+) : MutexSco {
 
     init {
-        EmailAddressSco.objectValidationRules(this)
+        MutexSco.objectValidationRules(this)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -1,43 +1,86 @@
 package com.stephenott.stix.objects.core.sco.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
-import com.stephenott.stix.common.CompanionAllowedRelationships
-import com.stephenott.stix.common.CompanionIdContributingProperties
-import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
+import com.stephenott.stix.objects.core.sco.extension.ScoExtension
+import com.stephenott.stix.objects.core.sco.extension.objects.*
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.type.*
 import com.stephenott.stix.type.StixSpecVersion.Companion.StixVersions
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
+import kotlin.reflect.full.isSubclassOf
 
 interface FileSco : StixCyberObservableObject {
 
+    val hashes: HashesDictionary?
+    val size: StixInteger?
+    val name: String?
+    val nameEnc: String?
+    val magicNumberHex: StixHex?
+    val mimeType: String?
+    val cTime: StixInstant?
+    val mTime: StixInstant?
+    val aTime: StixInstant?
+    val parentDirectoryRef: StixIdentifier?
+    val containsRefs: StixIdentifiers?
+    val contentRef: StixIdentifier?
 
-
-    companion object:
+    companion object :
         CompanionStixType,
         BusinessRulesValidator<FileSco>,
         CompanionIdContributingProperties<FileSco>,
-        CompanionAllowedRelationships{
+        CompanionAllowedRelationships,
+        CompanionAllowedExtensions {
 
         override val stixType = StixType("file")
 
         override val idContributingProperties: List<KProperty1<FileSco, Any?>> = listOf(
-
+            FileSco::hashes,
+            FileSco::name,
+            FileSco::extensions
         )
 
         override val allowedRelationships: List<AllowedRelationship> = listOf(
 
         )
 
-        override fun objectValidationRules(obj: FileSco) {
+        override val allowedExtensions: List<KClass<out ScoExtension>> = listOf(
+            NtfsFileExtensionExt::class,
+            RasterImageFileExtensionExt::class,
+            PdfFileExtensionExt::class,
+            ArchiveFileExtensionExt::class,
+            WindowsPeBinaryFileExtensionExt::class
+        )
 
+        override fun objectValidationRules(obj: FileSco) {
+            require(obj.size?.value!! >= 0,
+                lazyMessage = { "size must not be a negative number." })
+            require(obj.parentDirectoryRef?.type == DirectorySco.stixType,
+                lazyMessage = { "parent_directory_ref must only contain a reference to a Directory object SCO." })
+            require(obj.containsRefs?.all {
+                StixObjectRegistry.registry.getValue(it.type).isSubclassOf(StixCyberObservableObject::class)
+            }!!, lazyMessage = { "contains_refs can only contain references to SCOs." })
+            require(obj.contentRef?.type == ArtifactSco.stixType,
+                lazyMessage = { "content_ref must only contain a reference to a Artifact SCO." })
         }
 
     }
 }
 
 data class File(
+    override val hashes: HashesDictionary? = null,
+    override val size: StixInteger? = null,
+    override val name: String? = null,
+    override val nameEnc: String? = null,
+    override val magicNumberHex: StixHex? = null,
+    override val mimeType: String? = null,
+    override val cTime: StixInstant? = null,
+    override val mTime: StixInstant? = null,
+    override val aTime: StixInstant? = null,
+    override val parentDirectoryRef: StixIdentifier? = null,
+    override val containsRefs: StixIdentifiers? = null,
+    override val contentRef: StixIdentifier? = null,
     override val type: StixType = StixType(FileSco.stixType),
     override val id: StixIdentifier = StixIdentifier(type),
     override val objectMarkingsRefs: String? = null,

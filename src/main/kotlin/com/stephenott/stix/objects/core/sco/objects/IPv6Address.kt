@@ -9,53 +9,59 @@ import com.stephenott.stix.type.StixSpecVersion.Companion.StixVersions
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-interface EmailAddressSco : StixCyberObservableObject {
+interface IPv6AddressSco : StixCyberObservableObject {
 
-    val value: String //@TODO add validation
-    val displayName: String? //@TODO add validation
-    val belongsToRef: StixIdentifier?
+    val value: String
+//    val resolvesToRefs: StixIdentifiers //@TODO DEPRECATED add elevator
+//    val belongsToRefs: StixIdentifiers  //@TODO DEPRECATED add elevator
 
-    companion object:
+    companion object :
         CompanionStixType,
-        BusinessRulesValidator<EmailAddressSco>,
-        CompanionIdContributingProperties<EmailAddressSco>,
+        BusinessRulesValidator<IPv6AddressSco>,
+        CompanionIdContributingProperties<IPv6AddressSco>,
         CompanionAllowedRelationships,
         CompanionAllowedExtensions {
 
         override val allowedExtensions: List<KClass<out ScoExtension>> = listOf()
 
-        override val stixType = StixType("email-addr")
+        override val stixType = StixType("ipv6-addr")
 
-        override val idContributingProperties: List<KProperty1<EmailAddressSco, Any?>> = listOf(
-            EmailAddressSco::value
+        override val idContributingProperties: List<KProperty1<IPv6AddressSco, Any?>> = listOf(
+            IPv6AddressSco::value
         )
 
         override val allowedRelationships: List<AllowedRelationship> = listOf(
-
+            AllowedRelationship(
+                IPv6AddressSco::class,
+                RelationshipType("resolves-to"),
+                DomainNameSco::class  //@TODO  mac-addr
+            ),
+            AllowedRelationship(
+                IPv6AddressSco::class,
+                RelationshipType("belongs-to"),
+                AutonomousSystemSco::class
+            )
         )
 
-        override fun objectValidationRules(obj: EmailAddressSco) {
-            require(obj.belongsToRef?.type == UserAccountSco.stixType, lazyMessage = {"belongs_to_ref must reference a user-account SCO."})
+        override fun objectValidationRules(obj: IPv6AddressSco) {
         }
 
     }
 }
 
-data class EmailAddress(
+data class IPv6Address(
     override val value: String,
-    override val displayName: String? = null,
-    override val belongsToRef: StixIdentifier? = null,
-    override val type: StixType = StixType(EmailAddressSco.stixType),
+    override val type: StixType = StixType(IPv6AddressSco.stixType),
     override val id: StixIdentifier = StixIdentifier(type),
     override val objectMarkingsRefs: String? = null,
     override val granularMarkings: String? = null,
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
     override val defanged: StixBoolean = StixBoolean()
-) : EmailAddressSco {
+) : IPv6AddressSco {
 
     init {
-        EmailAddressSco.objectValidationRules(this)
+        IPv6AddressSco.objectValidationRules(this)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

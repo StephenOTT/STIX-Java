@@ -1,13 +1,12 @@
 package com.stephenott.stix.objects.core.sco.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
-import com.stephenott.stix.common.CompanionAllowedRelationships
-import com.stephenott.stix.common.CompanionIdContributingProperties
-import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
+import com.stephenott.stix.objects.core.sco.extension.ScoExtension
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.type.*
 import com.stephenott.stix.type.StixSpecVersion.Companion.StixVersions
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
 interface AutonomousSystemSco : StixCyberObservableObject {
@@ -20,7 +19,10 @@ interface AutonomousSystemSco : StixCyberObservableObject {
         CompanionStixType,
         BusinessRulesValidator<AutonomousSystemSco>,
         CompanionIdContributingProperties<AutonomousSystemSco>,
-        CompanionAllowedRelationships{
+        CompanionAllowedRelationships,
+        CompanionAllowedExtensions {
+
+        override val allowedExtensions: List<KClass<out ScoExtension>> = listOf()
 
         override val stixType = StixType("autonomous-system")
 
