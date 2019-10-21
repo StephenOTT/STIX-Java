@@ -24,12 +24,20 @@ interface RelationshipSro : StixRelationshipObject {
             AllowedRelationship(
                 StixObject::class,
                 RelationshipType("duplicate-of"),
-                StixObject::class
+                StixObject::class,
+                RelationshipRule { from, type, to -> {
+                    require(from == to, lazyMessage = {"source and target must be same type"})
+                }
+                }
             ),
             AllowedRelationship(
                 StixObject::class,
                 RelationshipType("derived-from"),
-                StixObject::class
+                StixObject::class,
+                RelationshipRule { from, type, to -> {
+                        require(from == to, lazyMessage = {"source and target must be same type"})
+                    }
+                }
             ),
             AllowedRelationship(
                 StixObject::class,
@@ -40,10 +48,16 @@ interface RelationshipSro : StixRelationshipObject {
     }
 }
 
+data class RelationshipRule(
+    val rule: (from: KClass<out StixObject>, type: RelationshipType, to: KClass<out StixObject>) -> Unit
+) {}
+
+
 data class AllowedRelationship(
     val from: KClass<out StixObject>,
     val type: RelationshipType,
-    val to: KClass<out StixObject>
+    val to: KClass<out StixObject>,
+    val rule: RelationshipRule? = null
 ) {}
 
 data class Relationship(
@@ -108,14 +122,16 @@ data class Relationship(
         val targetClass: KClass<out StixObject> = StixObjectRegistry.registry[targetRef.type]
             ?: throw IllegalStateException("Unable to find targetRef in Object Registry")
 
+
         //@TODO add support for x- custom objects
         val allowedRelationships: List<AllowedRelationship> = StixObjectRelationshipRegistry
-            .registry.filter { sourceClass.isSubclassOf(it.from) &&
+            .registry.filter {
+            sourceClass.isSubclassOf(it.from) &&
                     it.type == this.relationshipType &&
                     targetClass.isSubclassOf(it.to)
-            }
+        }
 
-        if (allowedRelationships.size > 1){
+        if (allowedRelationships.size > 1) {
             println("Duplicate relationships found: $allowedRelationships")
             //@TODO add some logging for a warning to indicate multiple duplication objects are registered
         }
@@ -123,6 +139,11 @@ data class Relationship(
         require(allowedRelationships.isNotEmpty(), lazyMessage = {
             "${this.id} is not a valid relationship for a ${this.sourceRef.type}"
         })
+
+        //@TODO To a deeper test of this functionality
+        if (allowedRelationships[0].rule != null) {
+            allowedRelationships[0].rule?.rule!!(sourceClass, relationshipType, targetClass)
+        }
     }
 
 }

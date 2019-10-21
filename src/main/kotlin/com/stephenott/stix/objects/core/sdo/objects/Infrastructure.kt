@@ -1,5 +1,13 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
+import com.stephenott.stix.objects.core.sco.objects.DomainNameSco
+import com.stephenott.stix.objects.core.sco.objects.IPv4AddressSco
+import com.stephenott.stix.objects.core.sco.objects.IPv6AddressSco
+import com.stephenott.stix.objects.core.sco.objects.UrlSco
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -16,10 +24,19 @@ interface InfrastructureSdo : StixDomainObject {
     val firstSeen: StixInstant?
     val lastSeen: StixInstant?
 
-    companion object{
-        val stixType = StixType("infrastructure")
+    companion object : CompanionStixType,
+        BusinessRulesValidator<InfrastructureSdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val stixType = StixType("infrastructure")
+
+        override fun objectValidationRules(obj: InfrastructureSdo) {
+            if (obj.firstSeen != null && obj.lastSeen != null){
+                require(obj.lastSeen!!.instant >= obj.firstSeen!!.instant)
+            }
+        }
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("communicates-with"),
@@ -28,24 +45,23 @@ interface InfrastructureSdo : StixDomainObject {
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("communicates-with"),
-                CampaignSdo::class
+                IPv4AddressSco::class
             ),
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("communicates-with"),
-                InfrastructureSdo::class
+                IPv6AddressSco::class
             ),
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("communicates-with"),
-                IntrusionSetSdo::class
+                DomainNameSco::class
             ),
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("communicates-with"),
-                MalwareSdo::class
+                UrlSco::class
             ),
-
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("consists-of"),
@@ -59,9 +75,8 @@ interface InfrastructureSdo : StixDomainObject {
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("consists-of"),
-                ObservedDataSdo::class
+                StixCyberObservableObject::class
             ),
-
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("controls"),
@@ -72,19 +87,16 @@ interface InfrastructureSdo : StixDomainObject {
                 RelationshipType("controls"),
                 MalwareSdo::class
             ),
-
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("delivers"),
                 MalwareSdo::class
             ),
-
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("has"),
                 VulnerabilitySdo::class
             ),
-
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("hosts"),
@@ -95,13 +107,11 @@ interface InfrastructureSdo : StixDomainObject {
                 RelationshipType("hosts"),
                 MalwareSdo::class
             ),
-
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("located-at"),
                 LocationSdo::class
             ),
-
             AllowedRelationship(
                 InfrastructureSdo::class,
                 RelationshipType("uses"),
@@ -135,6 +145,10 @@ data class Infrastructure(
     override val lang: StixLang? = null
 ) :
     InfrastructureSdo {
+
+    init {
+        InfrastructureSdo.objectValidationRules(this)
+    }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
         return InfrastructureSdo.allowedRelationships + RelationshipSro.allowedCommonRelationships

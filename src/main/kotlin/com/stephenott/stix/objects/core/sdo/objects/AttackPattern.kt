@@ -1,5 +1,8 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -11,10 +14,17 @@ interface AttackPatternSdo : StixDomainObject {
     val description: String?
     val killChainPhases: KillChainPhases? //@TODO
 
-    companion object {
-        val stixType = StixType("attack-pattern")
+    companion object: CompanionStixType,
+        BusinessRulesValidator<AttackPatternSdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val stixType = StixType("attack-pattern")
+
+        override fun objectValidationRules(obj: AttackPatternSdo) {
+
+        }
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
             AllowedRelationship(
                 AttackPatternSdo::class,
                 RelationshipType("delivers"),
@@ -48,6 +58,7 @@ interface AttackPatternSdo : StixDomainObject {
                 ToolSdo::class
             )
         )
+
     }
 
 }
@@ -72,8 +83,11 @@ data class AttackPattern(
 ) :
     AttackPatternSdo {
 
+    init {
+        AttackPatternSdo.objectValidationRules(this)
+    }
+
     override fun allowedRelationships(): List<AllowedRelationship> {
        return AttackPatternSdo.allowedRelationships + RelationshipSro.allowedCommonRelationships
     }
-
 }

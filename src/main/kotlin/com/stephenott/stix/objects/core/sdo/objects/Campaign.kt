@@ -1,5 +1,8 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -13,10 +16,19 @@ interface CampaignSdo : StixDomainObject {
     val lastSeen: StixInstant?
     val objective: String?
 
-    companion object{
-        val stixType = StixType("campaign")
+    companion object: CompanionStixType,
+        BusinessRulesValidator<CampaignSdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships: List<AllowedRelationship> = listOf(
+        override fun objectValidationRules(obj: CampaignSdo) {
+            if (obj.firstSeen != null){
+                require(obj.lastSeen?.instant!!.isAfter(obj.firstSeen!!.instant))
+            }
+        }
+
+        override val stixType = StixType("campaign")
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
             AllowedRelationship(
                 CampaignSdo::class,
                 RelationshipType("attributed-to"),
@@ -103,6 +115,10 @@ data class Campaign
     override val confidence: StixConfidence? = null,
     override val lang: StixLang? = null
 ) : CampaignSdo {
+
+    init {
+        CampaignSdo.objectValidationRules(this)
+    }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
         return CampaignSdo.allowedRelationships + RelationshipSro.allowedCommonRelationships

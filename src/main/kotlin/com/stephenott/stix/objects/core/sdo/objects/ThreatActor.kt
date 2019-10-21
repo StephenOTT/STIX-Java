@@ -1,5 +1,8 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -21,46 +24,50 @@ interface ThreatActorSdo : StixDomainObject {
     val secondaryMotivation: AttackMotivationOv?
     val personalMotivations: AttackMotivations?
 
-    companion object{
-        val stixType = StixType("threat-actor")
+    companion object : CompanionStixType,
+        BusinessRulesValidator<ThreatActorSdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val stixType = StixType("threat-actor")
+
+        override fun objectValidationRules(obj: ThreatActorSdo) {
+            if (obj.firstSeen != null && obj.lastSeen != null){
+                require(obj.lastSeen!!.instant >= obj.firstSeen!!.instant,
+                    lazyMessage = {"last_seen must be greater than or equal to first_Seen."})
+            }
+        }
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
             AllowedRelationship(
                 ThreatActorSdo::class,
                 RelationshipType("attributed-to"),
                 IdentitySdo::class
             ),
-
             AllowedRelationship(
                 ThreatActorSdo::class,
                 RelationshipType("compromises"),
                 InfrastructureSdo::class
             ),
-
             AllowedRelationship(
                 ThreatActorSdo::class,
                 RelationshipType("hosts"),
                 InfrastructureSdo::class
             ),
-
             AllowedRelationship(
                 ThreatActorSdo::class,
                 RelationshipType("owns"),
                 InfrastructureSdo::class
             ),
-
             AllowedRelationship(
                 ThreatActorSdo::class,
                 RelationshipType("impersonates"),
                 IdentitySdo::class
             ),
-
             AllowedRelationship(
                 ThreatActorSdo::class,
                 RelationshipType("located-at"),
                 LocationSdo::class
             ),
-
             AllowedRelationship(
                 ThreatActorSdo::class,
                 RelationshipType("targets"),
@@ -76,7 +83,6 @@ interface ThreatActorSdo : StixDomainObject {
                 RelationshipType("targets"),
                 VulnerabilitySdo::class
             ),
-
             AllowedRelationship(
                 ThreatActorSdo::class,
                 RelationshipType("uses"),
@@ -130,6 +136,10 @@ data class ThreatActor(
     override val lang: StixLang? = null
 ) :
     ThreatActorSdo {
+
+    init {
+        ThreatActorSdo.objectValidationRules(this)
+    }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
         return ThreatActorSdo.allowedRelationships + RelationshipSro.allowedCommonRelationships

@@ -1,5 +1,8 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -9,15 +12,29 @@ import com.stephenott.stix.type.vocab.CourseOfActionTypeOv
 interface CourseOfActionSdo : StixDomainObject {
     val name: String
     val description: String?
-    val actionType: CourseOfActionTypeOv?
+    val actionType: CourseOfActionTypeOv? //@TODO add option to override type value as the spec says it's a "should"
     val osExecutionEnvs: OsExecutionEnvs?
     val actionBin: StixBinary?
     val actionReference: ExternalReference?
 
-    companion object {
-        val stixType = StixType("course-of-action")
+    companion object: CompanionStixType,
+        BusinessRulesValidator<CourseOfActionSdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val stixType = StixType("course-of-action")
+
+        override fun objectValidationRules(obj: CourseOfActionSdo) {
+            if (obj.actionReference != null){
+                require(obj.actionBin == null,
+                    lazyMessage = {"action_bin must not be present if action_reference is provided."})
+            }
+            if (obj.actionBin != null){
+                require(obj.actionReference == null,
+                    lazyMessage = {"action_reference must not be present if action_bin is provided."})
+            }
+        }
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
             AllowedRelationship(
                 CourseOfActionSdo::class,
                 RelationshipType("investigates"),
@@ -87,6 +104,10 @@ data class CourseOfAction(
     override val confidence: StixConfidence? = null,
     override val lang: StixLang? = null
 ) : CourseOfActionSdo {
+
+    init {
+        CourseOfActionSdo.objectValidationRules(this)
+    }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
         return CourseOfActionSdo.allowedRelationships + RelationshipSro.allowedCommonRelationships

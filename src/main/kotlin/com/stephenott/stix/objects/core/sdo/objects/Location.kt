@@ -1,5 +1,8 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -20,10 +23,24 @@ interface LocationSdo : StixDomainObject {
     val streetAddress: StreetAddress?
     val postalCode: PostalCode?
 
-    companion object{
-        val stixType = StixType("location")
+    companion object : CompanionStixType,
+        BusinessRulesValidator<LocationSdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships:List<AllowedRelationship> = listOf()
+        override val stixType = StixType("location")
+
+        override fun objectValidationRules(obj: LocationSdo) {
+            if (obj.latitude != null) require(obj.longitude != null,
+                lazyMessage = { "longitude must be provided when latitude is used." })
+            if (obj.longitude != null) require(obj.latitude != null,
+                lazyMessage = { "latitude must be provided when longitude is used." })
+            if (obj.precision != null) require(obj.latitude != null && obj.longitude != null,
+                lazyMessage = { "latitude and longitude must be provided when precision is used." })
+        }
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
+
+        )
     }
 }
 
@@ -53,6 +70,10 @@ data class Location(
     override val lang: StixLang? = null
 ) :
     LocationSdo {
+
+    init {
+        LocationSdo.objectValidationRules(this)
+    }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
         return LocationSdo.allowedRelationships + RelationshipSro.allowedCommonRelationships

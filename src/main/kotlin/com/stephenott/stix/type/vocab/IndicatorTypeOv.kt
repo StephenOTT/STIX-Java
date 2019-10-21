@@ -1,7 +1,11 @@
 package com.stephenott.stix.type.vocab
 
-class IndicatorTypes(private val types: LinkedHashSet<IndicatorType> = linkedSetOf()) :
+class IndicatorTypes(private val types: LinkedHashSet<IndicatorType>) :
     Set<IndicatorType> by types {
+
+    init {
+        require(types.size > 0)
+    }
 }
 
 class IndicatorType(private val type: String) : OpenVocab, CharSequence by type {

@@ -1,5 +1,8 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -16,10 +19,17 @@ interface IdentitySdo : StixDomainObject {
     val sectors: IndustrySectors?
     val contactInformation: String?
 
-    companion object{
-        val stixType = StixType("identity")
+    companion object : CompanionStixType,
+        BusinessRulesValidator<IdentitySdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val stixType = StixType("identity")
+
+        override fun objectValidationRules(obj: IdentitySdo) {
+
+        }
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
             AllowedRelationship(
                 IdentitySdo::class,
                 RelationshipType("located-at"),
@@ -50,6 +60,10 @@ data class Identity(
     override val confidence: StixConfidence? = null,
     override val lang: StixLang? = null
 ) : IdentitySdo {
+
+    init {
+        IdentitySdo.objectValidationRules(this)
+    }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
         return IdentitySdo.allowedRelationships + RelationshipSro.allowedCommonRelationships

@@ -1,5 +1,8 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -11,10 +14,19 @@ interface NoteSdo : StixDomainObject {
     val authors: StixStringList?
     val objectRefs: StixIdentifiers
 
-    companion object{
-        val stixType = StixType("note")
+    companion object : CompanionStixType,
+        BusinessRulesValidator<NoteSdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships: List<AllowedRelationship> = listOf()
+        override val stixType = StixType("note")
+
+        override fun objectValidationRules(obj: NoteSdo) {
+
+        }
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
+
+        )
     }
 
 }
@@ -39,6 +51,11 @@ data class Note(
     override val lang: StixLang? = null
 ) :
     NoteSdo {
+
+    init {
+        NoteSdo.objectValidationRules(this)
+    }
+
     override fun allowedRelationships(): List<AllowedRelationship> {
         return NoteSdo.allowedRelationships + RelationshipSro.allowedCommonRelationships
     }

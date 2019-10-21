@@ -1,5 +1,8 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -17,40 +20,45 @@ interface IntrusionSetSdo : StixDomainObject {
     val primaryMotivation: AttackMotivationOv?
     val secondaryMotivations: AttackMotivations?
 
-    companion object{
-        val stixType = StixType("intrusion-set")
+    companion object : CompanionStixType,
+        BusinessRulesValidator<IntrusionSetSdo>,
+        CompanionAllowedRelationships {
 
-        val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val stixType = StixType("intrusion-set")
+
+        override fun objectValidationRules(obj: IntrusionSetSdo) {
+            if (obj.firstSeen != null && obj.lastSeen != null){
+                require(obj.lastSeen!!.instant >= obj.firstSeen!!.instant,
+                    lazyMessage = {"last_seen must be equal or greater than first_seen."})
+            }
+        }
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
             AllowedRelationship(
                 IntrusionSetSdo::class,
                 RelationshipType("attributed-to"),
                 ThreatActorSdo::class
             ),
-
             AllowedRelationship(
                 IntrusionSetSdo::class,
                 RelationshipType("compromises"),
                 InfrastructureSdo::class
             ),
-
             AllowedRelationship(
                 IntrusionSetSdo::class,
                 RelationshipType("hosts"),
                 InfrastructureSdo::class
             ),
-
             AllowedRelationship(
                 IntrusionSetSdo::class,
                 RelationshipType("owns"),
                 InfrastructureSdo::class
             ),
-
             AllowedRelationship(
                 IntrusionSetSdo::class,
                 RelationshipType("originates-from"),
                 LocationSdo::class
             ),
-
             AllowedRelationship(
                 IntrusionSetSdo::class,
                 RelationshipType("targets"),
@@ -66,7 +74,6 @@ interface IntrusionSetSdo : StixDomainObject {
                 RelationshipType("targets"),
                 VulnerabilitySdo::class
             ),
-
             AllowedRelationship(
                 IntrusionSetSdo::class,
                 RelationshipType("uses"),
@@ -116,6 +123,10 @@ data class IntrusionSet(
     override val lang: StixLang? = null
 ) :
     IntrusionSetSdo {
+
+    init {
+        IntrusionSetSdo.objectValidationRules(this)
+    }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
         return IntrusionSetSdo.allowedRelationships + RelationshipSro.allowedCommonRelationships
