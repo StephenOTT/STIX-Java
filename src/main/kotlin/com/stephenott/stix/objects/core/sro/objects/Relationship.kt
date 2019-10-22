@@ -1,9 +1,8 @@
 package com.stephenott.stix.objects.core.sro.objects
 
+import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.StixObject
 import com.stephenott.stix.objects.core.sro.StixRelationshipObject
-import com.stephenott.stix.common.StixObjectRegistry
-import com.stephenott.stix.common.StixObjectRelationshipRegistry
 import com.stephenott.stix.type.*
 import java.lang.IllegalStateException
 import kotlin.reflect.KClass
@@ -17,26 +16,32 @@ interface RelationshipSro : StixRelationshipObject {
     val startTime: StixInstant?
     val stopTime: StixInstant?
 
-    companion object {
-        val stixType = StixType("relationship")
+    companion object: CompanionStixType,
+        BusinessRulesValidator<RelationshipSro> {
+
+        override val stixType = StixType("relationship")
+
+        override fun objectValidationRules(obj: RelationshipSro) {
+
+        }
 
         val allowedCommonRelationships: List<AllowedRelationship> = listOf(
             AllowedRelationship(
                 StixObject::class,
                 RelationshipType("duplicate-of"),
                 StixObject::class,
-                RelationshipRule { from, type, to -> {
-                    require(from == to, lazyMessage = {"source and target must be same type"})
-                }
+                RelationshipRule { obj ->
+                        require(obj.sourceRef.type == obj.targetRef.type,
+                            lazyMessage = { "duplicate-of relationship (${obj.id}) requires source(${obj.sourceRef}) and target(${obj.targetRef}) must be same type" })
                 }
             ),
             AllowedRelationship(
                 StixObject::class,
                 RelationshipType("derived-from"),
                 StixObject::class,
-                RelationshipRule { from, type, to -> {
-                        require(from == to, lazyMessage = {"source and target must be same type"})
-                    }
+                RelationshipRule { obj ->
+                        require(obj.sourceRef.type == obj.targetRef.type,
+                            lazyMessage = { "derived-from relationship (${obj.id}) requires source(${obj.sourceRef}) and target(${obj.targetRef}) must be same type" })
                 }
             ),
             AllowedRelationship(
@@ -48,10 +53,11 @@ interface RelationshipSro : StixRelationshipObject {
     }
 }
 
-data class RelationshipRule(
-    val rule: (from: KClass<out StixObject>, type: RelationshipType, to: KClass<out StixObject>) -> Unit
-) {}
-
+data class RelationshipRule(private val rule: (relObj: RelationshipSro) -> Unit) {
+    fun execute(relObj: RelationshipSro){
+        rule(relObj)
+    }
+}
 
 data class AllowedRelationship(
     val from: KClass<out StixObject>,
@@ -136,14 +142,13 @@ data class Relationship(
             //@TODO add some logging for a warning to indicate multiple duplication objects are registered
         }
 
-        require(allowedRelationships.isNotEmpty(), lazyMessage = {
-            "${this.id} is not a valid relationship for a ${this.sourceRef.type}"
-        })
+        require(allowedRelationships.isNotEmpty(),
+            lazyMessage = { "${this.id} is not a valid relationship for a ${this.sourceRef.type}" }
+        )
 
         //@TODO To a deeper test of this functionality
-        if (allowedRelationships[0].rule != null) {
-            allowedRelationships[0].rule?.rule!!(sourceClass, relationshipType, targetClass)
-        }
+        allowedRelationships[0].rule?.execute(this)
+            allowedRelationships[0].rule?.execute(this)
     }
 
 }
