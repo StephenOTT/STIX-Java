@@ -12,6 +12,18 @@ data class StixType(
 
     companion object{
         var customObjectPrefix: String = "x-" //@TODO refactor to lazy init and a outside factory
+
+        fun parse(typeString: String): StixType{
+            val isCustomObject: Boolean = typeString.startsWith(customObjectPrefix)
+            val type: String = if (isCustomObject){
+                typeString.substringAfter(customObjectPrefix)
+            } else {
+                typeString
+            }
+
+            return StixType(type, isCustomObject)
+        }
+
     }
 
     constructor(stixType: StixType): this(stixType.type, stixType.isCustomType)

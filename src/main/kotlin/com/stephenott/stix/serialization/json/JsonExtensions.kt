@@ -1,30 +1,101 @@
 package com.stephenott.stix.serialization.json
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.stephenott.stix.StixBundle
 import com.stephenott.stix.StixContent
-import com.stephenott.stix.objects.core.sdo.StixDomainObject
-import com.stephenott.stix.objects.core.sro.StixRelationshipObject
+import kotlin.reflect.full.cast
 
-fun StixContent.toJson(){
-    TODO("To be implemented")
+fun createStixMapper(): ObjectMapper {
+    return jacksonObjectMapper()
+        .registerModule(JavaTimeModule())
+        .registerModule(createStixSdoModule())
+        .registerModule(createStixSroModule())
+        .registerModule(createStixScoModule())
+        .registerModule(createStixMetaObjectModule())
+        .registerModule(createStixBundleModule())
+        .registerModule(createStixCustomObjectsModule())
+        .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+        .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+        .registerModule(createStixInstantSerializationModule())
+        .registerModule(createStixIdentifierSerializationModule())
+        .registerModule(createStixTypeSerializationModule())
+        .registerModule(createStixSpecVersionSerializationModule())
+        .registerModule(createStixBooleanSerializationModule())
+        .registerModule(createStixContentSerializationModule())
 }
 
-fun StixBundle.toJson(){
-    TODO("To be implemented")
+class StixContentMapper(){
+    /**
+     * Should generally not be needed. But provided just in case
+     */
+    val jsonMapper: ObjectMapper = createStixMapper()
+
+    /**
+     * Parse a json string into any kind of Stix Content (SDO, SCO, SRO, Relationships, etc)
+     */
+    inline fun <reified T: StixContent> parseJson(json: String): T {
+        val content: StixContent
+
+        try {
+            content = jsonMapper.readValue(json, StixContent::class.java)
+        } catch (e: Exception){
+            throw IllegalArgumentException("Unable to parse json.", e)
+        }
+
+        try {
+            return T::class.cast(content)
+        } catch (e: Exception){
+            throw IllegalArgumentException("Unable to parse json.", e)
+        }
+    }
+
 }
 
-fun StixContent.parse(json: String){
-    TODO("To be implemented")
+fun createStixSdoModule(): SimpleModule {
+    val module = SimpleModule()
+
+    return module
 }
 
-fun StixBundle.parse(json: String){
-    TODO("To be implemented")
+fun createStixScoModule(): SimpleModule {
+    val module = SimpleModule()
+
+    return module
 }
 
-fun StixDomainObject.parse(json: String){
-    TODO("To be implemented")
+fun createStixSroModule(): SimpleModule {
+    val module = SimpleModule()
+
+    return module
 }
 
-fun StixRelationshipObject.parse(json: String){
-    TODO("To be implemented")
+fun createStixMetaObjectModule(): SimpleModule {
+    val module = SimpleModule()
+
+    return module
+}
+
+fun createStixBundleModule(): SimpleModule {
+    val module = SimpleModule()
+
+    return module
+}
+
+fun createStixCustomObjectsModule(): SimpleModule {
+    val module = SimpleModule()
+
+    return module
+}
+
+fun StixContent.toJson(mapper: StixContentMapper): String{
+    return mapper.jsonMapper.writeValueAsString(this)
+}
+
+fun StixBundle.toJson(mapper: StixContentMapper): String{
+    return mapper.jsonMapper.writeValueAsString(this)
 }

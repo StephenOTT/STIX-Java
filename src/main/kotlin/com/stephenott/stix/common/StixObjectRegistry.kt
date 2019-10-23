@@ -1,14 +1,22 @@
 package com.stephenott.stix.common
 
+import com.stephenott.stix.StixContent
 import com.stephenott.stix.objects.StixObject
+import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.objects.*
+import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sdo.objects.*
+import com.stephenott.stix.objects.core.sro.StixRelationshipObject
+import com.stephenott.stix.objects.core.sro.objects.Relationship
+import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
+import com.stephenott.stix.objects.core.sro.objects.Sighting
+import com.stephenott.stix.objects.core.sro.objects.SightingSro
 import com.stephenott.stix.type.StixType
 import kotlin.reflect.KClass
 
 object StixObjectRegistry {
 
-    var sdoRegistry: Map<StixType, KClass<out StixObject>> = mutableMapOf(
+    var sdoRegistry: Map<StixType, KClass<out StixDomainObject>> = mutableMapOf(
         Pair(AttackPatternSdo.stixType, AttackPattern::class),
         Pair(CampaignSdo.stixType, Campaign::class),
         Pair(CourseOfActionSdo.stixType, CourseOfAction::class),
@@ -28,7 +36,7 @@ object StixObjectRegistry {
         Pair(VulnerabilitySdo.stixType, Vulnerability::class)
     )
 
-    var scoRegistry: Map<StixType, KClass<out StixObject>> = mutableMapOf(
+    var scoRegistry: Map<StixType, KClass<out StixCyberObservableObject>> = mutableMapOf(
         Pair(ArtifactSco.stixType, Artifact::class),
         Pair(AutonomousSystemSco.stixType, AutonomousSystem::class),
         Pair(DirectorySco.stixType, Directory::class),
@@ -49,5 +57,34 @@ object StixObjectRegistry {
         Pair(X509CertificateSco.stixType, X509Certificate::class)
     )
 
-    var registry: Map<StixType, KClass<out StixObject>> = sdoRegistry + scoRegistry
+    var sroRegistry: Map<StixType, KClass<out StixRelationshipObject>> = mutableMapOf(
+        Pair(RelationshipSro.stixType, Relationship::class),
+        Pair(SightingSro.stixType, Sighting::class)
+    )
+
+    var customSdoRegistry: Map<StixType, KClass<out StixDomainObject>> = mutableMapOf(
+    )
+    var customScoRegistry: Map<StixType, KClass<out StixCyberObservableObject>> = mutableMapOf(
+    )
+    var customSroRegistry: Map<StixType, KClass<out StixRelationshipObject>> = mutableMapOf(
+    )
+
+    private fun aggregateObjects(): Map<StixType, KClass<out StixObject>> {
+        val objects = mutableMapOf<StixType, KClass<out StixObject>>()
+        objects.plusAssign(sdoRegistry)
+        objects.plusAssign(scoRegistry)
+        objects.plusAssign(sroRegistry)
+        objects.plusAssign(customSdoRegistry)
+        objects.plusAssign(customScoRegistry)
+        objects.plusAssign(customSroRegistry)
+        return objects
+    }
+
+    private var registryAggregate: Map<StixType, KClass<out StixObject>> = aggregateObjects()
+
+    fun refreshRegistry(){
+        registryAggregate = aggregateObjects()
+    }
+
+    val registry: Map<StixType, KClass<out StixObject>> = registryAggregate
 }

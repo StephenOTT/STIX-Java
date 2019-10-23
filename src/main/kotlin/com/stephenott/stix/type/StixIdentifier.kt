@@ -21,6 +21,13 @@ data class StixIdentifier(
     companion object {
         fun generateUUIDv4(): String = UUID.randomUUID().toString()
         const val typeUUIDSpacer = "--"
+
+        fun parse(stringIdentifier: String): StixIdentifier{
+            val type: String = stringIdentifier.substringBefore(typeUUIDSpacer)
+            val uuid: String = stringIdentifier.substringAfter(typeUUIDSpacer)
+            return StixIdentifier(StixType(type), uuid)
+        }
+
     }
 
     fun getIdentifier(): String {
