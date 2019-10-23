@@ -39,6 +39,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
 
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.0"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.0"
+//    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.0"
+//    implementation "com.fasterxml.jackson.module:jackson-module-parameter-names:2.10.0"
+
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
 }
