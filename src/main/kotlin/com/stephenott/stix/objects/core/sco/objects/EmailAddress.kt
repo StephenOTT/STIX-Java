@@ -15,7 +15,7 @@ interface EmailAddressSco : StixCyberObservableObject {
     val displayName: String? //@TODO add validation
     val belongsToRef: StixIdentifier?
 
-    companion object:
+    companion object :
         CompanionStixType,
         BusinessRulesValidator<EmailAddressSco>,
         CompanionIdContributingProperties<EmailAddressSco>,
@@ -35,9 +35,12 @@ interface EmailAddressSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: EmailAddressSco) {
-            require(obj.belongsToRef?.type == UserAccountSco.stixType, lazyMessage = {"belongs_to_ref must reference a user-account SCO."})
+            obj.belongsToRef?.let {
+                require(it.type == UserAccountSco.stixType,
+                    lazyMessage = { "belongs_to_ref must reference a user-account SCO." }
+                )
+            }
         }
-
     }
 }
 

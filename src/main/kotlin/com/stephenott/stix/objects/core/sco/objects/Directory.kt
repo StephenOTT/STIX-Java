@@ -18,7 +18,7 @@ interface DirectorySco : StixCyberObservableObject {
     val atime: StixInstant?
     val containsRefs: StixIdentifiers?
 
-    companion object:
+    companion object :
         CompanionStixType,
         BusinessRulesValidator<DirectorySco>,
         CompanionIdContributingProperties<DirectorySco>,
@@ -38,11 +38,12 @@ interface DirectorySco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: DirectorySco) {
-            require(obj.containsRefs?.all {
-                it.type == DirectorySco.stixType || it.type == FileSco.stixType } ?: true,
-                lazyMessage = {"contains_refs must only contain SCOs of type Directory and File."})
+            obj.containsRefs?.let {
+                require(it.all { id -> id.type == stixType || id.type == FileSco.stixType },
+                    lazyMessage = { "contains_refs must only contain SCOs of type Directory and File." }
+                )
+            }
         }
-
     }
 }
 

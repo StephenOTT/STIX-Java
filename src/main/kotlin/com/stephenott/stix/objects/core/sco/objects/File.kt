@@ -54,17 +54,23 @@ interface FileSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: FileSco) {
-            require(obj.size?.value!! >= 0,
-                lazyMessage = { "size must not be a negative number." })
-            require(obj.parentDirectoryRef?.type == DirectorySco.stixType,
-                lazyMessage = { "parent_directory_ref must only contain a reference to a Directory object SCO." })
-            require(obj.containsRefs?.all {
-                StixObjectRegistry.registry.getValue(it.type).isSubclassOf(StixCyberObservableObject::class)
-            }!!, lazyMessage = { "contains_refs can only contain references to SCOs." })
-            require(obj.contentRef?.type == ArtifactSco.stixType,
-                lazyMessage = { "content_ref must only contain a reference to a Artifact SCO." })
+            obj.size?.let {
+                require(it.value >= 0,
+                    lazyMessage = { "size must not be a negative number." })
+            }
+            obj.parentDirectoryRef?.let {
+                require(it.type == DirectorySco.stixType,
+                    lazyMessage = { "parent_directory_ref must only contain a reference to a Directory object SCO." })
+            }
+            obj.containsRefs?.let {
+                require(it.all { id -> StixObjectRegistry.registry.getValue(id.type).isSubclassOf(StixCyberObservableObject::class) },
+                    lazyMessage = { "contains_refs can only contain references to SCOs." })
+            }
+            obj.contentRef?.let {
+                require(it.type == ArtifactSco.stixType,
+                    lazyMessage = { "content_ref must only contain a reference to a Artifact SCO." })
+            }
         }
-
     }
 }
 

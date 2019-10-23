@@ -60,54 +60,64 @@ interface NetworkTrafficSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: NetworkTrafficSco) {
-            if (obj.isActive?.value!!) {
-                require(obj.end == null,
-                    lazyMessage = { "If is_active is true then end must not be included." })
+            obj.isActive?.let {
+                if (it.value) {
+                    require(obj.end == null,
+                        lazyMessage = { "If is_active is true then end must not be included." })
+                }
             }
             if (obj.start != null && obj.end != null) {
                 require(obj.end?.instant!!.isAfter(obj.start?.instant),
                     lazyMessage = { "if start and end are both defined then end must be later than start." })
             }
-            if (obj.end != null) {
+            obj.end?.let {
                 require(obj.isActive != null &&
-                        obj.isActive?.value == false &&
-                        obj.isActive?.isDefinedValue == true,
+                        !obj.isActive!!.value &&
+                        obj.isActive!!.isDefinedValue,
                     lazyMessage = { "If end is provided then is_active must be provided and have a value of false." })
             }
-
-            require(obj.srcRef?.type in listOf(
-                IPv4AddressSco.stixType,
-                IPv6AddressSco.stixType,
-                MacAddressSco.stixType,
-                DomainNameSco.stixType
-            ),
-                lazyMessage = { "src_ref must be a reference to one of: ipv4-addr, ipv6-addr, mac-addr, domain-name." })
-
-            require(obj.dstRef?.type in listOf(
-                IPv4AddressSco.stixType,
-                IPv6AddressSco.stixType,
-                MacAddressSco.stixType,
-                DomainNameSco.stixType
-            ),
-                lazyMessage = { "dst_ref must be a reference to one of: ipv4-addr, ipv6-addr, mac-addr, domain-name." })
-
-            require(obj.srcPort?.value!! in 0..65535,
-                lazyMessage = { "src_port must be in range 0 to 65535" })
-
-            require(obj.dstPort?.value!! in 0..65535,
-                lazyMessage = { "dst_port must be in range 0 to 65535" })
-
-            require(obj.srcPayloadRef?.type == ArtifactSco.stixType,
-                lazyMessage = { "src_payload_ref must only reference type artifact" })
-
-            require(obj.dstPayloadRef?.type == ArtifactSco.stixType,
-                lazyMessage = { "dst_payload_ref must only reference type artifact" })
-
-            require(obj.encapsulatesRefs?.all { it.type == NetworkTrafficSco.stixType }!!,
-                lazyMessage = { "encapsulates_refs values must only reference type network-traffic" })
-
-            require(obj.encapsulatedByRef?.type == NetworkTrafficSco.stixType,
-                lazyMessage = { "encapsulated_by_ref must only reference type network-traffic" })
+            obj.srcRef?.let {
+                require(it.type in listOf(
+                    IPv4AddressSco.stixType,
+                    IPv6AddressSco.stixType,
+                    MacAddressSco.stixType,
+                    DomainNameSco.stixType
+                ),
+                    lazyMessage = { "src_ref must be a reference to one of: ipv4-addr, ipv6-addr, mac-addr, domain-name." })
+            }
+            obj.dstRef?.let {
+                require(it.type in listOf(
+                    IPv4AddressSco.stixType,
+                    IPv6AddressSco.stixType,
+                    MacAddressSco.stixType,
+                    DomainNameSco.stixType
+                ),
+                    lazyMessage = { "dst_ref must be a reference to one of: ipv4-addr, ipv6-addr, mac-addr, domain-name." })
+            }
+            obj.srcPort?.let {
+                require(it.value in 0..65535,
+                    lazyMessage = { "src_port must be in range 0 to 65535" })
+            }
+            obj.dstPort?.let {
+                require(it.value in 0..65535,
+                    lazyMessage = { "dst_port must be in range 0 to 65535" })
+            }
+            obj.srcPayloadRef?.let {
+                require(it.type == ArtifactSco.stixType,
+                    lazyMessage = { "src_payload_ref must only reference type artifact" })
+            }
+            obj.dstPayloadRef?.let {
+                require(it.type == ArtifactSco.stixType,
+                    lazyMessage = { "dst_payload_ref must only reference type artifact" })
+            }
+            obj.encapsulatesRefs?.let {
+                require(it.all { id -> id.type == NetworkTrafficSco.stixType },
+                    lazyMessage = { "encapsulates_refs values must only reference type network-traffic" })
+            }
+            obj.encapsulatedByRef?.let {
+                require(it.type == NetworkTrafficSco.stixType,
+                    lazyMessage = { "encapsulated_by_ref must only reference type network-traffic" })
+            }
         }
 
     }

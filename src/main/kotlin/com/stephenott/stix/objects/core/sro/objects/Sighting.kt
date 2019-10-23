@@ -9,7 +9,7 @@ import com.stephenott.stix.objects.core.sdo.objects.ObservedDataSdo
 import com.stephenott.stix.objects.core.sro.StixRelationshipObject
 import com.stephenott.stix.type.*
 
-interface SightingSro: StixRelationshipObject{
+interface SightingSro : StixRelationshipObject {
     val description: String?
     val firstSeen: StixInstant?
     val lastSeen: StixInstant? //@TODO *** REVIEW SPEC: Says must be after first seen.  But does not say "equals
@@ -25,23 +25,29 @@ interface SightingSro: StixRelationshipObject{
         override val stixType: StixType = StixType("sighting")
 
         override fun objectValidationRules(obj: SightingSro) {
-            if (obj.firstSeen != null && obj.lastSeen != null){
+            if (obj.firstSeen != null && obj.lastSeen != null) {
                 require(obj.lastSeen!!.instant.isAfter(obj.firstSeen!!.instant),
-                    lazyMessage = {"last_seen must be later than first_seen."})
+                    lazyMessage = { "last_seen must be later than first_seen." })
             }
-            require(obj.count?.value in 0..999999999,
-                lazyMessage = {"count must be between 0 and 999,999,999."})
+
+            obj.count?.let {
+                require(it.value in 0..999999999,
+                    lazyMessage = { "count must be between 0 and 999,999,999." })
+            }
 
             require(obj.sightingOfRef.type in StixObjectRegistry.sdoRegistry.keys,
-                lazyMessage = {"sighting_of_ref must reference only a SDO."}) // @TODO should also support custom objects
+                lazyMessage = { "sighting_of_ref must reference only a SDO." }) // @TODO should also support custom objects
 
-            require(obj.observedDataRefs?.all { it.type == ObservedDataSdo.stixType }!!,
-                lazyMessage = {"observed_data_refs must only have values that are references to Observed Data SDO."})
+            obj.observedDataRefs?.let {
+                require(it.all { id -> id.type == ObservedDataSdo.stixType },
+                    lazyMessage = { "observed_data_refs must only have values that are references to Observed Data SDO." })
+            }
 
-            require(obj.whereSightedRefs?.all { it.type in listOf(IdentitySdo.stixType, LocationSdo.stixType) }!!,
-                lazyMessage = {"where_sighted_refs must only have values that reference Identity or Location SDO."})
+            obj.whereSightedRefs?.let {
+                require(it.all { id -> id.type in listOf(IdentitySdo.stixType, LocationSdo.stixType) },
+                    lazyMessage = { "where_sighted_refs must only have values that reference Identity or Location SDO." })
+            }
         }
-
     }
 }
 
@@ -65,7 +71,7 @@ data class Sighting(
     override val labels: StixLabels? = null,
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean()
-): SightingSro{
+) : SightingSro {
 
     init {
         SightingSro.objectValidationRules(this)

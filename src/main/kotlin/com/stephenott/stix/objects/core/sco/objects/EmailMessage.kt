@@ -27,7 +27,7 @@ interface EmailMessageSco : StixCyberObservableObject {
     val bodyMultipart: MimePartTypes?
     val rawEmailRef: StixIdentifier?
 
-    companion object:
+    companion object :
         CompanionStixType,
         BusinessRulesValidator<EmailMessageSco>,
         CompanionIdContributingProperties<EmailMessageSco>,
@@ -49,23 +49,33 @@ interface EmailMessageSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: EmailMessageSco) {
-            require(obj.fromRef?.type == EmailAddressSco.stixType,
-                lazyMessage = {"from_ref must be references to email-address SCO"})
-            require(obj.senderRef?.type == EmailAddressSco.stixType,
-                lazyMessage = {"sender_ref must be references to email-address SCO"})
-            require(obj.toRefs?.all { it.type == EmailAddressSco.stixType } ?: true,
-                lazyMessage = {"to_refs must be references to email-address SCO"})
-            require(obj.ccRefs?.all { it.type == EmailAddressSco.stixType } ?: true,
-                lazyMessage = {"cc_refs must be references to email-address SCO"})
-            require(obj.bccRefs?.all { it.type == EmailAddressSco.stixType } ?: true,
-                lazyMessage = {"bcc_refs must be references to email-address SCO"})
+            obj.fromRef?.let {
+                require(it.type == EmailAddressSco.stixType,
+                    lazyMessage = { "from_ref must be references to email-address SCO" })
+            }
+            obj.senderRef?.let {
+                require(it.type == EmailAddressSco.stixType,
+                    lazyMessage = { "sender_ref must be references to email-address SCO" })
+            }
+            obj.toRefs?.let {
+                require(it.all { id -> id.type == EmailAddressSco.stixType },
+                    lazyMessage = { "to_refs must be references to email-address SCO" })
+            }
+            obj.ccRefs?.let {
+                require(it.all { id -> id.type == EmailAddressSco.stixType },
+                    lazyMessage = { "cc_refs must be references to email-address SCO" })
+            }
+            obj.bccRefs?.let {
+                require(it.all { id -> id.type == EmailAddressSco.stixType },
+                    lazyMessage = { "bcc_refs must be references to email-address SCO" })
+            }
 
-            if (obj.isMultipart.value){
+            if (obj.isMultipart.value) {
                 require(obj.body == null,
-                    lazyMessage = {"body cannot be used when is_multipart is true"})
+                    lazyMessage = { "body cannot be used when is_multipart is true" })
             } else {
                 require(obj.bodyMultipart == null,
-                    lazyMessage = {"body_multipart cannot be used when is_multipart is false"})
+                    lazyMessage = { "body_multipart cannot be used when is_multipart is false" })
             }
         }
     }
