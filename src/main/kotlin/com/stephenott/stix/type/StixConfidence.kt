@@ -1,19 +1,36 @@
 package com.stephenott.stix.type
 
 import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
 
-data class StixConfidence(val realValue: Int?, val stixValue: Int?, val scaleValue: String) {
+/**
+ * stixValue must be provided to be considered a valid StixConfidence.
+ *
+ */
+data class StixConfidence(val realValue: Int?, val stixValue: Int?, val scaleValue: String?) {
+
+    constructor(confidence: Int): this(null, confidence, null)
+
     init {
-        if (realValue != null) {
+        realValue?.let {
             require(stixValue != null)
-            require(realValue in 0..100)
-
         }
-        if (stixValue != null) {
-            require(realValue != null)
+        stixValue?.let {
             require(stixValue in 0..100)
         }
-        require(scaleValue.isNotEmpty())
+        scaleValue?.let {
+            require(it.isNotEmpty())
+        }
+
+        require(realValue != null || stixValue != null || scaleValue != null)
+    }
+
+    fun getConfidence(): Int{
+        if (stixValue != null){
+            return stixValue
+        } else {
+            throw IllegalStateException("Unable to determine confidence value because it is null.")
+        }
     }
 
     companion object {

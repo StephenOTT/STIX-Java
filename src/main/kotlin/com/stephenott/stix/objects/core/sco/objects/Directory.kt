@@ -38,6 +38,8 @@ interface DirectorySco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: DirectorySco) {
+            requireStixType(this.stixType, obj)
+
             obj.containsRefs?.let {
                 require(it.all { id -> id.type == stixType || id.type == FileSco.stixType },
                     lazyMessage = { "contains_refs must only contain SCOs of type Directory and File." }

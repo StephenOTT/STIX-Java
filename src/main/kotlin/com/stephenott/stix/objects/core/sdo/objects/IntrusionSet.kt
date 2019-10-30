@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -27,6 +28,8 @@ interface IntrusionSetSdo : StixDomainObject {
         override val stixType = StixType("intrusion-set")
 
         override fun objectValidationRules(obj: IntrusionSetSdo) {
+            requireStixType(this.stixType, obj)
+
             if (obj.firstSeen != null && obj.lastSeen != null){
                 require(obj.lastSeen!!.instant >= obj.firstSeen!!.instant,
                     lazyMessage = {"last_seen must be equal or greater than first_seen."})

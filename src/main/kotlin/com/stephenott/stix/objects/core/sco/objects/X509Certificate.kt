@@ -48,6 +48,8 @@ interface X509CertificateSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: X509CertificateSco) {
+            requireStixType(this.stixType, obj)
+
             require(listOf( //@TODO review against Stix 2 Issues against 182
                 obj.isSelfSigned,
                 obj.hashes,

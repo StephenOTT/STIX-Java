@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -31,6 +32,8 @@ interface ThreatActorSdo : StixDomainObject {
         override val stixType = StixType("threat-actor")
 
         override fun objectValidationRules(obj: ThreatActorSdo) {
+            requireStixType(this.stixType, obj)
+
             if (obj.firstSeen != null && obj.lastSeen != null){
                 require(obj.lastSeen!!.instant >= obj.firstSeen!!.instant,
                     lazyMessage = {"last_seen must be greater than or equal to first_Seen."})

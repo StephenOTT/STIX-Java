@@ -44,6 +44,8 @@ interface IPv4AddressSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: IPv4AddressSco) {
+            requireStixType(this.stixType, obj)
+
         }
 
     }

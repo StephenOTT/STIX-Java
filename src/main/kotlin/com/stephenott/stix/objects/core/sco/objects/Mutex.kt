@@ -33,6 +33,8 @@ interface MutexSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: MutexSco) {
+            requireStixType(this.stixType, obj)
+
         }
 
     }

@@ -41,6 +41,7 @@ interface SoftwareSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: SoftwareSco) {
+            requireStixType(this.stixType, obj)
 
         }
 

@@ -49,6 +49,8 @@ interface ProcessSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: ProcessSco) {
+            requireStixType(this.stixType, obj)
+
             require(obj.openedConnectionRef?.type == NetworkTrafficSco.stixType,
                 lazyMessage = { "opened_connection_ref must only reference network-traffic SCO." })
 

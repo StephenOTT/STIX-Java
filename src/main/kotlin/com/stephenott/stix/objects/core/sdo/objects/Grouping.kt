@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -22,7 +23,7 @@ interface GroupingSdo : StixDomainObject {
         override val stixType = StixType("grouping")
 
         override fun objectValidationRules(obj: GroupingSdo) {
-
+            requireStixType(this.stixType, obj)
         }
 
         override val allowedRelationships: List<AllowedRelationship> = listOf()

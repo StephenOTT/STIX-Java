@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -21,6 +22,7 @@ interface CampaignSdo : StixDomainObject {
         CompanionAllowedRelationships {
 
         override fun objectValidationRules(obj: CampaignSdo) {
+            requireStixType(this.stixType, obj)
             if (obj.firstSeen != null){
                 require(obj.lastSeen?.instant!!.isAfter(obj.firstSeen!!.instant))
             }

@@ -26,7 +26,7 @@ object MainRunner {
     @JvmStatic
     fun main(args: Array<String>){
 
-        val ap1 = AttackPattern("124")
+        val ap1 = AttackPattern(name = "124", confidence = StixConfidence(33))
         val ap2 = AttackPattern("1245")
         val ip6 = IPv6Address("dog")
 

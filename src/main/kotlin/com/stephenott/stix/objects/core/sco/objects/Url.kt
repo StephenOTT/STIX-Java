@@ -34,7 +34,7 @@ interface UrlSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: UrlSco) {
-
+            requireStixType(this.stixType, obj)
         }
 
     }

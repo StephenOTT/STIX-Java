@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.objects.DomainNameSco
 import com.stephenott.stix.objects.core.sco.objects.IPv4AddressSco
@@ -31,6 +32,8 @@ interface InfrastructureSdo : StixDomainObject {
         override val stixType = StixType("infrastructure")
 
         override fun objectValidationRules(obj: InfrastructureSdo) {
+            requireStixType(this.stixType, obj)
+
             if (obj.firstSeen != null && obj.lastSeen != null){
                 require(obj.lastSeen!!.instant >= obj.firstSeen!!.instant)
             }

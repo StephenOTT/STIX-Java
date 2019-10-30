@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sro.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.common.StixObjectRegistry
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.objects.IdentitySdo
 import com.stephenott.stix.objects.core.sdo.objects.LocationSdo
 import com.stephenott.stix.objects.core.sdo.objects.ObservedDataSdo
@@ -25,6 +26,8 @@ interface SightingSro : StixRelationshipObject {
         override val stixType: StixType = StixType("sighting")
 
         override fun objectValidationRules(obj: SightingSro) {
+            requireStixType(this.stixType, obj)
+
             if (obj.firstSeen != null && obj.lastSeen != null) {
                 require(obj.lastSeen!!.instant.isAfter(obj.firstSeen!!.instant),
                     lazyMessage = { "last_seen must be later than first_seen." })

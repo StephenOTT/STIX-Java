@@ -29,6 +29,7 @@ fun createStixMapper(): ObjectMapper {
         .registerModule(createStixContentSerializationModule())
         .registerModule(createRelationshipTypeSerializationModule())
         .registerModule(createStixIntegerSerializationModule())
+        .registerModule(createStixConfidenceSerializationModule())
 }
 
 class StixContentMapper(){

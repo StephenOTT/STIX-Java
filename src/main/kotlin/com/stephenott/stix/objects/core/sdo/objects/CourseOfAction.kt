@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -24,6 +25,8 @@ interface CourseOfActionSdo : StixDomainObject {
         override val stixType = StixType("course-of-action")
 
         override fun objectValidationRules(obj: CourseOfActionSdo) {
+            requireStixType(this.stixType, obj)
+
             if (obj.actionReference != null){
                 require(obj.actionBin == null,
                     lazyMessage = {"action_bin must not be present if action_reference is provided."})

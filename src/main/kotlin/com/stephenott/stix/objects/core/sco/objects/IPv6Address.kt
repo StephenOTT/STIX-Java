@@ -44,6 +44,8 @@ interface IPv6AddressSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: IPv6AddressSco) {
+            requireStixType(this.stixType, obj)
+
         }
 
     }

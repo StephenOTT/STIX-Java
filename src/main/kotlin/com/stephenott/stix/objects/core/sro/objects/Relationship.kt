@@ -22,6 +22,7 @@ interface RelationshipSro : StixRelationshipObject {
         override val stixType = StixType("relationship")
 
         override fun objectValidationRules(obj: RelationshipSro) {
+            requireStixType(this.stixType, obj)
 
         }
 

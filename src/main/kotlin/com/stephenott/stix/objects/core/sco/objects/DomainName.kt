@@ -48,6 +48,8 @@ interface DomainNameSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: DomainNameSco) {
+            requireStixType(this.stixType, obj)
+
         }
 
     }

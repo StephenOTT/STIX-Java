@@ -40,6 +40,8 @@ interface ArtifactSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: ArtifactSco) {
+            requireStixType(this.stixType, obj)
+
             if (obj.url != null) {
                 require(obj.payloadBin == null, lazyMessage = { "payload_bin must not be present if url is provided." })
             }

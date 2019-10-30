@@ -60,6 +60,8 @@ interface NetworkTrafficSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: NetworkTrafficSco) {
+            requireStixType(this.stixType, obj)
+
             obj.isActive?.let {
                 if (it.value) {
                     require(obj.end == null,

@@ -33,6 +33,8 @@ interface MacAddressSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: MacAddressSco) {
+            requireStixType(this.stixType, obj)
+
             //@TODO The MAC address value ​MUST​ be represented as a single colon-delimited, lowercase MAC-48 address, which ​MUST​ include leading zeros for each octet.
         }
 

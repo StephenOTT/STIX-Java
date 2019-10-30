@@ -52,7 +52,7 @@ interface UserAccountSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: UserAccountSco) {
-
+            requireStixType(this.stixType, obj)
         }
 
     }

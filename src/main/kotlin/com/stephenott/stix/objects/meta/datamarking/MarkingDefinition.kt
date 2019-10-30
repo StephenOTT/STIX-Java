@@ -1,6 +1,11 @@
 package com.stephenott.stix.objects.meta.datamarking
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
+import com.stephenott.stix.objects.meta.lco.objects.LanguageContentLco
 import com.stephenott.stix.type.*
 import com.stephenott.stix.type.vocab.MarkingDefinitionTypeOv
 
@@ -9,8 +14,20 @@ interface MarkingDefinitionDm: DataMarking{
     val definitionType: MarkingDefinitionTypeOv
     val definition: MarkingObject
 
-    companion object {
-        val stixType = StixType("marking-definition")
+    companion object: CompanionStixType,
+        BusinessRulesValidator<MarkingDefinitionDm>,
+        CompanionAllowedRelationships {
+
+        override val stixType = StixType("marking-definition")
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
+            //@TODO review if this is needed for this object
+        )
+
+        override fun objectValidationRules(obj: MarkingDefinitionDm) {
+            requireStixType(this.stixType, obj)
+        }
+
     }
 }
 

@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -30,6 +31,8 @@ interface LocationSdo : StixDomainObject {
         override val stixType = StixType("location")
 
         override fun objectValidationRules(obj: LocationSdo) {
+            requireStixType(this.stixType, obj)
+
             if (obj.latitude != null) require(obj.longitude != null,
                 lazyMessage = { "longitude must be provided when latitude is used." })
             if (obj.longitude != null) require(obj.latitude != null,

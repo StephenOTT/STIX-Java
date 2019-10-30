@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -26,7 +27,7 @@ interface IdentitySdo : StixDomainObject {
         override val stixType = StixType("identity")
 
         override fun objectValidationRules(obj: IdentitySdo) {
-
+            requireStixType(this.stixType, obj)
         }
 
         override val allowedRelationships: List<AllowedRelationship> = listOf(

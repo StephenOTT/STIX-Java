@@ -42,6 +42,7 @@ interface WindowsRegistryKeySco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: WindowsRegistryKeySco) {
+            requireStixType(this.stixType, obj)
             require(
                 listOf(obj.key, obj.values, obj.modifiedTimed, obj.creatorUserRef, obj.numberOfSubkeys)
                     .any { it != null },

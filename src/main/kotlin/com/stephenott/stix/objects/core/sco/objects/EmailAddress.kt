@@ -35,6 +35,8 @@ interface EmailAddressSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: EmailAddressSco) {
+            requireStixType(this.stixType, obj)
+
             obj.belongsToRef?.let {
                 require(it.type == UserAccountSco.stixType,
                     lazyMessage = { "belongs_to_ref must reference a user-account SCO." }

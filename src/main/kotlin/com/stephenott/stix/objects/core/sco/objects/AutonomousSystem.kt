@@ -35,7 +35,7 @@ interface AutonomousSystemSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: AutonomousSystemSco) {
-
+            requireStixType(this.stixType, obj)
         }
 
     }

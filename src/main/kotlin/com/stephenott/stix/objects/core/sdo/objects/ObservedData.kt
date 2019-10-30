@@ -1,9 +1,6 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
-import com.stephenott.stix.common.CompanionAllowedRelationships
-import com.stephenott.stix.common.CompanionStixType
-import com.stephenott.stix.common.StixObjectRegistry
+import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
@@ -23,6 +20,8 @@ interface ObservedDataSdo : StixDomainObject {
         override val stixType = StixType("observed-data")
 
         override fun objectValidationRules(obj: ObservedDataSdo) {
+            requireStixType(this.stixType, obj)
+
             require(obj.lastObserved.instant >= obj.firstObserved.instant,
                 lazyMessage = { "last_observed must be greater than or equal to first_observed." })
 

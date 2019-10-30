@@ -54,6 +54,8 @@ interface FileSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: FileSco) {
+            requireStixType(this.stixType, obj)
+
             obj.size?.let {
                 require(it.value >= 0,
                     lazyMessage = { "size must not be a negative number." })

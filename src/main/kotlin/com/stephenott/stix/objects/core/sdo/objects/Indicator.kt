@@ -3,6 +3,7 @@ package com.stephenott.stix.objects.core.sdo.objects
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
@@ -29,6 +30,8 @@ interface IndicatorSdo : StixDomainObject {
         override val stixType = StixType("indicator")
 
         override fun objectValidationRules(obj: IndicatorSdo) {
+            requireStixType(this.stixType, obj)
+
             require(obj.validUntil?.instant!!.isAfter(obj.validFrom.instant),
                 lazyMessage = {"valid_until must come after valid_from."})
         }

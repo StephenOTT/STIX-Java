@@ -49,6 +49,8 @@ interface EmailMessageSco : StixCyberObservableObject {
         )
 
         override fun objectValidationRules(obj: EmailMessageSco) {
+            requireStixType(this.stixType, obj)
+
             obj.fromRef?.let {
                 require(it.type == EmailAddressSco.stixType,
                     lazyMessage = { "from_ref must be references to email-address SCO" })

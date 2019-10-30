@@ -1,7 +1,12 @@
 package com.stephenott.stix.objects.meta.lco.objects
 
+import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.CompanionAllowedRelationships
+import com.stephenott.stix.common.CompanionStixType
+import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.objects.AttackPatternSdo
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
+import com.stephenott.stix.objects.core.sro.objects.SightingSro
 import com.stephenott.stix.objects.meta.lco.LanguageContentObject
 import com.stephenott.stix.type.*
 
@@ -10,10 +15,16 @@ interface LanguageContentLco : LanguageContentObject {
     val objectModified: StixInstant?
     val contents: LanguageContentDictionary
 
-    companion object {
-        val stixType = StixType("language-content")
+    companion object: CompanionStixType,
+        BusinessRulesValidator<LanguageContentLco>,
+        CompanionAllowedRelationships {
+        override fun objectValidationRules(obj: LanguageContentLco) {
+            requireStixType(this.stixType, obj)
+        }
 
-        val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val stixType = StixType("language-content")
+
+        override val allowedRelationships: List<AllowedRelationship> = listOf(
         )
 
     }

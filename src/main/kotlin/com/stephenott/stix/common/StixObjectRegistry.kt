@@ -14,6 +14,7 @@ import com.stephenott.stix.objects.core.sro.objects.SightingSro
 import com.stephenott.stix.type.StixType
 import kotlin.reflect.KClass
 
+//@TODO move to a instance so it can be passed into content handlers (such as JSON content mapper)
 object StixObjectRegistry {
 
     var sdoRegistry: Map<StixType, KClass<out StixDomainObject>> = mutableMapOf(
