@@ -4,11 +4,15 @@ class ThreatActorRoles(private val roles: LinkedHashSet<ThreatActorRole> = linke
     Set<ThreatActorRole> by roles {
 }
 
-class ThreatActorRole(private val role: String) : OpenVocab, CharSequence by role {
+class ThreatActorRole(private val role: String) : OpenVocab {
+
+    override fun getValue(): String {
+        return role
+    }
 
     companion object {
 
-        val vocabName = "threat-actor-role-ov"
+        const val vocabName = "threat-actor-role-ov"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "agent", "director", "independent",

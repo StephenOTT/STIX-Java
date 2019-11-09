@@ -10,7 +10,11 @@ class AdministrativeAreas(private val areas: LinkedHashSet<AdministrativeArea> =
     }
 }
 
-class AdministrativeArea(private val area: String, enforceVocab: Boolean = false) : OpenVocab, CharSequence by area {
+class AdministrativeArea(private val area: String, enforceVocab: Boolean = false) : OpenVocab {
+
+    override fun getValue(): String {
+        return area
+    }
 
     init {
         if (enforceVocab) {
@@ -20,7 +24,7 @@ class AdministrativeArea(private val area: String, enforceVocab: Boolean = false
 
     companion object {
 
-        val vocabName = "administrative-areas"
+        const val vocabName = "administrative-areas"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
         )

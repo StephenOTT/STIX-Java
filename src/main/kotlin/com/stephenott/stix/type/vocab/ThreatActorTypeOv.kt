@@ -4,11 +4,15 @@ class ThreatActorTypes(private val types: LinkedHashSet<ThreatActorType> = linke
     Set<ThreatActorType> by types {
 }
 
-class ThreatActorType(private val type: String) : OpenVocab, CharSequence by type {
+class ThreatActorType(private val type: String) : OpenVocab {
+
+    override fun getValue(): String {
+        return type
+    }
 
     companion object {
 
-        val vocabName = "threat-actor-type-ov"
+        const val vocabName = "threat-actor-type-ov"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "activist", "competitor", "crime-syndicate",

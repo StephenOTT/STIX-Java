@@ -1,9 +1,13 @@
 package com.stephenott.stix.type.vocab
 
-class WindowsRegistryDataTypeEnum(private val datatype: String) : ClosedVocab, CharSequence by datatype {
+class WindowsRegistryDataTypeEnum(private val datatype: String) : ClosedVocab {
+
+    override fun getValue(): String {
+        return datatype
+    }
 
     companion object {
-        val vocabName = "windows-registry-datatype-enum"
+        const val vocabName = "windows-registry-datatype-enum"
 
         val vocab: LinkedHashSet<String> = linkedSetOf(
             "REG_NONE", "REG_SZ", "REG_EXPAND_SZ",

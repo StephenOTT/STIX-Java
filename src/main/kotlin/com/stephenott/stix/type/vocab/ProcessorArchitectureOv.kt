@@ -4,11 +4,15 @@ class ProcessorArchitectures(private val architectures: LinkedHashSet<ProcessorA
     Set<ProcessorArchitecture> by architectures {
 }
 
-class ProcessorArchitecture(private val architecture: String) : OpenVocab, CharSequence by architecture {
+class ProcessorArchitecture(private val architecture: String) : OpenVocab {
+
+    override fun getValue(): String {
+        return architecture
+    }
 
     companion object {
 
-        val vocabName = "processor-architecture-ov"
+        const val vocabName = "processor-architecture-ov"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "alpha", "arm", "ia-64",

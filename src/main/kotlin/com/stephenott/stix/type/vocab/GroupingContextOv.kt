@@ -1,9 +1,13 @@
 package com.stephenott.stix.type.vocab
 
-class GroupingContextOv(private val groupingContext: String) : OpenVocab, CharSequence by groupingContext {
+class GroupingContextOv(private val groupingContext: String) : OpenVocab {
+
+    override fun getValue(): String {
+        return groupingContext
+    }
 
     companion object {
-        val vocabName = "grouping-context-ov"
+        const val vocabName = "grouping-context-ov"
 
         val vocab: LinkedHashSet<String> = linkedSetOf(
             "suspicious-activity", "malware-analysis", "unspecified"

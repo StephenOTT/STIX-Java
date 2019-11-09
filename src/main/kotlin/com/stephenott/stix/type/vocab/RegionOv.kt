@@ -1,9 +1,13 @@
 package com.stephenott.stix.type.vocab
 
-class RegionOv(private val region: String) : ClosedVocab, CharSequence by region {
+class RegionOv(private val region: String) : ClosedVocab {
+
+    override fun getValue(): String {
+        return region
+    }
 
     companion object {
-        val vocabName = "region-ov"
+        const val vocabName = "region-ov"
 
         val vocab: LinkedHashSet<String> = linkedSetOf(
             "africa", "eastern-africa", "middle-africa",

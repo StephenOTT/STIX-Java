@@ -6,10 +6,13 @@ class HashesDictionary(private val immutableDictionary: LinkedHashMap<HashingAlg
     Map<HashingAlgorithm, String> by immutableDictionary {
 }
 
-class HashingAlgorithm(private val algorithm: String): OpenVocab, CharSequence by algorithm{
+class HashingAlgorithm(private val algorithm: String): OpenVocab {
+    override fun getValue(): String {
+        return algorithm
+    }
 
     companion object{
-        const val VOCAB_NAME: String = "hash-algorithm-ov​"
+        const val vocabName: String = "hash-algorithm-ov​"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
                 "MD5", "MD6", "RIPEMD-160", "SHA-1",

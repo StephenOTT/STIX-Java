@@ -12,6 +12,10 @@ class Cities(private val cities: LinkedHashSet<City> = linkedSetOf(), enforceVoc
 
 class City(private val city: String, enforceVocab: Boolean = false) : OpenVocab, CharSequence by city {
 
+    override fun getValue(): String {
+        return city
+    }
+
     init {
         if (enforceVocab) {
             require(vocab.contains(city))
@@ -20,7 +24,7 @@ class City(private val city: String, enforceVocab: Boolean = false) : OpenVocab,
 
     companion object {
 
-        val vocabName = "cities"
+        const val vocabName = "cities"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
         )

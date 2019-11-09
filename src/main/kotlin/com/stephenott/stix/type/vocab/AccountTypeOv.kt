@@ -1,10 +1,13 @@
 package com.stephenott.stix.type.vocab
 
 class AccountType(private val type: String) : OpenVocab, CharSequence by type {
+    override fun getValue(): String {
+        return type
+    }
 
     companion object {
 
-        val vocabName = "account-type-ov"
+        const val vocabName = "account-type-ov"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "facebook", "ldap", "nis",

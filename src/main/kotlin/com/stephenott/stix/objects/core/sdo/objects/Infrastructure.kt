@@ -14,7 +14,7 @@ import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
 import com.stephenott.stix.type.*
 import com.stephenott.stix.type.vocab.InfrastructureTypes
-import com.stephenott.stix.type.vocab.KillChainPhases
+import com.stephenott.stix.type.KillChainPhases
 
 interface InfrastructureSdo : StixDomainObject {
     val name: String

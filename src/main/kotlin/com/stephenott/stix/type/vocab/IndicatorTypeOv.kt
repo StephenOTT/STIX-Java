@@ -8,11 +8,14 @@ class IndicatorTypes(private val types: LinkedHashSet<IndicatorType>) :
     }
 }
 
-class IndicatorType(private val type: String) : OpenVocab, CharSequence by type {
+class IndicatorType(private val type: String) : OpenVocab {
+    override fun getValue(): String {
+        return type
+    }
 
     companion object {
 
-        val vocabName = "indicator-type-ov"
+        const val vocabName = "indicator-type-ov"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "anomalous-activity", "anonymization", "benign",

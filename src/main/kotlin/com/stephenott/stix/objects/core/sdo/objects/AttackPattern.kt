@@ -8,7 +8,7 @@ import com.stephenott.stix.objects.core.sdo.StixDomainObject
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
 import com.stephenott.stix.type.*
-import com.stephenott.stix.type.vocab.KillChainPhases
+import com.stephenott.stix.type.KillChainPhases
 
 interface AttackPatternSdo : StixDomainObject {
     val name: String

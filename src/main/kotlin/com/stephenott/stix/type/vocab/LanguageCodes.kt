@@ -8,14 +8,17 @@ class LanguageCodes(private val codes: LinkedHashSet<LanguageCode> = linkedSetOf
     }
 }
 
-data class LanguageCode(private val code: String) : ClosedVocab, CharSequence by code {
+data class LanguageCode(private val code: String) : ClosedVocab {
+    override fun getValue(): String {
+        return code
+    }
 
     init {
         require(LanguageCode.vocab.contains(code))
     }
 
     companion object {
-        val vocabName = "iso-639-2-language-codes"
+        const val vocabName = "iso-639-2-language-codes"
 
         val vocab: LinkedHashSet<String> = linkedSetOf(
             "en" //@TODO add rest of language codes

@@ -4,11 +4,15 @@ class InfrastructureTypes(private val types: LinkedHashSet<InfrastructureType> =
     Set<InfrastructureType> by types {
 }
 
-class InfrastructureType(private val type: String) : OpenVocab, CharSequence by type {
+class InfrastructureType(private val type: String) : OpenVocab {
+
+    override fun getValue(): String {
+        return type
+    }
 
     companion object {
 
-        val vocabName = "infrastructure-type-ov"
+        const val vocabName = "infrastructure-type-ov"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "amplification", "anonymization", "botnet",

@@ -4,10 +4,13 @@ class AttackMotivations(private val motivations: LinkedHashSet<AttackMotivationO
     Set<AttackMotivationOv> by motivations {
 }
 
-class AttackMotivationOv(private val motivation: String) : OpenVocab, CharSequence by motivation {
+class AttackMotivationOv(private val motivation: String) : OpenVocab {
+    override fun getValue(): String {
+        return motivation
+    }
 
     companion object {
-        val vocabName = "attack-motivation-ov"
+        const val vocabName = "attack-motivation-ov"
 
         val vocab: LinkedHashSet<String> = linkedSetOf(
             "accidental", "coercion", "dominance",

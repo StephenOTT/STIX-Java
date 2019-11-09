@@ -4,11 +4,15 @@ class ImplementationLanguages(private val languages: LinkedHashSet<Implementatio
     Set<ImplementationLanguage> by languages {
 }
 
-class ImplementationLanguage(private val language: String) : OpenVocab, CharSequence by language {
+class ImplementationLanguage(private val language: String) : OpenVocab {
+
+    override fun getValue(): String {
+        return language
+    }
 
     companion object {
 
-        val vocabName = "implementation-language-ov"
+        const val vocabName = "implementation-language-ov"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "applescript", "bash", "c",

@@ -5,7 +5,6 @@ import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
-import com.stephenott.stix.objects.meta.lco.objects.LanguageContentLco
 import com.stephenott.stix.type.*
 import com.stephenott.stix.type.vocab.MarkingDefinitionTypeOv
 
@@ -17,6 +16,8 @@ interface MarkingDefinitionDm: DataMarking{
     companion object: CompanionStixType,
         BusinessRulesValidator<MarkingDefinitionDm>,
         CompanionAllowedRelationships {
+
+        const val definitionPolymorphicFieldName: String = "definition_type"
 
         override val stixType = StixType("marking-definition")
 
@@ -45,6 +46,11 @@ data class MarkingDefinition(
     override val specVersion: StixSpecVersion = StixSpecVersion()
 
 ): MarkingDefinitionDm {
+
+    init {
+        MarkingDefinitionDm.objectValidationRules(this)
+    }
+
 
     override fun allowedRelationships(): List<AllowedRelationship> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

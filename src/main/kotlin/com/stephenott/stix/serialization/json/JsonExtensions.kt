@@ -5,20 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.stephenott.stix.StixBundle
 import com.stephenott.stix.StixContent
 import kotlin.reflect.full.cast
 
 fun createStixMapper(): ObjectMapper {
-    return jacksonObjectMapper()
+    return ObjectMapper()
+        .registerModule(KotlinModule()) //@TODO see jackson kotlin module issue #87.  Waiting for fix.  Currently if a subtype does not exist then it fails to provide a meaningful error.
         .registerModule(JavaTimeModule())
-        .registerModule(createStixSdoModule())
-        .registerModule(createStixSroModule())
-        .registerModule(createStixScoModule())
-        .registerModule(createStixMetaObjectModule())
-        .registerModule(createStixBundleModule())
-        .registerModule(createStixCustomObjectsModule())
         .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
         .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
         .registerModule(createStixInstantSerializationModule())
@@ -30,6 +27,8 @@ fun createStixMapper(): ObjectMapper {
         .registerModule(createRelationshipTypeSerializationModule())
         .registerModule(createStixIntegerSerializationModule())
         .registerModule(createStixConfidenceSerializationModule())
+        .registerModule(createStixOpenVocabSerializationModule())
+        .registerModule(createStixMarkingObjectSerializationModule())
 }
 
 class StixContentMapper(){
@@ -42,57 +41,22 @@ class StixContentMapper(){
      * Parse a json string into any kind of Stix Content (SDO, SCO, SRO, Relationships, etc)
      */
     inline fun <reified T: StixContent> parseJson(json: String): T {
-        val content: StixContent
+//        val content: T
 
         try {
-            content = jsonMapper.readValue(json, StixContent::class.java)
+            return jsonMapper.readValue(json, T::class.java)
+//            return content
         } catch (e: Exception){
             throw IllegalArgumentException("Unable to parse json.", e)
         }
 
-        try {
-            return T::class.cast(content)
-        } catch (e: Exception){
-            throw IllegalArgumentException("Unable to parse json.", e)
-        }
+//        try {
+//            return T::class.cast(content)
+//        } catch (e: Exception){
+//            throw IllegalArgumentException("Unable to parse json.", e)
+//        }
     }
 
-}
-
-fun createStixSdoModule(): SimpleModule {
-    val module = SimpleModule()
-
-    return module
-}
-
-fun createStixScoModule(): SimpleModule {
-    val module = SimpleModule()
-
-    return module
-}
-
-fun createStixSroModule(): SimpleModule {
-    val module = SimpleModule()
-
-    return module
-}
-
-fun createStixMetaObjectModule(): SimpleModule {
-    val module = SimpleModule()
-
-    return module
-}
-
-fun createStixBundleModule(): SimpleModule {
-    val module = SimpleModule()
-
-    return module
-}
-
-fun createStixCustomObjectsModule(): SimpleModule {
-    val module = SimpleModule()
-
-    return module
 }
 
 fun StixContent.toJson(mapper: StixContentMapper): String{

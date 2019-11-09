@@ -4,9 +4,16 @@ class IndustrySectors(private val sectors: LinkedHashSet<IndustrySector> = linke
     Set<IndustrySector> by sectors {
 }
 
-class IndustrySector(private val sector: String) : OpenVocab, CharSequence by sector {
+class IndustrySector(private val sector: String) : OpenVocab {
+
+    override fun getValue(): String {
+        return sector
+    }
 
     companion object {
+
+        const val vocabName = "industry-sector-ov"
+
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "agriculture", "aerospace", "automotive",
             "communications", "construction", "defence",

@@ -1,9 +1,13 @@
 package com.stephenott.stix.type.vocab
 
-class NetworkSocketAddressFamilyEnum(private val addressFamily: String) : ClosedVocab, CharSequence by addressFamily {
+class NetworkSocketAddressFamilyEnum(private val addressFamily: String) : ClosedVocab {
+
+    override fun getValue(): String {
+        return addressFamily
+    }
 
     companion object {
-        val vocabName = "network-socket-address-family-enum"
+        const val vocabName = "network-socket-address-family-enum"
 
         val vocab: LinkedHashSet<String> = linkedSetOf(
             "AF_UNSPEC", "AF_INET", "AF_IPX",

@@ -1,9 +1,13 @@
 package com.stephenott.stix.type.vocab
 
-class WindowsServiceStatusEnum(private val status: String) : ClosedVocab, CharSequence by status {
+class WindowsServiceStatusEnum(private val status: String) : ClosedVocab {
+
+    override fun getValue(): String {
+        return status
+    }
 
     companion object {
-        val vocabName = "windows-service-status-enum"
+        const val vocabName = "windows-service-status-enum"
 
         val vocab: LinkedHashSet<String> = linkedSetOf(
             "SERVICE_CONTINUE_PENDING", "SERVICE_PAUSE_PENDING", "SERVICE_PAUSED",

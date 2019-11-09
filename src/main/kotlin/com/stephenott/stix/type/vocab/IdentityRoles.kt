@@ -10,7 +10,11 @@ class IdentityRoles(private val roles: LinkedHashSet<IdentityRole> = linkedSetOf
     }
 }
 
-class IdentityRole(private val role: String, enforceVocab: Boolean = false) : OpenVocab, CharSequence by role {
+class IdentityRole(private val role: String, enforceVocab: Boolean = false) : OpenVocab {
+
+    override fun getValue(): String {
+        return role
+    }
 
     init {
         if (enforceVocab) {

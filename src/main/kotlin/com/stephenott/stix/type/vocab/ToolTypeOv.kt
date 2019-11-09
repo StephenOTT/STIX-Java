@@ -4,7 +4,11 @@ class ToolTypes(private val types: LinkedHashSet<ToolType> = linkedSetOf()) :
     Set<ToolType> by types {
 }
 
-class ToolType(private val type: String) : OpenVocab, CharSequence by type {
+class ToolType(private val type: String) : OpenVocab {
+
+    override fun getValue(): String {
+        return type
+    }
 
     companion object {
         var vocab: LinkedHashSet<String> = linkedSetOf(

@@ -1,4 +1,4 @@
-package com.stephenott.stix.type.vocab
+package com.stephenott.stix.type
 
 class KillChainPhases(private val phases: LinkedHashSet<KillChainPhase>) : Set<KillChainPhase> by phases {
 

@@ -1,9 +1,13 @@
 package com.stephenott.stix.type.vocab
 
-class WindowsPebinaryTypeOv(private val type: String) : ClosedVocab, CharSequence by type {
+class WindowsPebinaryTypeOv(private val type: String) : ClosedVocab {
+
+    override fun getValue(): String {
+        return type
+    }
 
     companion object {
-        val vocabName = "windows-pebinary-type-ov"
+        const val vocabName = "windows-pebinary-type-ov"
 
         val vocab: LinkedHashSet<String> = linkedSetOf(
             "dll", "exe", "sys"

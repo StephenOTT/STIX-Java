@@ -1,39 +1,69 @@
 package com.stephenott.stix.serialization.json
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.fasterxml.jackson.databind.jsontype.NamedType
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.stephenott.stix.StixContent
 import com.stephenott.stix.common.StixObjectRegistry
-import com.stephenott.stix.objects.StixObject
-import com.stephenott.stix.type.StixType
-import kotlin.reflect.KClass
 
 
 fun createStixContentSerializationModule(): SimpleModule {
-    return SimpleModule()
-        .addDeserializer(StixContent::class.java, StixContentDeserializer())
-}
+    val module: SimpleModule = SimpleModule()
 
-class StixContentDeserializer() : StdDeserializer<StixContent>(StixContent::class.java) {
-
-    override fun deserialize(p: JsonParser?, ctxt: DeserializationContext?): StixContent {
-
-        val node: JsonNode = p!!.codec.readTree(p)
-        val typeProp = node.get("type")
-        if (typeProp != null) {
-            val stixType = StixType.parse(typeProp.asText())
-
-            val objectClass: KClass<out StixObject> = StixObjectRegistry.registry.getOrElse(stixType, defaultValue = {
-                throw IllegalArgumentException("Unable to parse the object. Ensure object type is supported.")
-            })
-
-            return p.codec.treeToValue(node, objectClass.java)
-
-        } else {
-            throw IllegalArgumentException("type property was null or not provided.")
-        }
+    StixObjectRegistry.registry.forEach { (type, clazz) ->
+        module.registerSubtypes(NamedType(clazz.java, type.toString()))
     }
+
+    module.setMixInAnnotation(StixContent::class.java, StixContentTypeMixin::class.java)
+
+    return module
 }
+
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    visible = true,
+    property = "type"
+)
+interface StixContentTypeMixin {
+}
+
+
+//class StixContentSerializer(): StdSerializer<StixContent>(StixContent::class.java) {
+//    override fun serializeWithType(
+//        value: StixContent?,
+//        gen: JsonGenerator?,
+//        serializers: SerializerProvider?,
+//        typeSer: TypeSerializer?
+//    ) {
+//
+//        super.serializeWithType(value, gen, serializers, typeSer)
+//    }
+//
+//    override fun serialize(value: StixContent?, gen: JsonGenerator?, provider: SerializerProvider?) {
+//
+//    }
+//
+//}
+
+
+//class StixContentDeserializer() : StdDeserializer<StixContent>(StixContent::class.java) {
+//
+//    override fun deserialize(p: JsonParser?, ctxt: DeserializationContext?): StixContent {
+//
+//        val node: JsonNode = p!!.codec.readTree(p)
+//        val typeProp = node.get("type")
+//        if (typeProp != null) {
+//            val stixType = StixType.parse(typeProp.asText())
+//
+//            val objectClass: KClass<out StixObject> = StixObjectRegistry.registry.getOrElse(stixType, defaultValue = {
+//                throw IllegalArgumentException("Unable to parse the object. Ensure object type is supported.")
+//            })
+//
+//            return p.codec.treeToValue(node, objectClass.java)
+//
+//        } else {
+//            throw IllegalArgumentException("type property was null or not provided.")
+//        }
+//    }
+//}

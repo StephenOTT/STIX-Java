@@ -49,6 +49,10 @@ data class LanguageContent(
 ) :
     LanguageContentLco {
 
+    init {
+        LanguageContentLco.objectValidationRules(this)
+    }
+
     override fun allowedRelationships(): List<AllowedRelationship> {
         return LanguageContentLco.allowedRelationships
     }

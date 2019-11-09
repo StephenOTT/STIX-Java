@@ -1,10 +1,14 @@
 package com.stephenott.stix.type.vocab
 
-class IdentityClass(private val identityClass: String): OpenVocab, CharSequence by identityClass{
+class IdentityClass(private val identityClass: String): OpenVocab {
+
+    override fun getValue(): String {
+        return identityClass
+    }
 
     companion object{
 
-        val vocabName = "identity-class-ov"
+        const val vocabName = "identity-class-ov"
 
         var vocab: LinkedHashSet<String> = linkedSetOf(
             "individual", "group", "system",
