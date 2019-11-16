@@ -1,6 +1,6 @@
 package com.stephenott.stix.objects.core.sco.extension.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.BusinessRulesExtensionValidator
 import com.stephenott.stix.common.CompanionExtensionType
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
 import com.stephenott.stix.type.StixBoolean
@@ -20,7 +20,7 @@ interface WindowsProcessExtensionExt : ScoExtension {
 
     companion object :
         CompanionExtensionType,
-        BusinessRulesValidator<WindowsProcessExtensionExt> {
+        BusinessRulesExtensionValidator<WindowsProcessExtensionExt> {
 
         override val extensionType: String = "windows-process-ext"
 

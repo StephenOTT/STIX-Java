@@ -1,11 +1,9 @@
 package com.stephenott.stix.objects.core.sco.extension.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.BusinessRulesExtensionValidator
 import com.stephenott.stix.common.CompanionExtensionType
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
-import com.stephenott.stix.type.AlternateDataStreams
 import com.stephenott.stix.type.ExifTagsDictionary
-import com.stephenott.stix.type.StixBoolean
 import com.stephenott.stix.type.StixInteger
 
 interface RasterImageFileExtensionExt: ScoExtension{
@@ -17,7 +15,7 @@ interface RasterImageFileExtensionExt: ScoExtension{
 
     companion object:
         CompanionExtensionType,
-        BusinessRulesValidator<RasterImageFileExtensionExt> {
+        BusinessRulesExtensionValidator<RasterImageFileExtensionExt> {
 
         override val extensionType: String = "raster-image-ext"
 

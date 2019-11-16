@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sco.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -32,7 +34,7 @@ interface MutexSco : StixCyberObservableObject {
 
         )
 
-        override fun objectValidationRules(obj: MutexSco) {
+        override fun objectValidationRules(obj: MutexSco, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
         }
@@ -48,11 +50,12 @@ data class Mutex(
     override val granularMarkings: String? = null,
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean()
+    override val defanged: StixBoolean = StixBoolean(),
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) : MutexSco {
 
     init {
-        MutexSco.objectValidationRules(this)
+        MutexSco.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

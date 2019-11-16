@@ -1,8 +1,13 @@
 package com.stephenott.stix
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.stephenott.stix.common.StixIdentifierProp
 import com.stephenott.stix.common.StixTypeProp
 
 interface StixContent :
     StixTypeProp,
-    StixIdentifierProp {}
+    StixIdentifierProp {
+
+    val stixRegistries: StixRegistries
+
+}

@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -21,7 +23,7 @@ interface AttackPatternSdo : StixDomainObject {
 
         override val stixType = StixType("attack-pattern")
 
-        override fun objectValidationRules(obj: AttackPatternSdo) {
+        override fun objectValidationRules(obj: AttackPatternSdo, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
         }
 
@@ -80,12 +82,12 @@ data class AttackPattern(
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean(),
     override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null
-) :
-    AttackPatternSdo {
+    override val lang: StixLang? = null,
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+) : AttackPatternSdo {
 
     init {
-        AttackPatternSdo.objectValidationRules(this)
+        AttackPatternSdo.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

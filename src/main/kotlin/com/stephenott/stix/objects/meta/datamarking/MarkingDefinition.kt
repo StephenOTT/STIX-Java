@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.meta.datamarking
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -25,7 +27,7 @@ interface MarkingDefinitionDm: DataMarking{
             //@TODO review if this is needed for this object
         )
 
-        override fun objectValidationRules(obj: MarkingDefinitionDm) {
+        override fun objectValidationRules(obj: MarkingDefinitionDm, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
         }
 
@@ -43,12 +45,12 @@ data class MarkingDefinition(
     override val externalReferences: ExternalReferences? = null,
     override val objectMarkingsRefs: String? = null,
     override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion()
-
+    override val specVersion: StixSpecVersion = StixSpecVersion(),
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ): MarkingDefinitionDm {
 
     init {
-        MarkingDefinitionDm.objectValidationRules(this)
+        MarkingDefinitionDm.objectValidationRules(this, stixRegistries)
     }
 
 

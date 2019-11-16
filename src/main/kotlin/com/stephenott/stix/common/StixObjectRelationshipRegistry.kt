@@ -4,7 +4,7 @@ import com.stephenott.stix.objects.core.sdo.objects.*
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
 
-object StixObjectRelationshipRegistry {
+class StixObjectRelationshipRegistry() {
 
     var registry: List<AllowedRelationship> =
         RelationshipSro.allowedCommonRelationships +

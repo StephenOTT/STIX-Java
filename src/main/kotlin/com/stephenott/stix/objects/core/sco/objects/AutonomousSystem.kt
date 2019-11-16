@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sco.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -34,7 +36,7 @@ interface AutonomousSystemSco : StixCyberObservableObject {
 
         )
 
-        override fun objectValidationRules(obj: AutonomousSystemSco) {
+        override fun objectValidationRules(obj: AutonomousSystemSco, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
         }
 
@@ -51,11 +53,12 @@ data class AutonomousSystem(
     override val granularMarkings: String? = null,
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean()
+    override val defanged: StixBoolean = StixBoolean(),
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) : AutonomousSystemSco {
 
     init {
-        AutonomousSystemSco.objectValidationRules(this)
+        AutonomousSystemSco.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

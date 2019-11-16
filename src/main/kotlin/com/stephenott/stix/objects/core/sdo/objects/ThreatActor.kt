@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -31,7 +33,7 @@ interface ThreatActorSdo : StixDomainObject {
 
         override val stixType = StixType("threat-actor")
 
-        override fun objectValidationRules(obj: ThreatActorSdo) {
+        override fun objectValidationRules(obj: ThreatActorSdo, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
             if (obj.firstSeen != null && obj.lastSeen != null){
@@ -136,12 +138,12 @@ data class ThreatActor(
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean(),
     override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null
-) :
-    ThreatActorSdo {
+    override val lang: StixLang? = null,
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+) : ThreatActorSdo {
 
     init {
-        ThreatActorSdo.objectValidationRules(this)
+        ThreatActorSdo.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

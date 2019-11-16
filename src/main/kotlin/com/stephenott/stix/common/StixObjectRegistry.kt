@@ -11,7 +11,6 @@ import com.stephenott.stix.objects.core.sro.objects.RelationshipSro
 import com.stephenott.stix.objects.core.sro.objects.Sighting
 import com.stephenott.stix.objects.core.sro.objects.SightingSro
 import com.stephenott.stix.objects.meta.StixMetaObject
-import com.stephenott.stix.objects.meta.datamarking.GranularMarkingGm
 import com.stephenott.stix.objects.meta.datamarking.MarkingDefinition
 import com.stephenott.stix.objects.meta.datamarking.MarkingDefinitionDm
 import com.stephenott.stix.objects.meta.datamarking.MarkingObject
@@ -25,8 +24,13 @@ import com.stephenott.stix.type.StixType
 import com.stephenott.stix.type.vocab.MarkingDefinitionTypeOv
 import kotlin.reflect.KClass
 
-//@TODO move to a instance so it can be passed into content handlers (such as JSON content mapper)
-object StixObjectRegistry {
+data class StixObjectRegistry(
+    val customSdoRegistry: Map<StixType, KClass<out StixDomainObject>> = mapOf(),
+    val customScoRegistry: Map<StixType, KClass<out StixCyberObservableObject>> = mapOf(),
+    val customSroRegistry: Map<StixType, KClass<out StixRelationshipObject>> = mapOf(),
+    val customMetaObjectRegistry: Map<StixType, KClass<out StixMetaObject>> = mapOf(),
+    val customMarkingObjectRegistry: Map<MarkingDefinitionTypeOv, KClass<out MarkingObject>> = mapOf()
+) {
 
     // STIX OBJECT Registry:
 
@@ -82,30 +86,6 @@ object StixObjectRegistry {
     )
 
     /**
-     * Custom SDO Objects
-     */
-    var customSdoRegistry: Map<StixType, KClass<out StixDomainObject>> = mutableMapOf(
-    )
-
-    /**
-     * Custom SCO Objects
-     */
-    var customScoRegistry: Map<StixType, KClass<out StixCyberObservableObject>> = mutableMapOf(
-    )
-
-    /**
-     * Custom SRO Objects
-     */
-    var customSroRegistry: Map<StixType, KClass<out StixRelationshipObject>> = mutableMapOf(
-    )
-
-    /**
-     * Custom Meta Objects
-     */
-    var customMetaObjectRegistry: Map<StixType, KClass<out StixMetaObject>> = mutableMapOf(
-    )
-
-    /**
      * Aggregate of the Stix Objects (spec defined and custom)
      */
     private fun aggregateObjects(): Map<StixType, KClass<out StixObject>> {
@@ -148,12 +128,6 @@ object StixObjectRegistry {
     val markingObjectRegistry: Map<MarkingDefinitionTypeOv, KClass<out MarkingObject>> = mapOf(
         Pair(TlpMo.definitionType, Tlp::class),
         Pair(StatementMo.definitionType, Statement::class)
-    )
-
-    /**
-     * Custom Data Marking Objects
-     */
-    var customMarkingObjectRegistry: Map<MarkingDefinitionTypeOv, KClass<out MarkingObject>> = mutableMapOf(
     )
 
     private fun aggregateMarkingObjects(): Map<MarkingDefinitionTypeOv, KClass<out MarkingObject>> {

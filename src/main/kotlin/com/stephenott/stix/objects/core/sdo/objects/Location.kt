@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -30,7 +32,7 @@ interface LocationSdo : StixDomainObject {
 
         override val stixType = StixType("location")
 
-        override fun objectValidationRules(obj: LocationSdo) {
+        override fun objectValidationRules(obj: LocationSdo, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
             if (obj.latitude != null) require(obj.longitude != null,
@@ -70,12 +72,13 @@ data class Location(
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean(),
     override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null
+    override val lang: StixLang? = null,
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) :
     LocationSdo {
 
     init {
-        LocationSdo.objectValidationRules(this)
+        LocationSdo.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

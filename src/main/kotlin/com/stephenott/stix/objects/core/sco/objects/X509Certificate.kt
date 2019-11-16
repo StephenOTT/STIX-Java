@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sco.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -39,15 +41,11 @@ interface X509CertificateSco : StixCyberObservableObject {
             X509CertificateSco::serialNumber
         )
 
-        override val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val allowedRelationships: List<AllowedRelationship> = listOf()
 
-        )
+        override val allowedExtensions: List<KClass<out ScoExtension>> = listOf()
 
-        override val allowedExtensions: List<KClass<out ScoExtension>> = listOf(
-
-        )
-
-        override fun objectValidationRules(obj: X509CertificateSco) {
+        override fun objectValidationRules(obj: X509CertificateSco, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
             require(listOf( //@TODO review against Stix 2 Issues against 182
@@ -90,11 +88,12 @@ data class X509Certificate(
     override val granularMarkings: String? = null,
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean()
+    override val defanged: StixBoolean = StixBoolean(),
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) : X509CertificateSco {
 
     init {
-        X509CertificateSco.objectValidationRules(this)
+        X509CertificateSco.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -6,7 +6,7 @@ import com.stephenott.stix.objects.meta.datamarking.objects.Tlp
 import com.stephenott.stix.type.vocab.MarkingDefinitionTypeOv
 import kotlin.reflect.KClass
 
-class StixMarkingObjectRegistry {
+class StixMarkingObjectRegistry() {
 
     val registry: MutableMap<MarkingDefinitionTypeOv, KClass<out MarkingObject>> = mutableMapOf(
         Pair(MarkingDefinitionTypeOv("statement"), Statement::class),

@@ -1,6 +1,6 @@
 package com.stephenott.stix.objects.core.sco.extension.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.BusinessRulesExtensionValidator
 import com.stephenott.stix.common.CompanionExtensionType
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
 import com.stephenott.stix.type.AlternateDataStreams
@@ -11,7 +11,7 @@ interface NtfsFileExtensionExt: ScoExtension{
 
     companion object:
         CompanionExtensionType,
-        BusinessRulesValidator<NtfsFileExtensionExt> {
+        BusinessRulesExtensionValidator<NtfsFileExtensionExt> {
 
         override val extensionType: String = "ntfs-ext"
 

@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.meta.lco.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -18,7 +20,7 @@ interface LanguageContentLco : LanguageContentObject {
     companion object: CompanionStixType,
         BusinessRulesValidator<LanguageContentLco>,
         CompanionAllowedRelationships {
-        override fun objectValidationRules(obj: LanguageContentLco) {
+        override fun objectValidationRules(obj: LanguageContentLco, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
         }
 
@@ -45,12 +47,12 @@ data class LanguageContent(
     override val labels: StixLabels? = null,
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean(),
-    override val confidence: StixConfidence? = null
-) :
-    LanguageContentLco {
+    override val confidence: StixConfidence? = null,
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+) : LanguageContentLco {
 
     init {
-        LanguageContentLco.objectValidationRules(this)
+        LanguageContentLco.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

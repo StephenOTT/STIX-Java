@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -29,7 +31,7 @@ interface IndicatorSdo : StixDomainObject {
 
         override val stixType = StixType("indicator")
 
-        override fun objectValidationRules(obj: IndicatorSdo) {
+        override fun objectValidationRules(obj: IndicatorSdo, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
             require(obj.validUntil?.instant!!.isAfter(obj.validFrom.instant),
@@ -104,11 +106,12 @@ data class Indicator(
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean(),
     override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null
+    override val lang: StixLang? = null,
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) : IndicatorSdo {
 
     init {
-        IndicatorSdo.objectValidationRules(this)
+        IndicatorSdo.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

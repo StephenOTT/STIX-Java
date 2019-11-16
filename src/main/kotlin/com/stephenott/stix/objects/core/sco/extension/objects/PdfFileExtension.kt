@@ -1,9 +1,8 @@
 package com.stephenott.stix.objects.core.sco.extension.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.BusinessRulesExtensionValidator
 import com.stephenott.stix.common.CompanionExtensionType
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
-import com.stephenott.stix.type.AlternateDataStreams
 import com.stephenott.stix.type.StixBoolean
 
 interface PdfFileExtensionExt: ScoExtension{
@@ -16,7 +15,7 @@ interface PdfFileExtensionExt: ScoExtension{
 
     companion object:
         CompanionExtensionType,
-        BusinessRulesValidator<PdfFileExtensionExt> {
+        BusinessRulesExtensionValidator<PdfFileExtensionExt> {
 
         override val extensionType: String = "pdf-ext"
 

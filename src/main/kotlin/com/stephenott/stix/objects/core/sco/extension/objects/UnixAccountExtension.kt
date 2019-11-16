@@ -1,9 +1,8 @@
 package com.stephenott.stix.objects.core.sco.extension.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.BusinessRulesExtensionValidator
 import com.stephenott.stix.common.CompanionExtensionType
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
-import com.stephenott.stix.type.StixHex
 import com.stephenott.stix.type.StixInteger
 import com.stephenott.stix.type.StixStringList
 
@@ -16,7 +15,7 @@ interface UnixAccountExtensionExt : ScoExtension {
 
     companion object :
         CompanionExtensionType,
-        BusinessRulesValidator<UnixAccountExtensionExt> {
+        BusinessRulesExtensionValidator<UnixAccountExtensionExt> {
 
         override val extensionType: String = "unix-account-ext"
 

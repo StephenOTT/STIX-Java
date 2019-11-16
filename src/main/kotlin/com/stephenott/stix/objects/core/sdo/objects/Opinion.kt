@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -22,7 +24,7 @@ interface OpinionSdo : StixDomainObject {
 
         override val stixType = StixType("opinion")
 
-        override fun objectValidationRules(obj: OpinionSdo) {
+        override fun objectValidationRules(obj: OpinionSdo, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
         }
@@ -50,12 +52,13 @@ data class Opinion(
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean(),
     override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null
+    override val lang: StixLang? = null,
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) :
     OpinionSdo {
 
     init {
-        OpinionSdo.objectValidationRules(this)
+        OpinionSdo.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

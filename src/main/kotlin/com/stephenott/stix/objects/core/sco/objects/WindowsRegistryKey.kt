@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sco.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -33,15 +35,11 @@ interface WindowsRegistryKeySco : StixCyberObservableObject {
             WindowsRegistryKeySco::values // @TODO ** There is another pattern like this where only 1 value from this prop should be used in the ID.  Should look to standardize on this to make the code simpler
         )
 
-        override val allowedRelationships: List<AllowedRelationship> = listOf(
+        override val allowedRelationships: List<AllowedRelationship> = listOf()
 
-        )
+        override val allowedExtensions: List<KClass<out ScoExtension>> = listOf()
 
-        override val allowedExtensions: List<KClass<out ScoExtension>> = listOf(
-
-        )
-
-        override fun objectValidationRules(obj: WindowsRegistryKeySco) {
+        override fun objectValidationRules(obj: WindowsRegistryKeySco, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
             require(
                 listOf(obj.key, obj.values, obj.modifiedTimed, obj.creatorUserRef, obj.numberOfSubkeys)
@@ -69,11 +67,12 @@ data class WindowsRegistryKey(
     override val granularMarkings: String? = null,
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean()
+    override val defanged: StixBoolean = StixBoolean(),
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) : WindowsRegistryKeySco {
 
     init {
-        WindowsRegistryKeySco.objectValidationRules(this)
+        WindowsRegistryKeySco.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

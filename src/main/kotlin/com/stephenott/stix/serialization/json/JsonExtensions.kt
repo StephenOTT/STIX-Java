@@ -3,66 +3,64 @@ package com.stephenott.stix.serialization.json
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
-import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.stephenott.stix.StixBundle
 import com.stephenott.stix.StixContent
-import kotlin.reflect.full.cast
+import com.stephenott.stix.StixRegistries
+import com.stephenott.stix.serialization.StixContentMapper
+import com.fasterxml.jackson.module.kotlin.*
 
-fun createStixMapper(): ObjectMapper {
-    return ObjectMapper()
-        .registerModule(KotlinModule()) //@TODO see jackson kotlin module issue #87.  Waiting for fix.  Currently if a subtype does not exist then it fails to provide a meaningful error.
-        .registerModule(JavaTimeModule())
-        .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
-        .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-        .registerModule(createStixInstantSerializationModule())
-        .registerModule(createStixIdentifierSerializationModule())
-        .registerModule(createStixTypeSerializationModule())
-        .registerModule(createStixSpecVersionSerializationModule())
-        .registerModule(createStixBooleanSerializationModule())
-        .registerModule(createStixContentSerializationModule())
-        .registerModule(createRelationshipTypeSerializationModule())
-        .registerModule(createStixIntegerSerializationModule())
-        .registerModule(createStixConfidenceSerializationModule())
-        .registerModule(createStixOpenVocabSerializationModule())
-        .registerModule(createStixMarkingObjectSerializationModule())
-}
-
-class StixContentMapper(){
-    /**
-     * Should generally not be needed. But provided just in case
-     */
-    val jsonMapper: ObjectMapper = createStixMapper()
+class StixJsonContentMapper(
+    override val stixRegistries: StixRegistries = StixRegistries(),
+    override val mapper: ObjectMapper = createStixJsonObjectMapper(stixRegistries)
+) : StixContentMapper {
 
     /**
      * Parse a json string into any kind of Stix Content (SDO, SCO, SRO, Relationships, etc)
      */
-    inline fun <reified T: StixContent> parseJson(json: String): T {
-//        val content: T
-
+    inline fun <reified T : StixContent> parseJson(json: String): T {
         try {
-            return jsonMapper.readValue(json, T::class.java)
-//            return content
-        } catch (e: Exception){
+            return mapper.readValue(json)
+        } catch (e: Exception) {
             throw IllegalArgumentException("Unable to parse json.", e)
         }
-
-//        try {
-//            return T::class.cast(content)
-//        } catch (e: Exception){
-//            throw IllegalArgumentException("Unable to parse json.", e)
-//        }
     }
 
+    fun toJson(value: StixContent): String {
+        return this.mapper.writeValueAsString(value)
+    }
+
+    fun toJson(value: StixBundle): String {
+        return this.mapper.writeValueAsString(value)
+    }
+
+    companion object {
+        fun createStixJsonObjectMapper(stixRegistries: StixRegistries): ObjectMapper {
+            return ObjectMapper()
+                .registerModule(KotlinModule()) //@TODO see jackson kotlin module issue #87.  Waiting for fix.  Currently if a subtype does not exist then it fails to provide a meaningful error.
+                .registerModule(JavaTimeModule())
+                .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+                .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+                .registerModule(createStixInstantSerializationModule())
+                .registerModule(createStixIdentifierSerializationModule())
+                .registerModule(createStixTypeSerializationModule())
+                .registerModule(createStixSpecVersionSerializationModule())
+                .registerModule(createStixBooleanSerializationModule())
+                .registerModule(createStixContentSerializationModule(stixRegistries.objectRegistry))
+                .registerModule(createRelationshipTypeSerializationModule())
+                .registerModule(createStixIntegerSerializationModule())
+                .registerModule(createStixConfidenceSerializationModule())
+                .registerModule(createStixOpenVocabSerializationModule())
+                .registerModule(createStixMarkingObjectSerializationModule(stixRegistries.markingObjectRegistry))
+        }
+    }
 }
 
-fun StixContent.toJson(mapper: StixContentMapper): String{
-    return mapper.jsonMapper.writeValueAsString(this)
+
+fun StixContent.toJson(mapper: StixJsonContentMapper): String {
+    return mapper.mapper.writeValueAsString(this)
 }
 
-fun StixBundle.toJson(mapper: StixContentMapper): String{
-    return mapper.jsonMapper.writeValueAsString(this)
+fun StixBundle.toJson(mapper: StixJsonContentMapper): String {
+    return mapper.mapper.writeValueAsString(this)
 }

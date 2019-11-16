@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -25,9 +27,8 @@ interface ToolSdo : StixDomainObject {
 
         override val stixType = StixType("tool")
 
-        override fun objectValidationRules(obj: ToolSdo) {
+        override fun objectValidationRules(obj: ToolSdo, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
-
         }
 
         override val allowedRelationships: List<AllowedRelationship> = listOf(
@@ -94,12 +95,12 @@ data class Tool(
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean(),
     override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null
-) :
-    ToolSdo {
+    override val lang: StixLang? = null,
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+) : ToolSdo {
 
     init {
-        ToolSdo.objectValidationRules(this)
+        ToolSdo.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sro.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.common.StixObjectRegistry
@@ -25,7 +27,7 @@ interface SightingSro : StixRelationshipObject {
 
         override val stixType: StixType = StixType("sighting")
 
-        override fun objectValidationRules(obj: SightingSro) {
+        override fun objectValidationRules(obj: SightingSro, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
             if (obj.firstSeen != null && obj.lastSeen != null) {
@@ -38,7 +40,7 @@ interface SightingSro : StixRelationshipObject {
                     lazyMessage = { "count must be between 0 and 999,999,999." })
             }
 
-            require(obj.sightingOfRef.type in StixObjectRegistry.sdoRegistry.keys,
+            require(obj.sightingOfRef.type in stixRegistries.objectRegistry.sdoRegistry.keys,
                 lazyMessage = { "sighting_of_ref must reference only a SDO." }) // @TODO should also support custom objects
 
             obj.observedDataRefs?.let {
@@ -73,11 +75,12 @@ data class Sighting(
     override val specVersion: StixSpecVersion = StixSpecVersion(),
     override val labels: StixLabels? = null,
     override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean()
+    override val revoked: StixBoolean = StixBoolean(),
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) : SightingSro {
 
     init {
-        SightingSro.objectValidationRules(this)
+        SightingSro.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

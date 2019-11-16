@@ -1,9 +1,10 @@
 package com.stephenott.stix.objects.core.sco.extension.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.BusinessRulesExtensionValidator
 import com.stephenott.stix.common.CompanionExtensionType
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
-import com.stephenott.stix.type.*
+import com.stephenott.stix.type.StixBoolean
+import com.stephenott.stix.type.StixInteger
 import com.stephenott.stix.type.vocab.NetworkSocketAddressFamilyEnum
 import com.stephenott.stix.type.vocab.NetworkSocketTypeEnum
 
@@ -19,7 +20,7 @@ interface NetworkSocketExtensionExt: ScoExtension{
 
     companion object:
         CompanionExtensionType,
-        BusinessRulesValidator<NetworkSocketExtensionExt> {
+        BusinessRulesExtensionValidator<NetworkSocketExtensionExt> {
 
         override val extensionType: String = "socket-ext"
 

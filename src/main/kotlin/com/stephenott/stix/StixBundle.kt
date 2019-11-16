@@ -16,7 +16,8 @@ interface StixBundle: StixContent{
 
 data class Bundle(override val type: StixType = StixBundle.stixType,
                   override val id: StixIdentifier = StixIdentifier(type),
-                  override val objects: LinkedHashSet<StixObject>
+                  override val objects: LinkedHashSet<StixObject>,
+                  override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ): StixBundle{
 
 }

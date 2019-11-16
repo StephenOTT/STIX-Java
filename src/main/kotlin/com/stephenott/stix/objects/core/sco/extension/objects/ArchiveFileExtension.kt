@@ -1,6 +1,6 @@
 package com.stephenott.stix.objects.core.sco.extension.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.BusinessRulesExtensionValidator
 import com.stephenott.stix.common.CompanionExtensionType
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
 import com.stephenott.stix.objects.core.sco.objects.DirectorySco
@@ -13,7 +13,7 @@ interface ArchiveFileExtensionExt : ScoExtension {
 
     companion object :
         CompanionExtensionType,
-        BusinessRulesValidator<ArchiveFileExtensionExt> {
+        BusinessRulesExtensionValidator<ArchiveFileExtensionExt> {
 
         override val extensionType: String = "archive-ext"
 

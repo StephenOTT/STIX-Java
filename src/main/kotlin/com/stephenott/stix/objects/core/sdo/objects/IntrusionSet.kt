@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -27,7 +29,7 @@ interface IntrusionSetSdo : StixDomainObject {
 
         override val stixType = StixType("intrusion-set")
 
-        override fun objectValidationRules(obj: IntrusionSetSdo) {
+        override fun objectValidationRules(obj: IntrusionSetSdo, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
             if (obj.firstSeen != null && obj.lastSeen != null){
@@ -123,12 +125,12 @@ data class IntrusionSet(
     override val modified: StixInstant = StixInstant(created),
     override val revoked: StixBoolean = StixBoolean(),
     override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null
-) :
-    IntrusionSetSdo {
+    override val lang: StixLang? = null,
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+) : IntrusionSetSdo {
 
     init {
-        IntrusionSetSdo.objectValidationRules(this)
+        IntrusionSetSdo.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sro.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.StixObject
 import com.stephenott.stix.objects.core.sro.StixRelationshipObject
@@ -21,7 +23,7 @@ interface RelationshipSro : StixRelationshipObject {
 
         override val stixType = StixType("relationship")
 
-        override fun objectValidationRules(obj: RelationshipSro) {
+        override fun objectValidationRules(obj: RelationshipSro, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
         }
@@ -84,7 +86,8 @@ data class Relationship(
     override val specVersion: StixSpecVersion = StixSpecVersion(),
     override val labels: StixLabels? = null,
     override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean()
+    override val revoked: StixBoolean = StixBoolean(),
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) : RelationshipSro {
 
     /**
@@ -123,15 +126,15 @@ data class Relationship(
 
 
     init {
-        val sourceClass: KClass<out StixObject> = StixObjectRegistry.registry[sourceRef.type]
+        val sourceClass: KClass<out StixObject> = this.stixRegistries.objectRegistry.registry[sourceRef.type]
             ?: throw IllegalStateException("Unable to find sourceRef in Object Registry")
 
-        val targetClass: KClass<out StixObject> = StixObjectRegistry.registry[targetRef.type]
+        val targetClass: KClass<out StixObject> = this.stixRegistries.objectRegistry.registry[targetRef.type]
             ?: throw IllegalStateException("Unable to find targetRef in Object Registry")
 
 
         //@TODO add support for x- custom objects
-        val allowedRelationships: List<AllowedRelationship> = StixObjectRelationshipRegistry
+        val allowedRelationships: List<AllowedRelationship> = this.stixRegistries.relationshipRegistry
             .registry.filter {
             sourceClass.isSubclassOf(it.from) &&
                     it.type == this.relationshipType &&

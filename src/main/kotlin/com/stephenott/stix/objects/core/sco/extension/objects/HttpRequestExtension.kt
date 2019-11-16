@@ -1,6 +1,6 @@
 package com.stephenott.stix.objects.core.sco.extension.objects
 
-import com.stephenott.stix.common.BusinessRulesValidator
+import com.stephenott.stix.common.BusinessRulesExtensionValidator
 import com.stephenott.stix.common.CompanionExtensionType
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
 import com.stephenott.stix.objects.core.sco.objects.ArtifactSco
@@ -18,7 +18,7 @@ interface HttpRequestExtensionExt : ScoExtension {
 
     companion object :
         CompanionExtensionType,
-        BusinessRulesValidator<HttpRequestExtensionExt> {
+        BusinessRulesExtensionValidator<HttpRequestExtensionExt> {
 
         override val extensionType: String = "http-request-ext"
 

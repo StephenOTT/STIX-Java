@@ -1,5 +1,7 @@
 package com.stephenott.stix.objects.core.sco.objects
 
+import com.stephenott.stix.Stix
+import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -53,7 +55,7 @@ interface FileSco : StixCyberObservableObject {
             WindowsPeBinaryFileExtensionExt::class
         )
 
-        override fun objectValidationRules(obj: FileSco) {
+        override fun objectValidationRules(obj: FileSco, stixRegistries: StixRegistries) {
             requireStixType(this.stixType, obj)
 
             obj.size?.let {
@@ -65,7 +67,7 @@ interface FileSco : StixCyberObservableObject {
                     lazyMessage = { "parent_directory_ref must only contain a reference to a Directory object SCO." })
             }
             obj.containsRefs?.let {
-                require(it.all { id -> StixObjectRegistry.registry.getValue(id.type).isSubclassOf(StixCyberObservableObject::class) },
+                require(it.all { id -> stixRegistries.objectRegistry.registry.getValue(id.type).isSubclassOf(StixCyberObservableObject::class) },
                     lazyMessage = { "contains_refs can only contain references to SCOs." })
             }
             obj.contentRef?.let {
@@ -95,11 +97,12 @@ data class File(
     override val granularMarkings: String? = null,
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean()
+    override val defanged: StixBoolean = StixBoolean(),
+    override val stixRegistries: StixRegistries = Stix.defaultRegistries
 ) : FileSco {
 
     init {
-        FileSco.objectValidationRules(this)
+        FileSco.objectValidationRules(this, stixRegistries)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
