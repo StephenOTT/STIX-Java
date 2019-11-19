@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -14,8 +13,8 @@ import kotlin.reflect.KProperty1
 
 interface NetworkTrafficSco : StixCyberObservableObject {
 
-    val start: StixInstant?
-    val end: StixInstant?
+    val start: StixTimestamp?
+    val end: StixTimestamp?
     val isActive: StixBoolean?
     val srcRef: StixIdentifier?
     val dstRef: StixIdentifier?
@@ -61,7 +60,7 @@ interface NetworkTrafficSco : StixCyberObservableObject {
             NetworkSocketExtensionExt::class
         )
 
-        override fun objectValidationRules(obj: NetworkTrafficSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: NetworkTrafficSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             obj.isActive?.let {
@@ -128,35 +127,36 @@ interface NetworkTrafficSco : StixCyberObservableObject {
 }
 
 data class NetworkTraffic(
-    override val start: StixInstant? = null,
-    override val end: StixInstant? = null,
-    override val isActive: StixBoolean? = null,
-    override val srcRef: StixIdentifier? = null,
-    override val dstRef: StixIdentifier? = null,
-    override val srcPort: StixInteger? = null,
-    override val dstPort: StixInteger? = null,
-    override val protocols: StixStringList,
-    override val srcByteCount: StixInteger? = null,
-    override val dstByteCount: StixInteger? = null,
-    override val srcPackets: StixInteger? = null,
-    override val dstPackets: StixInteger? = null,
-    override val ipfix: IpfixDictionary? = null,
-    override val srcPayloadRef: StixIdentifier? = null,
-    override val dstPayloadRef: StixIdentifier? = null,
-    override val encapsulatesRefs: StixIdentifiers? = null,
-    override val encapsulatedByRef: StixIdentifier? = null,
-    override val type: StixType = StixType(NetworkTrafficSco.stixType),
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
-    override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val start: StixTimestamp? = null,
+        override val end: StixTimestamp? = null,
+        override val isActive: StixBoolean? = null,
+        override val srcRef: StixIdentifier? = null,
+        override val dstRef: StixIdentifier? = null,
+        override val srcPort: StixInteger? = null,
+        override val dstPort: StixInteger? = null,
+        override val protocols: StixStringList,
+        override val srcByteCount: StixInteger? = null,
+        override val dstByteCount: StixInteger? = null,
+        override val srcPackets: StixInteger? = null,
+        override val dstPackets: StixInteger? = null,
+        override val ipfix: IpfixDictionary? = null,
+        override val srcPayloadRef: StixIdentifier? = null,
+        override val dstPayloadRef: StixIdentifier? = null,
+        override val encapsulatesRefs: StixIdentifiers? = null,
+        override val encapsulatedByRef: StixIdentifier? = null,
+        override val type: StixType = StixType(NetworkTrafficSco.stixType),
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
+        override val extensions: Extensions? = null,
+        override val defanged: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : NetworkTrafficSco {
 
     init {
-        NetworkTrafficSco.objectValidationRules(this, stixRegistries)
+        NetworkTrafficSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

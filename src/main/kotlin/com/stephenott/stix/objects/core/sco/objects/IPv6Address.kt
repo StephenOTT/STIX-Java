@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -45,7 +44,7 @@ interface IPv6AddressSco : StixCyberObservableObject {
             )
         )
 
-        override fun objectValidationRules(obj: IPv6AddressSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: IPv6AddressSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
         }
 
@@ -61,11 +60,12 @@ data class IPv6Address(
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
     override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+    override val stixInstance: Stix = Stix.defaultStixInstance,
+    override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : IPv6AddressSco {
 
     init {
-        IPv6AddressSco.objectValidationRules(this, stixRegistries)
+        IPv6AddressSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

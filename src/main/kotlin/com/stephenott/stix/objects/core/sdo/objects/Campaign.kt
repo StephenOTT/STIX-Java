@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -15,15 +14,15 @@ interface CampaignSdo : StixDomainObject {
     val name: String
     val description: String?
     val aliases: String?
-    val firstSeen: StixInstant?
-    val lastSeen: StixInstant?
+    val firstSeen: StixTimestamp?
+    val lastSeen: StixTimestamp?
     val objective: String?
 
     companion object: CompanionStixType,
         BusinessRulesValidator<CampaignSdo>,
         CompanionAllowedRelationships {
 
-        override fun objectValidationRules(obj: CampaignSdo, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: CampaignSdo, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
             if (obj.firstSeen != null){
                 require(obj.lastSeen?.instant!!.isAfter(obj.firstSeen!!.instant))
@@ -98,30 +97,31 @@ interface CampaignSdo : StixDomainObject {
 }
 
 data class Campaign (
-    override val name: String,
-    override val description: String? = null,
-    override val aliases: String? = null,
-    override val firstSeen: StixInstant? = null,
-    override val lastSeen: StixInstant? = null,
-    override val objective: String? = null,
-    override val type: StixType = CampaignSdo.stixType,
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val createdByRef: String? = null,
-    override val created: StixInstant = StixInstant(),
-    override val externalReferences: ExternalReferences? = null,
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(),
-    override val labels: StixLabels? = null,
-    override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean(),
-    override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null,
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val name: String,
+        override val description: String? = null,
+        override val aliases: String? = null,
+        override val firstSeen: StixTimestamp? = null,
+        override val lastSeen: StixTimestamp? = null,
+        override val objective: String? = null,
+        override val type: StixType = CampaignSdo.stixType,
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val createdByRef: String? = null,
+        override val created: StixTimestamp = StixTimestamp(),
+        override val externalReferences: ExternalReferences? = null,
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(),
+        override val labels: StixLabels? = null,
+        override val modified: StixTimestamp = StixTimestamp(created),
+        override val revoked: StixBoolean = StixBoolean(),
+        override val confidence: StixConfidence? = null,
+        override val lang: StixLang? = null,
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : CampaignSdo {
 
     init {
-        CampaignSdo.objectValidationRules(this, stixRegistries)
+        CampaignSdo.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

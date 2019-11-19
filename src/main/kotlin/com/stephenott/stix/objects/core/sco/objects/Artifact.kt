@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -41,7 +40,7 @@ interface ArtifactSco : StixCyberObservableObject {
 
         )
 
-        override fun objectValidationRules(obj: ArtifactSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: ArtifactSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             if (obj.url != null) {
@@ -77,11 +76,12 @@ data class Artifact(
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
     override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+    override val stixInstance: Stix = Stix.defaultStixInstance,
+    override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : ArtifactSco {
 
     init {
-        ArtifactSco.objectValidationRules(this, stixRegistries)
+        ArtifactSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

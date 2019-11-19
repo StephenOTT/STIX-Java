@@ -8,6 +8,7 @@ interface StixContent :
     StixTypeProp,
     StixIdentifierProp {
 
-    val stixRegistries: StixRegistries
+    val stixInstance: Stix
+    val stixValidateOnConstruction: Boolean
 
 }

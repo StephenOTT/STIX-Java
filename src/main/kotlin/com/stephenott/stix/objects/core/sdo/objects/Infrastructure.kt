@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -24,8 +23,8 @@ interface InfrastructureSdo : StixDomainObject {
     val infrastructureTypes: InfrastructureTypes
     val aliases: StixStringList?
     val killChainPhases: KillChainPhases?
-    val firstSeen: StixInstant?
-    val lastSeen: StixInstant?
+    val firstSeen: StixTimestamp?
+    val lastSeen: StixTimestamp?
 
     companion object : CompanionStixType,
         BusinessRulesValidator<InfrastructureSdo>,
@@ -33,7 +32,7 @@ interface InfrastructureSdo : StixDomainObject {
 
         override val stixType = StixType("infrastructure")
 
-        override fun objectValidationRules(obj: InfrastructureSdo, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: InfrastructureSdo, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             if (obj.firstSeen != null && obj.lastSeen != null){
@@ -128,31 +127,32 @@ interface InfrastructureSdo : StixDomainObject {
 }
 
 data class Infrastructure(
-    override val name: String,
-    override val description: String? = null,
-    override val infrastructureTypes: InfrastructureTypes,
-    override val aliases: StixStringList? = null,
-    override val killChainPhases: KillChainPhases? = null,
-    override val firstSeen: StixInstant? = null,
-    override val lastSeen: StixInstant? = null,
-    override val type: StixType = InfrastructureSdo.stixType,
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val createdByRef: String? = null,
-    override val created: StixInstant = StixInstant(),
-    override val externalReferences: ExternalReferences? = null,
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(),
-    override val labels: StixLabels? = null,
-    override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean(),
-    override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null,
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val name: String,
+        override val description: String? = null,
+        override val infrastructureTypes: InfrastructureTypes,
+        override val aliases: StixStringList? = null,
+        override val killChainPhases: KillChainPhases? = null,
+        override val firstSeen: StixTimestamp? = null,
+        override val lastSeen: StixTimestamp? = null,
+        override val type: StixType = InfrastructureSdo.stixType,
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val createdByRef: String? = null,
+        override val created: StixTimestamp = StixTimestamp(),
+        override val externalReferences: ExternalReferences? = null,
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(),
+        override val labels: StixLabels? = null,
+        override val modified: StixTimestamp = StixTimestamp(created),
+        override val revoked: StixBoolean = StixBoolean(),
+        override val confidence: StixConfidence? = null,
+        override val lang: StixLang? = null,
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : InfrastructureSdo {
 
     init {
-        InfrastructureSdo.objectValidationRules(this, stixRegistries)
+        InfrastructureSdo.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

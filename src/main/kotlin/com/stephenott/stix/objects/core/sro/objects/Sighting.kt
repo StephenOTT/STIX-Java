@@ -1,10 +1,8 @@
 package com.stephenott.stix.objects.core.sro.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionStixType
-import com.stephenott.stix.common.StixObjectRegistry
 import com.stephenott.stix.common.requireStixType
 import com.stephenott.stix.objects.core.sdo.objects.IdentitySdo
 import com.stephenott.stix.objects.core.sdo.objects.LocationSdo
@@ -14,8 +12,8 @@ import com.stephenott.stix.type.*
 
 interface SightingSro : StixRelationshipObject {
     val description: String?
-    val firstSeen: StixInstant?
-    val lastSeen: StixInstant? //@TODO *** REVIEW SPEC: Says must be after first seen.  But does not say "equals
+    val firstSeen: StixTimestamp?
+    val lastSeen: StixTimestamp? //@TODO *** REVIEW SPEC: Says must be after first seen.  But does not say "equals
     val count: StixInteger?
     val sightingOfRef: StixIdentifier
     val observedDataRefs: StixIdentifiers?
@@ -27,7 +25,7 @@ interface SightingSro : StixRelationshipObject {
 
         override val stixType: StixType = StixType("sighting")
 
-        override fun objectValidationRules(obj: SightingSro, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: SightingSro, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             if (obj.firstSeen != null && obj.lastSeen != null) {
@@ -40,7 +38,7 @@ interface SightingSro : StixRelationshipObject {
                     lazyMessage = { "count must be between 0 and 999,999,999." })
             }
 
-            require(obj.sightingOfRef.type in stixRegistries.objectRegistry.sdoRegistry.keys,
+            require(obj.sightingOfRef.type in stixInstance.registries.objectRegistry.sdoRegistry.keys,
                 lazyMessage = { "sighting_of_ref must reference only a SDO." }) // @TODO should also support custom objects
 
             obj.observedDataRefs?.let {
@@ -57,30 +55,31 @@ interface SightingSro : StixRelationshipObject {
 }
 
 data class Sighting(
-    override val description: String? = null,
-    override val firstSeen: StixInstant? = null,
-    override val lastSeen: StixInstant? = null,
-    override val count: StixInteger? = null,
-    override val sightingOfRef: StixIdentifier,
-    override val observedDataRefs: StixIdentifiers? = null,
-    override val whereSightedRefs: StixIdentifiers? = null,
-    override val summary: StixBoolean = StixBoolean(),
-    override val type: StixType = SightingSro.stixType,
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val createdByRef: String? = null,
-    override val created: StixInstant = StixInstant(),
-    override val externalReferences: ExternalReferences? = null,
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(),
-    override val labels: StixLabels? = null,
-    override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val description: String? = null,
+        override val firstSeen: StixTimestamp? = null,
+        override val lastSeen: StixTimestamp? = null,
+        override val count: StixInteger? = null,
+        override val sightingOfRef: StixIdentifier,
+        override val observedDataRefs: StixIdentifiers? = null,
+        override val whereSightedRefs: StixIdentifiers? = null,
+        override val summary: StixBoolean = StixBoolean(),
+        override val type: StixType = SightingSro.stixType,
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val createdByRef: String? = null,
+        override val created: StixTimestamp = StixTimestamp(),
+        override val externalReferences: ExternalReferences? = null,
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(),
+        override val labels: StixLabels? = null,
+        override val modified: StixTimestamp = StixTimestamp(created),
+        override val revoked: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : SightingSro {
 
     init {
-        SightingSro.objectValidationRules(this, stixRegistries)
+        SightingSro.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

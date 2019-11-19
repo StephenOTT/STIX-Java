@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -24,11 +23,11 @@ interface UserAccountSco : StixCyberObservableObject {
     val isPrivilege: StixBoolean?
     val canEscalatePrivs: StixBoolean?
     val isDisabled: StixBoolean?
-    val accountCreated: StixInstant?
-    val accountExpires: StixInstant?
-    val credentialLastChanged: StixInstant?
-    val accountFirstLogin: StixInstant?
-    val accountLastLogin: StixInstant?
+    val accountCreated: StixTimestamp?
+    val accountExpires: StixTimestamp?
+    val credentialLastChanged: StixTimestamp?
+    val accountFirstLogin: StixTimestamp?
+    val accountLastLogin: StixTimestamp?
 
     companion object :
         CompanionStixType,
@@ -53,7 +52,7 @@ interface UserAccountSco : StixCyberObservableObject {
             UnixAccountExtensionExt::class
         )
 
-        override fun objectValidationRules(obj: UserAccountSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: UserAccountSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
         }
 
@@ -61,32 +60,33 @@ interface UserAccountSco : StixCyberObservableObject {
 }
 
 data class UserAccount(
-    override val userId: String? = null,
-    override val credential: String? = null,
-    override val accountLogin: String? = null,
-    override val accountType: AccountType? = null,
-    override val displayName: String? = null,
-    override val isServiceAccount: StixBoolean? = null,
-    override val isPrivilege: StixBoolean? = null,
-    override val canEscalatePrivs: StixBoolean? = null,
-    override val isDisabled: StixBoolean? = null,
-    override val accountCreated: StixInstant? = null,
-    override val accountExpires: StixInstant? = null,
-    override val credentialLastChanged: StixInstant? = null,
-    override val accountFirstLogin: StixInstant? = null,
-    override val accountLastLogin: StixInstant? = null,
-    override val type: StixType = StixType(UserAccountSco.stixType),
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
-    override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val userId: String? = null,
+        override val credential: String? = null,
+        override val accountLogin: String? = null,
+        override val accountType: AccountType? = null,
+        override val displayName: String? = null,
+        override val isServiceAccount: StixBoolean? = null,
+        override val isPrivilege: StixBoolean? = null,
+        override val canEscalatePrivs: StixBoolean? = null,
+        override val isDisabled: StixBoolean? = null,
+        override val accountCreated: StixTimestamp? = null,
+        override val accountExpires: StixTimestamp? = null,
+        override val credentialLastChanged: StixTimestamp? = null,
+        override val accountFirstLogin: StixTimestamp? = null,
+        override val accountLastLogin: StixTimestamp? = null,
+        override val type: StixType = StixType(UserAccountSco.stixType),
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
+        override val extensions: Extensions? = null,
+        override val defanged: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : UserAccountSco {
 
     init {
-        UserAccountSco.objectValidationRules(this, stixRegistries)
+        UserAccountSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

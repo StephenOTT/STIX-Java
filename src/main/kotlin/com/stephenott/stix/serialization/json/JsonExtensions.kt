@@ -1,6 +1,7 @@
 package com.stephenott.stix.serialization.json
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -9,6 +10,7 @@ import com.stephenott.stix.StixContent
 import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.serialization.StixContentMapper
 import com.fasterxml.jackson.module.kotlin.*
+import com.stephenott.stix.Stix
 
 class StixJsonContentMapper(
     override val stixRegistries: StixRegistries = StixRegistries(),
@@ -35,13 +37,20 @@ class StixJsonContentMapper(
     }
 
     companion object {
+
+        fun fromStixInstance(instance: Stix): StixJsonContentMapper {
+            return StixJsonContentMapper(instance.registries)
+        }
+
         fun createStixJsonObjectMapper(stixRegistries: StixRegistries): ObjectMapper {
             return ObjectMapper()
                 .registerModule(KotlinModule()) //@TODO see jackson kotlin module issue #87.  Waiting for fix.  Currently if a subtype does not exist then it fails to provide a meaningful error.
                 .registerModule(JavaTimeModule())
                 .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
                 .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-                .registerModule(createStixInstantSerializationModule())
+                    .configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true)
+                    .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true)
+                .registerModule(createStixTimestampSerializationModule())
                 .registerModule(createStixIdentifierSerializationModule())
                 .registerModule(createStixTypeSerializationModule())
                 .registerModule(createStixSpecVersionSerializationModule())

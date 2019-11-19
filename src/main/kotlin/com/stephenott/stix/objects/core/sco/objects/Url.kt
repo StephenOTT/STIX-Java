@@ -1,14 +1,12 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.type.*
 import com.stephenott.stix.type.StixSpecVersion.Companion.StixVersions
-import com.stephenott.stix.type.vocab.LanguageCodes
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -35,7 +33,7 @@ interface UrlSco : StixCyberObservableObject {
 
         )
 
-        override fun objectValidationRules(obj: UrlSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: UrlSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
         }
 
@@ -51,11 +49,12 @@ data class Url(
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
     override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+    override val stixInstance: Stix = Stix.defaultStixInstance,
+    override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : UrlSco {
 
     init {
-        UrlSco.objectValidationRules(this, stixRegistries)
+        UrlSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

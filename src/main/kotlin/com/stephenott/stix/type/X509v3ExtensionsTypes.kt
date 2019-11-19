@@ -1,7 +1,5 @@
 package com.stephenott.stix.type
 
-import com.stephenott.stix.objects.core.sco.objects.ArtifactSco
-import com.stephenott.stix.objects.core.sco.objects.FileSco
 import kotlin.reflect.KVisibility
 import kotlin.reflect.full.memberProperties
 
@@ -12,22 +10,22 @@ class X509v3ExtensionsTypes(private val types: List<X509v3ExtensionsType>): List
 }
 
 data class X509v3ExtensionsType(
-    val basicConstraints: String?,
-    val nameConstraints: String?,
-    val policyConstraints: String?,
-    val keyUsage: String?,
-    val extendedKeyUsage: String?,
-    val subjectKeyIdentifier: String?,
-    val authorityKeyIdentifier: String?,
-    val subjectAlternativeName: String?,
-    val issuerAlternativeName: String?,
-    val subjectDirectoryAttributes: String?,
-    val crlDistributionPoints: String?,
-    val inhibitAnyPolicy: String?,
-    val privateKeyUsagePeriodNotBefore: StixInstant?,
-    val privateKeyUsagePeriodNotAfter: StixInstant?,
-    val certificatePolicies: String?,
-    val policyMappings: String?
+        val basicConstraints: String?,
+        val nameConstraints: String?,
+        val policyConstraints: String?,
+        val keyUsage: String?,
+        val extendedKeyUsage: String?,
+        val subjectKeyIdentifier: String?,
+        val authorityKeyIdentifier: String?,
+        val subjectAlternativeName: String?,
+        val issuerAlternativeName: String?,
+        val subjectDirectoryAttributes: String?,
+        val crlDistributionPoints: String?,
+        val inhibitAnyPolicy: String?,
+        val privateKeyUsagePeriodNotBefore: StixTimestamp?,
+        val privateKeyUsagePeriodNotAfter: StixTimestamp?,
+        val certificatePolicies: String?,
+        val policyMappings: String?
 ) {
 
     init {

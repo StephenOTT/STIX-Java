@@ -14,7 +14,7 @@ interface WindowsPeBinaryFileExtensionExt : ScoExtension {
     val imphash: String?
     val machineHex: StixHex?
     val numberOfSections: StixInteger?
-    val timeDateStamp: StixInstant?
+    val timeDateStamp: StixTimestamp?
     val pointerToSymbolTableHex: StixHex?
     val numberOfSymbols: StixInteger?
     val sizeOfOptionalHeader: StixInteger?
@@ -44,18 +44,18 @@ interface WindowsPeBinaryFileExtensionExt : ScoExtension {
 }
 
 data class WindowsPeBinaryFileExtension(
-    override val peType: WindowsPebinaryTypeOv,
-    override val imphash: String? = null,
-    override val machineHex: StixHex? = null,
-    override val numberOfSections: StixInteger? = null,
-    override val timeDateStamp: StixInstant? = null,
-    override val pointerToSymbolTableHex: StixHex? = null,
-    override val numberOfSymbols: StixInteger? = null,
-    override val sizeOfOptionalHeader: StixInteger? = null,
-    override val characteristicsHex: StixHex? = null,
-    override val fileHeaderHashes: HashesDictionary? = null,
-    override val optionalHeader: WindowsPeOptionalHeaderType? = null,
-    override val sections: WindowsPeSectionTypes? = null
+        override val peType: WindowsPebinaryTypeOv,
+        override val imphash: String? = null,
+        override val machineHex: StixHex? = null,
+        override val numberOfSections: StixInteger? = null,
+        override val timeDateStamp: StixTimestamp? = null,
+        override val pointerToSymbolTableHex: StixHex? = null,
+        override val numberOfSymbols: StixInteger? = null,
+        override val sizeOfOptionalHeader: StixInteger? = null,
+        override val characteristicsHex: StixHex? = null,
+        override val fileHeaderHashes: HashesDictionary? = null,
+        override val optionalHeader: WindowsPeOptionalHeaderType? = null,
+        override val sections: WindowsPeSectionTypes? = null
 
 ) : WindowsPeBinaryFileExtensionExt {
 

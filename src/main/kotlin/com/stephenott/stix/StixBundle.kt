@@ -3,7 +3,6 @@ package com.stephenott.stix
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionStixType
 import com.stephenott.stix.objects.StixObject
-import com.stephenott.stix.objects.core.sco.objects.ArtifactSco
 import com.stephenott.stix.type.StixIdentifier
 import com.stephenott.stix.type.StixType
 
@@ -16,7 +15,7 @@ interface StixBundle : StixContent {
 
         override val stixType = StixType("bundle")
 
-        override fun objectValidationRules(obj: StixBundle, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: StixBundle, stixInstance: Stix) {
             //@TODO
         }
     }
@@ -26,11 +25,12 @@ interface StixBundle : StixContent {
 data class Bundle(override val type: StixType = StixBundle.stixType,
                   override val id: StixIdentifier = StixIdentifier(type),
                   override val objects: LinkedHashSet<StixObject>,
-                  override val stixRegistries: StixRegistries = Stix.defaultRegistries
+                  override val stixInstance: Stix = Stix.defaultStixInstance,
+                  override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : StixBundle {
 
     init {
-        StixBundle.objectValidationRules(this, stixRegistries)
+        StixBundle.objectValidationRules(this, stixInstance)
     }
 
 }

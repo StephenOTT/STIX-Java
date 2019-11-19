@@ -1,15 +1,12 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
-import com.stephenott.stix.objects.core.sco.extension.objects.UnixAccountExtensionExt
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.type.*
 import com.stephenott.stix.type.StixSpecVersion.Companion.StixVersions
-import com.stephenott.stix.type.vocab.AccountType
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -17,7 +14,7 @@ interface WindowsRegistryKeySco : StixCyberObservableObject {
 
     val key: String?
     val values: WindowsRegistryValueTypes?
-    val modifiedTimed: StixInstant?
+    val modifiedTimed: StixTimestamp?
     val creatorUserRef: StixIdentifier?
     val numberOfSubkeys: StixInteger?
 
@@ -39,7 +36,7 @@ interface WindowsRegistryKeySco : StixCyberObservableObject {
 
         override val allowedExtensions: List<KClass<out ScoExtension>> = listOf()
 
-        override fun objectValidationRules(obj: WindowsRegistryKeySco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: WindowsRegistryKeySco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
             require(
                 listOf(obj.key, obj.values, obj.modifiedTimed, obj.creatorUserRef, obj.numberOfSubkeys)
@@ -56,23 +53,24 @@ interface WindowsRegistryKeySco : StixCyberObservableObject {
 }
 
 data class WindowsRegistryKey(
-    override val key: String? = null,
-    override val values: WindowsRegistryValueTypes? = null,
-    override val modifiedTimed: StixInstant? = null,
-    override val creatorUserRef: StixIdentifier? = null,
-    override val numberOfSubkeys: StixInteger? = null,
-    override val type: StixType = StixType(WindowsRegistryKeySco.stixType),
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
-    override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val key: String? = null,
+        override val values: WindowsRegistryValueTypes? = null,
+        override val modifiedTimed: StixTimestamp? = null,
+        override val creatorUserRef: StixIdentifier? = null,
+        override val numberOfSubkeys: StixInteger? = null,
+        override val type: StixType = StixType(WindowsRegistryKeySco.stixType),
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
+        override val extensions: Extensions? = null,
+        override val defanged: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : WindowsRegistryKeySco {
 
     init {
-        WindowsRegistryKeySco.objectValidationRules(this, stixRegistries)
+        WindowsRegistryKeySco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

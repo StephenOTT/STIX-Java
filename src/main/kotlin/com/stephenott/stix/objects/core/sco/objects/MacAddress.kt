@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -34,7 +33,7 @@ interface MacAddressSco : StixCyberObservableObject {
 
         )
 
-        override fun objectValidationRules(obj: MacAddressSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: MacAddressSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             //@TODO The MAC address value ​MUST​ be represented as a single colon-delimited, lowercase MAC-48 address, which ​MUST​ include leading zeros for each octet.
@@ -52,11 +51,12 @@ data class MacAddress(
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
     override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+    override val stixInstance: Stix = Stix.defaultStixInstance,
+    override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : MacAddressSco {
 
     init {
-        MacAddressSco.objectValidationRules(this, stixRegistries)
+        MacAddressSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

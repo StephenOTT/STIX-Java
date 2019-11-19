@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -27,7 +26,7 @@ interface ToolSdo : StixDomainObject {
 
         override val stixType = StixType("tool")
 
-        override fun objectValidationRules(obj: ToolSdo, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: ToolSdo, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
         }
 
@@ -77,30 +76,31 @@ interface ToolSdo : StixDomainObject {
 }
 
 data class Tool(
-    override val name: String,
-    override val description: String? = null,
-    override val toolTypes: ToolTypes,
-    override val aliases: StixStringList? = null,
-    override val killChainPhases: KillChainPhases? = null,
-    override val toolVersion: String? = null,
-    override val type: StixType = ToolSdo.stixType,
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val createdByRef: String? = null,
-    override val created: StixInstant = StixInstant(),
-    override val externalReferences: ExternalReferences? = null,
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(),
-    override val labels: StixLabels? = null,
-    override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean(),
-    override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null,
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val name: String,
+        override val description: String? = null,
+        override val toolTypes: ToolTypes,
+        override val aliases: StixStringList? = null,
+        override val killChainPhases: KillChainPhases? = null,
+        override val toolVersion: String? = null,
+        override val type: StixType = ToolSdo.stixType,
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val createdByRef: String? = null,
+        override val created: StixTimestamp = StixTimestamp(),
+        override val externalReferences: ExternalReferences? = null,
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(),
+        override val labels: StixLabels? = null,
+        override val modified: StixTimestamp = StixTimestamp(created),
+        override val revoked: StixBoolean = StixBoolean(),
+        override val confidence: StixConfidence? = null,
+        override val lang: StixLang? = null,
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : ToolSdo {
 
     init {
-        ToolSdo.objectValidationRules(this, stixRegistries)
+        ToolSdo.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

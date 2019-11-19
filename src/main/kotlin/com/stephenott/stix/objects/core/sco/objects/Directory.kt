@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -15,9 +14,9 @@ interface DirectorySco : StixCyberObservableObject {
 
     val path: String
     val pathEnc: String? //@TODO add validation
-    val ctime: StixInstant?
-    val mtime: StixInstant?
-    val atime: StixInstant?
+    val ctime: StixTimestamp?
+    val mtime: StixTimestamp?
+    val atime: StixTimestamp?
     val containsRefs: StixIdentifiers?
 
     companion object :
@@ -39,7 +38,7 @@ interface DirectorySco : StixCyberObservableObject {
 
         )
 
-        override fun objectValidationRules(obj: DirectorySco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: DirectorySco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             obj.containsRefs?.let {
@@ -52,24 +51,25 @@ interface DirectorySco : StixCyberObservableObject {
 }
 
 data class Directory(
-    override val path: String,
-    override val pathEnc: String? = null,
-    override val ctime: StixInstant? = null,
-    override val mtime: StixInstant? = null,
-    override val atime: StixInstant? = null,
-    override val containsRefs: StixIdentifiers?,
-    override val type: StixType = StixType(DirectorySco.stixType),
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
-    override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val path: String,
+        override val pathEnc: String? = null,
+        override val ctime: StixTimestamp? = null,
+        override val mtime: StixTimestamp? = null,
+        override val atime: StixTimestamp? = null,
+        override val containsRefs: StixIdentifiers?,
+        override val type: StixType = StixType(DirectorySco.stixType),
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
+        override val extensions: Extensions? = null,
+        override val defanged: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : DirectorySco {
 
     init {
-        DirectorySco.objectValidationRules(this, stixRegistries)
+        DirectorySco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

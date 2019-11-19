@@ -4,7 +4,7 @@ import com.stephenott.stix.common.StixDataFormats
 import java.time.Instant
 import java.util.regex.Pattern
 
-data class StixInstant(
+data class StixTimestamp(
     val instant: Instant,
     val subSecondPrecision: Int) {
 
@@ -18,11 +18,11 @@ data class StixInstant(
         var REGEX_SUBSECOND: Pattern =
             Pattern.compile("(?<fullDate>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(.(?<subSecond>[0-9]+))?Z)")
 
-        fun parse(dateString: String): StixInstant {
+        fun parse(dateString: String): StixTimestamp {
             val instant = Instant.from(StixDataFormats.readerStixDateTimeFormatter.parse(dateString))
             val subSecondPrecision = getSubSecondDigitCount(dateString)
 
-            return StixInstant(instant, subSecondPrecision)
+            return StixTimestamp(instant, subSecondPrecision)
         }
 
         private fun getSubSecondDigitCount(dateString: String): Int {
@@ -38,7 +38,7 @@ data class StixInstant(
         }
     }
 
-    constructor(stixInstant: StixInstant) : this(stixInstant.instant, stixInstant.subSecondPrecision)
+    constructor(stixTimestamp: StixTimestamp) : this(stixTimestamp.instant, stixTimestamp.subSecondPrecision)
 
     constructor() : this(Instant.now(), defaultSubSecondPrecision){}
 

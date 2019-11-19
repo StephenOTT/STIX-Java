@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -21,9 +20,9 @@ interface FileSco : StixCyberObservableObject {
     val nameEnc: String?
     val magicNumberHex: StixHex?
     val mimeType: String?
-    val cTime: StixInstant?
-    val mTime: StixInstant?
-    val aTime: StixInstant?
+    val cTime: StixTimestamp?
+    val mTime: StixTimestamp?
+    val aTime: StixTimestamp?
     val parentDirectoryRef: StixIdentifier?
     val containsRefs: StixIdentifiers?
     val contentRef: StixIdentifier?
@@ -55,7 +54,7 @@ interface FileSco : StixCyberObservableObject {
             WindowsPeBinaryFileExtensionExt::class
         )
 
-        override fun objectValidationRules(obj: FileSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: FileSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             obj.size?.let {
@@ -67,7 +66,7 @@ interface FileSco : StixCyberObservableObject {
                     lazyMessage = { "parent_directory_ref must only contain a reference to a Directory object SCO." })
             }
             obj.containsRefs?.let {
-                require(it.all { id -> stixRegistries.objectRegistry.registry.getValue(id.type).isSubclassOf(StixCyberObservableObject::class) },
+                require(it.all { id -> stixInstance.registries.objectRegistry.registry.getValue(id.type).isSubclassOf(StixCyberObservableObject::class) },
                     lazyMessage = { "contains_refs can only contain references to SCOs." })
             }
             obj.contentRef?.let {
@@ -79,30 +78,31 @@ interface FileSco : StixCyberObservableObject {
 }
 
 data class File(
-    override val hashes: HashesDictionary? = null,
-    override val size: StixInteger? = null,
-    override val name: String? = null,
-    override val nameEnc: String? = null,
-    override val magicNumberHex: StixHex? = null,
-    override val mimeType: String? = null,
-    override val cTime: StixInstant? = null,
-    override val mTime: StixInstant? = null,
-    override val aTime: StixInstant? = null,
-    override val parentDirectoryRef: StixIdentifier? = null,
-    override val containsRefs: StixIdentifiers? = null,
-    override val contentRef: StixIdentifier? = null,
-    override val type: StixType = StixType(FileSco.stixType),
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
-    override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val hashes: HashesDictionary? = null,
+        override val size: StixInteger? = null,
+        override val name: String? = null,
+        override val nameEnc: String? = null,
+        override val magicNumberHex: StixHex? = null,
+        override val mimeType: String? = null,
+        override val cTime: StixTimestamp? = null,
+        override val mTime: StixTimestamp? = null,
+        override val aTime: StixTimestamp? = null,
+        override val parentDirectoryRef: StixIdentifier? = null,
+        override val containsRefs: StixIdentifiers? = null,
+        override val contentRef: StixIdentifier? = null,
+        override val type: StixType = StixType(FileSco.stixType),
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
+        override val extensions: Extensions? = null,
+        override val defanged: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : FileSco {
 
     init {
-        FileSco.objectValidationRules(this, stixRegistries)
+        FileSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

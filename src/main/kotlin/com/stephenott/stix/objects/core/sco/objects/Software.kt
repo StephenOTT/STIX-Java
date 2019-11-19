@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -42,7 +41,7 @@ interface SoftwareSco : StixCyberObservableObject {
 
         )
 
-        override fun objectValidationRules(obj: SoftwareSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: SoftwareSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
         }
@@ -63,11 +62,12 @@ data class Software(
     override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
     override val extensions: Extensions? = null,
     override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+    override val stixInstance: Stix = Stix.defaultStixInstance,
+    override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : SoftwareSco {
 
     init {
-        SoftwareSco.objectValidationRules(this, stixRegistries)
+        SoftwareSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

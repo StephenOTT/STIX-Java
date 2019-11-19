@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -23,7 +22,7 @@ interface NoteSdo : StixDomainObject {
 
         override val stixType = StixType("note")
 
-        override fun objectValidationRules(obj: NoteSdo, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: NoteSdo, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
         }
 
@@ -33,28 +32,29 @@ interface NoteSdo : StixDomainObject {
 }
 
 data class Note(
-    override val abstract: String? = null,
-    override val content: String,
-    override val authors: StixStringList? = null,
-    override val objectRefs: StixIdentifiers,
-    override val type: StixType = NoteSdo.stixType,
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val createdByRef: String? = null,
-    override val created: StixInstant = StixInstant(),
-    override val externalReferences: ExternalReferences? = null,
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(),
-    override val labels: StixLabels? = null,
-    override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean(),
-    override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null,
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val abstract: String? = null,
+        override val content: String,
+        override val authors: StixStringList? = null,
+        override val objectRefs: StixIdentifiers,
+        override val type: StixType = NoteSdo.stixType,
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val createdByRef: String? = null,
+        override val created: StixTimestamp = StixTimestamp(),
+        override val externalReferences: ExternalReferences? = null,
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(),
+        override val labels: StixLabels? = null,
+        override val modified: StixTimestamp = StixTimestamp(created),
+        override val revoked: StixBoolean = StixBoolean(),
+        override val confidence: StixConfidence? = null,
+        override val lang: StixLang? = null,
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : NoteSdo {
 
     init {
-        NoteSdo.objectValidationRules(this, stixRegistries)
+        NoteSdo.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

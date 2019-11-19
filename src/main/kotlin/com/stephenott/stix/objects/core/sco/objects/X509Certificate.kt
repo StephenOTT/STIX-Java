@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -19,8 +18,8 @@ interface X509CertificateSco : StixCyberObservableObject {
     val serialNumber: String?
     val signatureAlgorithm: String?
     val issuer: String?
-    val validityNotBefore: StixInstant?
-    val validityNotAfter: StixInstant?
+    val validityNotBefore: StixTimestamp?
+    val validityNotAfter: StixTimestamp?
     val subject: String?
     val subjectPublicKeyAlgorithm: String?
     val subjectPublicKeyModulus: String?
@@ -45,7 +44,7 @@ interface X509CertificateSco : StixCyberObservableObject {
 
         override val allowedExtensions: List<KClass<out ScoExtension>> = listOf()
 
-        override fun objectValidationRules(obj: X509CertificateSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: X509CertificateSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             require(listOf( //@TODO review against Stix 2 Issues against 182
@@ -69,31 +68,32 @@ interface X509CertificateSco : StixCyberObservableObject {
 }
 
 data class X509Certificate(
-    override val isSelfSigned: StixBoolean? = null,
-    override val hashes: HashesDictionary? = null,
-    override val version: String? = null,
-    override val serialNumber: String? = null,
-    override val signatureAlgorithm: String? = null,
-    override val issuer: String? = null,
-    override val validityNotBefore: StixInstant? = null,
-    override val validityNotAfter: StixInstant? = null,
-    override val subject: String? = null,
-    override val subjectPublicKeyAlgorithm: String? = null,
-    override val subjectPublicKeyModulus: String? = null,
-    override val subjectPublicKeyExponent: StixInteger? = null,
-    override val x509v3Extensions: X509v3ExtensionsTypes? = null,
-    override val type: StixType = StixType(X509CertificateSco.stixType),
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
-    override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val isSelfSigned: StixBoolean? = null,
+        override val hashes: HashesDictionary? = null,
+        override val version: String? = null,
+        override val serialNumber: String? = null,
+        override val signatureAlgorithm: String? = null,
+        override val issuer: String? = null,
+        override val validityNotBefore: StixTimestamp? = null,
+        override val validityNotAfter: StixTimestamp? = null,
+        override val subject: String? = null,
+        override val subjectPublicKeyAlgorithm: String? = null,
+        override val subjectPublicKeyModulus: String? = null,
+        override val subjectPublicKeyExponent: StixInteger? = null,
+        override val x509v3Extensions: X509v3ExtensionsTypes? = null,
+        override val type: StixType = StixType(X509CertificateSco.stixType),
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
+        override val extensions: Extensions? = null,
+        override val defanged: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : X509CertificateSco {
 
     init {
-        X509CertificateSco.objectValidationRules(this, stixRegistries)
+        X509CertificateSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -14,7 +13,7 @@ import kotlin.reflect.KProperty1
 interface EmailMessageSco : StixCyberObservableObject {
 
     val isMultipart: StixBoolean
-    val date: StixInstant?
+    val date: StixTimestamp?
     val contentType: String?
     val fromRef: StixIdentifier?
     val senderRef: StixIdentifier?
@@ -50,7 +49,7 @@ interface EmailMessageSco : StixCyberObservableObject {
 
         )
 
-        override fun objectValidationRules(obj: EmailMessageSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: EmailMessageSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             obj.fromRef?.let {
@@ -86,33 +85,34 @@ interface EmailMessageSco : StixCyberObservableObject {
 }
 
 data class EmailMessage(
-    override val isMultipart: StixBoolean,
-    override val date: StixInstant? = null,
-    override val contentType: String? = null,
-    override val fromRef: StixIdentifier? = null,
-    override val senderRef: StixIdentifier? = null,
-    override val toRefs: StixIdentifiers? = null,
-    override val ccRefs: StixIdentifiers? = null,
-    override val bccRefs: StixIdentifiers? = null,
-    override val messageId: String? = null,
-    override val subject: String? = null,
-    override val receivedLines: StixStringList? = null,
-    override val additionalHeaderFields: AdditionalHeaderFieldsDictionary? = null,
-    override val body: String? = null,
-    override val bodyMultipart: MimePartTypes? = null,
-    override val rawEmailRef: StixIdentifier? = null,
-    override val type: StixType = StixType(EmailMessageSco.stixType),
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
-    override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val isMultipart: StixBoolean,
+        override val date: StixTimestamp? = null,
+        override val contentType: String? = null,
+        override val fromRef: StixIdentifier? = null,
+        override val senderRef: StixIdentifier? = null,
+        override val toRefs: StixIdentifiers? = null,
+        override val ccRefs: StixIdentifiers? = null,
+        override val bccRefs: StixIdentifiers? = null,
+        override val messageId: String? = null,
+        override val subject: String? = null,
+        override val receivedLines: StixStringList? = null,
+        override val additionalHeaderFields: AdditionalHeaderFieldsDictionary? = null,
+        override val body: String? = null,
+        override val bodyMultipart: MimePartTypes? = null,
+        override val rawEmailRef: StixIdentifier? = null,
+        override val type: StixType = StixType(EmailMessageSco.stixType),
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
+        override val extensions: Extensions? = null,
+        override val defanged: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : EmailMessageSco {
 
     init {
-        EmailMessageSco.objectValidationRules(this, stixRegistries)
+        EmailMessageSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

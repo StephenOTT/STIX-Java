@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sco.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.core.sco.StixCyberObservableObject
 import com.stephenott.stix.objects.core.sco.extension.ScoExtension
@@ -10,7 +9,6 @@ import com.stephenott.stix.objects.core.sco.extension.objects.WindowsServiceExte
 import com.stephenott.stix.objects.core.sro.objects.AllowedRelationship
 import com.stephenott.stix.type.*
 import com.stephenott.stix.type.StixSpecVersion.Companion.StixVersions
-import com.stephenott.stix.type.vocab.EncryptionAlgorithmEnum
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -18,7 +16,7 @@ interface ProcessSco : StixCyberObservableObject {
 
     val isHidden: StixBoolean?
     val pid: StixInteger?
-    val createdTime: StixInstant?
+    val createdTime: StixTimestamp?
     val cwd: String?
     val commandLine: String?
     val environmentVariables: LinkedHashMap<String, String>? //@TODO Refactor: https://github.com/oasis-tcs/cti-stix2/issues/185#issuecomment-543299610
@@ -50,7 +48,7 @@ interface ProcessSco : StixCyberObservableObject {
             WindowsServiceExtensionExt::class
         )
 
-        override fun objectValidationRules(obj: ProcessSco, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: ProcessSco, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
             require(obj.openedConnectionRef?.type == NetworkTrafficSco.stixType,
@@ -73,29 +71,30 @@ interface ProcessSco : StixCyberObservableObject {
 }
 
 data class Process(
-    override val isHidden: StixBoolean? = null,
-    override val pid: StixInteger? = null,
-    override val createdTime: StixInstant? = null,
-    override val cwd: String? = null,
-    override val commandLine: String? = null,
-    override val environmentVariables: LinkedHashMap<String, String>? = null,
-    override val openedConnectionRef: StixIdentifier? = null,
-    override val creatorUserRef: StixIdentifier? = null,
-    override val imageRef: StixIdentifier? = null,
-    override val parentRef: StixIdentifier? = null,
-    override val childRefs: StixIdentifiers? = null,
-    override val type: StixType = StixType(ProcessSco.stixType),
-    override val id: StixIdentifier = StixIdentifier(type), //@TODO review as spec currently says that a Process SCO uses a UUID v4
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
-    override val extensions: Extensions? = null,
-    override val defanged: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val isHidden: StixBoolean? = null,
+        override val pid: StixInteger? = null,
+        override val createdTime: StixTimestamp? = null,
+        override val cwd: String? = null,
+        override val commandLine: String? = null,
+        override val environmentVariables: LinkedHashMap<String, String>? = null,
+        override val openedConnectionRef: StixIdentifier? = null,
+        override val creatorUserRef: StixIdentifier? = null,
+        override val imageRef: StixIdentifier? = null,
+        override val parentRef: StixIdentifier? = null,
+        override val childRefs: StixIdentifiers? = null,
+        override val type: StixType = StixType(ProcessSco.stixType),
+        override val id: StixIdentifier = StixIdentifier(type), //@TODO review as spec currently says that a Process SCO uses a UUID v4
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(StixVersions.TWO_DOT_ONE, false),
+        override val extensions: Extensions? = null,
+        override val defanged: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : ProcessSco {
 
     init {
-        ProcessSco.objectValidationRules(this, stixRegistries)
+        ProcessSco.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

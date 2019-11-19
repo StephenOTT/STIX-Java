@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sro.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.*
 import com.stephenott.stix.objects.StixObject
 import com.stephenott.stix.objects.core.sro.StixRelationshipObject
@@ -15,15 +14,15 @@ interface RelationshipSro : StixRelationshipObject {
     val description: String?
     val sourceRef: StixIdentifier
     val targetRef: StixIdentifier
-    val startTime: StixInstant?
-    val stopTime: StixInstant?
+    val startTime: StixTimestamp?
+    val stopTime: StixTimestamp?
 
     companion object: CompanionStixType,
         BusinessRulesValidator<RelationshipSro> {
 
         override val stixType = StixType("relationship")
 
-        override fun objectValidationRules(obj: RelationshipSro, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: RelationshipSro, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
 
         }
@@ -70,24 +69,25 @@ data class AllowedRelationship(
 ) {}
 
 data class Relationship(
-    override val relationshipType: RelationshipType,
-    override val description: String? = null,
-    override val sourceRef: StixIdentifier,
-    override val targetRef: StixIdentifier,
-    override val startTime: StixInstant? = null,
-    override val stopTime: StixInstant? = null,
-    override val type: StixType = RelationshipSro.stixType,
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val createdByRef: String? = null,
-    override val created: StixInstant = StixInstant(),
-    override val externalReferences: ExternalReferences? = null,
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(),
-    override val labels: StixLabels? = null,
-    override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean(),
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val relationshipType: RelationshipType,
+        override val description: String? = null,
+        override val sourceRef: StixIdentifier,
+        override val targetRef: StixIdentifier,
+        override val startTime: StixTimestamp? = null,
+        override val stopTime: StixTimestamp? = null,
+        override val type: StixType = RelationshipSro.stixType,
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val createdByRef: String? = null,
+        override val created: StixTimestamp = StixTimestamp(),
+        override val externalReferences: ExternalReferences? = null,
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(),
+        override val labels: StixLabels? = null,
+        override val modified: StixTimestamp = StixTimestamp(created),
+        override val revoked: StixBoolean = StixBoolean(),
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : RelationshipSro {
 
     /**
@@ -98,23 +98,23 @@ data class Relationship(
     }
 
     constructor(
-        relationshipType: RelationshipType,
-        description: String? = null,
-        sourceRef: StixObject,
-        targetRef: StixObject,
-        startTime: StixInstant? = null,
-        stopTime: StixInstant? = null,
-        type: StixType = RelationshipSro.stixType,
-        id: StixIdentifier = StixIdentifier(type),
-        createdByRef: String? = null,
-        created: StixInstant = StixInstant(),
-        externalReferences: ExternalReferences? = null,
-        objectMarkingsRefs: String? = null,
-        granularMarkings: String? = null,
-        specVersion: StixSpecVersion = StixSpecVersion(),
-        labels: StixLabels? = null,
-        modified: StixInstant = StixInstant(created),
-        revoked: StixBoolean = StixBoolean()
+            relationshipType: RelationshipType,
+            description: String? = null,
+            sourceRef: StixObject,
+            targetRef: StixObject,
+            startTime: StixTimestamp? = null,
+            stopTime: StixTimestamp? = null,
+            type: StixType = RelationshipSro.stixType,
+            id: StixIdentifier = StixIdentifier(type),
+            createdByRef: String? = null,
+            created: StixTimestamp = StixTimestamp(),
+            externalReferences: ExternalReferences? = null,
+            objectMarkingsRefs: String? = null,
+            granularMarkings: String? = null,
+            specVersion: StixSpecVersion = StixSpecVersion(),
+            labels: StixLabels? = null,
+            modified: StixTimestamp = StixTimestamp(created),
+            revoked: StixBoolean = StixBoolean()
     ) : this(
         relationshipType, description, sourceRef.id,
         targetRef.id, startTime, stopTime,
@@ -126,15 +126,15 @@ data class Relationship(
 
 
     init {
-        val sourceClass: KClass<out StixObject> = this.stixRegistries.objectRegistry.registry[sourceRef.type]
+        val sourceClass: KClass<out StixObject> = this.stixInstance.registries.objectRegistry.registry[sourceRef.type]
             ?: throw IllegalStateException("Unable to find sourceRef in Object Registry")
 
-        val targetClass: KClass<out StixObject> = this.stixRegistries.objectRegistry.registry[targetRef.type]
+        val targetClass: KClass<out StixObject> = this.stixInstance.registries.objectRegistry.registry[targetRef.type]
             ?: throw IllegalStateException("Unable to find targetRef in Object Registry")
 
 
         //@TODO add support for x- custom objects
-        val allowedRelationships: List<AllowedRelationship> = this.stixRegistries.relationshipRegistry
+        val allowedRelationships: List<AllowedRelationship> = this.stixInstance.registries.relationshipRegistry
             .registry.filter {
             sourceClass.isSubclassOf(it.from) &&
                     it.type == this.relationshipType &&

@@ -18,7 +18,7 @@ interface StixCreatedByRef{
 }
 
 interface StixCreatedProp{
-    val created: StixInstant
+    val created: StixTimestamp
 }
 
 interface StixExternalReferencesProp{
@@ -42,7 +42,7 @@ interface StixLabelsProp {
 }
 
 interface StixModifiedProp {
-    val modified: StixInstant
+    val modified: StixTimestamp
 }
 
 interface StixRevokedProp {

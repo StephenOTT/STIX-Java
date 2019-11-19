@@ -1,7 +1,6 @@
 package com.stephenott.stix.objects.core.sdo.objects
 
 import com.stephenott.stix.Stix
-import com.stephenott.stix.StixRegistries
 import com.stephenott.stix.common.BusinessRulesValidator
 import com.stephenott.stix.common.CompanionAllowedRelationships
 import com.stephenott.stix.common.CompanionStixType
@@ -28,7 +27,7 @@ interface IdentitySdo : StixDomainObject {
 
         override val stixType = StixType("identity")
 
-        override fun objectValidationRules(obj: IdentitySdo, stixRegistries: StixRegistries) {
+        override fun objectValidationRules(obj: IdentitySdo, stixInstance: Stix) {
             requireStixType(this.stixType, obj)
         }
 
@@ -43,30 +42,31 @@ interface IdentitySdo : StixDomainObject {
 }
 
 data class Identity(
-    override val name: String,
-    override val description: String? = null,
-    override val roles: IdentityRoles? = null,
-    override val identityClass: IdentityClass? = null,
-    override val sectors: IndustrySectors? = null,
-    override val contactInformation: String? = null,
-    override val type: StixType = IdentitySdo.stixType,
-    override val id: StixIdentifier = StixIdentifier(type),
-    override val createdByRef: String? = null,
-    override val created: StixInstant = StixInstant(),
-    override val externalReferences: ExternalReferences? = null,
-    override val objectMarkingsRefs: String? = null,
-    override val granularMarkings: String? = null,
-    override val specVersion: StixSpecVersion = StixSpecVersion(),
-    override val labels: StixLabels? = null,
-    override val modified: StixInstant = StixInstant(created),
-    override val revoked: StixBoolean = StixBoolean(),
-    override val confidence: StixConfidence? = null,
-    override val lang: StixLang? = null,
-    override val stixRegistries: StixRegistries = Stix.defaultRegistries
+        override val name: String,
+        override val description: String? = null,
+        override val roles: IdentityRoles? = null,
+        override val identityClass: IdentityClass? = null,
+        override val sectors: IndustrySectors? = null,
+        override val contactInformation: String? = null,
+        override val type: StixType = IdentitySdo.stixType,
+        override val id: StixIdentifier = StixIdentifier(type),
+        override val createdByRef: String? = null,
+        override val created: StixTimestamp = StixTimestamp(),
+        override val externalReferences: ExternalReferences? = null,
+        override val objectMarkingsRefs: String? = null,
+        override val granularMarkings: String? = null,
+        override val specVersion: StixSpecVersion = StixSpecVersion(),
+        override val labels: StixLabels? = null,
+        override val modified: StixTimestamp = StixTimestamp(created),
+        override val revoked: StixBoolean = StixBoolean(),
+        override val confidence: StixConfidence? = null,
+        override val lang: StixLang? = null,
+        override val stixInstance: Stix = Stix.defaultStixInstance,
+        override val stixValidateOnConstruction: Boolean = Stix.defaultValidateOnConstruction
 ) : IdentitySdo {
 
     init {
-        IdentitySdo.objectValidationRules(this, stixRegistries)
+        IdentitySdo.objectValidationRules(this, stixInstance)
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
