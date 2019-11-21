@@ -130,7 +130,9 @@ data class IntrusionSet(
 ) : IntrusionSetSdo {
 
     init {
-        IntrusionSetSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            IntrusionSetSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

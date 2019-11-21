@@ -54,7 +54,9 @@ data class Grouping(
 ) : GroupingSdo {
 
     init {
-        GroupingSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            GroupingSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

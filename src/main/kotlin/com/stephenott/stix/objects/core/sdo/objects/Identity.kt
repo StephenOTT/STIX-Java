@@ -66,7 +66,9 @@ data class Identity(
 ) : IdentitySdo {
 
     init {
-        IdentitySdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            IdentitySdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

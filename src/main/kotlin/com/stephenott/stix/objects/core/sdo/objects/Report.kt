@@ -56,7 +56,9 @@ data class Report(
 ) : ReportSdo {
 
     init {
-        ReportSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            ReportSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

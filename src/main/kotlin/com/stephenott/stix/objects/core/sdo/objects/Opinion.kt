@@ -57,7 +57,9 @@ data class Opinion(
 ) : OpinionSdo {
 
     init {
-        OpinionSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            OpinionSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -55,7 +55,9 @@ data class Mutex(
 ) : MutexSco {
 
     init {
-        MutexSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            MutexSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

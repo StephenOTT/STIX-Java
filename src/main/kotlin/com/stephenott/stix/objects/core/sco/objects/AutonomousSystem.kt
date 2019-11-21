@@ -58,7 +58,9 @@ data class AutonomousSystem(
 ) : AutonomousSystemSco {
 
     init {
-        AutonomousSystemSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            AutonomousSystemSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

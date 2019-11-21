@@ -54,7 +54,9 @@ data class Note(
 ) : NoteSdo {
 
     init {
-        NoteSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            NoteSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

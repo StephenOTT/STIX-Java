@@ -54,7 +54,9 @@ data class Url(
 ) : UrlSco {
 
     init {
-        UrlSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            UrlSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -69,7 +69,9 @@ data class Directory(
 ) : DirectorySco {
 
     init {
-        DirectorySco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            DirectorySco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

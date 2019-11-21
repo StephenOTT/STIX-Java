@@ -56,7 +56,9 @@ data class MacAddress(
 ) : MacAddressSco {
 
     init {
-        MacAddressSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            MacAddressSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -50,7 +50,9 @@ data class MarkingDefinition(
 ): MarkingDefinitionDm {
 
     init {
-        MarkingDefinitionDm.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            MarkingDefinitionDm.objectValidationRules(this, stixInstance)
+        }
     }
 
 

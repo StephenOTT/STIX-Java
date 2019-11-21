@@ -63,7 +63,9 @@ data class EmailAddress(
 ) : EmailAddressSco {
 
     init {
-        EmailAddressSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            EmailAddressSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

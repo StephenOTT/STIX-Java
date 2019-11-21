@@ -94,7 +94,9 @@ data class Process(
 ) : ProcessSco {
 
     init {
-        ProcessSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            ProcessSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

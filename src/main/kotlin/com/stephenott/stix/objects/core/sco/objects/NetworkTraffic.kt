@@ -156,7 +156,9 @@ data class NetworkTraffic(
 ) : NetworkTrafficSco {
 
     init {
-        NetworkTrafficSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            NetworkTrafficSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -79,7 +79,9 @@ data class Sighting(
 ) : SightingSro {
 
     init {
-        SightingSro.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            SightingSro.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

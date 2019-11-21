@@ -11,4 +11,6 @@ interface StixContent :
     val stixInstance: Stix
     val stixValidateOnConstruction: Boolean
 
+    companion object{}
+
 }

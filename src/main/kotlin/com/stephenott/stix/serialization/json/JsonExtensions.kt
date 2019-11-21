@@ -13,8 +13,8 @@ import com.fasterxml.jackson.module.kotlin.*
 import com.stephenott.stix.Stix
 
 class StixJsonContentMapper(
-    override val stixRegistries: StixRegistries = StixRegistries(),
-    override val mapper: ObjectMapper = createStixJsonObjectMapper(stixRegistries)
+        override val stixRegistries: StixRegistries = StixRegistries(),
+        override val mapper: ObjectMapper = createStixJsonObjectMapper(stixRegistries)
 ) : StixContentMapper {
 
     /**
@@ -44,32 +44,44 @@ class StixJsonContentMapper(
 
         fun createStixJsonObjectMapper(stixRegistries: StixRegistries): ObjectMapper {
             return ObjectMapper()
-                .registerModule(KotlinModule()) //@TODO see jackson kotlin module issue #87.  Waiting for fix.  Currently if a subtype does not exist then it fails to provide a meaningful error.
-                .registerModule(JavaTimeModule())
-                .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
-                .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+                    .registerModule(KotlinModule()) //@TODO see jackson kotlin module issue #87.  Waiting for fix.  Currently if a subtype does not exist then it fails to provide a meaningful error.
+                    .registerModule(JavaTimeModule())
+                    .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+                    .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
                     .configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true)
                     .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true)
-                .registerModule(createStixTimestampSerializationModule())
-                .registerModule(createStixIdentifierSerializationModule())
-                .registerModule(createStixTypeSerializationModule())
-                .registerModule(createStixSpecVersionSerializationModule())
-                .registerModule(createStixBooleanSerializationModule())
-                .registerModule(createStixContentSerializationModule(stixRegistries.objectRegistry))
-                .registerModule(createRelationshipTypeSerializationModule())
-                .registerModule(createStixIntegerSerializationModule())
-                .registerModule(createStixConfidenceSerializationModule())
-                .registerModule(createStixOpenVocabSerializationModule())
-                .registerModule(createStixMarkingObjectSerializationModule(stixRegistries.markingObjectRegistry))
+                    .registerModule(createStixTimestampSerializationModule())
+                    .registerModule(createStixIdentifierSerializationModule())
+                    .registerModule(createStixTypeSerializationModule())
+                    .registerModule(createStixSpecVersionSerializationModule())
+                    .registerModule(createStixBooleanSerializationModule())
+                    .registerModule(createStixContentSerializationModule(stixRegistries.objectRegistry))
+                    .registerModule(createRelationshipTypeSerializationModule())
+                    .registerModule(createStixIntegerSerializationModule())
+                    .registerModule(createStixConfidenceSerializationModule())
+                    .registerModule(createStixOpenVocabSerializationModule())
+                    .registerModule(createStixMarkingObjectSerializationModule(stixRegistries.markingObjectRegistry))
         }
     }
 }
 
+/**
+ * Creates a StixJsonContentMapper based on the Stix instance
+ */
+fun Stix.toJsonMapper(): StixJsonContentMapper {
+    return StixJsonContentMapper(this.registries)
+}
 
+/**
+ * Convert StixContent to a json string.
+ */
 fun StixContent.toJson(mapper: StixJsonContentMapper): String {
     return mapper.mapper.writeValueAsString(this)
 }
 
+/**
+ * Convert a StixBundle to a json string.
+ */
 fun StixBundle.toJson(mapper: StixJsonContentMapper): String {
     return mapper.mapper.writeValueAsString(this)
 }

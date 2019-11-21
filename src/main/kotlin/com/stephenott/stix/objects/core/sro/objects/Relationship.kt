@@ -17,8 +17,8 @@ interface RelationshipSro : StixRelationshipObject {
     val startTime: StixTimestamp?
     val stopTime: StixTimestamp?
 
-    companion object: CompanionStixType,
-        BusinessRulesValidator<RelationshipSro> {
+    companion object : CompanionStixType,
+            BusinessRulesValidator<RelationshipSro> {
 
         override val stixType = StixType("relationship")
 
@@ -28,44 +28,44 @@ interface RelationshipSro : StixRelationshipObject {
         }
 
         val allowedCommonRelationships: List<AllowedRelationship> = listOf(
-            AllowedRelationship(
-                StixObject::class,
-                RelationshipType("duplicate-of"),
-                StixObject::class,
-                RelationshipRule { obj ->
-                        require(obj.sourceRef.type == obj.targetRef.type,
-                            lazyMessage = { "duplicate-of relationship (${obj.id}) requires source(${obj.sourceRef}) and target(${obj.targetRef}) must be same type" })
-                }
-            ),
-            AllowedRelationship(
-                StixObject::class,
-                RelationshipType("derived-from"),
-                StixObject::class,
-                RelationshipRule { obj ->
-                        require(obj.sourceRef.type == obj.targetRef.type,
-                            lazyMessage = { "derived-from relationship (${obj.id}) requires source(${obj.sourceRef}) and target(${obj.targetRef}) must be same type" })
-                }
-            ),
-            AllowedRelationship(
-                StixObject::class,
-                RelationshipType("related-to"),
-                StixObject::class
-            )
+                AllowedRelationship(
+                        StixObject::class,
+                        RelationshipType("duplicate-of"),
+                        StixObject::class,
+                        RelationshipRule { obj ->
+                            require(obj.sourceRef.type == obj.targetRef.type,
+                                    lazyMessage = { "duplicate-of relationship (${obj.id}) requires source(${obj.sourceRef}) and target(${obj.targetRef}) must be same type" })
+                        }
+                ),
+                AllowedRelationship(
+                        StixObject::class,
+                        RelationshipType("derived-from"),
+                        StixObject::class,
+                        RelationshipRule { obj ->
+                            require(obj.sourceRef.type == obj.targetRef.type,
+                                    lazyMessage = { "derived-from relationship (${obj.id}) requires source(${obj.sourceRef}) and target(${obj.targetRef}) must be same type" })
+                        }
+                ),
+                AllowedRelationship(
+                        StixObject::class,
+                        RelationshipType("related-to"),
+                        StixObject::class
+                )
         )
     }
 }
 
 data class RelationshipRule(private val rule: (relObj: RelationshipSro) -> Unit) {
-    fun execute(relObj: RelationshipSro){
+    fun execute(relObj: RelationshipSro) {
         rule(relObj)
     }
 }
 
 data class AllowedRelationship(
-    val from: KClass<out StixObject>,
-    val type: RelationshipType,
-    val to: KClass<out StixObject>,
-    val rule: RelationshipRule? = null
+        val from: KClass<out StixObject>,
+        val type: RelationshipType,
+        val to: KClass<out StixObject>,
+        val rule: RelationshipRule? = null
 ) {}
 
 data class Relationship(
@@ -116,43 +116,45 @@ data class Relationship(
             modified: StixTimestamp = StixTimestamp(created),
             revoked: StixBoolean = StixBoolean()
     ) : this(
-        relationshipType, description, sourceRef.id,
-        targetRef.id, startTime, stopTime,
-        type, id, createdByRef,
-        created, externalReferences, objectMarkingsRefs,
-        granularMarkings, specVersion, labels,
-        modified, revoked
+            relationshipType, description, sourceRef.id,
+            targetRef.id, startTime, stopTime,
+            type, id, createdByRef,
+            created, externalReferences, objectMarkingsRefs,
+            granularMarkings, specVersion, labels,
+            modified, revoked
     )
 
 
     init {
-        val sourceClass: KClass<out StixObject> = this.stixInstance.registries.objectRegistry.registry[sourceRef.type]
-            ?: throw IllegalStateException("Unable to find sourceRef in Object Registry")
+        if (this.stixValidateOnConstruction) {
+            val sourceClass: KClass<out StixObject> = this.stixInstance.registries.objectRegistry.registry[sourceRef.type]
+                    ?: throw IllegalStateException("Unable to find sourceRef in Object Registry")
 
-        val targetClass: KClass<out StixObject> = this.stixInstance.registries.objectRegistry.registry[targetRef.type]
-            ?: throw IllegalStateException("Unable to find targetRef in Object Registry")
+            val targetClass: KClass<out StixObject> = this.stixInstance.registries.objectRegistry.registry[targetRef.type]
+                    ?: throw IllegalStateException("Unable to find targetRef in Object Registry")
 
 
-        //@TODO add support for x- custom objects
-        val allowedRelationships: List<AllowedRelationship> = this.stixInstance.registries.relationshipRegistry
-            .registry.filter {
-            sourceClass.isSubclassOf(it.from) &&
-                    it.type == this.relationshipType &&
-                    targetClass.isSubclassOf(it.to)
-        }
+            //@TODO add support for x- custom objects
+            val allowedRelationships: List<AllowedRelationship> = this.stixInstance.registries.relationshipRegistry
+                    .registry.filter {
+                sourceClass.isSubclassOf(it.from) &&
+                        it.type == this.relationshipType &&
+                        targetClass.isSubclassOf(it.to)
+            }
 
-        if (allowedRelationships.size > 1) {
-            println("Duplicate relationships found: $allowedRelationships")
-            //@TODO add some logging for a warning to indicate multiple duplication objects are registered
-        }
+            if (allowedRelationships.size > 1) {
+                println("Duplicate relationships found: $allowedRelationships")
+                //@TODO add some logging for a warning to indicate multiple duplication objects are registered
+            }
 
-        require(allowedRelationships.isNotEmpty(),
-            lazyMessage = { "${this.id} is not a valid relationship for a ${this.sourceRef.type}" }
-        )
+            require(allowedRelationships.isNotEmpty(),
+                    lazyMessage = { "${this.id} is not a valid relationship for a ${this.sourceRef.type}" }
+            )
 
-        //@TODO To a deeper test of this functionality
-        allowedRelationships[0].rule?.execute(this)
+            //@TODO To a deeper test of this functionality
             allowedRelationships[0].rule?.execute(this)
+//            allowedRelationships[0].rule?.execute(this)
+        }
     }
 
 }

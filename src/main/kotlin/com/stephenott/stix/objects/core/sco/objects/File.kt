@@ -102,7 +102,9 @@ data class File(
 ) : FileSco {
 
     init {
-        FileSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            FileSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

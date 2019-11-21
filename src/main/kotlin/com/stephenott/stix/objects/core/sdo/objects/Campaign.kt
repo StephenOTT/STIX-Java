@@ -121,7 +121,9 @@ data class Campaign (
 ) : CampaignSdo {
 
     init {
-        CampaignSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            CampaignSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

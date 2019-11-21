@@ -67,7 +67,9 @@ data class Software(
 ) : SoftwareSco {
 
     init {
-        SoftwareSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            SoftwareSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

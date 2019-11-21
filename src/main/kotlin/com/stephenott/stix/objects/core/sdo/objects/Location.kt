@@ -77,7 +77,9 @@ data class Location(
 ) : LocationSdo {
 
     init {
-        LocationSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            LocationSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

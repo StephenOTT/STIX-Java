@@ -143,7 +143,9 @@ data class ThreatActor(
 ) : ThreatActorSdo {
 
     init {
-        ThreatActorSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            ThreatActorSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

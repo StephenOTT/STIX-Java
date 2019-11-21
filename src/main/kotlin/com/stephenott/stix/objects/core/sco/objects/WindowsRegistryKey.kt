@@ -70,7 +70,9 @@ data class WindowsRegistryKey(
 ) : WindowsRegistryKeySco {
 
     init {
-        WindowsRegistryKeySco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            WindowsRegistryKeySco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

@@ -112,7 +112,9 @@ data class EmailMessage(
 ) : EmailMessageSco {
 
     init {
-        EmailMessageSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            EmailMessageSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

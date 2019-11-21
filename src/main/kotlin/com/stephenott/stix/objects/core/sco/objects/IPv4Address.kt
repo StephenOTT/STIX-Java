@@ -64,7 +64,9 @@ data class IPv4Address(
 ) : IPv4AddressSco {
 
     init {
-        IPv4AddressSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            IPv4AddressSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

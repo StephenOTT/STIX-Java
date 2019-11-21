@@ -81,7 +81,9 @@ data class Artifact(
 ) : ArtifactSco {
 
     init {
-        ArtifactSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            ArtifactSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

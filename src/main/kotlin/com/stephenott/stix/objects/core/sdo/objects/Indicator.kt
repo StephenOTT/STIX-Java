@@ -111,7 +111,9 @@ data class Indicator(
 ) : IndicatorSdo {
 
     init {
-        IndicatorSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            IndicatorSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

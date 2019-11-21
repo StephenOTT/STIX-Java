@@ -70,7 +70,9 @@ data class DomainName(
 ) : DomainNameSco {
 
     init {
-        DomainNameSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            DomainNameSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

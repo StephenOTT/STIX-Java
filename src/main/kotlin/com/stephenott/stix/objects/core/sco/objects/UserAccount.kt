@@ -86,7 +86,9 @@ data class UserAccount(
 ) : UserAccountSco {
 
     init {
-        UserAccountSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            UserAccountSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

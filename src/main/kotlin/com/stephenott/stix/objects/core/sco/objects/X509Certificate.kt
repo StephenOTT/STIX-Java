@@ -93,7 +93,9 @@ data class X509Certificate(
 ) : X509CertificateSco {
 
     init {
-        X509CertificateSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            X509CertificateSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

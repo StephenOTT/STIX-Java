@@ -112,7 +112,9 @@ data class CourseOfAction(
 ) : CourseOfActionSdo {
 
     init {
-        CourseOfActionSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            CourseOfActionSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

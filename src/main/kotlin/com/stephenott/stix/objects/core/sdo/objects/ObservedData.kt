@@ -59,7 +59,9 @@ data class ObservedData(
 ) : ObservedDataSdo {
 
     init {
-        ObservedDataSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            ObservedDataSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

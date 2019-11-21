@@ -100,7 +100,9 @@ data class Tool(
 ) : ToolSdo {
 
     init {
-        ToolSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            ToolSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

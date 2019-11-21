@@ -152,7 +152,9 @@ data class Infrastructure(
 ) : InfrastructureSdo {
 
     init {
-        InfrastructureSdo.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            InfrastructureSdo.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {

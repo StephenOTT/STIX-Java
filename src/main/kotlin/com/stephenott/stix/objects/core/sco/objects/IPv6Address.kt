@@ -65,7 +65,9 @@ data class IPv6Address(
 ) : IPv6AddressSco {
 
     init {
-        IPv6AddressSco.objectValidationRules(this, stixInstance)
+        if (this.stixValidateOnConstruction) {
+            IPv6AddressSco.objectValidationRules(this, stixInstance)
+        }
     }
 
     override fun allowedRelationships(): List<AllowedRelationship> {
