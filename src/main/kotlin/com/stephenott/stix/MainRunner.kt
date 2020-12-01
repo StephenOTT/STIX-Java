@@ -13,8 +13,6 @@ import com.stephenott.stix.objects.core.sro.objects.Sighting
 import com.stephenott.stix.objects.meta.datamarking.MarkingDefinition
 import com.stephenott.stix.objects.meta.datamarking.objects.Statement
 import com.stephenott.stix.objects.meta.datamarking.objects.Tlp
-import com.stephenott.stix.serialization.json.StixJsonContentMapper
-import com.stephenott.stix.serialization.json.jsonMapper
 import com.stephenott.stix.serialization.json.toJson
 import com.stephenott.stix.serialization.json.toJsonMapper
 import com.stephenott.stix.type.*
@@ -29,8 +27,7 @@ object MainRunner {
         val stix1 = Stix()
 
         // generation of a Attack Pattern using the default configs
-        val ap = AttackPattern(name = "124",
-                confidence = StixConfidence(33))
+//        val ap = AttackPattern(name = "124", confidence = StixConfidence(33))
 
         // Generation of a Attack Pattern using the stix1 instance ("trust group")
         // This is used to force a specific stix instance to be used: this would be used to
